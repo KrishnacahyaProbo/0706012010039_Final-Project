@@ -1,0 +1,215 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Menu;
+use App\Models\MenuDetail;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\Facades\DataTables;
+
+class MenuController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        return view('pages.users.menu.index');
+    }
+
+    public function detailMenu(Request $request)
+    {
+        try {
+            // Retrieve detail menu dari database
+            $dataDetail = Menu::with('menuDetail')->where('id', $request()->id)->first();
+
+            // Jika data detail menu ditemukan, maka tampilkan dengan JSON response
+            if ($dataDetail) {
+                return response()->json([
+                    'message' => 'Detail Menu data found',
+                    'status' => true,
+                    'data' => $dataDetail,
+                ]);
+            } else {
+                // Jika data detail menu tidak ditemukan, maka tampilkan error response
+                return response()->json([
+                    'message' => 'Detail Menu data not found',
+                    'success' => false,
+                ], 404); // HTTP status code 404 "Not Found"
+            }
+        } catch (\Exception $e) {
+            // Jika terjadi exception saat operasi database, maka tampilkan error response
+            return response()->json([
+                'message' => 'Error occured while fetching detail menu data',
+                'success' => false,
+                'error' => $e->getMessage(),
+            ], 500); // HTTP status code 500 "Internal Server Error"
+        }
+    }
+
+    public function data()
+    {
+        try {
+            // Fetch menu items dari database berdasarkan vendor_id
+            // Jika user yang sedang login adalah vendor, maka ambil menu items berdasarkan vendor_id
+            $vendorId = auth()->user()->id;
+            $menuItems = Menu::where('vendor_id', $vendorId)->get();
+
+            return DataTables::of($menuItems)
+                ->make(true);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ], 500); // HTTP status code 500 "Internal Server Error"
+        }
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('users.menu.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        try {
+            // Operasi database yang dijalankan sebagai satu kesatuan logis, baik yang semuanya berhasil dilakukan (committed) atau semuanya dibatalkan (rolled back) jika terdapat kesalahan
+            DB::beginTransaction();
+
+            if ($request->id != null) {
+                // Jika menu_id tersedia, maka ubah data menu yang sudah ada
+                $menu = Menu::findOrFail($request->input('id'));
+            } else {
+                // Jika menu_id tidak tersedia, maka buat data menu baru
+                $menu = new Menu();
+            }
+
+            // Isi atribut menu dengan request data
+            $menu->menu_name = $request->input('menu_name');
+            $menu->vendor_id = Auth::user()->id;
+            $menu->description = $request->input('description');
+
+            // Cek tipe pedas atau tidak pedas
+            if ($request->input('spicy') == 'on') {
+                $menu->type = 'spicy';
+            } else {
+                $menu->type = 'no_spicy';
+            }
+
+            // Cek jika request memiliki file gambar
+            if ($request->hasFile('image')) {
+                // Simpan file gambar ke storage
+                $image = $request->file('image');
+                $image->storeAs('public/menu', $image->hashName());
+
+                // Simpan nama file gambar ke atribut menu
+                $menu->image = $image->hashName();
+            }
+
+            // Simpan data menu ke database
+            $menu->save();
+
+            // Simpan detail menu ke database
+            MenuDetail::where('menu_id', $menu->id)->delete();
+
+            $menuDetails = [];
+            foreach ($request->size as $index => $s) {
+                if ($s != null && $request->price[$index] !== null) {
+                    // Pisahkan nominal menggunakan delimiter
+                    $priceParts = explode('.', $request->price[$index]);
+
+                    // Hapus semua titik dari array yang dihasilkan
+                    $priceWithoutDots = implode('', $priceParts);
+
+                    $menuDetails[] = [
+                        'menu_id' => $menu->id,
+                        'size' => $s,
+                        'price' => $priceWithoutDots,
+                    ];
+                }
+            }
+
+            // Jika detail menu tidak kosong, maka simpan ke database
+            if (!empty($menuDetails)) {
+                MenuDetail::insert($menuDetails);
+            }
+
+            // Commit operasi database
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Menu added successfully',
+                'success' => true,
+            ], 200); // HTTP status code 200 "OK"
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            // Rollback operasi database jika terjadi exception
+            DB::rollBack();
+
+            return response()->json([
+                'message' => 'Error occured while adding menu',
+                'success' => false,
+                'error' => $e->getMessage(),
+            ], 500); // HTTP status code 500 "Internal Server Error"
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Menu $menu)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Menu $menu)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Request $request)
+    {
+        DB::beginTransaction();
+
+        try {
+            // Ambil menu berdasarkan menu_id
+            $menu = Menu::findOrFail($request->id);
+
+            // Hapus menu dan detail menu yang berkaitan dengan menu
+            $menu->menuDetail()->delete();
+
+            // Hapus menu dari database
+            $menu->delete();
+
+            // Commit operasi database
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Menu and its details deleted successfully',
+                'success' => true,
+            ], 200); // HTTP status code 200 "OK"
+        } catch (\Exception $e) {
+            // Rollback operasi database jika terjadi exception
+            DB::rollBack();
+
+            return response()->json([
+                'message' => 'Error occured while deleting menu',
+                'success' => false,
+                'error' => $e->getMessage(),
+            ], 500); // HTTP status code 500 "Internal Server Error"
+        }
+    }
+}

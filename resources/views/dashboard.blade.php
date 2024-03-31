@@ -1,15 +1,14 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+    <div class="container my-5">
+        <x-slot name="header">
+            <h2>{{ __('Dashboard') }}</h2>
+        </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <x-welcome />
-            </div>
+        <div class="card p-3">
+            <h1>test</h1>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium pariatur commodi fugit optio quis
+                laborum, doloribus soluta in sed animi quos quaerat, deserunt rerum, porro exercitationem vel delectus
+                ex quod!</p>
         </div>
     </div>
 </x-app-layout>
