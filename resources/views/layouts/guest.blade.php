@@ -1,27 +1,39 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+<head>
+    {{-- HTML Meta Tags --}}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="keywords" content="Rancang Bangun, Lokapasar, Katering Harian" />
+    <meta name="description"
+        content="Rancang Bangun Lokapasar Katering Harian Berbasis Web (Web-Based Daily Catering Marketplace Design)." />
+    <meta name="owner" content="Probo Krishnacahya." />
+    <meta name="theme-color" content="#842029">
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    {{-- Page Title --}}
+    <title>@yield('title')</title>
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    {{-- Scripts --}}
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
-        <!-- Styles -->
-        @livewireStyles
-    </head>
-    <body>
-        <div class="font-sans text-gray-900 antialiased">
-            {{ $slot }}
-        </div>
+    {{-- Favicon --}}
+    <link rel="icon" href="{{ url('images/brand/logo.svg?v=2') }}" type="image/svg" />
+</head>
 
-        @livewireScripts
-    </body>
+<body>
+    <div>
+        <main>
+            <div class="container my-5">
+                <h1>@yield('page_title')</h1>
+
+                {{ $slot }}
+            </div>
+        </main>
+    </div>
+
+    @yield('js')
+</body>
+
 </html>

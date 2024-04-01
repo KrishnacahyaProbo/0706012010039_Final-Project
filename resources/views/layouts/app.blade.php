@@ -24,19 +24,11 @@
 
 <body>
     <div>
-        <!-- Page Heading -->
-        @if (isset($header))
-            <header>
-                <div>
-                    {{ $header }}
-                </div>
-            </header>
-        @endif
-
-        <!-- Page Content -->
         <main>
             <div class="container my-5">
-                @yield('content')
+                <h1>@yield('page_title')</h1>
+
+                {{ $slot }}
             </div>
         </main>
     </div>

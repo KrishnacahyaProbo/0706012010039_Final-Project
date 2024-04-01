@@ -1,5 +1,56 @@
 // Import all of Bootstrap's CSS
 @import "bootstrap/scss/bootstrap";
 
-// Added: Bootstrap icons
-@import 'bootstrap-icons/font/bootstrap-icons.css';
+// Import Bootstrap Icons
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+a {
+    text-decoration: none;
+    color: $red-700;
+
+    &:hover {
+        color: $red-600;
+    }
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth !important;
+    background-color: $gray-100;
+}
+
+img {
+    max-width: 100% !important;
+}
+
+select,
+input[type="checkbox"] {
+    cursor: pointer;
+}
+
+input:focus,
+textarea:focus {
+    box-shadow: none !important;
+    border: 1px solid $red-700 !important;
+}
+
+input[type="checkbox"]:checked {
+    background-color: $red-700;
+    border: none;
+}
+
+.btn-primary {
+    background-color: $red-700;
+    border: none;
+    box-shadow: none !important;
+
+    &:is(:focus, :hover) {
+        background-color: $red-600 !important;
+    }
+}
+
+.card {
+    padding: 1rem;
+}

@@ -1,48 +1,63 @@
+@section('title', 'Log In')
+
 <x-guest-layout>
-    <x-authentication-card>
-        <x-slot name="logo">
-            <x-authentication-card-logo />
-        </x-slot>
+    @section('page_title', 'Selamat Datang Kembali')
 
-        <x-validation-errors class="mb-4" />
+    <div class="d-grid gap-2">
+        <div>
+            <x-authentication-card>
+                <x-validation-errors class="mb-4" />
 
-        @if (session('status'))
-            <div class="mb-4 font-medium text-sm text-green-600">
-                {{ session('status') }}
-            </div>
-        @endif
-
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-
-            <div>
-                <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            </div>
-
-            <div class="mt-4">
-                <x-label for="password" value="{{ __('Password') }}" />
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
-            </div>
-
-            <div class="block mt-4">
-                <label for="remember_me" class="flex items-center">
-                    <x-checkbox id="remember_me" name="remember" />
-                    <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-                </label>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
-                    </a>
+                @if (session('status'))
+                    <div class="text-success mb-4">
+                        {{ session('status') }}
+                    </div>
                 @endif
 
-                <x-button class="ms-4">
-                    {{ __('Log in') }}
-                </x-button>
+                <form method="POST" action="{{ route('login') }}">
+                    @csrf
+
+                    <div class="d-grid gap-3">
+                        <div>
+                            <x-label for="email" value="{{ __('Email') }}" />
+                            <x-input id="email" type="email" name="email" :value="old('email')" required autofocus
+                                autocomplete="username" />
+                        </div>
+
+                        <div class="d-grid gap-1">
+                            <div>
+                                <x-label for="password" value="{{ __('Password') }}" />
+                                <x-input id="password" type="password" name="password" required
+                                    autocomplete="current-password" />
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <label for="remember_me" class="d-flex gap-2">
+                                        <x-checkbox id="remember_me" name="remember" />
+                                        <span>{{ __('Remember Me') }}</span>
+                                    </label>
+                                </div>
+
+                                <div>
+                                    @if (Route::has('password.request'))
+                                        <a href="{{ route('password.request') }}">{{ __('Forgot Password?') }}</a>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
+                        <x-button>{{ __('Log In') }}</x-button>
+                    </div>
+                </form>
+            </x-authentication-card>
+        </div>
+
+        <div>
+            <div class="d-flex gap-1">
+                <p>Belum punya akun?</p>
+                <a href="{{ route('register') }}">Daftar</a>
             </div>
-        </form>
-    </x-authentication-card>
+        </div>
+    </div>
 </x-guest-layout>
