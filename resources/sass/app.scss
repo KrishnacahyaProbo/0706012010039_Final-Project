@@ -1,12 +1,19 @@
-// Import all of Bootstrap's CSS
+// Import all of Bootstrap's SCSS
 @import "bootstrap/scss/bootstrap";
 
 // Import Bootstrap Icons
 @import "bootstrap-icons/font/bootstrap-icons.css";
 
+// Font family variables
+$manrope-regular: "Manrope-Regular", system-ui;
+$manrope-bold: "Manrope-Bold", system-ui;
+$manrope-extrabold: "Manrope-ExtraBold", system-ui;
+
+// Styles
 a {
-    text-decoration: none;
     color: $red-700;
+    font-family: $manrope-bold;
+    text-decoration: none;
 
     &:hover {
         color: $red-600;
@@ -21,8 +28,29 @@ body {
     background-color: $gray-100;
 }
 
+h1 {
+    font-family: $manrope-extrabold;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6,
+button {
+    font-family: $manrope-bold !important;
+}
+
 img {
     max-width: 100% !important;
+}
+
+p,
+input,
+label,
+li,
+strong {
+    font-family: $manrope-regular;
 }
 
 select,
@@ -42,15 +70,35 @@ input[type="checkbox"]:checked {
 }
 
 .btn-primary {
+    border: 1px solid $red-700;
     background-color: $red-700;
-    border: none;
     box-shadow: none !important;
 
     &:is(:focus, :hover) {
+        border: 1px solid $red-600 !important;
         background-color: $red-600 !important;
+    }
+}
+
+.btn-outline-primary {
+    border: 1px solid $red-700;
+    box-shadow: none !important;
+    color: $red-700;
+
+    &:is(:focus, :hover) {
+        background-color: transparent !important;
+        border: 1px solid $red-600 !important;
+        color: $red-600 !important;
     }
 }
 
 .card {
     padding: 1rem;
+}
+
+@font-face {
+    font-family: "Manrope";
+    src: url("public/fonts/Manrope/Manrope-Regular.ttf") format("truetype"),
+        url("public/fonts/Manrope/Manrope-Bold.ttf") format("truetype"),
+        url("public/fonts/Manrope/Manrope-ExtraBold.ttf") format("truetype");
 }
