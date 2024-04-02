@@ -24,6 +24,8 @@
 
 <body>
     <div>
+        <x-header />
+
         <main>
             <div class="container my-5">
                 <h1>@yield('page_title')</h1>
