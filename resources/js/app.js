@@ -1,11 +1,8 @@
-// Default Laravel bootstrapper, installs axios
+// Import default Laravel bootstrapper, installs Axios
 import './bootstrap';
 
-// Added: Actual Bootstrap JavaScript dependency
+// Import actual Bootstrap JavaScript dependency
 import 'bootstrap';
 
-// Added: Popper.js dependency for popover support in Bootstrap
+// Import Popper.js dependency for popover support in Bootstrap
 import '@popperjs/core';
-
-import $ from 'jquery';
-window.$ = require('jquery');

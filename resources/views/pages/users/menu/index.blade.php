@@ -37,7 +37,7 @@
     @include('pages.modals.modal')
 
     @section('js')
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
         <script src="{{ asset('js/validate/jquery.validate.min.js') }}"></script>
         <script src="{{ asset('js/menu.js') }}"></script>
     @endsection
