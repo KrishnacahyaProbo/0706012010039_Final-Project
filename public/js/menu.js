@@ -1,8 +1,4 @@
-
-
-document.addEventListener("DOMContentLoaded", function() {
-    // This function will be executed when the DOM is fully loaded
-    // You can place your code here
+document.addEventListener("DOMContentLoaded", function () {
     fetchDataMenuItem();
 });
 
@@ -37,9 +33,7 @@ function addMenuItem(value) {
         <label for="description" class="form-label">Description</label>
         <textarea class="form-control" id="description" name="description"></textarea>
     </div>
-`);
-
-
+    `);
     form.append(`
     <div class="form-group mb-4">
         <label class="form-label" for="formMenuVendor">Image</label>
@@ -99,7 +93,7 @@ function addMenuItem(value) {
     if (value.type === "no_spicy") {
         // Set the not_spicy radio button as checked
         $("#not_spicy").prop("checked", true);
-    }else{
+    } else {
         $("#spicy").prop("checked", true);
     }
 
@@ -109,33 +103,29 @@ function addMenuItem(value) {
         $("#formMultiple").html("");
         value.menu_detail.forEach((detail, index) => {
             const newRow = `
-                    <div class="row classformMultiple" id="row_${
-                        index + 1
-                    }">
+                    <div class="row classformMultiple" id="row_${index + 1
+                }">
                         <div class="col">
                             <div class="form-group">
                                 <label class="form-label">Size:</label>
-                                <input type="text" class="form-control" name="size[]" id="size_${
-                                    index + 2
-                                }" value="${detail.size}">
+                                <input type="text" class="form-control" name="size[]" id="size_${index + 2
+                }" value="${detail.size}">
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label class="form-label">Price:</label>
-                                <input type="text" class="form-control price-input" name="price[]" id="price_${
-                                    index + 2
-                                }" value="${formatRupiah(detail.price)}">
+                                <input type="text" class="form-control price-input" name="price[]" id="price_${index + 2
+                }" value="${formatRupiah(detail.price)}">
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label class="form-label"></label>
-                                ${
-                                    index === 0
-                                        ? '<button type="button" class="btn btn-success addButton"><i class="bi bi-plus-lg"></i></button>'
-                                        : '<button type="button" class="btn btn-danger removeButton"><i class="bi bi-trash3"></i></button>'
-                                }
+                                ${index === 0
+                    ? '<button type="button" class="btn btn-success addButton"><i class="bi bi-plus-lg"></i></button>'
+                    : '<button type="button" class="btn btn-danger removeButton"><i class="bi bi-trash3"></i></button>'
+                }
                             </div>
                         </div>
                     </div>
@@ -143,7 +133,6 @@ function addMenuItem(value) {
             $("#formMultiple").append(newRow);
         });
     }
-
 
     $("#formMultiple")
         .on("click", ".addButton", function () {
@@ -210,12 +199,10 @@ function addMenuItem(value) {
     });
 }
 
-
 function fetchDataMenuItem() {
-
     // Make the AJAX request to fetch data
     $.ajax({
-        url: "/users/menu/data", // Replace with your API endpoint
+        url: "/users/menu/data",
         method: "GET",
         success: function (response) {
             // Close the loading spinner Swal
@@ -234,7 +221,6 @@ function fetchDataMenuItem() {
                     type: "GET",
                 },
                 columns: [
-                    // Define your table columns here
                     {
                         data: "menu_name",
                         name: "menu_name",
@@ -249,19 +235,15 @@ function fetchDataMenuItem() {
                             }
                         },
                     },
-
-
                     {
                         data: "menu_detail",
                         name: "menu_detail",
                         render: function (data, type, row) {
-                            if(data.length>0){
+                            if (data.length > 0) {
                                 let list = '<ul>';
                                 data.forEach(item => {
                                     console.log(item);
-                                    list += '<li>' + item.size + ' -> '+formatRupiah(item.price)+'</li>';
-
-
+                                    list += '<li>' + item.size + ': ' + formatRupiah(item.price) + '</li>';
                                 });
                                 list += '</ul>';
                                 return list;
@@ -284,7 +266,6 @@ function fetchDataMenuItem() {
                     {
                         data: null,
                         render: function (data, type, row) {
-                            // Construct the buttons with Font Awesome icons and tooltips
                             var buttons =
                                 '<button class="btn btn-info btn-sm btn-detail" data-id="' +
                                 data.id +
@@ -314,7 +295,6 @@ function fetchDataMenuItem() {
         },
         error: function (xhr, status, error) {
             // Close the loading spinner Swal
-
         },
     });
 }
@@ -344,8 +324,8 @@ function addSchedule(menuId, menuName) {
 
     $("#scheduleDateTimePicker").flatpickr({
         dateFormat: "d-m-Y", // Set the date format to DD-MM-YYYY
-        mode: "multiple", // Aktifkan mode pemilihan multipel
-        onChange: function(selectedDates, dateStr, instance) {
+        mode: "multiple", // Aktifkan mode pemilihan multiple
+        onChange: function (selectedDates, dateStr, instance) {
             // Handler untuk perubahan tanggal yang dipilih
             console.log("Selected dates: " + dateStr);
         }
@@ -365,7 +345,7 @@ function addSchedule(menuId, menuName) {
                 // Add more custom error messages as needed
             }
         },
-        submitHandler: function(form) {
+        submitHandler: function (form) {
             var inputDates = $("#scheduleDateTimePicker").val(); // Mendapatkan string tanggal dari input dengan id tertentu
             var currentDate = new Date();
 
@@ -373,7 +353,7 @@ function addSchedule(menuId, menuName) {
             var datesArray = inputDates.split(", ");
 
             // Validasi setiap tanggal dalam array
-            var isValidDates = datesArray.map(function(inputDate) {
+            var isValidDates = datesArray.map(function (inputDate) {
                 var parts = inputDate.split("-"); // Pisahkan tanggal, bulan, dan tahun
                 var formattedDate = parts[2] + "-" + parts[1] + "-" + parts[0];
                 var selectedDate = new Date(formattedDate);
@@ -385,7 +365,7 @@ function addSchedule(menuId, menuName) {
             });
 
             // Periksa apakah semua tanggal valid
-            var allDatesValid = isValidDates.every(function(valid) {
+            var allDatesValid = isValidDates.every(function (valid) {
                 return valid;
             });
 
@@ -403,19 +383,17 @@ function addSchedule(menuId, menuName) {
                     headers: {
                         'X-CSRF-TOKEN': csrfToken
                     },
-                    success: function(response) {
+                    success: function (response) {
                         // Handle success response
                         fetchDataMenuItem();
                         $("#mdlForm").modal("hide");
-
                     },
-                    error: function(xhr, status, error) {
+                    error: function (xhr, status, error) {
                         fetchDataMenuItem();
                     }
                 });
             }
         }
-
     });
 
     // Create submit button
@@ -423,7 +401,7 @@ function addSchedule(menuId, menuName) {
     form.append(submitButton);
 
     // Click event handler for the submit button
-    submitButton.on("click", function(event) {
+    submitButton.on("click", function (event) {
         event.preventDefault(); // Prevent default form submission
         if (form.valid()) { // Check if the form is valid
             // If valid, submit the form
@@ -431,9 +409,6 @@ function addSchedule(menuId, menuName) {
         }
     });
 }
-
-
-
 
 function deleteMenu(menuId) {
     // Perform AJAX request to delete the menu
@@ -443,26 +418,22 @@ function deleteMenu(menuId) {
         },
     });
 
-            $.ajax({
-                url: "/users/menu/deleteMenu", // Replace with the actual endpoint to delete the menu
-                method: "DELETE",
-                data: { id: menuId },
-                success: function (response) {
-                    // Handle success response (e.g., show success message, update UI)
+    $.ajax({
+        url: "/users/menu/deleteMenu", // Replace with the actual endpoint to delete the menu
+        method: "DELETE",
+        data: { id: menuId },
+        success: function (response) {
+            // Handle success response (e.g., show success message, update UI)
 
-                            // Call the createData function after 3 seconds
-                            fetchDataMenuItem();
-
-                },
-                error: function (xhr, status, error) {
-                    // Handle error response (e.g., show error message, log error)
-                    console.error("Error deleting menu:", error);
-
-                },
-            });
-
+            // Call the createData function after 3 seconds
+            fetchDataMenuItem();
+        },
+        error: function (xhr, status, error) {
+            // Handle error response (e.g., show error message, log error)
+            console.error("Error deleting menu:", error);
+        },
+    });
 }
-
 
 function editMenu(menuId) {
     // Add your AJAX request to edit the menu here
@@ -473,18 +444,15 @@ function editMenu(menuId) {
         data: { id: menuId },
         success: function (response) {
             addMenuItem(response.data);
-
-
         },
         error: function (xhr, status, error) {
             // Handle error
             console.error(xhr.responseText); // Log the error message to the console for debugging
-
         },
     });
 }
 
-function showDetail(id){
+function showDetail(id) {
     $.ajax({
         url: "/users/menu/detailMenu", // Replace with your actual endpoint URL
         method: "GET",
@@ -520,18 +488,18 @@ function showDetail(id){
                         </thead>
                         <tbody>
                             ${response.data.menu_detail
-                                .map(
-                                    (detail) => `
+                        .map(
+                            (detail) => `
                                 <tr>
                                     <td>${formatRupiah(
-                                        detail.price
-                                    )}</td> <!-- Format price into IDR -->
+                                detail.price
+                            )}</td> <!-- Format price into IDR -->
                                     <td>${detail.size}</td>
                                     <!-- Add more columns if needed -->
                                 </tr>
                             `
-                                )
-                                .join("")}
+                        )
+                        .join("")}
                         </tbody>
                     </table>
                     <span>List Schedule Menu</span>
@@ -544,14 +512,14 @@ function showDetail(id){
                     // Inisialisasi FullCalendar di sini
                     $('#calendar').fullCalendar({
                         // Konfigurasi FullCalendar di sini
-                        events: function(start, end, timezone, callback) {
+                        events: function (start, end, timezone, callback) {
                             // Menyusun daftar acara dari data yang Anda miliki
                             var events = [];
                             // Menyesuaikan gaya CSS acara
                             var eventColor = '#3788D8'; // Warna latar belakang acara
 
                             // Mengonversi data jadwal menjadi objek acara dan menambahkannya ke dalam daftar acara
-                            response.data.menu_schedule.forEach(function(item) {
+                            response.data.menu_schedule.forEach(function (item) {
                                 events.push({
                                     id: item.id,
                                     title: 'Schedule ' + item.schedule,
@@ -564,27 +532,23 @@ function showDetail(id){
                             // Memanggil callback dengan daftar acara
                             callback(events);
                         },
-                        eventRender: function(event, element) {
+                        eventRender: function (event, element) {
                             // Menyesuaikan gaya CSS acara
                             element.css('border-color', '#000000'); // Warna border acara
                             element.css('color', '#fff'); // Warna teks acara
                             // Tambahan gaya CSS lainnya sesuai kebutuhan
                         }
                     });
-
                 });
             } else {
-
             }
         },
         error: function (xhr, status, error) {
             // Handle error
             console.error(xhr.responseText); // Log the error message to the console for debugging
-
         },
     });
 }
-
 
 function formatRupiah(angka) {
     var number_string = angka.toString().replace(/[^,\d]/g, ""),

@@ -39,8 +39,10 @@
                         @endif
                     </button>
                     <ul class="dropdown-menu dropdown-menu-lg-end mt-2" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item {{ $isProfile ? 'active' : '' }}"
-                                href="{{ route('profile.show') }}">{{ __('Profile') }}</a></li>
+                        <li>
+                            <a class="dropdown-item {{ $isProfile ? 'active' : '' }}"
+                                href="{{ route('profile.show') }}">{{ __('Profile') }}</a>
+                        </li>
                         <hr class="my-1">
                         <li>
                             <form method="POST" action="{{ route('logout') }}" x-data>
@@ -51,6 +53,12 @@
                     </ul>
                 </div>
             @endauth
+            @guest
+                <div class="d-flex ms-auto gap-2">
+                    <a href="{{ route('register') }}" class="btn btn-outline-primary">Register</a>
+                    <a href="{{ route('login') }}" class="btn btn-primary">Log In</a>
+                </div>
+            @endguest
         </div>
     </div>
 </nav>
