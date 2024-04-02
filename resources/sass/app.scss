@@ -37,7 +37,8 @@ h3,
 h4,
 h5,
 h6,
-button {
+button,
+strong {
     font-family: $manrope-bold !important;
 }
 
@@ -49,7 +50,7 @@ p,
 input,
 label,
 li,
-strong {
+textarea {
     font-family: $manrope-regular;
 }
 
@@ -64,7 +65,7 @@ textarea:focus {
     border: 1px solid $red-700 !important;
 }
 
-input[type="checkbox"]:checked {
+input:is([type="radio"], [type="checkbox"]):checked {
     background-color: $red-700;
     border: none;
 }
