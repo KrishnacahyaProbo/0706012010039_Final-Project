@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
+use App\Models\MenuSchedule;
+use App\Models\Schedule;
 
 class MenuController extends Controller
 {
@@ -23,7 +25,7 @@ class MenuController extends Controller
     {
         try {
             // Retrieve detail menu dari database
-            $dataDetail = Menu::with('menuDetail')->where('id', $request()->id)->first();
+            $dataDetail = Menu::with('menuDetail','menu_schedule')->where('id',$request->id)->first();
 
             // Jika data detail menu ditemukan, maka tampilkan dengan JSON response
             if ($dataDetail) {
@@ -49,13 +51,64 @@ class MenuController extends Controller
         }
     }
 
+    public function addSchedule(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+
+            foreach ($request->scheduleDates as $date) {
+                // Check if schedule exists for the given date
+                $scheduleData = Schedule::where('schedule', date('Y-m-d', strtotime($date)))->first();
+                $schedule_id = null;
+
+                if ($scheduleData == null) {
+                    // Insert new schedule if it doesn't exist
+                    $newSchedule = new Schedule();
+                    $newSchedule->schedule = date('Y-m-d', strtotime($date));
+                    $newSchedule->save();
+
+                    // Retrieve the newly inserted schedule ID
+                    $schedule_id = $newSchedule->id;
+                } else {
+                    $schedule_id = $scheduleData->id;
+                }
+
+                // Check if a MenuSchedule already exists for the given menu_id and schedule_id
+                $existingMenuSchedule = MenuSchedule::where('menu_id', $request->menuId)
+                    ->where('schedule_id', $schedule_id)
+                    ->first();
+
+                if ($existingMenuSchedule) {
+                    return response()->json(['error' => 'Menu schedule already exists.'], 400);
+                }
+
+                // Create a new MenuSchedule record
+                $menuSchedule = new MenuSchedule();
+                $menuSchedule->schedule_id = $schedule_id; // Assign the schedule ID
+                $menuSchedule->menu_id = $request->menuId; // Assign the menu ID
+                $menuSchedule->save();
+            }
+
+            // Commit the transaction
+            DB::commit();
+
+            return response()->json(['message' => 'Schedules added successfully'], 200);
+        } catch (\Exception $e) {
+            // Rollback the transaction if an exception occurs
+            DB::rollBack();
+
+            // Handle any exceptions that occur
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
     public function data()
     {
         try {
             // Fetch menu items dari database berdasarkan vendor_id
             // Jika user yang sedang login adalah vendor, maka ambil menu items berdasarkan vendor_id
             $vendorId = auth()->user()->id;
-            $menuItems = Menu::where('vendor_id', $vendorId)->get();
+            $menuItems = Menu::with('menuDetail')->where('vendor_id', $vendorId)->get();
 
             return DataTables::of($menuItems)
                 ->make(true);
@@ -97,7 +150,7 @@ class MenuController extends Controller
             $menu->description = $request->input('description');
 
             // Cek tipe pedas atau tidak pedas
-            if ($request->input('spicy') == 'on') {
+            if ($request->input('spicy') == 'spicy') {
                 $menu->type = 'spicy';
             } else {
                 $menu->type = 'no_spicy';
@@ -107,10 +160,9 @@ class MenuController extends Controller
             if ($request->hasFile('image')) {
                 // Simpan file gambar ke storage
                 $image = $request->file('image');
-                $image->storeAs('public/menu', $image->hashName());
-
-                // Simpan nama file gambar ke atribut menu
-                $menu->image = $image->hashName();
+                $imageName = $image->getClientOriginalName();
+                $image->move(public_path('menu'), $imageName);
+                $menu->image = $imageName;
             }
 
             // Simpan data menu ke database

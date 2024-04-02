@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class MenuSchedule extends Model
 {
-    use HasFactory;
+    protected $table = 'menu_schedule';
+    public $guarded = [];
 }
