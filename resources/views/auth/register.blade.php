@@ -15,7 +15,24 @@
 
                     <div class="d-grid gap-3">
                         <div>
-                            <x-label for="name" value="{{ __('Name') }}" />
+                            <x-label for="role" value="{{ __('Role') }}" />
+
+                            <div class="d-flex gap-3">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="role" id="vendor"
+                                        value="vendor">
+                                    <x-label class="form-check-label" for="role">Vendor</x-label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="role" id="customer"
+                                        value="customer">
+                                    <x-label class="form-check-label" for="role">Customer</x-label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <x-label for="name" value="{{ __('Nama') }}" />
                             <x-input id="name" class="mt-1 block w-full" type="text" name="name"
                                 :value="old('name')" required autofocus autocomplete="name" />
                         </div>
@@ -38,61 +55,44 @@
                                 name="password_confirmation" required autocomplete="new-password" />
                         </div>
 
+                        <div class="d-grid gap-2">
+                            <div>
+                                <x-label for="address" value="{{ __('Alamat') }}" />
+                                <x-input type="text" id="searchInput" class="form-control" />
 
+                                <div id="addressDropdown"></div>
+                            </div>
 
-                        <div>
-                            <x-label for="role" value="Pilih Role" />
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="role" id="spicy"
-                                    value="vendor">
-                                <label class="form-check-label" for="role">Vendor</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="role" id="not_spicy"
-                                    value="customer">
-                                <label class="form-check-label" for="role">Customer</label>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <input type="text" id="searchInput" class="form-control" placeholder="Search...">
-                        </div>
-                        <div id="addressDropdown" style="display: none;">
-                            <!-- Dropdown content will be dynamically generated -->
-                        </div>
-                        <input type="text" id="selectedAddress" value="" style="display:none;">
+                            <x-input type="text" id="selectedAddress" value="" class="d-none" readonly />
 
-                        <div class="col-md-12">
-                            <div class="form-floating mb-3">
-                                <div id="map" style="height: 400px;"></div>
+                            <div>
+                                <div id="map" class="rounded-1"></div>
+                            </div>
+
+                            <div class="d-none">
+                                <div>
+                                    <x-label for="latitude" value="{{ __('Latitude') }}"></x-label>
+                                    <x-input name="latitude" id="latitude" type="text" autocomplete="off"
+                                        class="form-control" readonly />
+                                </div>
+
+                                <div>
+                                    <x-label for="longitude" value="{{ __('Longitude') }}"></x-label>
+                                    <x-input name="longitude" id="longitude" type="text" autocomplete="off"
+                                        class="form-control" readonly />
+                                </div>
+
+                                <div>
+                                    <x-label for="address" value="{{ __('Alamat') }}" />
+                                    <textarea placeholder="Address" name="address" id="address" rows="4" class="form-control" readonly></textarea>
+                                </div>
+                            </div>
+
+                            <div>
+                                <span id="address_text" class="text-secondary"></span>
                             </div>
                         </div>
 
-                        <div class="col-12" style="display: none;">
-                            <div class="form-floating mb-3">
-                                <input placeholder="Latitude" name="latitude" id="latitude" type="text"
-                                    autocomplete="off" class="form-control bg-transparent" />
-                                <label for="latitude" class="form-label">Latitude</label>
-                            </div>
-                        </div>
-                        <div class="col-12" style="display: none;">
-                            <div class="form-floating mb-3">
-                                <input placeholder="longitude" name="longitude" id="longitude" type="text"
-                                    autocomplete="off" class="form-control bg-transparent" />
-                                <label for="longitude" class="form-label">Longitude</label>
-                            </div>
-                        </div>
-                        <div class="col-12" style="display:none;">
-                            <div class="form-floating mb-3">
-                                <textarea placeholder="Address" name="address" id="address" rows="4" class="form-control bg-transparent"
-                                    readonly></textarea>
-                                <label for="address" class="form-label">Address</label>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-floating mb-3">
-                                <span id="address_text"></span>
-                            </div>
-                        </div>
                         <x-button>{{ __('Register') }}</x-button>
                     </div>
                 </form>
@@ -106,6 +106,7 @@
             </div>
         </div>
     </div>
+
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -175,46 +176,45 @@
                 }
             } else {
                 fetch("https://nominatim.openstreetmap.org/search?format=json&q=" + valueAddress)
-    .then(response => response.json())
-    .then(data => {
-        if (data && data.length > 0) {
-            var result = data[0];
-            console.log(map, "map");
-            if (typeof map !== "undefined") {
-                map.remove();
-            }
-            map = L.map("map");
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data && data.length > 0) {
+                            var result = data[0];
+                            console.log(map, "map");
+                            if (typeof map !== "undefined") {
+                                map.remove();
+                            }
+                            map = L.map("map");
 
-            // Add OpenStreetMap tile layer
-            L.tileLayer(
-                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-                    attribution: "© OpenStreetMap contributors",
-                }
-            ).addTo(map);
+                            // Add OpenStreetMap tile layer
+                            L.tileLayer(
+                                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                                    attribution: "© OpenStreetMap contributors",
+                                }
+                            ).addTo(map);
 
-            // Add marker at user's location
-            var marker = L.marker([data[0].lat, data[0].lon], {
-                    draggable: true,
-                })
-                .addTo(map)
-                .bindPopup(
-                    "Latitude: " +
-                    data[0].lat +
-                    "<br>Longitude: " +
-                    data[0].lon
-                )
-                .openPopup();
+                            // Add marker at user's location
+                            var marker = L.marker([data[0].lat, data[0].lon], {
+                                    draggable: true,
+                                })
+                                .addTo(map)
+                                .bindPopup(
+                                    "Latitude: " +
+                                    data[0].lat +
+                                    "<br>Longitude: " +
+                                    data[0].lon
+                                )
+                                .openPopup();
 
-            // Set initial view
-            map.setView([data[0].lat, data[0].lon], 13);
-        } else {
-            alert("Address not found");
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-
+                            // Set initial view
+                            map.setView([data[0].lat, data[0].lon], 13);
+                        } else {
+                            alert("Address not found");
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
             }
         }
 
@@ -227,25 +227,26 @@
                     if (data.address) {
                         console.log(data.address, "address");
                         if (data.address.road) {
-                            address += "Road: " + data.address.road + " , ";
-                        }
-                        if (data.address.postcode) {
-                            address += "Postal Code: " + data.address.postcode + " , ";
+                            address += data.address.road + ", ";
                         }
                         if (data.address.state) {
-                            address += "Province: " + data.address.state + " , ";
+                            address += data.address.state + ", ";
                         }
                         if (data.address.municipality) {
-                            address += "District: " + data.address.municipality + " , ";
+                            address += data.address.municipality + ", ";
+                        }
+                        if (data.address.city) {
+                            address += data.address.city + ", ";
                         }
                         if (data.address.village) {
-                            address += "Village: " + data.address.village + " , ";
+                            address += data.address.village + ", ";
+                        }
+                        if (data.address.postcode) {
+                            address += data.address.postcode + ".";
                         }
                     }
-
                     document.getElementById("address").innerHTML = address;
                     document.getElementById("address_text").innerHTML = address;
-
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -253,97 +254,98 @@
         }
 
         // Declare map and marker variables in the global scope
+        var map;
+        var marker;
 
-var map;
-var marker;
-
-// Function to initialize the map
-
-// Event listener for search input
-document.getElementById("searchInput").addEventListener("keyup", function () {
-    var input = this.value;
-    if (input.length >= 3) {
-        // Fetch suggestions from geocoding service
-        fetch("https://nominatim.openstreetmap.org/search?format=json&q=" + input)
-    .then(response => response.json())
-    .then(data => {
-        var dropdown = document.getElementById("addressDropdown");
-        dropdown.innerHTML = ""; // Clear previous suggestions
-        if (data && data.length > 0) {
-            data.forEach(function (item) {
-                // Create dropdown items
-                var option = document.createElement("a");
-                option.classList.add("dropdown-item");
-                option.textContent = item.display_name;
-                option.href = "#";
-                option.onclick = function () {
-                    // Remove active class from previously active item
-                    var activeItem = dropdown.querySelector(".dropdown-item.active");
-                    if (activeItem) {
-                        activeItem.classList.remove("active");
-                    }
-                    // Set selected address to input field
-                    document.getElementById("searchInput").value = item.display_name;
-                    document.getElementById("selectedAddress").value = item.display_name;
-                    // Set current item as active
-                    option.classList.add("active");
-                    dropdown.style.display = "none"; // Hide dropdown
-                    return false; // Prevent page from reloading
-                };
-                dropdown.appendChild(option);
-            });
-            dropdown.style.display = "block"; // Show dropdown
-        } else {
-            dropdown.style.display = "none"; // Hide dropdown if no suggestions
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-
-    } else {
-        document.getElementById("addressDropdown").style.display = "none"; // Hide dropdown if input is less than 3 characters
-    }
-});
-
-// Close dropdown when clicking outside
-document.addEventListener("click", function (event) {
-    if (!event.target.matches("#searchInput")) {
-        var dropdown = document.getElementById("addressDropdown");
-        var selectedAddress = dropdown.querySelector(".dropdown-item.active");
-        if (selectedAddress) {
-            var address = selectedAddress.textContent;
-            getLocation(address);
-            // Fetch the coordinates of the selected address
-        } else {
-            console.log("No active dropdown item selected");
-        }
-        dropdown.style.display = "none";
-    }
-});
-
-function searchAddress() {
-    var address = document.getElementById("searchInput").value;
-
-    // Perform geocoding to get latitude and longitude
-    $.get(
-        "https://nominatim.openstreetmap.org/search?format=json&q=" + address,
-        function (data) {
-            if (data && data.length > 0) {
-                var result = data[0];
-                var formattedAddress = result.display_name;
-
-                // Update selected address input field
-                document.getElementById("selectedAddress").value =
-                    formattedAddress;
-
-                // Update search input field with selected address
-                document.getElementById("searchInput").value = formattedAddress;
+        // Function to initialize the map
+        // Event listener for search input
+        document.getElementById("searchInput").addEventListener("keyup", function() {
+            var input = this.value;
+            if (input.length >= 3) {
+                // Fetch suggestions from geocoding service
+                fetch("https://nominatim.openstreetmap.org/search?format=json&q=" + input)
+                    .then(response => response.json())
+                    .then(data => {
+                        var dropdown = document.getElementById("addressDropdown");
+                        dropdown.innerHTML = ""; // Clear previous suggestions
+                        if (data && data.length > 0) {
+                            data.forEach(function(item) {
+                                // Create dropdown items
+                                var option = document.createElement("a");
+                                option.classList.add("dropdown-item");
+                                option.textContent = item.display_name;
+                                option.href = "#";
+                                option.onclick = function() {
+                                    // Remove active class from previously active item
+                                    var activeItem = dropdown.querySelector(
+                                        ".dropdown-item.active");
+                                    if (activeItem) {
+                                        activeItem.classList.remove("active");
+                                    }
+                                    // Set selected address to input field
+                                    document.getElementById("searchInput").value = item
+                                        .display_name;
+                                    document.getElementById("selectedAddress").value = item
+                                        .display_name;
+                                    // Set current item as active
+                                    option.classList.add("active");
+                                    dropdown.style.display = "none"; // Hide dropdown
+                                    return false; // Prevent page from reloading
+                                };
+                                dropdown.appendChild(option);
+                            });
+                            dropdown.style.display = "block"; // Show dropdown
+                        } else {
+                            dropdown.style.display = "none"; // Hide dropdown if no suggestions
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
             } else {
-                alert("Address not found");
+                document.getElementById("addressDropdown").style.display =
+                    "none"; // Hide dropdown if input is less than 3 characters
             }
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener("click", function(event) {
+            if (!event.target.matches("#searchInput")) {
+                var dropdown = document.getElementById("addressDropdown");
+                var selectedAddress = dropdown.querySelector(".dropdown-item.active");
+                if (selectedAddress) {
+                    var address = selectedAddress.textContent;
+                    getLocation(address);
+                    // Fetch the coordinates of the selected address
+                } else {
+                    console.log("No active dropdown item selected");
+                }
+                dropdown.style.display = "none";
+            }
+        });
+
+        function searchAddress() {
+            var address = document.getElementById("searchInput").value;
+
+            // Perform geocoding to get latitude and longitude
+            $.get(
+                "https://nominatim.openstreetmap.org/search?format=json&q=" + address,
+                function(data) {
+                    if (data && data.length > 0) {
+                        var result = data[0];
+                        var formattedAddress = result.display_name;
+
+                        // Update selected address input field
+                        document.getElementById("selectedAddress").value =
+                            formattedAddress;
+
+                        // Update search input field with selected address
+                        document.getElementById("searchInput").value = formattedAddress;
+                    } else {
+                        alert("Address not found");
+                    }
+                }
+            );
         }
-    );
-}
     </script>
 </x-guest-layout>

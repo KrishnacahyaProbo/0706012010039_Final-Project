@@ -19,6 +19,5 @@ class Menu extends Model
     public function menu_schedule()
     {
         return $this->belongsToMany(Schedule::class);
-
     }
 }

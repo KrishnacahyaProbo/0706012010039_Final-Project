@@ -30,8 +30,8 @@ Route::middleware([
         Route::get('/menu', 'MenuController@index')->name('menu.index');
         Route::post('/menu/store', 'MenuController@store')->name('menu.store');
         Route::get('/menu/data', 'MenuController@data')->name('menu.data');
-        Route::get('/menu/detailMenu', 'MenuController@detailMenu')->name('menu.detailMenu');
-        Route::delete('/menu/deleteMenu', 'MenuController@deleteMenu')->name('menu.deleteMenu');
+        Route::get('/menu/show', 'MenuController@show')->name('menu.show');
+        Route::delete('/menu/destroy', 'MenuController@destroy')->name('menu.destroy');
 
         Route::post('/menu/addSchedule', 'MenuController@addSchedule')->name('menu.addSchedule');
     });
