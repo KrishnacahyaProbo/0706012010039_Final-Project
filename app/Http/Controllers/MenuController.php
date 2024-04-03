@@ -21,11 +21,14 @@ class MenuController extends Controller
         return view('pages.users.menu.index');
     }
 
-    public function detailMenu(Request $request)
+    /**
+     * Display the specified resource.
+     */
+    public function show(Request $request)
     {
         try {
             // Retrieve detail menu dari database
-            $dataDetail = Menu::with('menuDetail','menu_schedule')->where('id',$request->id)->first();
+            $dataDetail = Menu::with('menuDetail', 'menu_schedule')->where('id', $request->id)->first();
 
             // Jika data detail menu ditemukan, maka tampilkan dengan JSON response
             if ($dataDetail) {
@@ -145,8 +148,8 @@ class MenuController extends Controller
             }
 
             // Isi atribut menu dengan request data
-            $menu->menu_name = $request->input('menu_name');
             $menu->vendor_id = Auth::user()->id;
+            $menu->menu_name = $request->input('menu_name');
             $menu->description = $request->input('description');
 
             // Cek tipe pedas atau tidak pedas
@@ -211,22 +214,6 @@ class MenuController extends Controller
                 'error' => $e->getMessage(),
             ], 500); // HTTP status code 500 "Internal Server Error"
         }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Menu $menu)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Menu $menu)
-    {
-        //
     }
 
     /**

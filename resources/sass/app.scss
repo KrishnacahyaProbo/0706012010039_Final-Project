@@ -51,12 +51,17 @@ img {
     max-width: 100% !important;
 }
 
+th {
+    color: $white !important;
+}
+
 select,
-input[type="checkbox"] {
+input:is([type="radio"], [type="checkbox"]) {
     cursor: pointer;
 }
 
 input:focus,
+select:focus,
 textarea:focus {
     box-shadow: none !important;
     border: 1px solid $red-700 !important;
@@ -65,10 +70,6 @@ textarea:focus {
 input:is([type="radio"], [type="checkbox"]):checked {
     background-color: $red-700;
     border: none;
-}
-
-th {
-    color: $white !important;
 }
 
 .btn-primary {
@@ -112,6 +113,21 @@ th {
         color: $red-700 !important;
         font-family: $manrope-bold;
     }
+}
+
+.flatpickr-day.selected,
+.pagination>.active>a {
+    border: 1px solid $red-700 !important;
+    box-shadow: none;
+    background-color: $red-700 !important;
+}
+
+.page-link:hover {
+    color: $white !important;
+}
+
+#map {
+    height: 50vh;
 }
 
 #logo {

@@ -7,7 +7,7 @@ function addMenuItem(value) {
     var form = $("#formMenuVendor");
 
     if (value != null) {
-        $("#mdlFormTitle").html("Edit Menu");
+        $("#mdlFormTitle").html("Ubah Menu");
     } else {
         $("#mdlFormTitle").html("Tambah Menu");
     }
@@ -40,19 +40,18 @@ function addMenuItem(value) {
         <input type="file" class="form-control" id="image" name="image">
     </div>
     `);
-    form.append(`
-    <div class="form-check">
-        <input class="form-check-input" type="radio" name="spicy" id="spicy" value="spicy">
-        <label class="form-check-label" for="spicy">Ya</label>
-    </div>
-    <div class="form-check">
-        <input class="form-check-input" type="radio" name="spicy" id="not_spicy" value="no_spicy">
-        <label class="form-check-label" for="not_spicy">Tidak</label>
-    </div>
-    `);
+    // form.append(`
+    // <div class="form-check">
+    //     <input class="form-check-input" type="radio" name="spicy" id="spicy" value="spicy">
+    //     <label class="form-check-label" for="spicy">Ya</label>
+    // </div>
+    // <div class="form-check">
+    //     <input class="form-check-input" type="radio" name="spicy" id="not_spicy" value="no_spicy">
+    //     <label class="form-check-label" for="not_spicy">Tidak</label>
+    // </div>
+    // `);
     form.append(`
     <div id="formMultiple" class="form_multiple">
-        <!-- Initial set of fields -->
         <div class="row classformMultiple mb-3" id="row_1">
             <div class="col">
                 <div class="form-group">
@@ -66,11 +65,8 @@ function addMenuItem(value) {
                     <input type="text" class="form-control price-input" name="price[]" id="price_1">
                 </div>
             </div>
-            <div class="col">
-                <div class="form-group">
-                    <label class="form-label"></label>
-                    <button type="button" class="btn btn-success addButton"><i class="bi bi-plus-lg"></i></button>
-                </div>
+            <div class="col-auto">
+                <button type="button" class="btn btn-success addButton"><i class="bi bi-plus-lg"></i></button>
             </div>
         </div>
     </div>
@@ -90,49 +86,48 @@ function addMenuItem(value) {
         $("#description").val(value.description);
     }
 
-    if (value.type === "no_spicy") {
-        // Set the not_spicy radio button as checked
-        $("#not_spicy").prop("checked", true);
-    } else {
-        $("#spicy").prop("checked", true);
-    }
+    // if (value.type === "no_spicy") {
+    //     // Set the not_spicy radio button as checked
+    //     $("#not_spicy").prop("checked", true);
+    // } else {
+    //     $("#spicy").prop("checked", true);
+    // }
 
-    if (value !== null && value.menu_detail !== null) {
-        console.log("masuk sini nggak?");
-        // Iterate over the menu_detail array and append fields
-        $("#formMultiple").html("");
-        value.menu_detail.forEach((detail, index) => {
-            const newRow = `
-                    <div class="row classformMultiple" id="row_${index + 1
-                }">
-                        <div class="col">
-                            <div class="form-group">
-                                <label class="form-label">Size:</label>
-                                <input type="text" class="form-control" name="size[]" id="size_${index + 2
-                }" value="${detail.size}">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label class="form-label">Price:</label>
-                                <input type="text" class="form-control price-input" name="price[]" id="price_${index + 2
-                }" value="${formatRupiah(detail.price)}">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label class="form-label"></label>
-                                ${index === 0
-                    ? '<button type="button" class="btn btn-success addButton"><i class="bi bi-plus-lg"></i></button>'
-                    : '<button type="button" class="btn btn-danger removeButton"><i class="bi bi-trash3"></i></button>'
-                }
-                            </div>
-                        </div>
-                    </div>
-                `;
-            $("#formMultiple").append(newRow);
-        });
-    }
+    // if (value !== null && value.menu_detail !== null) {
+    //     // Iterate over the menu_detail array and append fields
+    //     $("#formMultiple").html("");
+    //     value.menu_detail.forEach((detail, index) => {
+    //         const newRow = `
+    //                 <div class="row classformMultiple" id="row_${index + 1
+    //             }">
+    //                     <div class="col">
+    //                         <div class="form-group">
+    //                             <label class="form-label">Size:</label>
+    //                             <input type="text" class="form-control" name="size[]" id="size_${index + 2
+    //             }" value="${detail.size}">
+    //                         </div>
+    //                     </div>
+    //                     <div class="col">
+    //                         <div class="form-group">
+    //                             <label class="form-label">Price:</label>
+    //                             <input type="text" class="form-control price-input" name="price[]" id="price_${index + 2
+    //             }" value="${formatRupiah(detail.price)}">
+    //                         </div>
+    //                     </div>
+    //                     <div class="col">
+    //                         <div class="form-group">
+    //                             <label class="form-label"></label>
+    //                             ${index === 0
+    //                 ? '<button type="button" class="btn btn-success addButton"><i class="bi bi-plus-lg"></i></button>'
+    //                 : '<button type="button" class="btn btn-danger removeButton"><i class="bi bi-trash3"></i></button>'
+    //             }
+    //                         </div>
+    //                     </div>
+    //                 </div>
+    //             `;
+    //         $("#formMultiple").append(newRow);
+    //     });
+    // }
 
     $("#formMultiple")
         .on("click", ".addButton", function () {
@@ -153,7 +148,7 @@ function addMenuItem(value) {
                 newInputSet
                     .find(".addButton")
                     .replaceWith(
-                        '<button type="button" class="btn btn-outline-danger removeButton"><i class="bi bi-trash3"></i></button>'
+                        '<button type="button" class="btn border-0 removeButton"><i class="bi bi-trash3 text-danger"></i></button>'
                     );
             }
         })
@@ -257,9 +252,9 @@ function fetchDataMenuItem() {
                             if (data === null || data.trim() === "") {
                                 return '<span class="badge badge-danger">Null</span>';
                             } else if (data.toLowerCase() === "no_spicy") {
-                                return '<i class="fas fa-ban"></i> No Spicy';
+                                return '<span class="badge rounded-pill text-bg-primary">Tidak Pedas</span>';
                             } else {
-                                return data;
+                                return '<span class="badge rounded-pill text-bg-danger">Pedas</span>';
                             }
                         },
                     },
@@ -267,26 +262,28 @@ function fetchDataMenuItem() {
                         data: null,
                         render: function (data, type, row) {
                             var buttons =
-                                '<button class="btn btn-info btn-sm btn-detail" data-id="' +
+                                '<div class="d-flex gap-2">' +
+                                '<button class="btn btn-success btn-plus" data-id="' +
+                                data.id +
+                                '" title="Insert Schedule" onclick="addSchedule(' +
+                                row.id + ', \'' + row.menu_name +
+                                '\')"><i class="bi bi-calendar-plus"></i></button>' +
+                                '<button class="btn btn-info btn-detail" data-id="' +
                                 data.id +
                                 '" title="Detail Menu" onclick="showDetail(' +
                                 row.id +
                                 ')"><i class="bi bi-info-circle"></i></button>' +
-                                '<button class="btn btn-primary btn-sm btn-edit" data-id="' +
+                                '<button class="btn btn-warning btn-edit" data-id="' +
                                 data.id +
                                 '" title="Edit Menu" onclick="editMenu(' +
                                 row.id +
                                 ')"><i class="bi bi-pen"></i></button> ' +
-                                '<button class="btn btn-danger btn-sm btn-delete" data-id="' +
+                                '<button class="btn btn-danger btn-delete" data-id="' +
                                 data.id +
-                                '" title="Delete Menu" onclick="deleteMenu(' +
+                                '" title="Delete Menu" onclick="destroy(' +
                                 row.id +
                                 ')"><i class="bi bi-trash3"></i></button>' +
-                                '<button class="btn btn-success btn-sm btn-plus" data-id="' +
-                                data.id +
-                                '" title="Tambah Schedule" onclick="addSchedule(' +
-                                row.id + ', \'' + row.menu_name +
-                                '\')"><i class="bi bi-calendar-plus"></i></button>';
+                                '</div>';
                             return buttons;
                         },
                     },
@@ -298,11 +295,12 @@ function fetchDataMenuItem() {
         },
     });
 }
+
 function addSchedule(menuId, menuName) {
     $("#mdlForm").modal("show");
 
     // Set modal title
-    $("#mdlFormTitle").html("Tambah Schedule");
+    $("#mdlFormTitle").html("Tambah Jadwal");
 
     // Clear previous content
     $("#mdlFormContent").html("");
@@ -314,19 +312,19 @@ function addSchedule(menuId, menuName) {
     $("#mdlFormContent").append(form);
 
     // Create label for datetime picker
-    var label = $('<label class="form-label" for="scheduleDateTimePicker">Tambah Schedule:</label>').addClass('form-group');
+    var label = $('<label class="form-label" for="scheduleDateTimePicker">Jadwal Penjualan</label>').addClass('form-group');
     form.append(label);
 
     // Create datetime picker element
-    var datetimePickerInput = $('<input type="text" class="form-control" id="scheduleDateTimePicker" name="scheduleDateTimePicker">').addClass('form-group');
+    var datetimePickerInput = $('<input type="text" class="form-control mb-3" id="scheduleDateTimePicker" name="scheduleDateTimePicker">').addClass('form-group');
 
     form.append(datetimePickerInput);
 
     $("#scheduleDateTimePicker").flatpickr({
-        dateFormat: "d-m-Y", // Set the date format to DD-MM-YYYY
-        mode: "multiple", // Aktifkan mode pemilihan multiple
+        weekNumbers: true,
+        dateFormat: "d-m-Y",
+        mode: "multiple",
         onChange: function (selectedDates, dateStr, instance) {
-            // Handler untuk perubahan tanggal yang dipilih
             console.log("Selected dates: " + dateStr);
         }
     });
@@ -397,7 +395,7 @@ function addSchedule(menuId, menuName) {
     });
 
     // Create submit button
-    var submitButton = $('<button type="submit" class="btn btn-primary">Submit</button>').addClass('form-group');
+    var submitButton = $('<button type="submit" class="btn btn-primary w-100">Save</button>').addClass('form-group');
     form.append(submitButton);
 
     // Click event handler for the submit button
@@ -410,36 +408,9 @@ function addSchedule(menuId, menuName) {
     });
 }
 
-function deleteMenu(menuId) {
-    // Perform AJAX request to delete the menu
-    $.ajaxSetup({
-        headers: {
-            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-        },
-    });
-
-    $.ajax({
-        url: "/users/menu/deleteMenu", // Replace with the actual endpoint to delete the menu
-        method: "DELETE",
-        data: { id: menuId },
-        success: function (response) {
-            // Handle success response (e.g., show success message, update UI)
-
-            // Call the createData function after 3 seconds
-            fetchDataMenuItem();
-        },
-        error: function (xhr, status, error) {
-            // Handle error response (e.g., show error message, log error)
-            console.error("Error deleting menu:", error);
-        },
-    });
-}
-
 function editMenu(menuId) {
-    // Add your AJAX request to edit the menu here
-    // Example:
     $.ajax({
-        url: "/users/menu/detailMenu",
+        url: "/users/menu/show",
         method: "GET",
         data: { id: menuId },
         success: function (response) {
@@ -452,9 +423,32 @@ function editMenu(menuId) {
     });
 }
 
+function destroy(menuId) {
+    // Perform AJAX request to delete the menu
+    $.ajax({
+        url: "/users/menu/destroy", // Replace with the actual endpoint to delete the menu
+        method: "DELETE",
+        data: {
+            _token: $('meta[name="csrf-token"]').attr("content"), // Add CSRF token
+            id: menuId
+        },
+        success: function (response) {
+            // Handle success response (e.g., show success message, update UI)
+            console.log("Menu deleted successfully");
+
+            // Call the fetchDataMenuItem function after 3 seconds
+            setTimeout(fetchDataMenuItem, 3000);
+        },
+        error: function (xhr, status, error) {
+            // Handle error response (e.g., show error message, log error)
+            console.error("Error deleting menu:", error);
+        },
+    });
+}
+
 function showDetail(id) {
     $.ajax({
-        url: "/users/menu/detailMenu", // Replace with your actual endpoint URL
+        url: "/users/menu/show",
         method: "GET",
         data: {
             id: id,
@@ -463,27 +457,22 @@ function showDetail(id) {
             // Handle successful response
             // Display the data detail using the response
             if (response.status) {
-
                 $("#mdlFormTitle").html(
-                    "<b>Detail Menu " + response.data.menu_name + "</b>"
+                    response.data.menu_name
                 );
                 $("#mdlFormContent").empty().html(`
-                    <div style="text-align: center;">
-                        <img src="/menu/${response.data.image}" style="max-width: 100%; max-height: 200px; margin: 0 auto;">
-                    </div>
-                    <p><b>Menu Name:</b> ${response.data.menu_name}</p>
-                    <p><b>Description:</b> ${response.data.description}</p>
-                    <p><b>Type:</b> ${response.data.type}</p>
+                    <img src="/menu/${response.data.image}" class="rounded-1 w-25 mb-3">
+                    <div>${response.data.type === 'no_spicy' ? '<span class="badge rounded-pill text-bg-primary">Tidak Pedas</span>' : '<span class="badge rounded-pill text-bg-danger">Pedas</span>'}</div>
+                    <p class="text-secondary my-3">${response.data.description}</p>
                 `);
 
                 // Append the table for menu details
                 var menuDetailTable = `
-                    <table id="menuDetailTable" class="table">
+                    <table id="menuDetailTable" class="table-striped table-hover table">
                         <thead>
                             <tr>
-                                <th>Price</th>
-                                <th>Size</th>
-                                <!-- Add more columns if needed -->
+                                <th class="bg-dark">Size</th>
+                                <th class="bg-dark">Price</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -491,40 +480,36 @@ function showDetail(id) {
                         .map(
                             (detail) => `
                                 <tr>
-                                    <td>${formatRupiah(
-                                detail.price
-                            )}</td> <!-- Format price into IDR -->
                                     <td>${detail.size}</td>
-                                    <!-- Add more columns if needed -->
+                                    <td>${formatRupiah(detail.price)}</td>
                                 </tr>
                             `
                         )
                         .join("")}
                         </tbody>
                     </table>
-                    <span>List Schedule Menu</span>
+                    <span>Jadwal Menu</span>
                     <div id="calendar"></div>
                 `;
                 $("#mdlFormContent").append(menuDetailTable);
 
                 $("#mdlForm").modal("show");
                 $('#mdlForm').on('shown.bs.modal', function () {
-                    // Inisialisasi FullCalendar di sini
+                    // Inisialisasi FullCalendar
                     $('#calendar').fullCalendar({
-                        // Konfigurasi FullCalendar di sini
+                        // Konfigurasi FullCalendar
                         events: function (start, end, timezone, callback) {
                             // Menyusun daftar acara dari data yang Anda miliki
                             var events = [];
                             // Menyesuaikan gaya CSS acara
-                            var eventColor = '#3788D8'; // Warna latar belakang acara
+                            var eventColor = '#842029'; // Warna latar belakang acara
 
                             // Mengonversi data jadwal menjadi objek acara dan menambahkannya ke dalam daftar acara
                             response.data.menu_schedule.forEach(function (item) {
                                 events.push({
                                     id: item.id,
-                                    title: 'Schedule ' + item.schedule,
+                                    title: item.schedule,
                                     start: item.schedule,
-                                    // Menentukan properti 'color' untuk menyesuaikan warna latar belakang acara
                                     color: eventColor
                                 });
                             });
@@ -533,10 +518,8 @@ function showDetail(id) {
                             callback(events);
                         },
                         eventRender: function (event, element) {
-                            // Menyesuaikan gaya CSS acara
-                            element.css('border-color', '#000000'); // Warna border acara
+                            element.css('border-color', '#fff'); // Warna border acara
                             element.css('color', '#fff'); // Warna teks acara
-                            // Tambahan gaya CSS lainnya sesuai kebutuhan
                         }
                     });
                 });

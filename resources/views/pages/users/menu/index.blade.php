@@ -37,11 +37,8 @@
         @include('pages.modals.modal')
 
         @section('js')
-            <script src="{{ asset('js/validate/jquery.validate.min.js') }}"></script>
+            {{-- <script src="{{ asset('js/validate/jquery.validate.min.js') }}"></script> --}}
             <script src="{{ asset('js/menu.js') }}"></script>
-            {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> --}}
-            <script src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.min.js"></script>
-
         @endsection
     </div>
 </x-app-layout>
