@@ -251,4 +251,23 @@ class MenuController extends Controller
             ], 500); // HTTP status code 500 "Internal Server Error"
         }
     }
+
+    public function destroySchedule(Request $request){
+        try {
+            // Attempt to delete the menu schedule
+            // Assuming you have some code here to delete the menu schedule based on the request data
+            // For example:
+            $scheduleId = $request->input('id');
+            MenuSchedule::where('schedule_id',$scheduleId)->delete();
+
+            // Return success response if the schedule is deleted successfully
+            return response()->json(['message' => 'Menu schedule deleted successfully'], 200);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            // Catch any exceptions that occur during the deletion process
+            // Log the error or handle it gracefully
+            // For example:
+            return response()->json(['error' => 'An error occurred while deleting the menu schedule'], 500);
+        }
+    }
 }

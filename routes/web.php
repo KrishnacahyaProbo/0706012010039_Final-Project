@@ -34,5 +34,6 @@ Route::middleware([
         Route::delete('/menu/destroy', 'MenuController@destroy')->name('menu.destroy');
 
         Route::post('/menu/addSchedule', 'MenuController@addSchedule')->name('menu.addSchedule');
+        Route::delete('/menu/destroySchedule', 'MenuController@destroySchedule')->name('menu.destroySchedule');
     });
 });
