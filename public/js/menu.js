@@ -34,22 +34,25 @@ function addMenuItem(value) {
         <textarea class="form-control" id="description" name="description"></textarea>
     </div>
     `);
+
     form.append(`
-    <div class="form-group mb-4">
-        <label class="form-label" for="formMenuVendor">Foto</label>
-        <input type="file" class="form-control" id="image" name="image">
+        <div class="form-group mb-4">
+            <label class="form-label" for="formMenuVendor">Foto</label>
+            <img id="imagePreview" src="" alt="Preview" style="max-width: 100%; display: none;">
+            <input type="file" class="form-control" id="image" name="image">
+        </div>
+    `);
+
+    form.append(`
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="spicy" id="spicy" value="spicy">
+        <label class="form-check-label" for="spicy">Ya</label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="spicy" id="not_spicy" value="no_spicy">
+        <label class="form-check-label" for="not_spicy">Tidak</label>
     </div>
     `);
-    // form.append(`
-    // <div class="form-check">
-    //     <input class="form-check-input" type="radio" name="spicy" id="spicy" value="spicy">
-    //     <label class="form-check-label" for="spicy">Ya</label>
-    // </div>
-    // <div class="form-check">
-    //     <input class="form-check-input" type="radio" name="spicy" id="not_spicy" value="no_spicy">
-    //     <label class="form-check-label" for="not_spicy">Tidak</label>
-    // </div>
-    // `);
     form.append(`
     <div id="formMultiple" class="form_multiple">
         <div class="row classformMultiple mb-3" id="row_1">
@@ -80,54 +83,67 @@ function addMenuItem(value) {
     formContainer.id = "formContainer";
     form.append(formContainer);
     $("#mdlFormContent").append(form);
+
     // Check if value and value.description are not null
     if (value != null && value.description != null) {
         // Set the value of the textarea
         $("#description").val(value.description);
     }
 
-    // if (value.type === "no_spicy") {
-    //     // Set the not_spicy radio button as checked
-    //     $("#not_spicy").prop("checked", true);
-    // } else {
-    //     $("#spicy").prop("checked", true);
-    // }
+    // Assuming you have a variable "value" containing the value object
+    const imagePreview = document.getElementById('imagePreview');
 
-    // if (value !== null && value.menu_detail !== null) {
-    //     // Iterate over the menu_detail array and append fields
-    //     $("#formMultiple").html("");
-    //     value.menu_detail.forEach((detail, index) => {
-    //         const newRow = `
-    //                 <div class="row classformMultiple" id="row_${index + 1
-    //             }">
-    //                     <div class="col">
-    //                         <div class="form-group">
-    //                             <label class="form-label">Size:</label>
-    //                             <input type="text" class="form-control" name="size[]" id="size_${index + 2
-    //             }" value="${detail.size}">
-    //                         </div>
-    //                     </div>
-    //                     <div class="col">
-    //                         <div class="form-group">
-    //                             <label class="form-label">Price:</label>
-    //                             <input type="text" class="form-control price-input" name="price[]" id="price_${index + 2
-    //             }" value="${formatRupiah(detail.price)}">
-    //                         </div>
-    //                     </div>
-    //                     <div class="col">
-    //                         <div class="form-group">
-    //                             <label class="form-label"></label>
-    //                             ${index === 0
-    //                 ? '<button type="button" class="btn btn-success addButton"><i class="bi bi-plus-lg"></i></button>'
-    //                 : '<button type="button" class="btn btn-danger removeButton"><i class="bi bi-trash3"></i></button>'
-    //             }
-    //                         </div>
-    //                     </div>
-    //                 </div>
-    //             `;
-    //         $("#formMultiple").append(newRow);
-    //     });
-    // }
+    // Check if value.image is not null
+    if (value != null && value.image != null) {
+        // If value.image is not null, set the src attribute of the image preview and display it
+        imagePreview.src = '/menu/' + value.image;
+        imagePreview.style.display = 'block';
+    }
+
+    if (value != null) {
+        if (value.type === "no_spicy") {
+            // Set the not_spicy radio button as checked
+            $("#not_spicy").prop("checked", true);
+        } else {
+            $("#spicy").prop("checked", true);
+        }
+    }
+
+    if (value !== null && value.menu_detail !== null) {
+        // Iterate over the menu_detail array and append fields
+        $("#formMultiple").html("");
+        value.menu_detail.forEach((detail, index) => {
+            const newRow = `
+                    <div class="row classformMultiple" id="row_${index + 1
+                }">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label">Size:</label>
+                                <input type="text" class="form-control" name="size[]" id="size_${index + 2
+                }" value="${detail.size}">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label">Price:</label>
+                                <input type="text" class="form-control price-input" name="price[]" id="price_${index + 2
+                }" value="${formatRupiah(detail.price)}">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label"></label>
+                                ${index === 0
+                    ? '<button type="button" class="btn btn-success addButton"><i class="bi bi-plus-lg"></i></button>'
+                    : '<button type="button" class="btn btn-danger removeButton"><i class="bi bi-trash3"></i></button>'
+                }
+                            </div>
+                        </div>
+                    </div>
+                `;
+            $("#formMultiple").append(newRow);
+        });
+    }
 
     $("#formMultiple")
         .on("click", ".addButton", function () {
@@ -183,7 +199,6 @@ function addMenuItem(value) {
             type: 'POST',
             data: formData,
             success: function (data) {
-                console.log(data);
                 $("#mdlForm").modal("hide");
                 fetchDataMenuItem();
             },
@@ -436,8 +451,8 @@ function destroy(menuId) {
             // Handle success response (e.g., show success message, update UI)
             console.log("Menu deleted successfully");
 
-            // Call the fetchDataMenuItem function after 3 seconds
-            setTimeout(fetchDataMenuItem, 3000);
+            // Call the fetchDataMenuItem function
+            fetchDataMenuItem();
         },
         error: function (xhr, status, error) {
             // Handle error response (e.g., show error message, log error)

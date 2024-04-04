@@ -16,7 +16,7 @@
     @section('page_title', 'Kelola Menu')
 
     <div class="d-grid gap-3">
-        <x-button class="d-flex btn-primary ms-auto" onclick="addMenuItem()">Add Menu</x-button>
+        <x-button class="d-flex btn-primary ms-auto" onclick="addMenuItem(null)">Add Menu</x-button>
 
         <div class="table-responsive">
             <table id="menuTable" class="table-striped table-hover table">
