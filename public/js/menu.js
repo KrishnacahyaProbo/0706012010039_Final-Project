@@ -496,10 +496,31 @@ function showDetail(id) {
                 $("#mdlForm").modal("show");
                 $('#mdlForm').on('shown.bs.modal', function () {
                     // Inisialisasi FullCalendar
-                    $('#calendar').fullCalendar({
+                    var calendarEl = document.getElementById('calendar');
+                    var calendar = new FullCalendar.Calendar(calendarEl, {
                         // Konfigurasi FullCalendar
-                        events: function (start, end, timezone, callback) {
-                            // Menyusun daftar acara dari data yang Anda miliki
+                        themeSystem: 'bootstrap5',
+                        headerToolbar: {
+                            left: 'title',
+                            right: 'today prev,next'
+                        },
+                        footerToolbar: {
+                            center: 'dayGridMonth,dayGridWeek,dayGridDay,listWeek'
+                        },
+                        buttonText: {
+                            today: 'Today',
+                            month: 'Month',
+                            week: 'Week',
+                            day: 'Day',
+                            list: 'List'
+                        },
+                        titleFormat: {
+                            year: 'numeric',
+                            month: 'short'
+                        },
+                        navLinks: true,
+                        events: function (fetchInfo, successCallback, failureCallback) {
+                            // Menyusun daftar acara
                             var events = [];
                             // Menyesuaikan gaya CSS acara
                             var eventColor = '#842029'; // Warna latar belakang acara
@@ -510,18 +531,19 @@ function showDetail(id) {
                                     id: item.id,
                                     title: item.schedule,
                                     start: item.schedule,
-                                    color: eventColor
+                                    backgroundColor: eventColor
                                 });
                             });
 
                             // Memanggil callback dengan daftar acara
-                            callback(events);
+                            successCallback(events);
                         },
-                        eventRender: function (event, element) {
-                            element.css('border-color', '#fff'); // Warna border acara
-                            element.css('color', '#fff'); // Warna teks acara
+                        eventDidMount: function (arg) {
+                            arg.el.style.borderColor = '#842029';
+                            arg.el.style.color = '#fff';
                         }
                     });
+                    calendar.render();
                 });
             } else {
             }
