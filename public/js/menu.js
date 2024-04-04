@@ -18,13 +18,13 @@ function addMenuItem(value) {
     var form = $('<form id="formMenuVendor"></form>');
     form.append(`
     <div class="form-group mb-3" style="display:none;">
-        <label for="id" class="form-label">Id</label>
+        <label for="id" class="form-label">id</label>
         <input type="hidden" class="form-control" id="id" name="id" ${value != null ? 'value="' + value.id + '"' : ""}>
     </div>
     `);
     form.append(`
     <div class="form-group mb-3">
-        <label for="menu_name" class="form-label">Menu Name</label>
+        <label for="menu_name" class="form-label">Nama Menu</label>
         <input type="text" class="form-control" id="menuName" name="menu_name" ${value != null ? 'value="' + value.menu_name + '"' : ""}>
     </div>
     `);
@@ -36,7 +36,7 @@ function addMenuItem(value) {
     `);
     form.append(`
     <div class="form-group mb-4">
-        <label class="form-label" for="formMenuVendor">Image</label>
+        <label class="form-label" for="formMenuVendor">Foto</label>
         <input type="file" class="form-control" id="image" name="image">
     </div>
     `);
@@ -55,13 +55,13 @@ function addMenuItem(value) {
         <div class="row classformMultiple mb-3" id="row_1">
             <div class="col">
                 <div class="form-group">
-                    <label class="form-label">Size</label>
+                    <label class="form-label">Porsi</label>
                     <input type="text" class="form-control" name="size[]" id="size_1">
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
-                    <label class="form-label">Price</label>
+                    <label class="form-label">Harga</label>
                     <input type="text" class="form-control price-input" name="price[]" id="price_1">
                 </div>
             </div>
@@ -471,8 +471,8 @@ function showDetail(id) {
                     <table id="menuDetailTable" class="table-striped table-hover table">
                         <thead>
                             <tr>
-                                <th class="bg-dark">Size</th>
-                                <th class="bg-dark">Price</th>
+                                <th>Porsi</th>
+                                <th>Harga</th>
                             </tr>
                         </thead>
                         <tbody>
