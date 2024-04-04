@@ -20,7 +20,7 @@
 
         <div class="table-responsive">
             <table id="menuTable" class="table-striped table-hover table">
-                <thead class="bg-dark">
+                <thead>
                     <tr>
                         <th>Nama Menu</th>
                         <th>Harga per Porsi</th>

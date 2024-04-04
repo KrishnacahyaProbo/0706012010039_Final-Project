@@ -1,4 +1,4 @@
-<div class="modal fade" id="mdlForm" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="mdlForm" tabindex="-1" aria-hidden="true" data-bs-backdrop='static'>
     <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
