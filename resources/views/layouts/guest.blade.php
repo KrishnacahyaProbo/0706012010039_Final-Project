@@ -20,6 +20,9 @@
 
     {{-- Favicon --}}
     <link rel="icon" href="{{ url('images/brand/logo.svg?v=2') }}" type="image/svg" />
+
+    {{-- CDN --}}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
 
 <body>
@@ -36,6 +39,9 @@
     </div>
 
     @yield('js')
+
+    {{-- CDN --}}
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </body>
 
 </html>

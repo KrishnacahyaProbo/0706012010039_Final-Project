@@ -19,12 +19,13 @@
                         <li>
                             {{ $session->agent->platform() ? $session->agent->platform() : __('Unknown') }} -
 
-                            {{ $session->agent->browser() ? $session->agent->browser() : __('Unknown') }}
+                            {{ $session->agent->browser() ? $session->agent->browser() : __('Unknown') }} -
 
                             {{ $session->ip_address }} -
 
                             @if ($session->is_current_device)
-                                <span class="fw-bold text-success">{{ __('This device') }}</span>
+                                <span
+                                    class="badge rounded-pill text-success-emphasis bg-success-subtle border-success-subtle border">{{ __('This device') }}</span>
                             @else
                                 {{ __('Last active') }} {{ $session->last_active }}.
                             @endif
