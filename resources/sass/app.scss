@@ -56,9 +56,7 @@ input:is([type="radio"], [type="checkbox"]) {
     cursor: pointer;
 }
 
-input:focus,
-select:focus,
-textarea:focus {
+:is(input, select, textarea):focus {
     box-shadow: none !important;
     border: 1px solid $red-700 !important;
 }
@@ -137,6 +135,22 @@ th {
     }
 }
 
+:is(.fc-daygrid-day-number, .fc-col-header-cell-cushion, .fc-list-day-text):hover {
+    text-decoration: none !important;
+}
+
+.fc-event {
+    color: $black !important;
+}
+
+.fc-day-today {
+    background-color: $red-100 !important;
+}
+
+.fc-list-day-cushion {
+    background-color: $dark;
+}
+
 .flatpickr-day.selected,
 .pagination>.active>a {
     background-color: $red-700 !important;
@@ -163,8 +177,16 @@ th {
 }
 
 @font-face {
-    font-family: "Manrope";
-    src: url("public/fonts/Manrope/Manrope-Regular.ttf") format("truetype"),
-        url("public/fonts/Manrope/Manrope-Bold.ttf") format("truetype"),
-        url("public/fonts/Manrope/Manrope-ExtraBold.ttf") format("truetype");
+    font-family: "Manrope-Regular";
+    src: url("public/fonts/Manrope/Manrope-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Manrope-Bold";
+    src: url("public/fonts/Manrope/Manrope-Bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Manrope-ExtraBold";
+    src: url("public/fonts/Manrope/Manrope-ExtraBold.ttf") format("truetype");
 }

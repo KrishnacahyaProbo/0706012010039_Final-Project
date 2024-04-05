@@ -1,8 +1,6 @@
 @section('title', 'Register')
 
 <x-guest-layout>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-
     @section('page_title', 'Hai, Buat Akun dan Bergabung Sekarang')
 
     <div class="d-grid gap-2">
@@ -107,7 +105,6 @@
         </div>
     </div>
 
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             getLocation(null);

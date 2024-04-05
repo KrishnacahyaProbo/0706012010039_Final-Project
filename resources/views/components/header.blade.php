@@ -10,13 +10,13 @@
 <nav class="navbar navbar-light navbar-expand-lg bg-white shadow-sm">
     <div class="container">
         <img src="{{ url('images/brand/logo.svg') }}" alt="Logo" id="logo">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="navbar-collapse collapse" id="navbarNavAltMarkup">
+        <div class="navbar-collapse collapse" id="navbarNav">
             @auth
-                <div class="navbar-nav mx-3">
+                <div class="navbar-nav mx-lg-4 my-lg-0 my-3 gap-1">
                     <a class="nav-link {{ $isMenu ? 'active' : '' }}" href="{{ url('/users/menu') }}">Menu</a>
                     <a class="nav-link {{ $isSchedule ? 'active' : '' }}" href="{{ url('/schedule') }}">Schedule</a>
                     <a class="nav-link {{ $isOrder ? 'active' : '' }}" href="{{ url('/order') }}">Order</a>

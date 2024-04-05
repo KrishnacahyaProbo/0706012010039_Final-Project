@@ -8,17 +8,16 @@
     </x-slot>
 
     <x-slot name="content">
-        <strong>
-            @if ($this->enabled)
-                @if ($showingConfirmation)
-                    {{ __('Finish enabling two factor authentication.') }}
-                @else
-                    {{ __('You have enabled two factor authentication.') }}
-                @endif
+
+        @if ($this->enabled)
+            @if ($showingConfirmation)
+                <strong>{{ __('Finish enabling two factor authentication.') }}</strong>
             @else
-                {{ __('You have not enabled two factor authentication.') }}
+                <strong class="text-success">{{ __('You have enabled two factor authentication.') }}</strong>
             @endif
-        </strong>
+        @else
+            <strong class="text-danger">{{ __('You have not enabled two factor authentication.') }}</strong>
+        @endif
 
         <p>{{ __('When two factor authentication is enabled, you will be prompted for a secure, random token during authentication. You may retrieve this token from your phone\'s Google Authenticator application.') }}
         </p>
