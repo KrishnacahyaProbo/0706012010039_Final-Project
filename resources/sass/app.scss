@@ -43,6 +43,7 @@ h5,
 h6,
 strong,
 th,
+th>span,
 .btn {
     font-family: $manrope-bold !important;
 }
@@ -178,15 +179,15 @@ th {
 
 @font-face {
     font-family: "Manrope-Regular";
-    src: url("public/fonts/Manrope/Manrope-Regular.ttf") format("truetype");
+    src: url("/public/fonts/Manrope/Manrope-Regular.ttf") format("truetype");
 }
 
 @font-face {
     font-family: "Manrope-Bold";
-    src: url("public/fonts/Manrope/Manrope-Bold.ttf") format("truetype");
+    src: url("/public/fonts/Manrope/Manrope-Bold.ttf") format("truetype");
 }
 
 @font-face {
     font-family: "Manrope-ExtraBold";
-    src: url("public/fonts/Manrope/Manrope-ExtraBold.ttf") format("truetype");
+    src: url("/public/fonts/Manrope/Manrope-ExtraBold.ttf") format("truetype");
 }
