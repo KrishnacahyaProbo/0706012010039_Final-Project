@@ -30,27 +30,35 @@ function addMenuItem(value) {
     `);
     form.append(`
     <div class="form-group mb-3">
-        <label for="description" class="form-label">Description</label>
+        <label for="description" class="form-label">Deskripsi</label>
         <textarea class="form-control" id="description" name="description"></textarea>
     </div>
     `);
 
     form.append(`
-        <div class="form-group mb-4">
+        <div class="form-group mb-3">
             <label class="form-label" for="formMenuVendor">Foto</label>
-            <img id="imagePreview" src="" alt="Preview" style="max-width: 100%; display: none;">
+            <img id="imagePreview" src="" alt="Preview" class="rounded-1 w-25 mb-2" style="display: none;">
             <input type="file" class="form-control" id="image" name="image">
         </div>
     `);
 
     form.append(`
-    <div class="form-check">
-        <input class="form-check-input" type="radio" name="spicy" id="spicy" value="spicy">
-        <label class="form-check-label" for="spicy">Ya</label>
-    </div>
-    <div class="form-check">
-        <input class="form-check-input" type="radio" name="spicy" id="not_spicy" value="no_spicy">
-        <label class="form-check-label" for="not_spicy">Tidak</label>
+    <div class="form-group mb-3">
+        <label class="form-label" for="type">Tipe Menu Pedas</label>
+
+        <div class="d-flex gap-3">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="spicy" id="spicy"
+                    value="spicy">
+                <x-label class="form-check-label" for="spicy">Pedas</x-label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="spicy" id="not_spicy"
+                    value="no_spicy">
+                <x-label class="form-check-label" for="not_spicy">Tidak Pedas</x-label>
+            </div>
+        </div>
     </div>
     `);
     form.append(`
@@ -114,33 +122,27 @@ function addMenuItem(value) {
         $("#formMultiple").html("");
         value.menu_detail.forEach((detail, index) => {
             const newRow = `
-                    <div class="row classformMultiple" id="row_${index + 1
-                }">
-                        <div class="col">
-                            <div class="form-group">
-                                <label class="form-label">Size:</label>
-                                <input type="text" class="form-control" name="size[]" id="size_${index + 2
-                }" value="${detail.size}">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label class="form-label">Price:</label>
-                                <input type="text" class="form-control price-input" name="price[]" id="price_${index + 2
-                }" value="${formatRupiah(detail.price)}">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label class="form-label"></label>
-                                ${index === 0
-                    ? '<button type="button" class="btn btn-success addButton"><i class="bi bi-plus-lg"></i></button>'
-                    : '<button type="button" class="btn btn-danger removeButton"><i class="bi bi-trash3"></i></button>'
-                }
-                            </div>
+                <div class="row classformMultiple mb-3" id="row_${index + 1}">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-label">Porsi</label>
+                            <input type="text" class="form-control" name="size[]" id="size_${index + 2}" value="${detail.size}">
                         </div>
                     </div>
-                `;
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-label">Harga</label>
+                            <input type="text" class="form-control price-input" name="price[]" id="price_${index + 2}" value="${formatRupiah(detail.price)}">
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="form-group">
+                            <label class="form-label"></label>
+                            ${index === 0 ? '<button type="button" class="btn btn-success addButton"><i class="bi bi-plus-lg"></i></button>' : '<button type="button" class="btn border-0 removeButton"><i class="bi bi-trash3 text-danger"></i></button>'}
+                        </div>
+                    </div>
+                </div>
+            `;
             $("#formMultiple").append(newRow);
         });
     }
@@ -266,9 +268,9 @@ function fetchDataMenuItem() {
                             if (data === null || data.trim() === "") {
                                 return '<p>Null</p>';
                             } else if (data.toLowerCase() === "no_spicy") {
-                                return '<span class="badge rounded-pill text-bg-primary">Tidak Pedas</span>';
+                                return '<span class="badge rounded-pill text-primary-emphasis bg-primary-subtle border border-primary-subtle">Tidak Pedas</span>';
                             } else {
-                                return '<span class="badge rounded-pill text-bg-danger">Pedas</span>';
+                                return '<span class="badge rounded-pill text-danger-emphasis bg-danger-subtle border border-danger-subtle">Pedas</span>';
                             }
                         },
                     },
@@ -433,24 +435,28 @@ function editMenu(menuId) {
 }
 
 function destroy(menuId) {
-    // Perform AJAX request to delete the menu
-    $.ajax({
-        url: "/users/menu/destroy",
-        method: "DELETE",
-        data: {
-            _token: $('meta[name="csrf-token"]').attr("content"),
-            id: menuId
-        },
-        success: function (response) {
-            console.log("Menu deleted successfully");
+    // Confirm the deletion
+    var confirmation = window.confirm("Yakin ingin hapus menu?");
+    if (confirmation) {
+        // Perform AJAX request to delete the menu
+        $.ajax({
+            url: "/users/menu/destroy",
+            method: "DELETE",
+            data: {
+                _token: $('meta[name="csrf-token"]').attr("content"),
+                id: menuId
+            },
+            success: function (response) {
+                console.log("Menu deleted successfully");
 
-            // Call the fetchDataMenuItem function
-            fetchDataMenuItem();
-        },
-        error: function (xhr, status, error) {
-            console.error("Error deleting menu:", error);
-        },
-    });
+                // Call the fetchDataMenuItem function
+                fetchDataMenuItem();
+            },
+            error: function (xhr, status, error) {
+                console.error("Error deleting menu:", error);
+            },
+        });
+    }
 }
 
 function showDetail(id) {
@@ -468,8 +474,8 @@ function showDetail(id) {
                     response.data.menu_name
                 );
                 $("#mdlFormContent").empty().html(`
-                    <img src="/menu/${response.data.image}" class="rounded-1 w-25 mb-3">
-                    <div>${response.data.type === 'no_spicy' ? '<span class="badge rounded-pill text-bg-primary">Tidak Pedas</span>' : '<span class="badge rounded-pill text-bg-danger">Pedas</span>'}</div>
+                    <img src="/menu/${response.data.image}" class="rounded-1 w-50 mx-auto d-block mb-3">
+                    <div>${response.data.type === 'no_spicy' ? '<span class="badge rounded-pill text-primary-emphasis bg-primary-subtle border border-primary-subtle">Tidak Pedas</span>' : '<span class="badge rounded-pill text-danger-emphasis bg-danger-subtle border border-danger-subtle">Pedas</span>'}</div>
                     <p class="text-secondary my-3">${response.data.description}</p>
                 `);
 
@@ -533,7 +539,7 @@ function showDetail(id) {
                             var events = [];
                             // Menyesuaikan gaya CSS acara
                             var eventColor = '#842029'; // Warna latar belakang acara
-                
+
                             // Mengonversi data jadwal menjadi objek acara dan menambahkannya ke dalam daftar acara
                             response.data.menu_schedule.forEach(function (item) {
                                 events.push({
@@ -543,24 +549,24 @@ function showDetail(id) {
                                     backgroundColor: eventColor
                                 });
                             });
-                
+
                             // Memanggil callback dengan daftar acara
                             successCallback(events);
                         },
                         eventDidMount: function (arg) {
                             arg.el.style.borderColor = '#842029';
                             arg.el.style.color = '#fff';
-                
+
                             arg.el.addEventListener('click', function (event) {
                                 // Prevent the default action, as we are handling the event ourselves
                                 event.preventDefault();
-                
+
                                 // Check if buttons have already been added
                                 var buttonsAdded = arg.el.dataset.buttonsAdded === 'true';
-                
+
                                 // If buttons have not been added yet, add them
                                 if (!buttonsAdded) {
-                                    var confirmation = window.confirm('Are you sure you want to delete this event?');
+                                    var confirmation = window.confirm('Yakin ingin hapus jadwal penjualan?');
                                     if (confirmation) {
                                         // Proceed with edit or delete action
                                         // You can implement the edit or delete functionality here
@@ -568,7 +574,7 @@ function showDetail(id) {
                                         console.log('User confirmed to delete the event');
                                         var eventId = arg.event.id; // Get the event ID
                                         var csrfToken = $('meta[name="csrf-token"]').attr('content');
-                
+
                                         // Perform AJAX request to delete the event
                                         $.ajax({
                                             url: 'menu/destroySchedule',
@@ -582,7 +588,7 @@ function showDetail(id) {
                                                 var toastMessage = response.message || 'Event deleted successfully'; // Use a default message if response does not have a message
                                                 $('.toast-body').text(toastMessage);
                                                 $('#toastMessage').toast('show');
-                
+
                                                 // You may want to reload the calendar or remove the event from the UI
                                                 $("#mdlFormContent").html("");
                                                 $("#mdlForm").modal("hide");
@@ -594,10 +600,10 @@ function showDetail(id) {
                                     } else {
                                         // User canceled the action, do nothing or show another message
                                         console.log('User canceled the edit or delete action');
-                
+
                                         // Hide the modal
                                         $("#mdlForm").modal("hide");
-                
+
                                         // Set a timeout to show the modal after hiding it
                                         setTimeout(function () {
                                             // Code to open the modal for editing the event
@@ -606,19 +612,19 @@ function showDetail(id) {
                                             $("#mdlFormTitle").html("Ubah Jadwal"); // Show the modal for editing
                                         }, 500); // Adjust the timeout duration as needed (500 milliseconds in this example)
                                     }
-                
+
                                     // Set dataset attribute to indicate that buttons have been added
                                     arg.el.dataset.buttonsAdded = 'true';
                                 }
                             });
                         },
-                
+
                         // Menangani event ketika event di-drop (dragged)
                         eventDrop: function (arg) {
                             var eventId = arg.event.id; // ID dari event yang di-drop
                             var newStart = arg.event.start; // Tanggal baru setelah di-drop
                             var csrfToken = $('meta[name="csrf-token"]').attr('content');
-                
+
                             // Perform AJAX request untuk update tanggal event
                             $.ajax({
                                 url: 'menu/updateSchedule',
@@ -638,13 +644,13 @@ function showDetail(id) {
                                 }
                             });
                         },
-                
+
                         // Menangani event ketika event di-resize
                         eventResize: function (arg) {
                             var eventId = arg.event.id; // ID dari event yang di-resize
                             var newEnd = arg.event.end; // Tanggal baru setelah di-resize
                             var csrfToken = $('meta[name="csrf-token"]').attr('content');
-                
+
                             // Perform AJAX request untuk update tanggal event
                             $.ajax({
                                 url: 'menu/updateSchedule',
@@ -666,7 +672,7 @@ function showDetail(id) {
                         },
                     });
                     calendar.render();
-                });                
+                });
             } else {
             }
         },
