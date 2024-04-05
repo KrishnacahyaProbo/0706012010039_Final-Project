@@ -215,7 +215,6 @@ function fetchDataMenuItem() {
         url: "/users/menu/data",
         method: "GET",
         success: function (response) {
-            // Close the loading spinner Swal
             var table = $("#menuTable");
 
             if ($.fn.DataTable.isDataTable(table)) {
@@ -306,7 +305,6 @@ function fetchDataMenuItem() {
             });
         },
         error: function (xhr, status, error) {
-            // Close the loading spinner Swal
         },
     });
 }
@@ -349,13 +347,11 @@ function addSchedule(menuId, menuName) {
         rules: {
             scheduleDateTimePicker: {
                 required: true,
-                // Add more validation rules as needed
             }
         },
         messages: {
             scheduleDateTimePicker: {
                 required: "Please enter a schedule date and time",
-                // Add more custom error messages as needed
             }
         },
         submitHandler: function (form) {
@@ -397,7 +393,6 @@ function addSchedule(menuId, menuName) {
                         'X-CSRF-TOKEN': csrfToken
                     },
                     success: function (response) {
-                        // Handle success response
                         fetchDataMenuItem();
                         $("#mdlForm").modal("hide");
                     },
@@ -432,8 +427,7 @@ function editMenu(menuId) {
             addMenuItem(response.data);
         },
         error: function (xhr, status, error) {
-            // Handle error
-            console.error(xhr.responseText); // Log the error message to the console for debugging
+            console.error(xhr.responseText);
         },
     });
 }
@@ -441,21 +435,19 @@ function editMenu(menuId) {
 function destroy(menuId) {
     // Perform AJAX request to delete the menu
     $.ajax({
-        url: "/users/menu/destroy", // Replace with the actual endpoint to delete the menu
+        url: "/users/menu/destroy",
         method: "DELETE",
         data: {
-            _token: $('meta[name="csrf-token"]').attr("content"), // Add CSRF token
+            _token: $('meta[name="csrf-token"]').attr("content"),
             id: menuId
         },
         success: function (response) {
-            // Handle success response (e.g., show success message, update UI)
             console.log("Menu deleted successfully");
 
             // Call the fetchDataMenuItem function
             fetchDataMenuItem();
         },
         error: function (xhr, status, error) {
-            // Handle error response (e.g., show error message, log error)
             console.error("Error deleting menu:", error);
         },
     });
@@ -534,12 +526,14 @@ function showDetail(id) {
                             month: 'short'
                         },
                         navLinks: true,
+                        editable: true, // Enable dragging & resizing
+                        eventResizableFromStart: true, // Enable resizing from start
                         events: function (fetchInfo, successCallback, failureCallback) {
                             // Menyusun daftar acara
                             var events = [];
                             // Menyesuaikan gaya CSS acara
                             var eventColor = '#842029'; // Warna latar belakang acara
-
+                
                             // Mengonversi data jadwal menjadi objek acara dan menambahkannya ke dalam daftar acara
                             response.data.menu_schedule.forEach(function (item) {
                                 events.push({
@@ -549,21 +543,21 @@ function showDetail(id) {
                                     backgroundColor: eventColor
                                 });
                             });
-
+                
                             // Memanggil callback dengan daftar acara
                             successCallback(events);
                         },
                         eventDidMount: function (arg) {
                             arg.el.style.borderColor = '#842029';
                             arg.el.style.color = '#fff';
-
-                            arg.el.addEventListener('click', function(event) {
+                
+                            arg.el.addEventListener('click', function (event) {
                                 // Prevent the default action, as we are handling the event ourselves
                                 event.preventDefault();
-
+                
                                 // Check if buttons have already been added
                                 var buttonsAdded = arg.el.dataset.buttonsAdded === 'true';
-
+                
                                 // If buttons have not been added yet, add them
                                 if (!buttonsAdded) {
                                     var confirmation = window.confirm('Are you sure you want to delete this event?');
@@ -574,7 +568,7 @@ function showDetail(id) {
                                         console.log('User confirmed to delete the event');
                                         var eventId = arg.event.id; // Get the event ID
                                         var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
+                
                                         // Perform AJAX request to delete the event
                                         $.ajax({
                                             url: 'menu/destroySchedule',
@@ -583,56 +577,101 @@ function showDetail(id) {
                                                 id: eventId,
                                                 _token: csrfToken // Include CSRF token in the request data
                                             },
-                                            success: function(response) {
+                                            success: function (response) {
                                                 // Display a toast message with the response message
                                                 var toastMessage = response.message || 'Event deleted successfully'; // Use a default message if response does not have a message
                                                 $('.toast-body').text(toastMessage);
                                                 $('#toastMessage').toast('show');
-
+                
                                                 // You may want to reload the calendar or remove the event from the UI
                                                 $("#mdlFormContent").html("");
                                                 $("#mdlForm").modal("hide");
                                             },
-                                            error: function(xhr, status, error) {
-                                                // Handle error response
+                                            error: function (xhr, status, error) {
                                                 console.error('Error deleting event:', error);
                                             }
                                         });
-                                    }else {
+                                    } else {
                                         // User canceled the action, do nothing or show another message
                                         console.log('User canceled the edit or delete action');
-
+                
                                         // Hide the modal
                                         $("#mdlForm").modal("hide");
-
+                
                                         // Set a timeout to show the modal after hiding it
-                                        setTimeout(function() {
+                                        setTimeout(function () {
                                             // Code to open the modal for editing the event
                                             $("#mdlFormContent").html("");
                                             $("#mdlForm").modal("show"); // Show the modal for editing
-                                            $("#mdlFormTitle").html("Edit Schdedule"); // Show the modal for editing
+                                            $("#mdlFormTitle").html("Ubah Jadwal"); // Show the modal for editing
                                         }, 500); // Adjust the timeout duration as needed (500 milliseconds in this example)
                                     }
-
-
-
-
-
-
+                
                                     // Set dataset attribute to indicate that buttons have been added
                                     arg.el.dataset.buttonsAdded = 'true';
                                 }
                             });
-                        }
+                        },
+                
+                        // Menangani event ketika event di-drop (dragged)
+                        eventDrop: function (arg) {
+                            var eventId = arg.event.id; // ID dari event yang di-drop
+                            var newStart = arg.event.start; // Tanggal baru setelah di-drop
+                            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                
+                            // Perform AJAX request untuk update tanggal event
+                            $.ajax({
+                                url: 'menu/updateSchedule',
+                                type: 'PUT',
+                                data: {
+                                    id: eventId,
+                                    new_start: newStart.format(), // Format tanggal baru sesuai kebutuhan Anda
+                                    _token: csrfToken
+                                },
+                                success: function (response) {
+                                    console.log('Event date updated successfully');
+                                    // Tampilkan pesan sukses atau lakukan tindakan lain jika perlu
+                                },
+                                error: function (xhr, status, error) {
+                                    console.error('Error updating event date:', error);
+                                    // Tampilkan pesan error atau lakukan tindakan lain jika perlu
+                                }
+                            });
+                        },
+                
+                        // Menangani event ketika event di-resize
+                        eventResize: function (arg) {
+                            var eventId = arg.event.id; // ID dari event yang di-resize
+                            var newEnd = arg.event.end; // Tanggal baru setelah di-resize
+                            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                
+                            // Perform AJAX request untuk update tanggal event
+                            $.ajax({
+                                url: 'menu/updateSchedule',
+                                type: 'PUT',
+                                data: {
+                                    id: eventId,
+                                    new_end: newEnd.format(), // Format tanggal baru sesuai kebutuhan Anda
+                                    _token: csrfToken
+                                },
+                                success: function (response) {
+                                    console.log('Event date updated successfully');
+                                    // Tampilkan pesan sukses atau lakukan tindakan lain jika perlu
+                                },
+                                error: function (xhr, status, error) {
+                                    console.error('Error updating event date:', error);
+                                    // Tampilkan pesan error atau lakukan tindakan lain jika perlu
+                                }
+                            });
+                        },
                     });
                     calendar.render();
-                });
+                });                
             } else {
             }
         },
         error: function (xhr, status, error) {
-            // Handle error
-            console.error(xhr.responseText); // Log the error message to the console for debugging
+            console.error(xhr.responseText);
         },
     });
 }
