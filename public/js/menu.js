@@ -238,7 +238,7 @@ function fetchDataMenuItem() {
                             // Check if menu name is null
                             if (data === null) {
                                 // Return the badge HTML
-                                return '<span class="badge badge-danger">Null</span>';
+                                return '<p>Null</p>';
                             } else {
                                 // Return the menu name
                                 return data;
@@ -265,7 +265,7 @@ function fetchDataMenuItem() {
                         name: "type",
                         render: function (data, type, row) {
                             if (data === null || data.trim() === "") {
-                                return '<span class="badge badge-danger">Null</span>';
+                                return '<p>Null</p>';
                             } else if (data.toLowerCase() === "no_spicy") {
                                 return '<span class="badge rounded-pill text-bg-primary">Tidak Pedas</span>';
                             } else {
@@ -566,7 +566,6 @@ function showDetail(id) {
 
                                 // If buttons have not been added yet, add them
                                 if (!buttonsAdded) {
-
                                     var confirmation = window.confirm('Are you sure you want to delete this event?');
                                     if (confirmation) {
                                         // Proceed with edit or delete action
@@ -624,8 +623,6 @@ function showDetail(id) {
                                     arg.el.dataset.buttonsAdded = 'true';
                                 }
                             });
-
-
                         }
                     });
                     calendar.render();
