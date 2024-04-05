@@ -8,32 +8,15 @@ Rancang Bangun Lokapasar Katering Harian Berbasis Web (Web-Based Daily Catering 
 
 **Use cases:**
 
--   Vendor:
-
-1. Configure Rule
-    1. `<<include>>` Set Delivery Distance and Cost
-    2. `<<include>>` Set Order Deadline
-2. Manage Menu
-    1. `<<extend>>` Add Menu
-    2. `<<extend>>` Edit Menu
-    3. `<<extend>>` Delete Menu
-3. Manage Regular Schedule
-4. Manage Incoming Order
-5. View Testimony
-    1. `<<extend>>` View Reported Problem
-6. Download Sales Report
-7. Cash out Credit
-
--   Customer:
-
-1. Top up Credit
-2. Add Cart item
-3. Edit Cart item
-4. Delete Cart item
-5. Checkout
-6. Cancel Order
-7. Add Testimony
-    1. `<<extend>>` Request Refund
+| Vendor | Customer |
+| --- | --- |
+| 1. Configure Rule <ul><li>`<<include>>` Set Delivery Distance and Cost</li><li>`<<include>>` Set Order Deadline</li></ul> | 1. Top up Credit |
+| 2. Manage Menu <ul><li>`<<extend>>` Add Menu</li><li>`<<extend>>` Edit Menu</li><li>`<<extend>>` Delete Menu</li></ul> | 2. Add Cart item |
+| 3. Manage Regular Schedule | 3. Edit Cart item |
+| 4. Manage Incoming Order | 4. Delete Cart item |
+| 5. View Testimony <ul><li>`<<extend>>` View Reported Problem</li></ul> | 5. Checkout |
+| 6. Download Sales Report | 6. Cancel Order |
+| 7. Cash out Credit | 7. Add Testimony <ul><li>`<<extend>>` Request Refund</li></ul> |
 
 ---
 
