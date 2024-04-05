@@ -544,7 +544,7 @@ function showDetail(id) {
                             response.data.menu_schedule.forEach(function (item) {
                                 events.push({
                                     id: item.id,
-                                    title: response.data.menu_name + ' - ' + item.schedule, // Include menu_name in the title
+                                    title: response.data.menu_name, // Include menu_name in the title
                                     start: item.schedule,
                                     backgroundColor: eventColor
                                 });
@@ -557,7 +557,7 @@ function showDetail(id) {
                             arg.el.style.borderColor = '#842029';
                             arg.el.style.color = '#fff';
 
-                            arg.el.addEventListener('click', function (event) {
+                            arg.el.addEventListener('click', function(event) {
                                 // Prevent the default action, as we are handling the event ourselves
                                 event.preventDefault();
 
@@ -566,68 +566,65 @@ function showDetail(id) {
 
                                 // If buttons have not been added yet, add them
                                 if (!buttonsAdded) {
-                                    // Create custom buttons for edit and delete
-                                    var editButton = document.createElement('button');
-                                    editButton.innerText = 'Edit';
-                                    editButton.className = 'btn btn-primary btn-sm mr-1'; // Add Bootstrap button classes
 
-                                    var deleteButton = document.createElement('button');
-                                    deleteButton.innerText = 'Delete';
-                                    deleteButton.className = 'btn btn-danger btn-sm'; // Add Bootstrap button classes
+                                    var confirmation = window.confirm('Are you sure you want to delete this event?');
+                                    if (confirmation) {
+                                        // Proceed with edit or delete action
+                                        // You can implement the edit or delete functionality here
+                                        // For now, let's just log a message indicating the action
+                                        console.log('User confirmed to delete the event');
+                                        var eventId = arg.event.id; // Get the event ID
+                                        var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
-                                    // Append buttons to the event element
-                                    arg.el.appendChild(editButton);
-                                    arg.el.appendChild(deleteButton);
+                                        // Perform AJAX request to delete the event
+                                        $.ajax({
+                                            url: 'menu/destroySchedule',
+                                            type: 'DELETE',
+                                            data: {
+                                                id: eventId,
+                                                _token: csrfToken // Include CSRF token in the request data
+                                            },
+                                            success: function(response) {
+                                                // Display a toast message with the response message
+                                                var toastMessage = response.message || 'Event deleted successfully'; // Use a default message if response does not have a message
+                                                $('.toast-body').text(toastMessage);
+                                                $('#toastMessage').toast('show');
 
-                                    // Add event listener for edit button
-                                    editButton.addEventListener('click', function (event) {
-                                        event.stopPropagation(); // Prevent the click event from bubbling up to the event element
-                                        var confirmation = window.confirm('Are you sure you want to edit this event?');
-                                        if (confirmation) {
-                                            var eventId = arg.event.id; // Get the event ID
-                                            console.log('Edit event with ID:', eventId);
-                                            // Perform actions to edit the event with the given ID
-                                        }
-                                    });
+                                                // You may want to reload the calendar or remove the event from the UI
+                                                $("#mdlFormContent").html("");
+                                                $("#mdlForm").modal("hide");
+                                            },
+                                            error: function(xhr, status, error) {
+                                                // Handle error response
+                                                console.error('Error deleting event:', error);
+                                            }
+                                        });
+                                    }else {
+                                        // User canceled the action, do nothing or show another message
+                                        console.log('User canceled the edit or delete action');
 
-                                    // Add event listener for delete button
-                                    deleteButton.addEventListener('click', function (event) {
-                                        event.stopPropagation(); // Prevent the click event from bubbling up to the event element
-                                        var confirmation = window.confirm('Are you sure you want to delete this event?');
-                                        if (confirmation) {
-                                            var eventId = arg.event.id; // Get the event ID
-                                            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                                        // Hide the modal
+                                        $("#mdlForm").modal("hide");
 
-                                            // Perform AJAX request to delete the event
-                                            $.ajax({
-                                                url: 'menu/destroySchedule',
-                                                type: 'DELETE',
-                                                data: {
-                                                    id: eventId,
-                                                    _token: csrfToken // Include CSRF token in the request data
-                                                },
-                                                success: function (response) {
-                                                    // Display a toast message with the response message
-                                                    var toastMessage = response.message || 'Event deleted successfully'; // Use a default message if response does not have a message
-                                                    $('.toast-body').text(toastMessage);
-                                                    $('#toastMessage').toast('show');
+                                        // Set a timeout to show the modal after hiding it
+                                        setTimeout(function() {
+                                            // Code to open the modal for editing the event
+                                            $("#mdlFormContent").html("");
+                                            $("#mdlForm").modal("show"); // Show the modal for editing
+                                            $("#mdlFormTitle").html("Edit Schdedule"); // Show the modal for editing
+                                        }, 500); // Adjust the timeout duration as needed (500 milliseconds in this example)
+                                    }
 
-                                                    // You may want to reload the calendar or remove the event from the UI
-                                                    $("#mdlFormContent").html();
-                                                    $("#mdlForm").modal("hide");
-                                                },
-                                                error: function (xhr, status, error) {
-                                                    // Handle error response
-                                                    console.error('Error deleting event:', error);
-                                                }
-                                            });
-                                        }
-                                    });
+
+
+
+
 
                                     // Set dataset attribute to indicate that buttons have been added
                                     arg.el.dataset.buttonsAdded = 'true';
                                 }
                             });
+
 
                         }
                     });
