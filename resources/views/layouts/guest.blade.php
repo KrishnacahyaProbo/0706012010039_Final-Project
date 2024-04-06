@@ -40,6 +40,13 @@
 
     @yield('js')
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            getLocation(null);
+        });
+    </script>
+    <script src="{{ asset('js/map.js') }}"></script>
+
     {{-- CDN --}}
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </body>

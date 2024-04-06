@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\MenuDetail;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -18,6 +19,11 @@ class DatabaseSeeder extends Seeder
             'name' => 'Probo Krishnacahya',
             'email' => 'pkrishnacahya@student.ciputra.ac.id',
             'password' => bcrypt('password'),
+        ]);
+        User::factory(9)->create();
+
+        $this->call([
+            MenuSeeder::class,
         ]);
     }
 }

@@ -250,6 +250,7 @@ function fetchDataMenuItem() {
                         data: "menu_detail",
                         name: "menu_detail",
                         render: function (data, type, row) {
+                            console.log(data, 'data');
                             if (data.length > 0) {
                                 let list = '<ul>';
                                 data.forEach(item => {
@@ -258,6 +259,8 @@ function fetchDataMenuItem() {
                                 });
                                 list += '</ul>';
                                 return list;
+                            } else {
+                                return '<p>No data.</p>';
                             }
                         },
                     },

@@ -38,5 +38,8 @@ Route::middleware([
         Route::post('/menu/addSchedule', 'MenuController@addSchedule')->name('menu.addSchedule');
         Route::post('/menu/updateSchedule', 'MenuController@updateSchedule')->name('menu.updateSchedule');
         Route::delete('/menu/destroySchedule', 'MenuController@destroySchedule')->name('menu.destroySchedule');
+
+        Route::get('/settings', 'UserSettingController@index')->name('settings.index');
+        Route::post('/settings/delivery', 'DeliveryController@delivery')->name('delivery.index');
     });
 });
