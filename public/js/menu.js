@@ -467,7 +467,6 @@ function showDetail(id) {
             id: id,
         },
         success: function (response) {
-            // Handle successful response
             // Display the data detail using the response
             if (response.status) {
                 $("#mdlFormTitle").html(
@@ -543,8 +542,8 @@ function showDetail(id) {
                             // Mengonversi data jadwal menjadi objek acara dan menambahkannya ke dalam daftar acara
                             response.data.menu_schedule.forEach(function (item) {
                                 events.push({
-                                    id: item.id,
-                                    title: response.data.menu_name, // Include menu_name in the title
+                                    id: item.pivot.id,
+                                    title: response.data.menu_name,
                                     start: item.schedule,
                                     backgroundColor: eventColor
                                 });
@@ -557,66 +556,53 @@ function showDetail(id) {
                             arg.el.style.borderColor = '#842029';
                             arg.el.style.color = '#fff';
 
-                            arg.el.addEventListener('click', function (event) {
-                                // Prevent the default action, as we are handling the event ourselves
+                            var clickHandler = function (event) {
                                 event.preventDefault();
+                                var confirmation = window.confirm('Yakin ingin hapus jadwal penjualan?');
+                                if (confirmation) {
+                                    var eventId = arg.event.id; // Get the event ID
+                                    console.log(eventId); // Log the event ID
+                                    var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
-                                // Check if buttons have already been added
-                                var buttonsAdded = arg.el.dataset.buttonsAdded === 'true';
+                                    $.ajax({
+                                        url: 'menu/destroySchedule',
+                                        type: 'DELETE',
+                                        data: {
+                                            id: eventId,
+                                            _token: csrfToken
+                                        },
+                                        success: function (response) {
+                                            if (response.success) {
+                                                // Hapus event dari FullCalendar
+                                                var eventToRemove = calendar.getEventById(eventId);
+                                                console.log(eventToRemove);
+                                                if (eventToRemove) {
+                                                    eventToRemove.remove();
+                                                }
 
-                                // If buttons have not been added yet, add them
-                                if (!buttonsAdded) {
-                                    var confirmation = window.confirm('Yakin ingin hapus jadwal penjualan?');
-                                    if (confirmation) {
-                                        // Proceed with edit or delete action
-                                        // You can implement the edit or delete functionality here
-                                        // For now, let's just log a message indicating the action
-                                        console.log('User confirmed to delete the event');
-                                        var eventId = arg.event.id; // Get the event ID
-                                        var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-                                        // Perform AJAX request to delete the event
-                                        $.ajax({
-                                            url: 'menu/destroySchedule',
-                                            type: 'DELETE',
-                                            data: {
-                                                id: eventId,
-                                                _token: csrfToken // Include CSRF token in the request data
-                                            },
-                                            success: function (response) {
-                                                // Display a toast message with the response message
-                                                var toastMessage = response.message || 'Event deleted successfully'; // Use a default message if response does not have a message
-                                                $('.toast-body').text(toastMessage);
-                                                $('#toastMessage').toast('show');
-
-                                                // You may want to reload the calendar or remove the event from the UI
-                                                $("#mdlFormContent").html("");
                                                 $("#mdlForm").modal("hide");
-                                            },
-                                            error: function (xhr, status, error) {
-                                                console.error('Error deleting event:', error);
+                                                $("#mdlFormContent").html("");
+                                                setTimeout(function () {
+                                                    showDetail(id);
+                                                }, 1000);
+                                            } else {
+                                                alert('Event date update failed. Please try again.');
                                             }
-                                        });
-                                    } else {
-                                        // User canceled the action, do nothing or show another message
-                                        console.log('User canceled the edit or delete action');
-
-                                        // Hide the modal
-                                        $("#mdlForm").modal("hide");
-
-                                        // Set a timeout to show the modal after hiding it
-                                        setTimeout(function () {
-                                            // Code to open the modal for editing the event
-                                            $("#mdlFormContent").html("");
-                                            $("#mdlForm").modal("show"); // Show the modal for editing
-                                            $("#mdlFormTitle").html("Ubah Jadwal"); // Show the modal for editing
-                                        }, 500); // Adjust the timeout duration as needed (500 milliseconds in this example)
-                                    }
-
-                                    // Set dataset attribute to indicate that buttons have been added
-                                    arg.el.dataset.buttonsAdded = 'true';
+                                        },
+                                        error: function (xhr, status, error) {
+                                            console.error('Error deleting event:', error);
+                                        }
+                                    });
                                 }
-                            });
+                                arg.el.removeEventListener('click', clickHandler);
+                            };
+
+                            arg.el.addEventListener('click', clickHandler);
+
+                            // Hapus event listener jika event dihapus dari kalender
+                            arg.event.remove = function () {
+                                arg.el.removeEventListener('click', clickHandler);
+                            };
                         },
 
                         // Menangani event ketika event di-drop (dragged)
@@ -625,22 +611,39 @@ function showDetail(id) {
                             var newStart = arg.event.start; // Tanggal baru setelah di-drop
                             var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
+                            // Create a new Date object
+                            var date = new Date(newStart);
+
+                            // Extract year, month, and day components
+                            var year = date.getFullYear();
+                            // JavaScript months are 0-based, so we add 1 to get the correct month
+                            var month = (date.getMonth() + 1).toString().padStart(2, '0');
+                            var day = date.getDate().toString().padStart(2, '0');
+
+                            // Form the yyyy-mm-dd format
+                            var formattedDate = year + '-' + month + '-' + day;
                             // Perform AJAX request untuk update tanggal event
                             $.ajax({
                                 url: 'menu/updateSchedule',
-                                type: 'PUT',
+                                type: 'POST',
                                 data: {
                                     id: eventId,
-                                    new_start: newStart.format(), // Format tanggal baru sesuai kebutuhan Anda
+                                    new_start: formattedDate,
                                     _token: csrfToken
                                 },
                                 success: function (response) {
-                                    console.log('Event date updated successfully');
-                                    // Tampilkan pesan sukses atau lakukan tindakan lain jika perlu
+                                    if (response.success) {
+                                        $("#mdlForm").modal("hide");
+                                        $("#mdlFormContent").html("");
+                                        setTimeout(function () {
+                                            showDetail(id);
+                                        }, 1000);
+                                    } else {
+                                        alert('Event date update failed. Please try again.');
+                                    }
                                 },
                                 error: function (xhr, status, error) {
-                                    console.error('Error updating event date:', error);
-                                    // Tampilkan pesan error atau lakukan tindakan lain jika perlu
+                                    alert('Event date update failed. Please try again.', xhr.responseJSON.error);
                                 }
                             });
                         },
@@ -662,11 +665,9 @@ function showDetail(id) {
                                 },
                                 success: function (response) {
                                     console.log('Event date updated successfully');
-                                    // Tampilkan pesan sukses atau lakukan tindakan lain jika perlu
                                 },
                                 error: function (xhr, status, error) {
                                     console.error('Error updating event date:', error);
-                                    // Tampilkan pesan error atau lakukan tindakan lain jika perlu
                                 }
                             });
                         },

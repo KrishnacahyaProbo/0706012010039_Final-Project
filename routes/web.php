@@ -27,13 +27,16 @@ Route::middleware([
     })->name('dashboard');
 
     Route::prefix('users')->name('users.')->namespace('App\Http\Controllers')->group(function () {
+        // Menu
         Route::get('/menu', 'MenuController@index')->name('menu.index');
         Route::post('/menu/store', 'MenuController@store')->name('menu.store');
         Route::get('/menu/data', 'MenuController@data')->name('menu.data');
         Route::get('/menu/show', 'MenuController@show')->name('menu.show');
         Route::delete('/menu/destroy', 'MenuController@destroy')->name('menu.destroy');
 
+        // Schedule
         Route::post('/menu/addSchedule', 'MenuController@addSchedule')->name('menu.addSchedule');
+        Route::post('/menu/updateSchedule', 'MenuController@updateSchedule')->name('menu.updateSchedule');
         Route::delete('/menu/destroySchedule', 'MenuController@destroySchedule')->name('menu.destroySchedule');
     });
 });
