@@ -594,7 +594,6 @@ function showDetail(id) {
                                         }
                                     });
                                 }
-                                arg.el.removeEventListener('click', clickHandler);
                             };
 
                             arg.el.addEventListener('click', clickHandler);
