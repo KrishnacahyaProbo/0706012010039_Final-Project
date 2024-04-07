@@ -18,42 +18,39 @@
     <div class="d-grid gap-3">
         <div class="card">
             <div class="d-grid gap-3">
-                <form method="POST" id="pengiriman">
+                <form method="POST" id="pengiriman" class="mt-4">
                     @csrf
 
                     <h3>Pengiriman</h3>
 
-                    <div>
-                        <x-label for="distance_between" value="{{ __('Jarak Maksimum') }}" />
-                        <x-input id="distance_between" type="number" name="distance_between" :value="old('distance_between')" required
-                            autofocus />
+                    <div class="mb-3">
+                        <label for="distance_between" class="form-label">{{ __('Jarak Maksimum') }}</label>
+                        <input id="distance_between" type="number" name="distance_between" class="form-control" value="{{ $delivery!= null ? $delivery->distance_between : '' }}" required autofocus>
                     </div>
-                    <div>
-                        <x-label for="shipping_cost" value="{{ __('Ongkos Pengiriman') }}" />
-                        <x-input id="shipping_cost" type="number" name="shipping_cost" :value="old('shipping_cost')" required
-                            autofocus />
+                    <div class="mb-3">
+                        <label for="shipping_cost" class="form-label">{{ __('Ongkos Pengiriman') }}</label>
+                        <input id="shipping_cost" type="number" name="shipping_cost" class="form-control" value =
+                        "{{ $delivery!= null ? $delivery->shipping_cost : '' }}" required autofocus>
                     </div>
 
-                    <x-button class="w-100" id="pengirimanBtn" type="submit">{{ __('Save') }}</x-button>
+                    <button class="btn btn-primary w-100" id="pengirimanBtn" type="button" onclick="settingsDelivery()">{{ __('Save') }}</button>
                 </form>
             </div>
         </div>
 
         <div class="card">
             <div class="d-grid gap-3">
-                <form method="POST" id="pesanan">
+                <form method="POST" id="pesanan" class="mt-4">
                     @csrf
 
-                    <h3>Hari Konfirmasi Pesanan</h3>
+                    <h3 class="mb-4">Hari Konfirmasi Pesanan</h3>
 
-                    <div>
-                        <x-label for="confirmation_days"
-                            value="{{ __('Batas Hari Terakhir Sebelum Tanggal Pemesanan') }}" />
-                        <x-input id="confirmation_days" type="number" name="confirmation_days" :value="old('confirmation_days')"
-                            required autofocus />
+                    <div class="mb-3">
+                        <label for="confirmation_days" class="form-label">{{ __('Batas Hari Terakhir Sebelum Tanggal Pemesanan') }}</label>
+                        <input id="confirmation_days" type="number" name="confirmation_days" class="form-control" value="{{ $user_setting != null ? $user_setting->confirmation_days : "" }}" required autofocus>
                     </div>
 
-                    <x-button class="w-100">{{ __('Save') }}</x-button>
+                    <button class="btn btn-primary w-100" type="button" onclick="userSettings()">{{ __('Save') }}</button>
                 </form>
             </div>
         </div>
@@ -65,50 +62,50 @@
 
                     <h3>Alamat</h3>
 
-                    <div>
-                        <div class="d-grid gap-2">
-                            <div>
-                                <x-label for="address" value="{{ __('Alamat') }}" />
-                                <x-input type="text" id="searchInput" class="form-control" />
-
-                                <div id="addressDropdown"></div>
-                            </div>
-
-                            <x-input type="text" id="selectedAddress" value="" class="d-none" readonly />
-
-                            <div>
-                                <div id="map" class="rounded-1">aaaa</div>
-                            </div>
-
-                            <div class="d-none">
-                                <div>
-                                    <x-label for="latitude" value="{{ __('Latitude') }}"></x-label>
-                                    <x-input name="latitude" id="latitude" type="text" autocomplete="off"
-                                        class="form-control" readonly />
-                                </div>
-
-                                <div>
-                                    <x-label for="longitude" value="{{ __('Longitude') }}"></x-label>
-                                    <x-input name="longitude" id="longitude" type="text" autocomplete="off"
-                                        class="form-control" readonly />
-                                </div>
-
-                                <div>
+                    <div class="container mt-4">
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3">
                                     <x-label for="address" value="{{ __('Alamat') }}" />
-                                    <textarea placeholder="Address" name="address" id="address" rows="4" class="form-control" readonly></textarea>
+                                    <x-input type="text" id="searchInput" class="form-control" />
+                                    <div id="addressDropdown"></div>
                                 </div>
-                            </div>
 
-                            <div>
-                                <span id="address_text" class="text-secondary"></span>
+                                <x-input type="text" id="selectedAddress" value="" class="d-none" readonly />
+
+                                <div class="mb-3">
+                                    <div id="map" class="rounded"></div>
+                                </div>
+
+                                <div class="d-none">
+                                    <div class="mb-3">
+                                        <x-label for="latitude" value="{{ __('Latitude') }}" />
+                                        <x-input name="latitude" id="latitude" type="text" autocomplete="off" class="form-control" readonly />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <x-label for="longitude" value="{{ __('Longitude') }}" />
+                                        <x-input name="longitude" id="longitude" type="text" autocomplete="off" class="form-control" readonly />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <x-label for="address" value="{{ __('Alamat') }}" />
+                                        <textarea placeholder="Address" name="address" id="address" rows="4" class="form-control" readonly></textarea>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <span id="address_text" class="text-secondary"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-                    <x-button class="w-100">{{ __('Save') }}</x-button>
+                    
+                    <button class="btn btn-primary w-100" type="button" onclick="setAlamat()">{{ __('Save') }}</button>
                 </form>
             </div>
         </div>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="{{ asset('js/userSettings.js') }}"></script>
 </x-app-layout>

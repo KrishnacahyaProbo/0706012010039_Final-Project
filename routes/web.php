@@ -40,6 +40,8 @@ Route::middleware([
         Route::delete('/menu/destroySchedule', 'MenuController@destroySchedule')->name('menu.destroySchedule');
 
         Route::get('/settings', 'UserSettingController@index')->name('settings.index');
-        Route::post('/settings/delivery', 'DeliveryController@delivery')->name('delivery.index');
+        Route::post('/settingsDelivery', 'DeliveryController@settingsDelivery')->name('delivery.store');
+        Route::post('/settingsPemesanan', 'UserSettingController@settingsPemesanan')->name('settings.settingsPemesanan');
+        Route::get('/getDataSettings', 'UserSettingController@getDataSettings')->name('settings.getDataSettings');
     });
 });

@@ -91,6 +91,25 @@ function getLocation(valueAddress) {
                         )
                         .openPopup();
 
+                    document.getElementById("latitude").value = data[0].lat;
+                    document.getElementById("longitude").value = data[0].lon;
+                    getAddress(data[0].lat, data[0].lon);
+
+                    // Event listener for marker drag end
+                    marker.on("dragend", function (event) {
+                        var marker = event.target;
+                        var position = marker.getLatLng();
+                        var newLatitude = position.lat;
+                        var newLongitude = position.lng;
+
+                        // Update latitude and longitude input fields
+                        document.getElementById("latitude").value = newLatitude;
+                        document.getElementById("longitude").value = newLongitude;
+
+                        // Get address for the new marker position
+                        getAddress(newLatitude, newLongitude);
+                    });
+
                     // Set initial view
                     map.setView([data[0].lat, data[0].lon], 13);
                 } else {
