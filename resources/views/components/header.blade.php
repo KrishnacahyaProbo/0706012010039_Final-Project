@@ -27,16 +27,20 @@
                 <div class="dropdown mb-1 ms-auto">
                     <button class="btn dropdown-toggle border-0 p-0" type="button" id="dropdownMenuButton"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                            <img src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}"
-                                class="object-fit-contain" id="profile_photo">
+                        @if (Auth::user()->profile_photo_path != null)
+                            @if (str_contains(Auth::user()->profile_photo_path, 'https://'))
+                                <img src="{{ Auth::user()->profile_photo_path }}" alt="{{ Auth::user()->name }}"
+                                    class="object-fit-contain" id="profile_photo" title="{{ Auth::user()->name }}">
+                            @else
+                                <img src="{{ asset('storage/' . Auth::user()->profile_photo_path) }}"
+                                    alt="{{ Auth::user()->name }}" class="object-fit-contain" id="profile_photo"
+                                    title="{{ Auth::user()->name }}">
+                            @endif
                         @else
-                            {{ Auth::user()->name }}
-
-                            <svg class="-me-0.5 ms-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                            </svg>
+                            @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
+                                <img src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}"
+                                    class="object-fit-contain" id="profile_photo" title="{{ Auth::user()->name }}">
+                            @endif
                         @endif
                     </button>
                     <ul class="dropdown-menu dropdown-menu-lg-end mt-2" aria-labelledby="dropdownMenuButton">

@@ -13,9 +13,11 @@
         </div>
     @endif
 
-    @section('page_title', 'Jelajahi Vendor Katering')
-
     <div class="d-grid gap-3">
+        <div>
+            @section('page_title', 'Jelajahi Vendor Katering')
+        </div>
+
         <div class="d-flex gap-2">
             <input type="search" class="form-control" placeholder="Cari Vendor" aria-label="Cari vendor katering"
                 aria-describedby="button-addon2">
@@ -26,7 +28,7 @@
             @for ($i = 0; $i < 6; $i++)
                 <div class="col">
                     <div class="card gap-3">
-                        <img src="" class="card-img-top rounded-0">
+                        <img src="" alt="" class="card-img-top rounded-0" loading="lazy">
 
                         <div class="card-body p-0">
                             <h3 class="card-title">

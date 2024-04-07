@@ -13,9 +13,11 @@
         </div>
     @endif
 
-    @section('page_title', 'Pengaturan')
-
     <div class="d-grid gap-3">
+        <div>
+            @section('page_title', 'Pengaturan')
+        </div>
+
         <div class="card">
             <form method="POST" id="pengiriman">
                 @csrf

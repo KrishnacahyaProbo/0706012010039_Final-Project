@@ -13,9 +13,11 @@
         </div>
     @endif
 
-    @section('page_title', 'Kelola Menu')
-
     <div class="d-grid gap-3">
+        <div>
+            @section('page_title', 'Kelola Menu')
+        </div>
+
         <x-button class="d-flex btn-primary ms-auto" onclick="addMenuItem(null)">Add Menu</x-button>
 
         <div class="table-responsive">
