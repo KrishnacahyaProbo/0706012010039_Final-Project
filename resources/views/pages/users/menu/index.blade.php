@@ -19,7 +19,7 @@
         <x-button class="d-flex btn-primary ms-auto" onclick="addMenuItem(null)">Add Menu</x-button>
 
         <div class="table-responsive">
-            <table id="menuTable" class="table-striped table-hover table">
+            <table id="menuTable" class="table-striped table-hover table-borderless table">
                 <thead>
                     <tr>
                         <th>Nama Menu</th>
@@ -28,9 +28,7 @@
                         <th>Aksi</th>
                     </tr>
                 </thead>
-                <tbody>
-
-                </tbody>
+                <tbody></tbody>
             </table>
         </div>
 

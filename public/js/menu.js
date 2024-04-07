@@ -483,7 +483,7 @@ function showDetail(id) {
 
                 // Append the table for menu details
                 var menuDetailTable = `
-                    <table id="menuDetailTable" class="table-striped table-hover table">
+                    <table id="menuDetailTable" class="table-striped table-hover table table-borderless">
                         <thead>
                             <tr>
                                 <th>Porsi</th>
@@ -496,7 +496,7 @@ function showDetail(id) {
                             (detail) => `
                                 <tr>
                                     <td>${detail.size}</td>
-                                    <td>${formatRupiah(detail.price)}</td>
+                                    <td>Rp${formatRupiah(detail.price)}</td>
                                 </tr>
                             `
                         )
