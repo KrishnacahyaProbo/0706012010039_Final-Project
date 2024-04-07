@@ -28,7 +28,7 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    scroll-behavior: smooth !important;
+    scroll-behavior: smooth;
     background-color: $gray-100;
 }
 
@@ -43,7 +43,7 @@ h5,
 h6,
 strong,
 th,
-th>span,
+th > span,
 .btn {
     font-family: $manrope-bold !important;
 }
@@ -136,7 +136,11 @@ th {
     }
 }
 
-:is(.fc-daygrid-day-number, .fc-col-header-cell-cushion, .fc-list-day-text):hover {
+:is(
+        .fc-daygrid-day-number,
+        .fc-col-header-cell-cushion,
+        .fc-list-day-text
+    ):hover {
     text-decoration: none !important;
 }
 
@@ -153,7 +157,7 @@ th {
 }
 
 .flatpickr-day.selected,
-.pagination>.active>a {
+.pagination > .active > a {
     background-color: $red-700 !important;
     border: 1px solid $red-700 !important;
     box-shadow: none;
@@ -161,6 +165,15 @@ th {
 
 .page-link:hover {
     color: $white !important;
+}
+
+.truncate {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #map {

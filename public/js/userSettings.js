@@ -1,68 +1,75 @@
-$(document).ready(function() {
-    // Assuming $user_setting->address is set somewhere in your Blade template or JavaScript code
+$(document).ready(function () {
     fetchDataAddress();
 });
 
-function fetchDataAddress(){
+function fetchDataAddress() {
     $.ajax({
         url: '/users/getDataSettings',
         type: 'GET',
-        success: function(data) {
-            if(data.user_setting != null){
+        success: function (data) {
+            if (data.user_setting != null) {
                 getLocation(data.user_setting.address);
                 $("#latitude").val(data.user_setting.latitude);
                 $("#longitude").val(data.user_setting.longitude);
             }
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             console.error('Error retrieving data:', error);
-            // Handle error response
         }
     });
 }
 
-function settingsDelivery(){
-    var formData = $('#pengiriman').serialize(); // Serialize form data
+function balanceSettings() {
+    var formData = $('#rekeningUser').serialize();
     $.ajax({
-        url: '/users/settingsDelivery', // Laravel route to handle the AJAX request
+        url: '/users/balanceSettings',
         type: 'POST',
-        data: formData, // Send serialized form data
-        success: function(response) {
+        data: formData,
+        success: function (response) {
             window.location.href = '/users/settings';
-            // Optionally, you can redirect the user or show a success message here
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             console.error('Error submitting data:', error);
-            // Handle error response
         }
     });
 }
 
-
-function userSettings(){
-      // Serialize both form data
-      var formDataAlamat = $('#alamat').serialize();
-      var formDataPemesanan = $('#pesanan').serialize();
-
-      // Merge both form data into one object
-      var combinedFormData = formDataAlamat + '&' + formDataPemesanan;// Serialize form data
+function settingsDelivery() {
+    var formData = $('#pengiriman').serialize();
     $.ajax({
-        url: '/users/settingsPemesanan', // Laravel route to handle the AJAX request
+        url: '/users/settingsDelivery',
         type: 'POST',
-        data: combinedFormData, // Send serialized form data
-        success: function(response) {
+        data: formData,
+        success: function (response) {
             window.location.href = '/users/settings';
-            // Optionally, you can redirect the user or show a success message here
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             console.error('Error submitting data:', error);
-            // Handle error response
+        }
+    });
+}
+
+function userSettings() {
+    // Serialize both form data
+    var formDataAlamat = $('#alamat').serialize();
+    var formDataPemesanan = $('#pesanan').serialize();
+
+    // Merge both form data into one object
+    var combinedFormData = formDataAlamat + '&' + formDataPemesanan;
+    $.ajax({
+        url: '/users/settingsPemesanan',
+        type: 'POST',
+        data: combinedFormData,
+        success: function (response) {
+            window.location.href = '/users/settings';
+        },
+        error: function (xhr, status, error) {
+            console.error('Error submitting data:', error);
         }
     });
 }
 
 function setAlamat() {
-
     // Serialize both form data
     var formDataAlamat = $('#alamat').serialize();
     var formDataPemesanan = $('#pesanan').serialize();
@@ -71,18 +78,14 @@ function setAlamat() {
     var combinedFormData = formDataAlamat + '&' + formDataPemesanan;
 
     $.ajax({
-        url: '/users/settingsPemesanan', // Laravel route to handle the AJAX request
+        url: '/users/settingsPemesanan',
         type: 'POST',
-        data: combinedFormData, // Send combined form data
-        success: function(response) {
+        data: combinedFormData,
+        success: function (response) {
             window.location.href = '/users/settings';
-            // Optionally, you can redirect the user or show a success message here
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             console.error('Error submitting data:', error);
-            // Handle error response
         }
     });
 }
-
-

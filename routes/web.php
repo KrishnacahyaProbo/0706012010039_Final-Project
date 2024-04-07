@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('dashboard');
+    return view('pages.customer.vendor');
 });
 
 Route::middleware([
@@ -39,9 +39,14 @@ Route::middleware([
         Route::post('/menu/updateSchedule', 'MenuController@updateSchedule')->name('menu.updateSchedule');
         Route::delete('/menu/destroySchedule', 'MenuController@destroySchedule')->name('menu.destroySchedule');
 
+        // Setting
         Route::get('/settings', 'UserSettingController@index')->name('settings.index');
         Route::post('/settingsDelivery', 'DeliveryController@settingsDelivery')->name('delivery.store');
         Route::post('/settingsPemesanan', 'UserSettingController@settingsPemesanan')->name('settings.settingsPemesanan');
         Route::get('/getDataSettings', 'UserSettingController@getDataSettings')->name('settings.getDataSettings');
+
+        Route::post('/balanceSettings', 'UserSettingController@balanceSettings')->name('users.balanceSettings');
+
+
     });
 });

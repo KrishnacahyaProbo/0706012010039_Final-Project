@@ -5,6 +5,7 @@
     $isSchedule = Str::startsWith($routeName, 'schedule');
     $isOrder = Str::startsWith($routeName, 'order');
     $isProfile = Str::startsWith($routeName, 'profile');
+    $isSettings = Str::startsWith($routeName, 'users.settings');
 @endphp
 
 <nav class="navbar navbar-light navbar-expand-lg bg-white shadow-sm">
@@ -23,7 +24,7 @@
                 </div>
             @endauth
             @auth
-                <div class="dropdown ms-auto">
+                <div class="dropdown mb-1 ms-auto">
                     <button class="btn dropdown-toggle border-0 p-0" type="button" id="dropdownMenuButton"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
@@ -42,6 +43,10 @@
                         <li>
                             <a class="dropdown-item {{ $isProfile ? 'active' : '' }}"
                                 href="{{ route('profile.show') }}">{{ __('Profile') }}</a>
+                            <a class="dropdown-item {{ $isSettings ? 'active' : '' }}"
+                                href="{{ url('/users/settings') }}">{{ __('Setting') }}</a>
+                            {{-- <a class="dropdown-item {{ $isCredit ? 'active' : '' }}"
+                                href="{{ route('credit') }}">{{ __('Credit') }}</a> --}}
                         </li>
                         <hr class="my-1">
                         <li>
@@ -54,7 +59,7 @@
                 </div>
             @endauth
             @guest
-                <div class="d-flex ms-auto gap-2">
+                <div class="d-grid d-lg-flex my-lg-0 mb-1 ms-auto mt-3 gap-2">
                     <a href="{{ route('register') }}" class="btn btn-outline-primary">Register</a>
                     <a href="{{ route('login') }}" class="btn btn-primary">Log In</a>
                 </div>
