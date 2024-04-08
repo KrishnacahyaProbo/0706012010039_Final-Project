@@ -55,6 +55,34 @@ class MenuController extends Controller
         }
     }
 
+    public function menuVendor($id)
+    {
+        return view('pages.customer.vendor.menu', compact('id'));
+    }
+
+    public function dataMenuVendor(Request $request)
+    {
+        try {
+            $vendorId = $request->input('vendor_id');
+
+            // Define an empty array to store menu items
+            $menu = [];
+
+            // Fetching the menu for the specified vendor in chunks
+            Menu::where('vendor_id', $vendorId)->chunk(100, function ($chunk) use (&$menu) {
+                // Process each chunk of menu items
+                foreach ($chunk as $menuItem) {
+                    // Add the menu item to the menu array
+                    $menu[] = $menuItem;
+                }
+            });
+            return response()->json(['menu' => $menu], 200);
+        } catch (\Exception $e) {
+            // Handle any exceptions that occur during the process
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
     public function data()
     {
         try {

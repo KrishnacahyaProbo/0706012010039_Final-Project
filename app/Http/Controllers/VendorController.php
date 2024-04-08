@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
-use App\Models\User;
+
 use Exception;
+use App\Models\User;
+use Illuminate\Http\Request;
 
 class VendorController extends Controller
 {
@@ -20,7 +21,7 @@ class VendorController extends Controller
 
             if ($request->has('search') && $request->search !== null) {
                 $searchTerm = $request->search;
-                $vendorQuery->where(function($query) use ($searchTerm) {
+                $vendorQuery->where(function ($query) use ($searchTerm) {
                     $query->where('name', 'like', '%' . $searchTerm . '%');
                 });
             }

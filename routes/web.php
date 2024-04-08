@@ -21,6 +21,11 @@ Route::prefix('vendors')->name('vendors.')->namespace('App\Http\Controllers')->g
     Route::get('/data', 'VendorController@data')->name('vendor.index');
 });
 
+Route::prefix('menu')->name('menu.')->namespace('App\Http\Controllers')->group(function () {
+    Route::get('/menuVendor/{vendor_id}', 'MenuController@menuVendor')->name('menuVendor');
+    Route::get('/dataMenuVendor', 'MenuController@dataMenuVendor')->name('dataMenuVendor');
+});
+
 
 Route::middleware([
     'auth:sanctum',
@@ -51,6 +56,7 @@ Route::middleware([
         Route::get('/getDataSettings', 'UserSettingController@getDataSettings')->name('settings.getDataSettings');
 
         Route::post('/balanceSettings', 'UserSettingController@balanceSettings')->name('users.balanceSettings');
+
 
 
     });

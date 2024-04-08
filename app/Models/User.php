@@ -61,11 +61,13 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function Delivery(){
-        return $this->hasOne(Delivery::class,'vendor_id','id');
+    public function Delivery()
+    {
+        return $this->hasOne(Delivery::class, 'vendor_id', 'id');
     }
 
-    public function UserSetting(){
-        return $this->hasOne(UserSetting::class,'vendor_id','id');
+    public function UserSetting()
+    {
+        return $this->hasOne(UserSetting::class, 'vendor_id', 'id');
     }
 }

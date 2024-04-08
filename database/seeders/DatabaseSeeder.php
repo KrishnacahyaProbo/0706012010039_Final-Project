@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-
 use App\Models\MenuDetail;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -23,11 +22,11 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
 
-        // Create a vendor role
+        // Create a role
         $vendorRole = Role::create(['name' => 'vendor']);
         $customerRole = Role::create(['name' => 'customer']);
 
-        // Create a permission for managing menus
+        // Create a permission
         $manageMenuPermissionVendor = Permission::create(['name' => 'manage-menu']);
         $manageMenuPermissionCustomer = Permission::create(['name' => 'show-menu']);
 
@@ -41,7 +40,6 @@ class DatabaseSeeder extends Seeder
         });
 
         User::factory()->count(25)->create()->each(function ($user) use ($customerRole) {
-            // Assign the 'vendor' role to each user
             $user->assignRole($customerRole);
         });
 

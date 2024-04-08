@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     setVendorToMenu(); // Call your function here
     getCurrentLocation();
 });
+
 function searchVendor() {
     setVendorToMenu();
 }
@@ -23,7 +24,7 @@ function setVendorToMenu() {
         },
         dataType: 'json',
         success: function (response) {
-            if($("#searchInput").val() != ''){
+            if ($("#searchInput").val() != '') {
                 $.each(response.data, function (index, vendor) {
                     var cardCol = $('<div class="col d-flex"></div>');
                     var card = $('<div class="card gap-3"></div>');
@@ -39,7 +40,7 @@ function setVendorToMenu() {
                     cardCol.append(card);
                     vendorContainer.append(cardCol);
                 });
-            }else{
+            } else {
                 $.each(response.data.data, function (index, vendor) {
                     var cardCol = $('<div class="col d-flex"></div>');
                     var card = $('<div class="card gap-3"></div>');
@@ -49,11 +50,26 @@ function setVendorToMenu() {
                     var rating = $('<div class="d-grid text-secondary gap-1"><div class="d-flex gap-2"><i class="bi bi-star"></i><span class="card-text">' + vendor.rating + '/5</span></div></div>');
                     var address = $('<div class="d-flex gap-2"><i class="bi bi-geo-alt"></i><p class="card-text">' + vendor.address + ' - ' + calculateDistance(userLat, userLng, vendor.latitude, vendor.longitude) + 'km</p></div>');
                     var shipping = $('<div class="d-flex gap-2"><i class="bi bi-truck"></i><p class="card-text">Rp.' + (vendor.delivery !== null ? formatRupiah(vendor.delivery.shipping_cost) : 0) + '</p></div>');
+                    cardCol.data('vendor_id', vendor.id);
 
                     cardBody.append(title).append(rating).append(address).append(shipping);
                     card.append(img).append(cardBody);
                     cardCol.append(card);
                     vendorContainer.append(cardCol);
+
+                    cardCol.click(function () {
+                        // Get vendor_id from data attribute
+                        var vendorId = $(this).data('vendor_id');
+                        window.location.href = '/menu/menuVendor\\\\/' + vendorId;;
+
+                    });
+
+                    // Attach click event to title
+                    title.click(function () {
+                        // Get vendor_id from parent cardCol's data attribute
+                        var vendorId = $(this).closest('.col').data('vendor_id');
+                        console.log('Clicked on title for vendor_id: ' + vendorId);
+                    });
                 });
 
                 // Add pagination links
@@ -76,23 +92,17 @@ function setVendorToMenu() {
                         paginationHtml += '<li class="page-item"><a class="page-link" href="#" onclick="nextPage()">Next</a></li>';
                     }
 
-                    paginationHtml += '</ul>' +
-                        '</div>';
+                    paginationHtml += '</ul>' + '</div>';
 
                     vendorContainer.append(paginationHtml);
                 }
-
             }
-
-
-
         },
 
         error: function (xhr, status, error) {
             console.error(error);
         }
     });
-
 }
 
 function goToPage(pageNumber) {

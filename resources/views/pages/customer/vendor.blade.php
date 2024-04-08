@@ -1,4 +1,4 @@
-@section('title', 'Menu')
+@section('title', 'Vendor')
 
 <x-app-layout>
     @if (session('success'))
