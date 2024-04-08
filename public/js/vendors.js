@@ -3,7 +3,7 @@ var currentPage = 1;
 var perPage = 12;
 
 document.addEventListener("DOMContentLoaded", function () {
-    setVendorToMenu(); // Call your function here
+    setVendorToMenu();
     getCurrentLocation();
 });
 
@@ -33,7 +33,7 @@ function setVendorToMenu() {
                     var title = $('<h3 class="card-title"><a href="#" class="stretched-link">' + vendor.name + '</a></h3>');
                     var rating = $('<div class="d-grid text-secondary gap-1"><div class="d-flex gap-2"><i class="bi bi-star"></i><span class="card-text">' + vendor.rating + '/5</span></div></div>');
                     var address = $('<div class="d-flex gap-2"><i class="bi bi-geo-alt"></i><p class="card-text">' + vendor.address + ' - ' + calculateDistance(userLat, userLng, vendor.latitude, vendor.longitude) + 'km</p></div>');
-                    var shipping = $('<div class="d-flex gap-2"><i class="bi bi-truck"></i><p class="card-text">Rp.' + (vendor.delivery !== null ? formatRupiah(vendor.delivery.shipping_cost) : 0) + '</p></div>');
+                    var shipping = $('<div class="d-flex gap-2"><i class="bi bi-truck"></i><p class="card-text">Rp' + (vendor.delivery !== null ? formatRupiah(vendor.delivery.shipping_cost) : 0) + '</p></div>');
 
                     cardBody.append(title).append(rating).append(address).append(shipping);
                     card.append(img).append(cardBody);
@@ -60,8 +60,7 @@ function setVendorToMenu() {
                     cardCol.click(function () {
                         // Get vendor_id from data attribute
                         var vendorId = $(this).data('vendor_id');
-                        window.location.href = '/menu/menuVendor\\\\/' + vendorId;;
-
+                        window.location.href = '/menu/menuVendor/' + vendorId;
                     });
 
                     // Attach click event to title

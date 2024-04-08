@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 
 class VendorController extends Controller
 {
-    //
     public function data(Request $request)
     {
         try {

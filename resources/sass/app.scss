@@ -188,13 +188,8 @@ tr:last-child td:last-child {
     color: $white !important;
 }
 
-.truncate {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
-    line-clamp: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.text-primary {
+    color: $red-700 !important;
 }
 
 #map {
