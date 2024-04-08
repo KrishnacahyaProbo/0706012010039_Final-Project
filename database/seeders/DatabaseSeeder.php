@@ -7,6 +7,8 @@ namespace Database\Seeders;
 use App\Models\MenuDetail;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,7 +22,28 @@ class DatabaseSeeder extends Seeder
             'email' => 'pkrishnacahya@student.ciputra.ac.id',
             'password' => bcrypt('password'),
         ]);
-        User::factory(9)->create();
+
+        // Create a vendor role
+        $vendorRole = Role::create(['name' => 'vendor']);
+        $customerRole = Role::create(['name' => 'customer']);
+
+        // Create a permission for managing menus
+        $manageMenuPermissionVendor = Permission::create(['name' => 'manage-menu']);
+        $manageMenuPermissionCustomer = Permission::create(['name' => 'show-menu']);
+
+        // Assign the manage-menu permission to the vendor role
+        $vendorRole->givePermissionTo($manageMenuPermissionVendor);
+        $customerRole->givePermissionTo($manageMenuPermissionCustomer);
+
+        // Create 100 vendor users
+        User::factory()->count(100)->create()->each(function ($user) use ($vendorRole) {
+            $user->assignRole($vendorRole);
+        });
+
+        User::factory()->count(25)->create()->each(function ($user) use ($customerRole) {
+            // Assign the 'vendor' role to each user
+            $user->assignRole($customerRole);
+        });
 
         $this->call([
             MenuSeeder::class,

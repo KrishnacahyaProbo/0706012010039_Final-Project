@@ -17,6 +17,11 @@ Route::get('/', function () {
     return view('pages.customer.vendor');
 });
 
+Route::prefix('vendors')->name('vendors.')->namespace('App\Http\Controllers')->group(function () {
+    Route::get('/data', 'VendorController@data')->name('vendor.index');
+});
+
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),

@@ -19,12 +19,14 @@
         </div>
 
         <div class="d-flex gap-2">
-            <input type="search" class="form-control" placeholder="Cari Vendor" aria-label="Cari vendor katering"
+            <input type="search" class="form-control" id="searchInput" placeholder="Cari Vendor" aria-label="Cari vendor katering"
                 aria-describedby="button-addon2">
-            <button class="btn btn-primary" type="submit" id="button-addon2">Cari</button>
+            <button class="btn btn-primary" type="submit" id="button-addon2" onclick="searchVendor()">Cari</button>
         </div>
-
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <div id="vendorContainer" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <!-- Vendors will be dynamically added here -->
+        </div>
+        {{-- <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             @for ($i = 0; $i < 6; $i++)
                 <div class="col">
                     <div class="card gap-3">
@@ -55,6 +57,8 @@
                     </div>
                 </div>
             @endfor
-        </div>
+        </div> --}}
     </div>
+    <script src="{{asset('js/vendors.js')}}"></script>
+
 </x-app-layout>

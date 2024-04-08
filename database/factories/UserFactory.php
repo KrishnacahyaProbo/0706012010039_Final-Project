@@ -4,9 +4,10 @@ namespace Database\Factories;
 
 use App\Models\Team;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Factories\Factory;
+use Faker\Factory as Faker;
 use Illuminate\Support\Str;
 use Laravel\Jetstream\Features;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -20,16 +21,28 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $faker = Faker::create('id_ID');
+
+        $userLatitude = -7.2989853; // Example: User's latitude
+        $userLongitude = 112.6294714; // Example: User's longitude
+        $radiusInDegrees = 0.1; // Example: Roughly 50 kilometers radius
+
+        // Generate latitude and longitude coordinates within the specified radius
+        $latitude = $this->faker->latitude($userLatitude - $radiusInDegrees, $userLatitude + $radiusInDegrees);
+        $longitude = $this->faker->longitude($userLongitude - $radiusInDegrees, $userLongitude + $radiusInDegrees);
+
         return [
-            'name' => $this->faker->name(),
-            'email' => $this->faker->unique()->safeEmail(),
+            'name' => $faker->name,
+            'email' => $this->faker->unique()->safeEmail,
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'two_factor_secret' => null,
-            'two_factor_recovery_codes' => null,
+            'password' => bcrypt('password'),
             'remember_token' => Str::random(10),
-            'profile_photo_path' => 'https://i.pravatar.cc/640?img=' . random_int(1, 70),
             'current_team_id' => null,
+            'address' => $faker->address(),
+            'latitude' => $latitude,
+            'longitude' => $longitude,
+            'about_us' => $faker->paragraph(),
+            'rating' => $this->faker->numberBetween(1, 2, 3, 4, 5),
         ];
     }
 
