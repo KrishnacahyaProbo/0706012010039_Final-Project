@@ -9,4 +9,9 @@ class Schedule extends Model
 {
     protected $table = 'schedule';
     public $guarded = [];
+
+    public function menus()
+    {
+        return $this->belongsToMany(Menu::class);
+    }
 }

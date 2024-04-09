@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+
     fetchDataMenuItem();
 });
 
@@ -684,6 +685,8 @@ function showDetail(id) {
         },
     });
 }
+
+
 
 function formatRupiah(angka) {
     var number_string = angka.toString().replace(/[^,\d]/g, ""),

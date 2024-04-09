@@ -6,6 +6,7 @@ use App\Models\Menu;
 use App\Models\Schedule;
 use App\Models\MenuDetail;
 use App\Models\MenuSchedule;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -57,8 +58,30 @@ class MenuController extends Controller
 
     public function menuVendor($id)
     {
-        return view('pages.customer.vendor.menu', compact('id'));
+        try {
+            $vendor = User::with('Delivery')->where('id', $id)->first();
+            return view('pages.customer.vendor.menu', compact('vendor'));
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'Error occured while fetching detail menu data',
+                'success' => false,
+                'error' => $e->getMessage(),
+            ], 500); // HTTP status code 500 "Internal Server Error"
+        }
     }
+
+    public function scheduleMenu(Request $request)
+    {
+        $schedulesMenuData = Schedule::with('menus')->where('schedule', '=', $request->date)->first();
+        return response()->json(
+            [
+                'success' => true,
+                'message' => 'Schedule data found',
+                'schedulesMenuData' => $schedulesMenuData
+            ],
+        200);
+    }
+
 
     public function dataMenuVendor(Request $request)
     {
