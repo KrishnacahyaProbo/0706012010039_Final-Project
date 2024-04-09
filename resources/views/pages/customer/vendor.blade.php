@@ -48,7 +48,7 @@
 
                                 <div class="d-flex gap-2">
                                     <i class="bi bi-truck"></i>
-                                    <p class="card-text">Rp.(Ongkir)</p>
+                                    <p class="card-text">Rp(Ongkir)</p>
                                 </div>
                             </div>
                         </div>

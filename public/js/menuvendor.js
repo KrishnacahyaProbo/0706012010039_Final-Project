@@ -4,7 +4,7 @@ function initialize() {
 
     // Your getLocation function
     function getLocation() {
-        console.log("masuk sini", vendorData);
+        console.log("vendor", vendorData);
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showDistance);
         } else {
@@ -18,7 +18,7 @@ function initialize() {
         var userLongitude = position.coords.longitude;
         var distance = calculateDistance(userLatitude, userLongitude, vendorData.latitude, vendorData.longitude);
         console.log(distance, 'distance');
-        document.getElementById("distance-info").innerHTML = vendorData.address + "- " + distance + "km";
+        document.getElementById("distance-info").innerHTML = vendorData.address + " - " + distance + "km";
     }
 
     // Your calculateDistance and toRadians functions

@@ -21,13 +21,13 @@
     {{-- Favicon --}}
     <link rel="icon" href="{{ url('images/brand/logo.svg?v=2') }}" type="image/svg" />
 
-    {{-- CDN --}}
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link href="https://cdn.datatables.net/v/bs5/dt-2.0.3/datatables.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_red.css">
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.11/index.global.min.js"></script>
-    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/bootstrap5@6.1.11/index.global.min.js'></script>
+    {{-- Libraries --}}
+    <link rel="stylesheet" href="{{ asset('libraries/css/leaflet.css') }}">
+    <link rel="stylesheet" href="{{ asset('libraries/css/datatables.min-bs5-2.0.3.css') }}">
+    <link rel="stylesheet" href="{{ asset('libraries/css/material_red.css') }}">
+    <link rel="stylesheet" href="{{ asset('libraries/css/jquery-ui-1.12.1.css') }}">
+    <script src="{{ asset('libraries/js/fullcalendar-6.1.11_index.global.min.js') }}"></script>
+    <script src="{{ asset('libraries/js/fullcalendar-bootstrap5-6.1.11_index.global.min.js') }}"></script>
 </head>
 
 <body>
@@ -45,7 +45,15 @@
 
     @yield('js')
 
-    <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
+    {{-- Libraries --}}
+    <script src="{{ asset('libraries/js/jquery-3.7.1.min.js') }}"></script>
+    <script src="{{ asset('libraries/js/jquery.validate-1.20.0.min.js') }}"></script>
+    <script src="{{ asset('libraries/js/leaflet.js') }}"></script>
+    <script src="{{ asset('libraries/js/datatables.min-bs5-dt-2.0.3-r-3.0.0.js') }}"></script>
+    <script src="{{ asset('libraries/js/flatpickr.js') }}"></script>
+    <script src="{{ asset('libraries/js/jquery-ui-1.12.1.js') }}"></script>
+
+    {{-- Custom JS --}}
     <script src="{{ asset('js/map.js') }}"></script>
     <script src="{{ asset('js/formatRupiah.js') }}"></script>
     <script>
@@ -53,13 +61,6 @@
             getLocation(null);
         });
     </script>
-
-    {{-- CDN --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.20.0/jquery.validate.min.js"></script>
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="https://cdn.datatables.net/v/bs5/dt-2.0.3/r-3.0.0/datatables.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </body>
 
 </html>

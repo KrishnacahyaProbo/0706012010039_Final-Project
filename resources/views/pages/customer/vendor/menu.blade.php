@@ -33,7 +33,7 @@
 
                             <div class="d-flex gap-2">
                                 <i class="bi bi-geo-alt"></i>
-                                <p class="card-text truncate" id="distance-info"></p>
+                                <p class="card-text" id="distance-info"></p>
                             </div>
 
                             <div class="d-flex gap-2">
@@ -56,19 +56,17 @@
             <div class="d-grid d-lg-flex gap-3">
                 <div class="w-100">
                     <div class="d-grid gap-2">
-                        {{-- TODO: fullcalendar --}}
-                        <div id="calendar_menu"></div>
-                        {{-- TODO end here --}}
+                        <div id="calendar_menu" class="card"></div>
+
                         <x-button class="w-100">View Cart</x-button>
                     </div>
                 </div>
 
-                <div class="w-100" id="menuCart">
-
-                </div>
+                <div class="w-100" id="menuCart"></div>
             </div>
         </div>
     </div>
+
     <script>
         var vendorData = <?php echo json_encode([
             'latitude' => $vendor->latitude,
@@ -76,5 +74,6 @@
             'address' => $vendor->address
         ]); ?>;
     </script>
+
     <script src="{{ asset('/js/menuvendor.js') }}"></script>
 </x-app-layout>

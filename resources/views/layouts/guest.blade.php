@@ -21,8 +21,8 @@
     {{-- Favicon --}}
     <link rel="icon" href="{{ url('images/brand/logo.svg?v=2') }}" type="image/svg" />
 
-    {{-- CDN --}}
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    {{-- Library --}}
+    <link rel="stylesheet" href="{{ asset('libraries/css/leaflet.css') }}">
 </head>
 
 <body>
@@ -40,15 +40,16 @@
 
     @yield('js')
 
+    {{-- Library --}}
+    <script src="{{ asset('libraries/js/leaflet.js') }}"></script>
+
+    {{-- Custom JS --}}
     <script src="{{ asset('js/map.js') }}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             getLocation(null);
         });
     </script>
-
-    {{-- CDN --}}
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </body>
 
 </html>

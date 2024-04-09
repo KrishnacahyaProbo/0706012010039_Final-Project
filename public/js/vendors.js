@@ -47,9 +47,9 @@ function setVendorToMenu() {
                     var img = $('<img src="' + (vendor.profile_photo_url != null ? vendor.profile_photo_url : "/images/no_foto.jpg") + '" alt="" class="card-img-top rounded-0" loading="lazy">');
                     var cardBody = $('<div class="card-body p-0"></div>');
                     var title = $('<h3 class="card-title"><a href="#" class="stretched-link">' + vendor.name + '</a></h3>');
-                    var rating = $('<div class="d-grid text-secondary gap-1"><div class="d-flex gap-2"><i class="bi bi-star"></i><span class="card-text">' + vendor.rating + '/5</span></div></div>');
+                    var rating = $('<div class="d-flex gap-2"><i class="bi bi-star"></i><span class="card-text">' + vendor.rating + '/5</span></div>');
                     var address = $('<div class="d-flex gap-2"><i class="bi bi-geo-alt"></i><p class="card-text">' + vendor.address + ' - ' + calculateDistance(userLat, userLng, vendor.latitude, vendor.longitude) + 'km</p></div>');
-                    var shipping = $('<div class="d-flex gap-2"><i class="bi bi-truck"></i><p class="card-text">Rp.' + (vendor.delivery !== null ? formatRupiah(vendor.delivery.shipping_cost) : 0) + '</p></div>');
+                    var shipping = $('<div class="d-flex gap-2"><i class="bi bi-truck"></i><p class="card-text">Rp' + (vendor.delivery !== null ? formatRupiah(vendor.delivery.shipping_cost) : 0) + '</p></div>');
                     cardCol.data('vendor_id', vendor.id);
 
                     cardBody.append(title).append(rating).append(address).append(shipping);
