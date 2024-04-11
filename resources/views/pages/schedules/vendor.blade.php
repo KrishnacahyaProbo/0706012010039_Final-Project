@@ -15,17 +15,12 @@
 
     <div class="d-grid gap-3">
         <div>
-            @section('page_title', 'Schedule Vendor')
+            @section('page_title', 'Jadwal Penjualan')
         </div>
+
         <div class="card">
-            <div class="row">
-                <div class="col-md-12">
-                    <div id="calendar"></div>
-                </div>
-            </div>
+            <div id="calendar"></div>
         </div>
-
-
 
         @section('js')
             <script src="{{ asset('js/schedule.js') }}"></script>

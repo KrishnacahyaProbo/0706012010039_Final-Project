@@ -12,7 +12,6 @@ use Illuminate\Support\Carbon;
 
 class ScheduleController extends Controller
 {
-    //
     public function show($name){
         $data = User::with('menu', 'menu.menu_schedule')
             ->where('name', $name)
@@ -132,5 +131,4 @@ class ScheduleController extends Controller
             return response()->json(['error' => 'An error occurred while deleting the menu schedule'], 500);
         }
     }
-
 }
