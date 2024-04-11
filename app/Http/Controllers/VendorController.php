@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class VendorController extends Controller
 {
+    public function index()
+    {
+        return view('pages.customer.vendor');
+    }
+
     public function data(Request $request)
     {
         try {

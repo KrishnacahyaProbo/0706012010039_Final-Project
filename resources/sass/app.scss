@@ -185,6 +185,8 @@ tr:last-child td:last-child {
 }
 
 .page-link:hover {
+    background-color: $red-700;
+    border: 1px solid $red-700;
     color: $white !important;
 }
 

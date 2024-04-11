@@ -22,7 +22,6 @@ class MenuController extends Controller
     {
         $vendor_name = User::where('id',Auth::user()->id)->first()->name;
         return view('pages.menu.index', compact('vendor_name'));
-
     }
 
     /**
@@ -83,7 +82,6 @@ class MenuController extends Controller
             ],
         200);
     }
-
 
     public function dataMenuVendor(Request $request)
     {
@@ -297,7 +295,4 @@ class MenuController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-
-
-
 }

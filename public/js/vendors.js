@@ -40,7 +40,6 @@ function setVendorToMenu() {
                     cardCol.append(card);
                     vendorContainer.append(cardCol);
 
-                    
                     cardCol.click(function () {
                         // Get vendor_id from data attribute
                         var vendorId = $(this).data('vendor_id');
@@ -86,25 +85,26 @@ function setVendorToMenu() {
 
                 // Add pagination links
                 if (response.data.next_page_url || response.data.prev_page_url) {
-                    var paginationHtml = '<div class="pagination justify-content-center">' + // Add justify-content-center class here
-                        '<ul class="pagination">';
+                    var paginationHtml = '<ul class="pagination justify-content-center w-100">';
 
-                    // Previous button
                     if (response.data.prev_page_url) {
-                        paginationHtml += '<li class="page-item"><a class="page-link" href="#" onclick="previousPage()">Previous</a></li>';
+                        paginationHtml += '<li class="page-item"><a class="page-link" href="#" onclick="previousPage()"><span aria-hidden="true">&laquo;</span></a></li>';
                     }
 
-                    // Page numbers
-                    for (var i = 1; i <= response.last_page; i++) {
-                        paginationHtml += '<li class="page-item"><a class="page-link" href="#" onclick="goToPage(' + i + ')">' + i + '</a></li>';
+                    var totalPages = response.data.last_page || response.last_page;
+                    for (var i = 1; i <= totalPages; i++) {
+                        if (i === currentPage) {
+                            paginationHtml += '<li class="page-item active"><a class="page-link" href="#">' + i + '</a></li>';
+                        } else {
+                            paginationHtml += '<li class="page-item"><a class="page-link" href="#" onclick="goToPage(' + i + ')">' + i + '</a></li>';
+                        }
                     }
 
-                    // Next button
                     if (response.data.next_page_url) {
-                        paginationHtml += '<li class="page-item"><a class="page-link" href="#" onclick="nextPage()">Next</a></li>';
+                        paginationHtml += '<li class="page-item"><a class="page-link" href="#" onclick="nextPage()"><span aria-hidden="true">&raquo;</span></a></li>';
                     }
 
-                    paginationHtml += '</ul>' + '</div>';
+                    paginationHtml += '</ul>';
 
                     vendorContainer.append(paginationHtml);
                 }

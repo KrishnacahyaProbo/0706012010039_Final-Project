@@ -13,22 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('pages.customer.vendor');
-// });
+Route::get('/', function () {
+    return view('pages.home');
+})->name('home');
 
-// Route::prefix('vendors')->name('vendors.')->namespace('App\Http\Controllers')->group(function () {
-//     Route::get('/data', 'VendorController@data')->name('index');
-//     Route::get('/{name}', 'VendorController@show')->name('show');
-// });
-
-// Route::prefix('menu')->name('menu.')->namespace('App\Http\Controllers')->group(function () {
-//     Route::get('/menuVendor/{name}', 'MenuController@menuVendor')->name('menuVendor');
-//     Route::get('/dataMenuVendor', 'MenuController@dataMenuVendor')->name('dataMenuVendor');
-//     Route::get('/scheduleMenu', 'MenuController@scheduleMenu')->name('sheduleMenu');
-
-// });
-
+Route::prefix('vendors')->name('vendors.')->namespace('App\Http\Controllers')->group(function () {
+    Route::get('/', 'VendorController@index')->name('index');
+    Route::get('/data', 'VendorController@data')->name('data');
+    Route::get('/{name}', 'VendorController@show')->name('show');
+});
 
 Route::middleware([
     'auth:sanctum',
@@ -61,8 +54,6 @@ Route::middleware([
 
     Route::prefix('delivery')->name('delivery.')->namespace('App\Http\Controllers')->group(function () {
         Route::post('/settings', 'DeliveryController@settingsDelivery')->name('delivery.settings');
-
-
     });
 
 
