@@ -105,7 +105,6 @@ function getLocation(valueAddress) {
 
                     document.getElementById("latitude").value = data[0].lat;
                     document.getElementById("longitude").value = data[0].lon;
-                    document.getElementById("gpsError").style.display = "none"; // Sembunyikan pesan error
                     getAddress(data[0].lat, data[0].lon);
 
                     // Event listener for marker drag end
@@ -252,7 +251,6 @@ function searchAddress() {
 
                 // Update search input field with selected address
                 document.getElementById("searchInput").value = formattedAddress;
-                document.getElementById("gpsError").style.display = "none"; // Sembunyikan pesan error
             } else {
                 alert("Address not found");
             }
