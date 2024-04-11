@@ -16,7 +16,7 @@
 
                         <div class="d-grid gap-3">
                             <div>
-                                <x-label for="role" value="{{ __('Role') }}" />
+                                <x-label for="role" value="{{ __('Peran') }}" />
 
                                 <div class="d-flex gap-3">
                                     <div class="form-check form-check-inline">
@@ -51,7 +51,7 @@
                             </div>
 
                             <div>
-                                <x-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
+                                <x-label for="password_confirmation" value="{{ __('Konfirmasi Password') }}" />
                                 <x-input id="password_confirmation" type="password" name="password_confirmation"
                                     required autocomplete="new-password" />
                             </div>
@@ -59,7 +59,7 @@
                             <div class="d-grid gap-2">
                                 <div>
                                     <x-label for="address" value="{{ __('Alamat') }}" />
-                                    <x-input type="text" id="searchInput" class="form-control" />
+                                    <x-input type="text" id="searchInput" class="form-control" placeholder="Cari Alamat" />
 
                                     <div id="addressDropdown"></div>
                                 </div>
