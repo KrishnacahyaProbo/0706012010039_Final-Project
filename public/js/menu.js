@@ -105,7 +105,7 @@ function addMenuItem(value) {
     // Check if value.image is not null
     if (value != null && value.image != null) {
         // If value.image is not null, set the src attribute of the image preview and display it
-        imagePreview.src = '/menu/' + value.image;
+        imagePreview.src = '/menus/' + value.image;
         imagePreview.style.display = 'block';
     }
 
@@ -198,7 +198,7 @@ function addMenuItem(value) {
         formData.append('_token', csrfToken);
 
         $.ajax({
-            url: '/users/menu/store',
+            url: '/menus/store',
             type: 'POST',
             data: formData,
             success: function (data) {
@@ -215,7 +215,7 @@ function addMenuItem(value) {
 function fetchDataMenuItem() {
     // Make the AJAX request to fetch data
     $.ajax({
-        url: "/users/menu/data",
+        url: "/menus/data",
         method: "GET",
         success: function (response) {
             var table = $("#menuTable");
@@ -229,7 +229,7 @@ function fetchDataMenuItem() {
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "/users/menu/data",
+                    url: "/menus/data",
                     type: "GET",
                 },
                 columns: [
@@ -389,7 +389,7 @@ function addSchedule(menuId, menuName) {
             } else {
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
                 $.ajax({
-                    url: '/users/menu/addSchedule',
+                    url: '/schedules/store',
                     type: 'POST',
                     data: {
                         menuId: menuId,
@@ -426,7 +426,7 @@ function addSchedule(menuId, menuName) {
 
 function editMenu(menuId) {
     $.ajax({
-        url: "/users/menu/show",
+        url: "/menus/show",
         method: "GET",
         data: { id: menuId },
         success: function (response) {
@@ -444,7 +444,7 @@ function destroy(menuId) {
     if (confirmation) {
         // Perform AJAX request to delete the menu
         $.ajax({
-            url: "/users/menu/destroy",
+            url: "/menus/destroy",
             method: "DELETE",
             data: {
                 _token: $('meta[name="csrf-token"]').attr("content"),
@@ -465,7 +465,7 @@ function destroy(menuId) {
 
 function showDetail(id) {
     $.ajax({
-        url: "/users/menu/show",
+        url: "/menus/show",
         method: "GET",
         data: {
             id: id,
@@ -477,7 +477,7 @@ function showDetail(id) {
                     response.data.menu_name
                 );
                 $("#mdlFormContent").empty().html(`
-                    <img src="/menu/${response.data.image}" class="rounded-1 w-50 mx-auto d-block mb-3" loading="lazy">
+                    <img src="/menus/${response.data.image}" class="rounded-1 w-50 mx-auto d-block mb-3" loading="lazy">
                     <div>${response.data.type === 'no_spicy' ? '<span class="badge rounded-pill text-primary-emphasis bg-primary-subtle border border-primary-subtle">Tidak Pedas</span>' : '<span class="badge rounded-pill text-danger-emphasis bg-danger-subtle border border-danger-subtle">Pedas</span>'}</div>
                     <p class="text-secondary my-3">${response.data.description}</p>
                 `);
@@ -569,7 +569,7 @@ function showDetail(id) {
                                     var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
                                     $.ajax({
-                                        url: 'menu/destroySchedule',
+                                        url: 'schedules/destroy',
                                         type: 'DELETE',
                                         data: {
                                             id: eventId,
@@ -627,7 +627,7 @@ function showDetail(id) {
                             var formattedDate = year + '-' + month + '-' + day;
                             // Perform AJAX request untuk update tanggal event
                             $.ajax({
-                                url: 'menu/updateSchedule',
+                                url: 'schedules/update',
                                 type: 'POST',
                                 data: {
                                     id: eventId,
@@ -659,7 +659,7 @@ function showDetail(id) {
 
                             // Perform AJAX request untuk update tanggal event
                             $.ajax({
-                                url: 'menu/updateSchedule',
+                                url: 'schedules/update',
                                 type: 'PUT',
                                 data: {
                                     id: eventId,

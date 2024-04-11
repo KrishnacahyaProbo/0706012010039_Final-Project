@@ -212,7 +212,7 @@ function initialize() {
             var formattedDate = year + '-' + month + '-' + day;
             // Perform AJAX request untuk update tanggal event
             $.ajax({
-                url: 'menu/updateSchedule',
+                url: 'schedules/update',
                 type: 'POST',
                 data: {
                     id: eventId,
@@ -244,7 +244,7 @@ function initialize() {
 
             // Perform AJAX request untuk update tanggal event
             $.ajax({
-                url: 'menu/updateSchedule',
+                url: 'schedules/update',
                 type: 'PUT',
                 data: {
                     id: eventId,

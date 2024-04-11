@@ -4,7 +4,7 @@ $(document).ready(function () {
 
 function fetchDataAddress() {
     $.ajax({
-        url: '/users/getDataSettings',
+        url: '/getDataSettings',
         type: 'GET',
         success: function (data) {
             if (data.user_setting != null) {
@@ -22,11 +22,11 @@ function fetchDataAddress() {
 function balanceSettings() {
     var formData = $('#rekeningUser').serialize();
     $.ajax({
-        url: '/users/balanceSettings',
+        url: '/balanceSettings',
         type: 'POST',
         data: formData,
         success: function (response) {
-            window.location.href = '/users/settings';
+            window.location.href = '/settings';
         },
         error: function (xhr, status, error) {
             console.error('Error submitting data:', error);
@@ -37,11 +37,11 @@ function balanceSettings() {
 function settingsDelivery() {
     var formData = $('#pengiriman').serialize();
     $.ajax({
-        url: '/users/settingsDelivery',
+        url: '/delivery/settings',
         type: 'POST',
         data: formData,
         success: function (response) {
-            window.location.href = '/users/settings';
+            window.location.href = '/settings';
         },
         error: function (xhr, status, error) {
             console.error('Error submitting data:', error);
@@ -57,11 +57,11 @@ function userSettings() {
     // Merge both form data into one object
     var combinedFormData = formDataAlamat + '&' + formDataPemesanan;
     $.ajax({
-        url: '/users/settingsPemesanan',
+        url: '/settings/settingsPemesanan',
         type: 'POST',
         data: combinedFormData,
         success: function (response) {
-            window.location.href = '/users/settings';
+            window.location.href = '/settings';
         },
         error: function (xhr, status, error) {
             console.error('Error submitting data:', error);
@@ -78,11 +78,11 @@ function setAlamat() {
     var combinedFormData = formDataAlamat + '&' + formDataPemesanan;
 
     $.ajax({
-        url: '/users/settingsPemesanan',
+        url: '/settings/settingsPemesanan',
         type: 'POST',
         data: combinedFormData,
         success: function (response) {
-            window.location.href = '/users/settings';
+            window.location.href = '/settings';
         },
         error: function (xhr, status, error) {
             console.error('Error submitting data:', error);

@@ -1,7 +1,7 @@
 @php
     $routeName = request()->route()->getName();
 
-    $isMenu = Str::startsWith($routeName, 'users.menu');
+    $isMenu = Str::startsWith($routeName, 'menu');
     $isSchedule = Str::startsWith($routeName, 'schedule');
     $isOrder = Str::startsWith($routeName, 'order');
     $isProfile = Str::startsWith($routeName, 'profile');
@@ -18,8 +18,9 @@
         <div class="navbar-collapse collapse" id="navbarNav">
             @auth
                 <div class="navbar-nav mx-lg-4 my-lg-0 my-3 gap-1">
-                    <a class="nav-link {{ $isMenu ? 'active' : '' }}" href="{{ url('/users/menu') }}">Menu</a>
-                    <a class="nav-link {{ $isSchedule ? 'active' : '' }}" href="{{ url('/schedule') }}">Schedule</a>
+                    <a class="nav-link {{ $isMenu ? 'active' : '' }}" href="{{ route('menu.index') }}">Menu</a>
+                    <a class="nav-link {{ $isSchedule ? 'active' : '' }}" href="{{ route('schedule.vendor', ['vendor_name' => Auth::user()->name]) }}">Schedule</a>
+
                     <a class="nav-link {{ $isOrder ? 'active' : '' }}" href="{{ url('/order') }}">Order</a>
                 </div>
             @endauth
@@ -48,7 +49,7 @@
                             <a class="dropdown-item {{ $isProfile ? 'active' : '' }}"
                                 href="{{ route('profile.show') }}">{{ __('Profile') }}</a>
                             <a class="dropdown-item {{ $isSettings ? 'active' : '' }}"
-                                href="{{ url('/users/settings') }}">{{ __('Setting') }}</a>
+                                href="{{ route('setting.index') }}">{{ __('Setting') }}</a>
                             {{-- <a class="dropdown-item {{ $isCredit ? 'active' : '' }}"
                                 href="{{ route('credit') }}">{{ __('Credit') }}</a> --}}
                         </li>

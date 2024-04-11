@@ -70,4 +70,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserSetting::class, 'vendor_id', 'id');
     }
+
+    public function menu()
+    {
+        return $this->hasMany(Menu::class, 'vendor_id', 'id');
+    }
 }

@@ -20,7 +20,9 @@ class MenuController extends Controller
      */
     public function index()
     {
-        return view('pages.users.menu.index');
+        $vendor_name = User::where('id',Auth::user()->id)->first()->name;
+        return view('pages.menu.index', compact('vendor_name'));
+
     }
 
     /**
@@ -296,66 +298,6 @@ class MenuController extends Controller
         }
     }
 
-    public function updateSchedule(Request $request)
-    {
-        DB::beginTransaction();
-        try {
-            $requestData = $request->only(['id', 'new_start']);
-            $formattedDate = Carbon::parse($requestData['new_start'])->format('Y-m-d');
 
-            // Check if schedule exists
-            $existingSchedule = Schedule::where('schedule', $formattedDate)->first();
 
-            // Find the MenuSchedule
-            $menuSchedule = MenuSchedule::where('id', $request->id)->first();
-            $menu = Menu::where('id', $menuSchedule->menu_id)->first();
-
-            // Sync the schedule with the menu
-            if ($existingSchedule) {
-                // Update the existing MenuSchedule record
-                if ($menuSchedule) {
-                    $menuSchedule->schedule_id = $existingSchedule->id;
-                    $menuSchedule->save();
-                } else {
-                    // Create a new MenuSchedule record
-                    $menu->menu_schedule()->attach($existingSchedule->id);
-                }
-            } else {
-                // Create a new schedule
-                $newSchedule = Schedule::create(['schedule' => $formattedDate]);
-                // Sync the new schedule with the menu
-                $menuSchedule->schedule_id = $newSchedule->id;
-                $menuSchedule->save();
-            }
-
-            DB::commit();
-
-            return response()->json(
-                [
-                    'message' => 'Schedule updated successfully',
-                    'success' => true,
-                ],
-                200
-            );
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return response()->json(['message' => $e->getMessage()], 404);
-        }
-    }
-
-    public function destroySchedule(Request $request)
-    {
-        try {
-            $id = $request->input('id');
-            MenuSchedule::where('id', $id)->delete();
-
-            return response()->json([
-                'message' => 'Menu schedule deleted successfully',
-                'success' => true
-            ], 200);
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-            return response()->json(['error' => 'An error occurred while deleting the menu schedule'], 500);
-        }
-    }
 }

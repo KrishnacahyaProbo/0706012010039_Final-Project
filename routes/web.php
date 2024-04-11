@@ -13,20 +13,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('pages.customer.vendor');
-});
+// Route::get('/', function () {
+//     return view('pages.customer.vendor');
+// });
 
-Route::prefix('vendors')->name('vendors.')->namespace('App\Http\Controllers')->group(function () {
-    Route::get('/data', 'VendorController@data')->name('vendor.index');
-});
+// Route::prefix('vendors')->name('vendors.')->namespace('App\Http\Controllers')->group(function () {
+//     Route::get('/data', 'VendorController@data')->name('index');
+//     Route::get('/{name}', 'VendorController@show')->name('show');
+// });
 
-Route::prefix('menu')->name('menu.')->namespace('App\Http\Controllers')->group(function () {
-    Route::get('/menuVendor/{vendor_id}', 'MenuController@menuVendor')->name('menuVendor');
-    Route::get('/dataMenuVendor', 'MenuController@dataMenuVendor')->name('dataMenuVendor');
-    Route::get('/scheduleMenu', 'MenuController@scheduleMenu')->name('sheduleMenu');
+// Route::prefix('menu')->name('menu.')->namespace('App\Http\Controllers')->group(function () {
+//     Route::get('/menuVendor/{name}', 'MenuController@menuVendor')->name('menuVendor');
+//     Route::get('/dataMenuVendor', 'MenuController@dataMenuVendor')->name('dataMenuVendor');
+//     Route::get('/scheduleMenu', 'MenuController@scheduleMenu')->name('sheduleMenu');
 
-});
+// });
 
 
 Route::middleware([
@@ -38,28 +39,40 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 
-    Route::prefix('users')->name('users.')->namespace('App\Http\Controllers')->group(function () {
-        // Menu
-        Route::get('/menu', 'MenuController@index')->name('menu.index');
-        Route::post('/menu/store', 'MenuController@store')->name('menu.store');
-        Route::get('/menu/data', 'MenuController@data')->name('menu.data');
-        Route::get('/menu/show', 'MenuController@show')->name('menu.show');
-        Route::delete('/menu/destroy', 'MenuController@destroy')->name('menu.destroy');
+    Route::prefix('menus')->name('menu.')->namespace('App\Http\Controllers')->group(function () {
+        Route::get('/', 'MenuController@index')->name('index');
+        Route::get('/data', 'MenuController@data')->name('data');
+        Route::post('/store', 'MenuController@store')->name('store');
+        Route::get('/show', 'MenuController@show')->name('show');
+        Route::delete('/destroy', 'MenuController@destroy')->name('destroy');
+    });
 
-        // Schedule
-        Route::post('/menu/addSchedule', 'MenuController@addSchedule')->name('menu.addSchedule');
-        Route::post('/menu/updateSchedule', 'MenuController@updateSchedule')->name('menu.updateSchedule');
-        Route::delete('/menu/destroySchedule', 'MenuController@destroySchedule')->name('menu.destroySchedule');
+    Route::prefix('schedules')->name('schedule.')->namespace('App\Http\Controllers')->group(function () {
+        Route::get('/{vendor_name}', 'ScheduleController@show')->name('vendor');
+        Route::post('/store', 'ScheduleController@store')->name('store');
+        Route::post('/update', 'ScheduleController@update')->name('update');
+        Route::delete('/destroy', 'ScheduleController@destroy')->name('destroy');
+    });
 
-        // Setting
-        Route::get('/settings', 'UserSettingController@index')->name('settings.index');
-        Route::post('/settingsDelivery', 'DeliveryController@settingsDelivery')->name('delivery.store');
-        Route::post('/settingsPemesanan', 'UserSettingController@settingsPemesanan')->name('settings.settingsPemesanan');
-        Route::get('/getDataSettings', 'UserSettingController@getDataSettings')->name('settings.getDataSettings');
+    Route::prefix('settings')->name('setting.')->namespace('App\Http\Controllers')->group(function () {
+        Route::get('/', 'UserSettingController@index')->name('index');
+        Route::post('/settingsPemesanan', 'DeliveryController@settingsPemesanan')->name('delivery.settingsPemesanan');
+    });
 
-        Route::post('/balanceSettings', 'UserSettingController@balanceSettings')->name('users.balanceSettings');
-
+    Route::prefix('delivery')->name('delivery.')->namespace('App\Http\Controllers')->group(function () {
+        Route::post('/settings', 'DeliveryController@settingsDelivery')->name('delivery.settings');
 
 
     });
+
+
+
+    // Route::prefix('users')->name('users.')->namespace('App\Http\Controllers')->group(function () {
+
+    //     // Setting
+    //     Route::post('/settingsPemesanan', 'UserSettingController@settingsPemesanan')->name('settings.settingsPemesanan');
+    //     Route::get('/getDataSettings', 'UserSettingController@getDataSettings')->name('settings.getDataSettings');
+
+    //     Route::post('/balanceSettings', 'UserSettingController@balanceSettings')->name('users.balanceSettings');
+    // });
 });

@@ -39,6 +39,19 @@ function setVendorToMenu() {
                     card.append(img).append(cardBody);
                     cardCol.append(card);
                     vendorContainer.append(cardCol);
+
+                    
+                    cardCol.click(function () {
+                        // Get vendor_id from data attribute
+                        var vendorId = $(this).data('vendor_id');
+                        window.location.href = '/menu/menuVendor/' + vendorId;
+                    });
+
+                    title.click(function () {
+                        // Get vendor_id from parent cardCol's data attribute
+                        var vendorId = $(this).closest('.col').data('vendor_id');
+                        console.log('Clicked on title for vendor_id: ' + vendorId);
+                    });
                 });
             } else {
                 $.each(response.data.data, function (index, vendor) {
