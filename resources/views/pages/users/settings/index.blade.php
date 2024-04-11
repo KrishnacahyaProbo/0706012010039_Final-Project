@@ -110,8 +110,8 @@
 
                     <div>
                         <x-label for="address" value="{{ __('Alamat') }}" />
-                        <x-input type="text" id="searchInput" class="form-control" placeholder="Cari Alamat" />
-                        
+                        <x-input type="search" id="searchInput" class="form-control" placeholder="Cari Alamat" />
+
                         <div id="addressDropdown"></div>
                     </div>
 

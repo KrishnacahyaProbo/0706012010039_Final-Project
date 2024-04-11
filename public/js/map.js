@@ -51,12 +51,24 @@ function getLocation(valueAddress) {
                     getAddress(latitude, longitude);
                 },
                 function (error) {
-                    toastr.error("Error getting location:", error.message);
+                    switch (error.code) {
+                        case error.PERMISSION_DENIED:
+                            console.error("User denied the request for Geolocation.");
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            console.error("Location information is unavailable.");
+                            break;
+                        case error.TIMEOUT:
+                            console.error("The request to get user location timed out.");
+                            break;
+                        case error.UNKNOWN_ERROR:
+                            console.error("An unknown error occurred.");
+                            break;
+                    }
                 }
             );
         } else {
-            toastr.error("Geolocation is not supported by this browser.");
-
+            console.log("Geolocation is not supported by this browser.");
             alert("Geolocation is not supported by this browser.");
         }
     } else {
@@ -93,6 +105,7 @@ function getLocation(valueAddress) {
 
                     document.getElementById("latitude").value = data[0].lat;
                     document.getElementById("longitude").value = data[0].lon;
+                    document.getElementById("gpsError").style.display = "none"; // Sembunyikan pesan error
                     getAddress(data[0].lat, data[0].lon);
 
                     // Event listener for marker drag end
@@ -157,7 +170,6 @@ function getAddress(latitude, longitude) {
         });
 }
 
-// Declare map and marker variables in the global scope
 var map;
 var marker;
 
@@ -181,34 +193,30 @@ document.getElementById("searchInput").addEventListener("keyup", function () {
                         option.href = "#";
                         option.onclick = function () {
                             // Remove active class from previously active item
-                            var activeItem = dropdown.querySelector(
-                                ".dropdown-item.active");
+                            var activeItem = dropdown.querySelector(".dropdown-item.active");
                             if (activeItem) {
                                 activeItem.classList.remove("active");
                             }
                             // Set selected address to input field
-                            document.getElementById("searchInput").value = item
-                                .display_name;
-                            document.getElementById("selectedAddress").value = item
-                                .display_name;
+                            document.getElementById("searchInput").value = item.display_name;
+                            document.getElementById("selectedAddress").value = item.display_name;
                             // Set current item as active
                             option.classList.add("active");
-                            dropdown.style.display = "none"; // Hide dropdown
+                            dropdown.style.display = "none";
                             return false; // Prevent page from reloading
                         };
                         dropdown.appendChild(option);
                     });
-                    dropdown.style.display = "block"; // Show dropdown
+                    dropdown.style.display = "block";
                 } else {
-                    dropdown.style.display = "none"; // Hide dropdown if no suggestions
+                    dropdown.style.display = "none";
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
             });
     } else {
-        document.getElementById("addressDropdown").style.display =
-            "none"; // Hide dropdown if input is less than 3 characters
+        document.getElementById("addressDropdown").style.display = "none";
     }
 });
 
@@ -240,11 +248,11 @@ function searchAddress() {
                 var formattedAddress = result.display_name;
 
                 // Update selected address input field
-                document.getElementById("selectedAddress").value =
-                    formattedAddress;
+                document.getElementById("selectedAddress").value = formattedAddress;
 
                 // Update search input field with selected address
                 document.getElementById("searchInput").value = formattedAddress;
+                document.getElementById("gpsError").style.display = "none"; // Sembunyikan pesan error
             } else {
                 alert("Address not found");
             }

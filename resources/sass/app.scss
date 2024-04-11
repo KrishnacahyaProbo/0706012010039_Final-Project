@@ -192,6 +192,10 @@ tr:last-child td:last-child {
     color: $red-700 !important;
 }
 
+#addressDropdown>.dropdown-item {
+    white-space: normal;
+}
+
 #map {
     height: 50vh;
 }
