@@ -24,7 +24,7 @@ return new class extends Migration
             $table->double('latitude')->nullable();
             $table->double('longitude')->nullable();
             $table->text('about_us')->nullable();
-            $table->float('rating')->nullable();
+            $table->integer('rating')->nullable();
             $table->timestamps();
         });
     }

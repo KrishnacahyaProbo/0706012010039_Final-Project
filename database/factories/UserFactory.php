@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\Team;
 use App\Models\User;
-use Faker\Factory as Faker;
 use Illuminate\Support\Str;
 use Laravel\Jetstream\Features;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -21,8 +20,6 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
-        $faker = Faker::create('id_ID');
-
         $userLatitude = -7.2989853; // Example: User's latitude
         $userLongitude = 112.6294714; // Example: User's longitude
         $radiusInDegrees = 0.1; // Example: Roughly 50 kilometers radius
@@ -32,16 +29,16 @@ class UserFactory extends Factory
         $longitude = $this->faker->longitude($userLongitude - $radiusInDegrees, $userLongitude + $radiusInDegrees);
 
         return [
-            'name' => $faker->name,
+            'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail,
             'email_verified_at' => now(),
             'password' => bcrypt('password'),
             'remember_token' => Str::random(10),
             'current_team_id' => null,
-            'address' => $faker->address(),
+            'address' => $this->faker->address(),
             'latitude' => $latitude,
             'longitude' => $longitude,
-            'about_us' => $faker->paragraph(),
+            'about_us' => $this->faker->paragraph(),
             'rating' => $this->faker->numberBetween(1, 2, 3, 4, 5),
         ];
     }
