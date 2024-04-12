@@ -184,6 +184,10 @@ tr:last-child td:last-child {
     box-shadow: none;
 }
 
+.navbar-brand:focus {
+    transform: scale(0.9);
+}
+
 .page-link:hover {
     background-color: $red-700;
     border: 1px solid $red-700;
@@ -204,6 +208,14 @@ tr:last-child td:last-child {
 
 #logo {
     max-width: 48px !important;
+}
+
+#home_customer {
+    background: linear-gradient(135deg, $black, transparent), url("/public/images/assets/home/customer.jpg") center/cover no-repeat;
+}
+
+#home_vendor {
+    background: linear-gradient(to right, $black, transparent), url("/public/images/assets/home/vendor.jpg") center/cover no-repeat;
 }
 
 #profile_photo {

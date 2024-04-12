@@ -23,7 +23,7 @@
                                 reader.readAsDataURL($refs.photo.files[0]);
                         " />
 
-                    <x-label for="photo" value="{{ __('Photo') }}" />
+                    <x-label for="photo" value="{{ __('Foto Profil') }}" />
 
                     <!-- Current Profile Photo -->
                     <div class="mt-2" x-show="! photoPreview">
@@ -36,14 +36,12 @@
                         </span>
                     </div>
 
-                    <x-secondary-button class="mt-2" type="button" x-on:click.prevent="$refs.photo.click()">
-                        {{ __('Select A New Photo') }}
-                    </x-secondary-button>
+                    <x-secondary-button class="mt-2" type="button"
+                        x-on:click.prevent="$refs.photo.click()">{{ __('Select A New Photo') }}</x-secondary-button>
 
                     @if ($this->user->profile_photo_path)
-                        <x-secondary-button type="button" class="mt-2" wire:click="deleteProfilePhoto">
-                            {{ __('Remove Photo') }}
-                        </x-secondary-button>
+                        <x-danger-button type="button" class="mt-2"
+                            wire:click="deleteProfilePhoto">{{ __('Remove Photo') }}</x-danger-button>
                     @endif
 
                     <x-input-error for="photo" class="mt-2" />
@@ -52,7 +50,7 @@
 
             <!-- Name -->
             <div>
-                <x-label for="name" value="{{ __('Name') }}" />
+                <x-label for="name" value="{{ __('Nama') }}" />
                 <x-input id="name" type="text" wire:model="state.name" required autocomplete="name" />
                 <x-input-error for="name" class="mt-2" />
             </div>

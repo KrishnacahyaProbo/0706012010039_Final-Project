@@ -30,7 +30,7 @@
                 <div class="dropdown mb-1 ms-auto">
                     <button class="btn dropdown-toggle border-0 p-0" type="button" id="dropdownMenuButton"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        @if (Auth::user()->profile_photo_path != null)
+                        @isset(Auth::user()->profile_photo_path)
                             @if (str_contains(Auth::user()->profile_photo_path, 'https://'))
                                 <img src="{{ Auth::user()->profile_photo_path }}" alt="{{ Auth::user()->name }}"
                                     class="object-fit-contain" id="profile_photo" title="{{ Auth::user()->name }}">
@@ -44,7 +44,7 @@
                                 <img src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}"
                                     class="object-fit-contain" id="profile_photo" title="{{ Auth::user()->name }}">
                             @endif
-                        @endif
+                        @endisset
                     </button>
                     <ul class="dropdown-menu dropdown-menu-lg-end mt-2" aria-labelledby="dropdownMenuButton">
                         <li>

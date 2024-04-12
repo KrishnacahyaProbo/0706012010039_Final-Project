@@ -17,7 +17,7 @@ Route::get('/', function () {
     return view('pages.home');
 })->name('home');
 
-Route::prefix('vendors')->name('vendors.')->namespace('App\Http\Controllers')->group(function () {
+Route::prefix('vendors')->name('vendor.')->namespace('App\Http\Controllers')->group(function () {
     Route::get('/', 'VendorController@index')->name('index');
     Route::get('/data', 'VendorController@data')->name('data');
     Route::get('/{name}', 'VendorController@show')->name('show');

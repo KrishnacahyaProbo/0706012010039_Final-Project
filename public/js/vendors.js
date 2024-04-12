@@ -27,8 +27,8 @@ function setVendorToMenu() {
             if ($("#searchInput").val() != '') {
                 $.each(response.data, function (index, vendor) {
                     var cardCol = $('<div class="col d-flex"></div>');
-                    var card = $('<div class="card gap-3"></div>');
-                    var img = $('<img src="' + (vendor.profile_photo_url != null ? vendor.profile_photo_url : "/images/no_foto.jpg") + '" alt="" class="card-img-top rounded-0" loading="lazy">');
+                    var card = $('<div class="card gap-3 h-100"></div>');
+                    var img = $('<img src="' + (vendor.profile_photo_url != null ? vendor.profile_photo_url : "") + '" alt="" class="card-img-top rounded-0" loading="lazy">');
                     var cardBody = $('<div class="card-body p-0"></div>');
                     var title = $('<h3 class="card-title"><a href="#" class="stretched-link">' + vendor.name + '</a></h3>');
                     var rating = $('<div class="d-grid text-secondary gap-1"><div class="d-flex gap-2"><i class="bi bi-star"></i><span class="card-text">' + vendor.rating + '/5</span></div></div>');
@@ -55,8 +55,8 @@ function setVendorToMenu() {
             } else {
                 $.each(response.data.data, function (index, vendor) {
                     var cardCol = $('<div class="col d-flex"></div>');
-                    var card = $('<div class="card gap-3"></div>');
-                    var img = $('<img src="' + (vendor.profile_photo_url != null ? vendor.profile_photo_url : "/images/no_foto.jpg") + '" alt="" class="card-img-top rounded-0" loading="lazy">');
+                    var card = $('<div class="card gap-3 h-100"></div>');
+                    var img = $('<img src="' + (vendor.profile_photo_url != null ? vendor.profile_photo_url : "") + '" alt="" class="card-img-top rounded-0" loading="lazy">');
                     var cardBody = $('<div class="card-body p-0"></div>');
                     var title = $('<h3 class="card-title"><a href="#" class="stretched-link">' + vendor.name + '</a></h3>');
                     var rating = $('<div class="d-flex gap-2"><i class="bi bi-star"></i><span class="card-text">' + vendor.rating + '/5</span></div>');
@@ -118,20 +118,18 @@ function setVendorToMenu() {
 }
 
 function goToPage(pageNumber) {
-    currentPage = pageNumber; // Set current page to the clicked page number
-    setVendorToMenu(); // Load vendors for the clicked page
+    currentPage = pageNumber;
+    setVendorToMenu();
 }
 
-// Function to handle click on Next button
 function nextPage() {
-    currentPage++; // Increment current page number
-    setVendorToMenu(); // Load vendors for the next page
+    currentPage++;
+    setVendorToMenu();
 }
 
-// Function to handle click on Previous button
 function previousPage() {
-    currentPage--; // Decrement current page number
-    setVendorToMenu(); // Load vendors for the previous page
+    currentPage--;
+    setVendorToMenu();
 }
 
 function getCurrentLocation() {

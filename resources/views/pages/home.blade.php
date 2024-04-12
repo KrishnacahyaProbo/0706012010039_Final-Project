@@ -14,73 +14,107 @@
     @endif
 
     <div class="d-grid gap-5">
-        <div>
-            @section('page_title', 'Rumah Katering')
-        </div>
-
         @php
-            $sections = [
+            $highlights = [
                 [
-                    'title' => 'Terstrukturnya Pengelolaan Katering Bagi Penjual',
-                    'items' => [
-                        ['icon' => 'calendar3', 'color' => 'primary', 'text' => 'Jadwalkan penjualan menu.'],
-                        ['icon' => 'ui-checks', 'color' => 'success', 'text' => 'Persiapkan rekapitulasi pesanan.'],
+                    'cta_id' => 'home_customer',
+                    'cta_title' => 'Mau pesan Katering apa?',
+                    'cta_button' => 'Eksplor Vendor',
+                    'feature_title' => 'Mudahnya Berbelanja Katering',
+                    'feature_items' => [
                         [
-                            'icon' => 'chat-left-text',
-                            'color' => 'warning',
-                            'text' => 'Pantau testimoni untuk evaluasi berkelanjutan.',
+                            'feature_icon' => 'shop',
+                            'feature_color' => 'primary',
+                            'feature_text' => 'Berbagai pilihan Vendor Katering.',
+                        ],
+                        [
+                            'feature_icon' => 'journal-text',
+                            'feature_color' => 'primary',
+                            'feature_text' => 'Menu yang informatif dan interaktif.',
+                        ],
+                        [
+                            'feature_icon' => 'cart-check',
+                            'feature_color' => 'primary',
+                            'feature_text' => 'Pemesanan praktis yang terjadwal.',
                         ],
                     ],
                 ],
                 [
-                    'title' => 'Mudahnya Berbelanja Katering Bagi Pelanggan',
-                    'items' => [
-                        ['icon' => 'shop', 'color' => 'primary', 'text' => 'Berbagai pilihan Vendor Katering.'],
+                    'cta_id' => 'home_vendor',
+                    'cta_title' => 'Bergabung menjadi Vendor',
+                    'cta_button' => 'Jual Produk',
+                    'feature_title' => 'Terstrukturnya Pengelolaan Katering',
+                    'feature_items' => [
                         [
-                            'icon' => 'journal-text',
-                            'color' => 'success',
-                            'text' => 'Menu yang informatif dan interaktif.',
+                            'feature_icon' => 'calendar3',
+                            'feature_color' => 'success',
+                            'feature_text' => 'Jadwalkan penjualan menu.',
                         ],
-                        ['icon' => 'cart-check', 'color' => 'warning', 'text' => 'Pemesanan praktis yang terjadwal.'],
+                        [
+                            'feature_icon' => 'ui-checks',
+                            'feature_color' => 'success',
+                            'feature_text' => 'Rekapitulasi pesanan untuk persiapan yang lebih matang.',
+                        ],
+                        [
+                            'feature_icon' => 'chat-left-text',
+                            'feature_color' => 'success',
+                            'feature_text' => 'Pantau testimoni untuk evaluasi berkelanjutan.',
+                        ],
                     ],
                 ],
             ];
         @endphp
 
-        <div class="d-grid gap-4">
-            @foreach ($sections as $section)
-                <div class="d-grid gap-1">
-                    <h3>{{ $section['title'] }}</h3>
+        @foreach ($highlights as $highlight)
+            <div class="my-3">
+                <div class="d-grid gap-4">
+                    <div class="d-grid rounded-3 p-md-5 gap-3 p-4 text-white shadow-sm" id={{ $highlight['cta_id'] }}>
+                        <div>
+                            <h1 class="display-4">{{ $highlight['cta_title'] }}</h1>
+                        </div>
 
-                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                        @foreach ($section['items'] as $item)
-                            <div class="col">
-                                <div class="card h-100">
-                                    <div class="card-body p-0">
-                                        <div class="bg-{{ $item['color'] }}-subtle d-inline-block rounded-1 px-3 py-2">
-                                            <i
-                                                class="bi bi-{{ $item['icon'] }} fs-3 text-{{ $item['color'] }}-emphasis"></i>
+                        <div>
+                            <a href="{{ $highlight['cta_id'] === 'home_customer' ? route('vendor.index') : route('menu.index') }}"
+                                class="btn btn-lg btn-primary">{{ $highlight['cta_button'] }}</a>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-1">
+                        <h3>{{ $highlight['feature_title'] }}</h3>
+
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                            @foreach ($highlight['feature_items'] as $item)
+                                <div class="col">
+                                    <div class="card h-100">
+                                        <div class="card-body p-0">
+                                            <div
+                                                class="bg-{{ $item['feature_color'] }}-subtle d-inline-block rounded-1 px-3 py-2">
+                                                <i
+                                                    class="bi bi-{{ $item['feature_icon'] }} fs-3 text-{{ $item['feature_color'] }}-emphasis"></i>
+                                            </div>
+                                            <p class="mb-0 mt-3">{{ $item['feature_text'] }}</p>
                                         </div>
-                                        <p class="mb-0 mt-3">{{ $item['text'] }}</p>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
                     </div>
                 </div>
-            @endforeach
-        </div>
+            </div>
+        @endforeach
 
         <hr>
 
-        <figure class="text-center">
-            <i class="bi bi-house-door fs-1"></i>
+        <div>
+            <figure class="text-center">
+                <i class="bi bi-house-door fs-1"></i>
 
-            <blockquote class="blockquote">
-                <q>Tempatnya Para Penjual dan Pelanggan Katering Singgah</q>
-            </blockquote>
+                <blockquote class="blockquote">
+                    <q>Tempatnya Para Penyedia dan Penikmat Katering Singgah</q>
+                </blockquote>
 
-            <figcaption class="blockquote-footer">Rumah Katering, 2024</figcaption>
-        </figure>
+                <figcaption class="blockquote-footer">Rumah Katering, 2024</figcaption>
+            </figure>
+        </div>
     </div>
 </x-guest-layout>
