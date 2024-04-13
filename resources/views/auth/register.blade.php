@@ -104,7 +104,7 @@
             <div>
                 <div class="d-flex gap-1">
                     <p>Sudah punya akun?</p>
-                    <a href="{{ route('login') }}">Masuk</a>
+                    <a href="{{ route('login') }}">Log In</a>
                 </div>
             </div>
         </div>

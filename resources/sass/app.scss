@@ -68,9 +68,9 @@ input:is([type="radio"], [type="checkbox"]):checked {
 }
 
 table {
+    border: 0.1px solid black;
     border-collapse: separate;
     border-spacing: 0;
-    border: 0.1px solid black;
     border-radius: 4px;
 }
 

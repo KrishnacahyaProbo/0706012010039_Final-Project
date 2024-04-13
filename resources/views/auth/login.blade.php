@@ -59,7 +59,7 @@
             <div>
                 <div class="d-flex gap-1">
                     <p>Belum punya akun?</p>
-                    <a href="{{ route('register') }}">Daftar</a>
+                    <a href="{{ route('register') }}">Register</a>
                 </div>
             </div>
         </div>

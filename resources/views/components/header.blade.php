@@ -28,8 +28,8 @@
             @endauth
             @auth
                 <div class="dropdown mb-1 ms-auto">
-                    <button class="btn dropdown-toggle border-0 p-0" type="button" id="dropdownMenuButton"
-                        data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn dropdown-toggle border-0 p-0" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
                         @isset(Auth::user()->profile_photo_path)
                             @if (str_contains(Auth::user()->profile_photo_path, 'https://'))
                                 <img src="{{ Auth::user()->profile_photo_path }}" alt="{{ Auth::user()->name }}"
@@ -55,7 +55,9 @@
                             {{-- <a class="dropdown-item {{ $isCredit ? 'active' : '' }}"
                                 href="{{ route('credit') }}">{{ __('Credit') }}</a> --}}
                         </li>
-                        <hr class="my-1">
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}" x-data>
                                 @csrf
