@@ -19,7 +19,7 @@
         </div>
 
         <div class="card">
-            <div id="calendar"></div>
+            <div id="calendar" class="vh-100"></div>
         </div>
 
         @section('js')
