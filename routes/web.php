@@ -49,7 +49,7 @@ Route::middleware([
 
     Route::prefix('settings')->name('setting.')->namespace('App\Http\Controllers')->group(function () {
         Route::get('/', 'UserSettingController@index')->name('index');
-        Route::post('/settingsPemesanan', 'DeliveryController@settingsPemesanan')->name('delivery.settingsPemesanan');
+        Route::get('/data', 'UserSettingController@data')->name('data');
     });
 
     Route::prefix('delivery')->name('delivery.')->namespace('App\Http\Controllers')->group(function () {

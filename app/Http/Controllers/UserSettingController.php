@@ -24,7 +24,7 @@ class UserSettingController extends Controller
         return view('pages.users.settings.index', compact('user_setting', 'delivery','balance'));
     }
 
-    public function getDataSettings()
+    public function data()
     {
         try {
             // Retrieve data

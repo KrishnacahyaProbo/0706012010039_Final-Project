@@ -57,7 +57,7 @@ function userSettings() {
     // Merge both form data into one object
     var combinedFormData = formDataAlamat + '&' + formDataPemesanan;
     $.ajax({
-        url: '/settings/settingsPemesanan',
+        url: '/delivery/settings',
         type: 'POST',
         data: combinedFormData,
         success: function (response) {
@@ -78,7 +78,7 @@ function setAlamat() {
     var combinedFormData = formDataAlamat + '&' + formDataPemesanan;
 
     $.ajax({
-        url: '/settings/settingsPemesanan',
+        url: '/delivery/settings',
         type: 'POST',
         data: combinedFormData,
         success: function (response) {
