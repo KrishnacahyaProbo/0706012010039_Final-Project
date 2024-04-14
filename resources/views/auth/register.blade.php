@@ -22,12 +22,12 @@
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="role" id="vendor"
                                             value="vendor">
-                                        <x-label class="form-check-label" for="role">Vendor</x-label>
+                                        <label class="form-check-label" for="vendor">Vendor</label>
                                     </div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="role" id="customer"
                                             value="customer">
-                                        <x-label class="form-check-label" for="role">Customer</x-label>
+                                        <label class="form-check-label" for="customer">Customer</label>
                                     </div>
                                 </div>
                             </div>

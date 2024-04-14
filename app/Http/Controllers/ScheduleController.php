@@ -12,12 +12,14 @@ use Illuminate\Support\Carbon;
 
 class ScheduleController extends Controller
 {
-    public function show($name){
+    public function show($name)
+    {
         $data = User::with('menu', 'menu.menu_schedule')
             ->where('name', $name)
             ->first();
         return view('pages.schedules.vendor', compact('data'));
     }
+
     public function store(Request $request)
     {
         try {

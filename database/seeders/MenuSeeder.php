@@ -25,7 +25,7 @@ class MenuSeeder extends Seeder
                     'vendor_id' => $faker->numberBetween(1, 10),
                     'menu_name' => $faker->foodName(),
                     'description' => $faker->paragraph(),
-                    'image' => $faker->imageUrl(640, 640, 'katering'),
+                    'image' => 'https://source.unsplash.com/random/640x640/?makanan,food,catering,meal',
                     'type' => $faker->randomElement(['spicy', 'no_spicy']),
                     'created_at' => now(),
                     'updated_at' => now(),

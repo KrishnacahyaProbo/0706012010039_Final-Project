@@ -53,7 +53,8 @@ img {
 }
 
 select,
-input:is([type="radio"], [type="checkbox"]) {
+input:is([type="radio"], [type="checkbox"]),
+.form-check-label {
     cursor: pointer;
 }
 
@@ -216,13 +217,13 @@ tr:last-child td:last-child {
 }
 
 #home_vendor {
-    background: linear-gradient(to right, $black, transparent), url("/public/images/assets/home/vendor.jpg") center/cover no-repeat;
+    background: linear-gradient(135deg, $black, transparent), url("/public/images/assets/home/vendor.jpg") center/cover no-repeat;
 }
 
 #profile_photo {
     max-height: 50px;
+    max-width: 100%;
     object-position: center;
-    width: 100%;
 }
 
 @font-face {

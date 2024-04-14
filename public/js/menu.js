@@ -48,13 +48,13 @@ function addMenuItem(value) {
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="spicy" id="spicy"
                     value="spicy">
-                <x-label class="form-check-label" for="spicy">Pedas</x-label>
+                <label class="form-check-label" for="spicy">Pedas</label>
             </div>
 
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="spicy" id="not_spicy"
                     value="no_spicy">
-                <x-label class="form-check-label" for="not_spicy">Tidak Pedas</x-label>
+                <label class="form-check-label" for="not_spicy">Tidak Pedas</label>
             </div>
         </div>
     </div>
@@ -444,9 +444,13 @@ function showDetail(id) {
                     response.data.menu_name
                 );
                 $("#mdlFormContent").empty().html(`
-                    <img src="/menus/${response.data.image}" class="rounded-1 w-50 mx-auto d-block mb-3" loading="lazy">
-                    <div>${response.data.type === 'no_spicy' ? '<span class="badge rounded-pill text-primary-emphasis bg-primary-subtle border border-primary-subtle">Tidak Pedas</span>' : '<span class="badge rounded-pill text-danger-emphasis bg-danger-subtle border border-danger-subtle">Pedas</span>'}</div>
-                    <p class="text-secondary my-3">${response.data.description}</p>
+                    <div class="d-grid d-lg-flex gap-lg-3">
+                        <img src="${response.data.image.includes('http') ? response.data.image : `/menu/${response.data.image}`}" class="rounded-1 w-50 d-block mx-auto mx-lg-0 mb-3" loading="lazy">
+                        <div>
+                            <div>${response.data.type === 'no_spicy' ? '<span class="badge rounded-pill text-primary-emphasis bg-primary-subtle border border-primary-subtle">Tidak Pedas</span>' : '<span class="badge rounded-pill text-danger-emphasis bg-danger-subtle border border-danger-subtle">Pedas</span>'}</div>
+                            <p class="text-secondary my-3">${response.data.description}</p>
+                        </div>
+                    </div>
                 `);
 
                 var menuDetailTable = `
@@ -487,17 +491,17 @@ function showDetail(id) {
                                     <ul>
                                         <li>
                                             <strong>Ubah Jadwal: </strong>
-                                            <span>Tekan dan tahan ke tanggal baru.</span>
+                                            <span>Tekan dan tahan, lalu pindahkan ke tanggal baru.</span>
                                         </li>
                                         <li>
                                             <strong>Hapus Jadwal: </strong>
-                                            <span>Klik kotak daftar tanggal.</span>
+                                            <span>Klik kotak daftar tanggal dan pilih OK.</span>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                        <div id="calendar" class="vh-100"></div>
+                        ${response.data.menu_schedule && response.data.menu_schedule.length > 0 ? '<div id="calendar" class="vh-100"></div>' : '<div class="alert alert-info" role="alert">Belum terdapat Jadwal Penjualan.</div>'}
                         </div>
                     </div>
                 `;

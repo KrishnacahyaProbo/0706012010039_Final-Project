@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', function () {
 function fetchSchedule() {
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
-        // Konfigurasi FullCalendar
         themeSystem: 'bootstrap5',
         headerToolbar: {
             left: 'title',
@@ -29,8 +28,7 @@ function fetchSchedule() {
         events: function (fetchInfo, successCallback, failureCallback) {
             // Menyusun daftar acara
             var events = [];
-            // Menyesuaikan gaya CSS acara
-            var eventColor = '#842029'; // Warna latar belakang acara
+            var eventColor = '#842029';
 
             // Mengonversi data jadwal menjadi objek acara dan menambahkannya ke dalam daftar acara
             dataSchedule.menu.forEach(function (menuItem) {
@@ -39,17 +37,14 @@ function fetchSchedule() {
                         id: scheduleItem.pivot.id,
                         title: menuItem.menu_name,
                         start: scheduleItem.schedule,
-                        backgroundColor: eventColor
+                        backgroundColor: eventColor,
+                        borderColor: eventColor,
                     });
                 });
             });
 
             // Memanggil callback dengan daftar acara
             successCallback(events);
-        },
-        eventDidMount: function (arg) {
-            arg.el.style.borderColor = '#842029';
-            arg.el.style.color = '#fff';
         },
     });
     calendar.render();

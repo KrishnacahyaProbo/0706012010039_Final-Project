@@ -38,7 +38,9 @@
                                     <div>
                                         <label for="remember_me" class="d-flex gap-2">
                                             <x-checkbox id="remember_me" name="remember" />
-                                            <span>{{ __('Remember Me') }}</span>
+                                            <label class="form-check-label" for="remember_me">
+                                                {{ __('Remember Me') }}
+                                            </label>
                                         </label>
                                     </div>
 
