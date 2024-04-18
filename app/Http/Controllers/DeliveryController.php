@@ -7,6 +7,7 @@ use App\Http\Requests\StoreDeliveryRequest;
 use App\Http\Requests\UpdateDeliveryRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 class DeliveryController extends Controller
 {
     /**

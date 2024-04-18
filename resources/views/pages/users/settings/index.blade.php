@@ -108,6 +108,15 @@
                 <div class="d-grid gap-3">
                     <h3>Alamat Pengiriman</h3>
 
+                    @if ($user_setting != null)
+                        <div>
+                            <strong>Lokasi Asal Pengiriman: </strong>
+                            <span>{{ $user_setting->address }}</span>
+                        </div>
+                    @endif
+
+                    <hr>
+
                     <div>
                         <x-label for="address" value="{{ __('Alamat') }}" />
                         <x-input type="search" id="searchInput" class="form-control" placeholder="Cari Alamat" />

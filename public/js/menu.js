@@ -60,11 +60,11 @@ function addMenuItem(value) {
     </div>
     `);
     form.append(`
-    <div id="formMultiple" class="form_multiple">
+    <div id="formMultiple" class="form_multiple card mb-3">
         <div class="row classformMultiple mb-3" id="row_1">
             <div class="col">
                 <div class="form-group">
-                    <label class="form-label">Porsi</label>
+                    <label class="form-label">Ukuran Porsi</label>
                     <input type="text" class="form-control" name="size[]" id="size_1">
                 </div>
             </div>
@@ -96,7 +96,7 @@ function addMenuItem(value) {
     const imagePreview = document.getElementById('imagePreview');
 
     if (value != null && value.image != null) {
-        imagePreview.src = '/menus/' + value.image;
+        imagePreview.src = '/menu/' + value.image;
         imagePreview.style.display = 'block';
     }
 
@@ -115,7 +115,7 @@ function addMenuItem(value) {
                 <div class="row classformMultiple mb-3" id="row_${index + 1}">
                     <div class="col">
                         <div class="form-group">
-                            <label class="form-label">Porsi</label>
+                            <label class="form-label">Ukuran Porsi</label>
                             <input type="text" class="form-control" name="size[]" id="size_${index + 2}" value="${detail.size}">
                         </div>
                     </div>
@@ -278,7 +278,7 @@ function fetchDataMenuItem() {
                                 data.id +
                                 '" title="Edit Menu" onclick="editMenu(' +
                                 row.id +
-                                ')"><i class="bi bi-pen"></i></button> ' +
+                                ')"><i class="bi bi-pencil-square"></i></button> ' +
                                 '<button class="btn btn-danger btn-delete" data-id="' +
                                 data.id +
                                 '" title="Delete Menu" onclick="destroy(' +

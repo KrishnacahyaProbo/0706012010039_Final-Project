@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\UserSetting;
 use App\Models\Delivery;
+use App\Models\UserSetting;
+use Illuminate\Http\Request;
 use App\Models\BalanceNominal;
-
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreUserSettingRequest;
 use App\Http\Requests\UpdateUserSettingRequest;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class UserSettingController extends Controller
 {
@@ -21,7 +20,7 @@ class UserSettingController extends Controller
         $delivery = Delivery::where('vendor_id', Auth::user()->id)->first();
         $user_setting = UserSetting::where('vendor_id', Auth::user()->id)->first();
         $balance = BalanceNominal::where('user_id', Auth::user()->id)->first();
-        return view('pages.users.settings.index', compact('user_setting', 'delivery','balance'));
+        return view('pages.users.settings.index', compact('user_setting', 'delivery', 'balance'));
     }
 
     public function data()
@@ -39,23 +38,7 @@ class UserSettingController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreUserSettingRequest $request)
-    {
-        //
-    }
-
-    public function settingsPemesanan(Request $request)
+    public function order(Request $request)
     {
         try {
             // Retrieve the user setting record or create a new one if it doesn't exist
@@ -79,15 +62,8 @@ class UserSettingController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(UserSetting $userSetting)
+    public function balanceSettings(Request $request)
     {
-        //
-    }
-
-    public function balanceSettings(Request $request){
         try {
             // Retrieve the user setting record or create a new one if it doesn't exist
             $ballance = BalanceNominal::firstOrNew(['user_id' => Auth::user()->id]);
@@ -107,29 +83,5 @@ class UserSettingController extends Controller
             // Handle any exceptions
             return response()->json(['error' => 'Failed to save data: ' . $e->getMessage()], 500);
         }
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(UserSetting $userSetting)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateUserSettingRequest $request, UserSetting $userSetting)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(UserSetting $userSetting)
-    {
-        //
     }
 }

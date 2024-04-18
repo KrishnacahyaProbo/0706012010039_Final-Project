@@ -50,20 +50,14 @@ Route::middleware([
     Route::prefix('settings')->name('setting.')->namespace('App\Http\Controllers')->group(function () {
         Route::get('/', 'UserSettingController@index')->name('index');
         Route::get('/data', 'UserSettingController@data')->name('data');
+        Route::post('/order', 'UserSettingController@order')->name('order');
     });
 
     Route::prefix('delivery')->name('delivery.')->namespace('App\Http\Controllers')->group(function () {
         Route::post('/settings', 'DeliveryController@settingsDelivery')->name('delivery.settings');
     });
 
-
-
-    // Route::prefix('users')->name('users.')->namespace('App\Http\Controllers')->group(function () {
-
-    //     // Setting
-    //     Route::post('/settingsPemesanan', 'UserSettingController@settingsPemesanan')->name('settings.settingsPemesanan');
-    //     Route::get('/getDataSettings', 'UserSettingController@getDataSettings')->name('settings.getDataSettings');
-
-    //     Route::post('/balanceSettings', 'UserSettingController@balanceSettings')->name('users.balanceSettings');
-    // });
+    Route::prefix('balance')->name('balance.')->namespace('App\Http\Controllers')->group(function () {
+        Route::post('/settings', 'BalanceSettingController@settings')->name('balance.settings');
+    });
 });

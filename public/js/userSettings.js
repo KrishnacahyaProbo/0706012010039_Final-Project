@@ -22,7 +22,7 @@ function fetchDataAddress() {
 function balanceSettings() {
     var formData = $('#rekeningUser').serialize();
     $.ajax({
-        url: '/balanceSettings',
+        url: '/balance/settings',
         type: 'POST',
         data: formData,
         success: function (response) {
@@ -57,7 +57,7 @@ function userSettings() {
     // Merge both form data into one object
     var combinedFormData = formDataAlamat + '&' + formDataPemesanan;
     $.ajax({
-        url: '/delivery/settings',
+        url: '/settings/order',
         type: 'POST',
         data: combinedFormData,
         success: function (response) {
@@ -78,7 +78,7 @@ function setAlamat() {
     var combinedFormData = formDataAlamat + '&' + formDataPemesanan;
 
     $.ajax({
-        url: '/delivery/settings',
+        url: '/settings/order',
         type: 'POST',
         data: combinedFormData,
         success: function (response) {
