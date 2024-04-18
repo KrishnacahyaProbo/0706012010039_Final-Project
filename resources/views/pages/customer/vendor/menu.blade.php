@@ -62,7 +62,23 @@
                     </div>
                 </div>
 
-                <div class="w-100" id="menuCart"></div>
+                {{-- <div class="w-100" id="menuCart"></div> --}}
+
+                <div class="w-100 d-grid gap-2">
+                    @foreach ($menus as $menu)
+                        <div class="card">
+                            <div class="card-body d-grid gap-2 p-0">
+                                <img src="{{ $menu->image }}" alt="" loading="lazy" class="rounded-1 w-25">
+                                <h5 class="card-title">{{ $menu->menu_name }}</h5>
+                                <div>
+                                    <span
+                                        class="badge rounded-pill text-{{ $menu->type == 'no_spicy' ? 'primary' : 'danger' }}-emphasis bg-{{ $menu->type == 'no_spicy' ? 'primary' : 'danger' }}-subtle border-{{ $menu->type == 'no_spicy' ? 'primary' : 'danger' }}-subtle border">{{ $menu->type == 'no_spicy' ? 'Tidak Pedas' : 'Pedas' }}</span>
+                                </div>
+                                <small class="card-text text-secondary">{{ $menu->description }}</small>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>
@@ -71,9 +87,8 @@
         var vendorData = <?php echo json_encode([
             'latitude' => $vendor->latitude,
             'longitude' => $vendor->longitude,
-            'address' => $vendor->address
+            'address' => $vendor->address,
         ]); ?>;
     </script>
-
     <script src="{{ asset('/js/menuvendor.js') }}"></script>
 </x-app-layout>

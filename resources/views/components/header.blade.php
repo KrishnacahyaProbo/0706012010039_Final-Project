@@ -4,8 +4,11 @@
     $isMenu = Str::startsWith($routeName, 'menu');
     $isSchedule = Str::startsWith($routeName, 'schedule');
     $isOrder = Str::startsWith($routeName, 'order');
+    $isVendor = Str::startsWith($routeName, 'vendor');
+    $isCart = Str::startsWith($routeName, 'cart');
     $isProfile = Str::startsWith($routeName, 'profile');
     $isSettings = Str::startsWith($routeName, 'users.settings');
+    // $isCredit = Str::startsWith($routeName, 'credit');
 @endphp
 
 <nav class="navbar navbar-light navbar-expand-lg bg-white shadow-sm">
@@ -20,13 +23,18 @@
         <div class="navbar-collapse collapse" id="navbarNav">
             @auth
                 <div class="navbar-nav mx-lg-4 my-lg-0 my-3 gap-1">
-                    <a class="nav-link {{ $isMenu ? 'active' : '' }}" href="{{ route('menu.index') }}">Menu</a>
-                    <a class="nav-link {{ $isSchedule ? 'active' : '' }}"
-                        href="{{ route('schedule.vendor', ['vendor_name' => Auth::user()->name]) }}">Schedule</a>
-                    <a class="nav-link {{ $isOrder ? 'active' : '' }}" href="{{ url('/order') }}">Order</a>
+                    @if (Auth::user()->hasRole('vendor'))
+                        <a class="nav-link {{ $isMenu ? 'active' : '' }}" href="{{ route('menu.index') }}">Menu</a>
+                        <a class="nav-link {{ $isSchedule ? 'active' : '' }}"
+                            href="{{ route('schedule.vendor', ['vendor_name' => Auth::user()->name]) }}">Schedule</a>
+                        <a class="nav-link {{ $isOrder ? 'active' : '' }}" href="{{ url('/order') }}">Order</a>
+                    @else
+                        <a class="nav-link {{ $isVendor ? 'active' : '' }}" href="{{ route('vendor.index') }}">Vendor</a>
+                        <a class="nav-link {{ $isCart ? 'active' : '' }}" href="{{ url('/cart') }}">Cart</a>
+                        <a class="nav-link {{ $isOrder ? 'active' : '' }}" href="{{ url('/order') }}">Order</a>
+                    @endif
                 </div>
-            @endauth
-            @auth
+
                 <div class="dropdown mb-1 ms-auto">
                     <button class="btn dropdown-toggle border-0 p-0" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">

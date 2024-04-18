@@ -21,7 +21,7 @@
         <div class="d-flex gap-2">
             <input type="search" class="form-control" id="searchInput" placeholder="Cari Vendor"
                 aria-label="Cari vendor katering" aria-describedby="button-addon2">
-            <button class="btn btn-primary" type="submit" id="button-addon2" onclick="searchVendor()">Cari</button>
+            <button class="btn btn-primary" type="submit" id="button-addon2" onclick="searchVendor()">Search</button>
         </div>
         <div id="vendorContainer" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3"></div>
         {{-- <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
@@ -61,5 +61,4 @@
     @section('js')
         <script src="{{ asset('js/vendors.js') }}"></script>
     @endsection
-
 </x-app-layout>

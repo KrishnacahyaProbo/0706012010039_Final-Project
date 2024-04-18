@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Menu;
 use Exception;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -38,7 +39,6 @@ class VendorController extends Controller
                 $vendor_data = $vendorQuery->get();
             }
 
-            // Success message
             $successMessage = 'Data retrieved successfully.';
 
             // Return JSON response with success message and paginated data
@@ -48,12 +48,29 @@ class VendorController extends Controller
                 'data' => $vendor_data
             ]);
         } catch (Exception $e) {
-            // Handle any exceptions
-            // You can log the error or return a custom error message
             $errorMessage = $e->getMessage();
             return response()->json([
                 'success' => false,
                 'error' => $errorMessage
+            ], 500);
+        }
+    }
+
+    public function show($id)
+    {
+        try {
+            $vendor = User::with('delivery', 'menu', 'menu.menu_schedule')
+                ->where('id', $id)
+                ->first();
+
+            $menus = Menu::where('vendor_id', $id)
+                ->with('menu_schedule')
+                ->get();
+            return view('pages.customer.vendor.menu', compact('vendor', 'menus'));
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => $e->getMessage()
             ], 500);
         }
     }

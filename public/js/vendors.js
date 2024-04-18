@@ -43,7 +43,7 @@ function setVendorToMenu() {
                     cardCol.click(function () {
                         // Get vendor_id from data attribute
                         var vendorId = $(this).data('vendor_id');
-                        window.location.href = '/menu/menuVendor/' + vendorId;
+                        window.location.href = '/vendors/' + vendorId;
                     });
 
                     title.click(function () {
@@ -72,7 +72,7 @@ function setVendorToMenu() {
                     cardCol.click(function () {
                         // Get vendor_id from data attribute
                         var vendorId = $(this).data('vendor_id');
-                        window.location.href = '/menu/menuVendor/' + vendorId;
+                        window.location.href = '/vendors/' + vendorId;
                     });
 
                     // Attach click event to title

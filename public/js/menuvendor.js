@@ -41,47 +41,29 @@ function initialize() {
 
     var calendarEl = document.getElementById('calendar_menu');
     var calendar = new FullCalendar.Calendar(calendarEl, {
-        // Konfigurasi FullCalendar
         themeSystem: 'bootstrap5',
         headerToolbar: {
             left: 'title',
             right: 'today prev,next'
         },
-        footerToolbar: {
-            center: 'dayGridMonth,dayGridWeek,dayGridDay,listWeek'
-        },
-        buttonText: {
-            today: 'Today',
-            month: 'Month',
-            week: 'Week',
-            day: 'Day',
-            list: 'List'
-        },
         titleFormat: {
             year: 'numeric',
             month: 'short'
         },
-        navLinks: true,
-        editable: true, // Enable dragging & resizing
-        eventResizableFromStart: true, // Enable resizing from start
+        // navLinks: true,
         dateClick: function (info) {
-            // Extract the clicked date
             var clickedDate = info.date;
-
-            // Format the date (if needed)
-            var formattedDate = formatDate(clickedDate); // Implement formatDate function if needed
-
-            // Show the selected date
+            var formattedDate = formatDate(clickedDate);
 
             $.ajax({
-                url: '/menu/scheduleMenu', // Adjust the URL to match your server route
+                url: '/vendors/' + '{{ $vendor->id }}',
                 type: 'GET',
                 data: {
+                    'vendor_id': '{{ $vendor->id }}',
                     'date': formattedDate
                 },
                 success: function (response) {
                     console.log(response.menus);
-                    // Create the elements
                     var divCard = document.createElement('div');
                     divCard.classList.add('card');
 
@@ -163,7 +145,7 @@ function initialize() {
                     divCard.appendChild(divCardBody);
 
                     // Append the card to a container in the DOM
-                    var container = document.getElementById('menuCart'); // Change 'your-container-id' to the actual ID of your container
+                    var container = document.getElementById('menuCart');
                     container.appendChild(divCard);
                 },
                 error: function (xhr, status, error) {
@@ -174,102 +156,25 @@ function initialize() {
                 }
             });
         },
-        events: function (fetchInfo, successCallback, failureCallback) {
+        eventClick: function (info) {
+            // Handle event click
+            console.log('Event clicked:', info.event);
+        }
+        // events: function (fetchInfo, successCallback, failureCallback) {
 
             // Memanggil callback dengan daftar acara
             // successCallback(events);
-        },
-        eventDidMount: function (arg) {
-            arg.el.style.borderColor = '#842029';
-            arg.el.style.color = '#fff';
-
-
-
-            arg.el.addEventListener('click', clickHandler);
-
-            // Hapus event listener jika event dihapus dari kalender
-            arg.event.remove = function () {
-                arg.el.removeEventListener('click', clickHandler);
-            };
-        },
-
-        // Menangani event ketika event di-drop (dragged)
-        eventDrop: function (arg) {
-            var eventId = arg.event.id; // ID dari event yang di-drop
-            var newStart = arg.event.start; // Tanggal baru setelah di-drop
-            var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-            // Create a new Date object
-            var date = new Date(newStart);
-
-            // Extract year, month, and day components
-            var year = date.getFullYear();
-            // JavaScript months are 0-based, so we add 1 to get the correct month
-            var month = (date.getMonth() + 1).toString().padStart(2, '0');
-            var day = date.getDate().toString().padStart(2, '0');
-
-            // Form the yyyy-mm-dd format
-            var formattedDate = year + '-' + month + '-' + day;
-            // Perform AJAX request untuk update tanggal event
-            $.ajax({
-                url: 'schedules/update',
-                type: 'POST',
-                data: {
-                    id: eventId,
-                    new_start: formattedDate,
-                    _token: csrfToken
-                },
-                success: function (response) {
-                    if (response.success) {
-                        $("#mdlForm").modal("hide");
-                        $("#mdlFormContent").html("");
-                        setTimeout(function () {
-                            showDetail(id);
-                        }, 1000);
-                    } else {
-                        alert('Event date update failed. Please try again.');
-                    }
-                },
-                error: function (xhr, status, error) {
-                    alert('Event date update failed. Please try again.', xhr.responseJSON.error);
-                }
-            });
-        },
-
-        // Menangani event ketika event di-resize
-        eventResize: function (arg) {
-            var eventId = arg.event.id; // ID dari event yang di-resize
-            var newEnd = arg.event.end; // Tanggal baru setelah di-resize
-            var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-            // Perform AJAX request untuk update tanggal event
-            $.ajax({
-                url: 'schedules/update',
-                type: 'PUT',
-                data: {
-                    id: eventId,
-                    new_end: newEnd.format(), // Format tanggal baru sesuai kebutuhan Anda
-                    _token: csrfToken
-                },
-                success: function (response) {
-                    console.log('Event date updated successfully');
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error updating event date:', error);
-                }
-            });
-        },
-
+        // },
     });
     calendar.render();
-
-
 }
+
 function formatDate(date) {
     var year = date.getFullYear();
     var month = (date.getMonth() + 1).toString().padStart(2, '0');
     var day = date.getDate().toString().padStart(2, '0');
     return year + '-' + month + '-' + day;
 }
+
 // Call initialize function when the document is loaded
 document.addEventListener("DOMContentLoaded", initialize);

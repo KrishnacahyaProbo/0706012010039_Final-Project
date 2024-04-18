@@ -17,21 +17,11 @@ Route::get('/', function () {
     return view('pages.home');
 })->name('home');
 
-Route::prefix('vendors')->name('vendor.')->namespace('App\Http\Controllers')->group(function () {
-    Route::get('/', 'VendorController@index')->name('index');
-    Route::get('/data', 'VendorController@data')->name('data');
-    Route::get('/{name}', 'VendorController@show')->name('show');
-});
-
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-
     Route::prefix('menus')->name('menu.')->namespace('App\Http\Controllers')->group(function () {
         Route::get('/', 'MenuController@index')->name('index');
         Route::get('/data', 'MenuController@data')->name('data');
@@ -45,6 +35,12 @@ Route::middleware([
         Route::post('/store', 'ScheduleController@store')->name('store');
         Route::post('/update', 'ScheduleController@update')->name('update');
         Route::delete('/destroy', 'ScheduleController@destroy')->name('destroy');
+    });
+
+    Route::prefix('vendors')->name('vendor.')->namespace('App\Http\Controllers')->group(function () {
+        Route::get('/', 'VendorController@index')->name('index');
+        Route::get('/data', 'VendorController@data')->name('data');
+        Route::get('/{id}', 'VendorController@show')->name('show');
     });
 
     Route::prefix('settings')->name('setting.')->namespace('App\Http\Controllers')->group(function () {
