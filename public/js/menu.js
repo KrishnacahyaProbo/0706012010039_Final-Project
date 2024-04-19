@@ -71,7 +71,10 @@ function addMenuItem(value) {
             <div class="col">
                 <div class="form-group">
                     <label class="form-label">Harga</label>
-                    <input type="text" class="form-control price-input" name="price[]" id="price_1">
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon1">Rp</span>
+                        <input type="number" class="form-control price-input" name="price[]" id="price_1">
+                    </div>
                 </div>
             </div>
             <div class="col-auto">
@@ -122,7 +125,10 @@ function addMenuItem(value) {
                     <div class="col">
                         <div class="form-group">
                             <label class="form-label">Harga</label>
-                            <input type="text" class="form-control price-input" name="price[]" id="price_${index + 2}" value="${formatRupiah(detail.price)}">
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1">Rp</span>
+                                <input type="number" class="form-control price-input" name="price[]" id="price_${index + 2}" value="${formatRupiah(detail.price)}">
+                            </div>
                         </div>
                     </div>
                     <div class="col-auto">

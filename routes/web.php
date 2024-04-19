@@ -17,6 +17,14 @@ Route::get('/', function () {
     return view('pages.home');
 })->name('home');
 
+Route::get('/order', function () {
+    return view('pages.slicing.order');
+})->name('order');
+
+Route::get('/credit', function () {
+    return view('pages.slicing.credit');
+})->name('credit');
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
