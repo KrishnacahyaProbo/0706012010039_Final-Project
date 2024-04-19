@@ -1,0 +1,16 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On 
+    RewriteCond %{REQUEST_URI} !^/node_modules/  # Exclude requests to the node_modules folder
+    RewriteRule ^(.*)$ public/$1 [L]              # Rewrite to public/ directory for all other requests
+</IfModule>
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION BEGIN
+PassengerAppRoot "/home/cejlyshh/public_html/node"
+PassengerBaseURI "/"
+PassengerNodejs "/home/cejlyshh/nodevenv/public_html/node/12/bin/node"
+PassengerAppType node
+PassengerStartupFile app.js
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION END
+# DO NOT REMOVE OR MODIFY. CLOUDLINUX ENV VARS CONFIGURATION BEGIN
+<IfModule Litespeed>
+</IfModule>
+# DO NOT REMOVE OR MODIFY. CLOUDLINUX ENV VARS CONFIGURATION END

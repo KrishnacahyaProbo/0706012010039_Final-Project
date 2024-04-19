@@ -20,9 +20,9 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
-        $userLatitude = -7.2989853; // Example: User's latitude
-        $userLongitude = 112.6294714; // Example: User's longitude
-        $radiusInDegrees = 0.1; // Example: Roughly 50 kilometers radius
+        $userLatitude = -7.2989853;
+        $userLongitude = 112.6294714;
+        $radiusInDegrees = 0.1;
 
         // Generate latitude and longitude coordinates within the specified radius
         $latitude = $this->faker->latitude($userLatitude - $radiusInDegrees, $userLatitude + $radiusInDegrees);
@@ -39,7 +39,7 @@ class UserFactory extends Factory
             'latitude' => $latitude,
             'longitude' => $longitude,
             'about_us' => $this->faker->paragraph(),
-            'rating' => $this->faker->numberBetween(1, 2, 3, 4, 5),
+            'rating' => $this->faker->numberBetween(1, 5),
         ];
     }
 
