@@ -24,14 +24,12 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
-                                <div for="select_all" class="d-flex gap-2">
-                                    <x-checkbox id="select_all" name="select_all" />
-                                    <label class="form-check-label" for="select_all">
-                                        <span><strong>Pilih Semua (Total Cart item)</strong></span>
-                                    </label>
+                                <div class="d-grid">
+                                    <p class="text-secondary">Alamat Pengiriman</p>
+                                    <h6>Alamat</h6>
                                 </div>
 
-                                <button class="btn text-danger border-0 p-0">Hapus</button>
+                                <button class="btn text-primary border-0 p-0">Ubah</button>
                             </div>
                         </div>
                     </div>
@@ -102,24 +100,46 @@
 
             <div class="col-lg-4">
                 <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                <span class="text-secondary">Kredit</span>
+                            </div>
+                            <div class="col">
+                                <span class="badge rounded-pill nominal_background">
+                                    <h6 class="mb-0 px-2 py-1">Nominal</h6>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="card-body">
                         <div class="d-grid gap-3">
                             <h3>Ringkasan Belanja</h3>
                             <ul class="list-unstyled">
-                                <li class="d-flex justify-content-between">
-                                    <span>Nama Vendor</span>
-                                    <span>Nominal</span>
+                                <li class="row justify-content-between gap-3">
+                                    <div class="col">
+                                        <span>Total Harga (Total Produk): </span>
+                                        <span class="text-break">Nominal</span>
+                                    </div>
+                                </li>
+                                <li class="row justify-content-between gap-3">
+                                    <div class="col">
+                                        <span>Total Ongkos Kirim: </span>
+                                        <span class="text-break">Nominal</span>
+                                    </div>
                                 </li>
                             </ul>
 
                             <hr class="my-0">
 
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="text-secondary lead">Total</span>
-                                <h5 class="my-0">Nominal</h5>
+                            <div class="row align-items-center gap-3">
+                                <div class="col">
+                                    <span class="text-secondary">Total Pembayaran: </span>
+                                    <span class="fs-5 text-break"><strong>Nominal</strong></span>
+                                </div>
                             </div>
 
-                            <x-button>Checkout</x-button>
+                            <x-button>Pay</x-button>
                         </div>
                     </div>
                 </div>
