@@ -20,10 +20,12 @@ Route::get('/', function () {
 Route::get('/order', function () {
     return view('pages.slicing.order');
 })->name('order');
-
 Route::get('/credit', function () {
     return view('pages.slicing.credit');
 })->name('credit');
+Route::get('/cart', function () {
+    return view('pages.slicing.cart');
+})->name('cart');
 
 Route::middleware([
     'auth:sanctum',

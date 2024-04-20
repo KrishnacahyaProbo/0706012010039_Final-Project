@@ -24,6 +24,21 @@ a:not(.btn, .dropdown-item, .nav-link) {
     }
 }
 
+.accordion-button {
+    &:focus {
+        box-shadow: none !important;
+    }
+
+    &.collapsed {
+        color: $red-700;
+    }
+
+    &:not(.collapsed) {
+        background-color: transparent;
+        color: $red-700;
+    }
+}
+
 body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

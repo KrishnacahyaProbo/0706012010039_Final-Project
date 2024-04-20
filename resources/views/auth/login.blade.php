@@ -35,12 +35,10 @@
                                 </div>
 
                                 <div class="d-flex justify-content-between">
-                                    <div>
-                                        <label for="remember_me" class="d-flex gap-2">
-                                            <x-checkbox id="remember_me" name="remember" />
-                                            <label class="form-check-label" for="remember_me">
-                                                {{ __('Remember Me') }}
-                                            </label>
+                                    <div class="d-flex gap-2">
+                                        <x-checkbox id="remember_me" name="remember" />
+                                        <label class="form-check-label" for="remember_me">
+                                            {{ __('Remember Me') }}
                                         </label>
                                     </div>
 

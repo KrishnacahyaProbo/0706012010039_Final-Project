@@ -24,7 +24,10 @@
             </div>
 
             <div>
-                <x-dropdown>Add Menu</x-dropdown>
+                <select class="form-select" aria-label="Date select">
+                    <option selected>{{ date('j F Y') }}</option>
+                    <option value="">{{ date('j F Y') }}</option>
+                </select>
             </div>
         </div>
 
