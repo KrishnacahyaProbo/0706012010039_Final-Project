@@ -56,7 +56,9 @@
             <div class="d-grid d-lg-flex gap-3">
                 <div class="w-100">
                     <div class="d-grid gap-2">
-                        <div id="calendar_menu" class="card"></div>
+                        <div class="card">
+                            <div id="calendar_menu" class="card-body"></div>
+                        </div>
 
                         <x-button class="w-100">View Cart</x-button>
                     </div>
@@ -64,15 +66,19 @@
 
                 {{-- <div class="w-100" id="menuCart"></div> --}}
 
-                <div class="w-100 d-grid gap-2">
+                <div class="w-100">
                     @foreach ($menus as $menu)
                         <div class="card">
-                            <div class="card-body d-grid gap-2 p-0">
-                                <img src="{{ $menu->image }}" alt="" loading="lazy" class="rounded-1 w-25">
-                                <h5 class="card-title">{{ $menu->menu_name }}</h5>
-                                <div>
-                                    <span
-                                        class="badge rounded-pill text-{{ $menu->type == 'no_spicy' ? 'primary' : 'danger' }}-emphasis bg-{{ $menu->type == 'no_spicy' ? 'primary' : 'danger' }}-subtle border-{{ $menu->type == 'no_spicy' ? 'primary' : 'danger' }}-subtle border">{{ $menu->type == 'no_spicy' ? 'Tidak Pedas' : 'Pedas' }}</span>
+                            <div class="card-body d-grid gap-2">
+                                <div class="d-flex gap-3">
+                                    <img src="{{ $menu->image }}" alt="" loading="lazy" class="rounded-1 w-25">
+                                    <div>
+                                        <h5 class="card-title">{{ $menu->menu_name }}</h5>
+                                        <div>
+                                            <span
+                                                class="badge rounded-pill text-{{ $menu->type == 'no_spicy' ? 'primary' : 'danger' }}-emphasis bg-{{ $menu->type == 'no_spicy' ? 'primary' : 'danger' }}-subtle border-{{ $menu->type == 'no_spicy' ? 'primary' : 'danger' }}-subtle border">{{ $menu->type == 'no_spicy' ? 'Tidak Pedas' : 'Pedas' }}</span>
+                                        </div>
+                                    </div>
                                 </div>
                                 <small class="card-text text-secondary">{{ $menu->description }}</small>
                             </div>

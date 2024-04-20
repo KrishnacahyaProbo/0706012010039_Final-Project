@@ -1,4 +1,4 @@
-@section('title', 'Credit')
+@section('title', 'Cart')
 
 <x-app-layout>
     @if (session('success'))
@@ -22,7 +22,7 @@
             <div class="col-lg-8 d-grid gap-3">
                 <div>
                     <div class="card">
-                        <div class="card-body p-0">
+                        <div class="card-body">
                             <div class="d-flex justify-content-between">
                                 <div for="select_all" class="d-flex gap-2">
                                     <x-checkbox id="select_all" name="select_all" />
@@ -126,7 +126,7 @@
 
             <div class="col-lg-4">
                 <div class="card">
-                    <div class="card-body p-0">
+                    <div class="card-body">
                         <div class="d-grid gap-3">
                             <h3>Ringkasan Belanja</h3>
                             <ul class="list-unstyled">

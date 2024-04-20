@@ -73,7 +73,7 @@ function initialize() {
                     var img = document.createElement('img');
                     img.src = 'https://laravel.com/img/logotype.min.svg';
                     img.alt = '';
-                    img.classList.add('card-img-top', 'rounded-0');
+                    img.classList.add('card-img-top');
                     img.setAttribute('loading', 'lazy');
 
                     var h3 = document.createElement('h3');

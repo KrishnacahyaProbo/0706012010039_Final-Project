@@ -19,7 +19,9 @@
         </div>
 
         <div class="card">
-            <div id="calendar" class="vh-100"></div>
+            <div class="card-body">
+                <div id="calendar" class="vh-100"></div>
+            </div>
         </div>
 
         @section('js')

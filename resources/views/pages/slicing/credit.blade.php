@@ -23,7 +23,7 @@
         <div class="row row-cols-1 row-cols-sm-2 g-3">
             <div class="col">
                 <div class="card h-100">
-                    <div class="card-body p-0">
+                    <div class="card-body">
                         <div class="d-grid gap-3">
                             <span class="text-secondary">Kredit</span>
                             <div>
@@ -38,7 +38,7 @@
 
             <div class="col">
                 <div class="card h-100">
-                    <div class="card-body p-0">
+                    <div class="card-body">
                         <div class="d-grid gap-3">
                             <h3>Nama Bank Nomor Rekening</h3>
                             <span class="text-secondary lead">a.n. Nama Pemilik Rekening</span>

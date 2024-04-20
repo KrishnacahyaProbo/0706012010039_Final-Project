@@ -61,24 +61,26 @@ function addMenuItem(value) {
     `);
     form.append(`
     <div id="formMultiple" class="form_multiple card mb-3">
-        <div class="row classformMultiple mb-3" id="row_1">
-            <div class="col">
-                <div class="form-group">
-                    <label class="form-label">Ukuran Porsi</label>
-                    <input type="text" class="form-control" name="size[]" id="size_1">
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <label class="form-label">Harga</label>
-                    <div class="input-group">
-                        <span class="input-group-text" id="basic-addon1">Rp</span>
-                        <input type="number" class="form-control price-input" name="price[]" id="price_1">
+        <div class="card-body">
+            <div class="row classformMultiple mb-3" id="row_1">
+                <div class="col">
+                    <div class="form-group">
+                        <label class="form-label">Ukuran Porsi</label>
+                        <input type="text" class="form-control" name="size[]" id="size_1">
                     </div>
                 </div>
-            </div>
-            <div class="col-auto">
-                <button type="button" class="btn btn-success addButton"><i class="bi bi-plus-lg"></i></button>
+                <div class="col">
+                    <div class="form-group">
+                        <label class="form-label">Harga</label>
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1">Rp</span>
+                            <input type="number" class="form-control price-input" name="price[]" id="price_1">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <button type="button" class="btn btn-success addButton"><i class="bi bi-plus-lg"></i></button>
+                </div>
             </div>
         </div>
     </div>
@@ -115,7 +117,8 @@ function addMenuItem(value) {
         $("#formMultiple").html("");
         value.menu_detail.forEach((detail, index) => {
             const newRow = `
-                <div class="row classformMultiple mb-3" id="row_${index + 1}">
+            <div class="card-body">
+                <div class="row classformMultiple" id="row_${index + 1}">
                     <div class="col">
                         <div class="form-group">
                             <label class="form-label">Ukuran Porsi</label>
@@ -138,6 +141,7 @@ function addMenuItem(value) {
                         </div>
                     </div>
                 </div>
+            </div>
             `;
             $("#formMultiple").append(newRow);
         });

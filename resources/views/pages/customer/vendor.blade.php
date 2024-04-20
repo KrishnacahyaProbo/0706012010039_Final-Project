@@ -30,7 +30,7 @@
                     <div class="card gap-3">
                         <img src="" alt="" class="card-img-top rounded-0" loading="lazy">
 
-                        <div class="card-body p-0">
+                        <div class="card-body">
                             <h3 class="card-title">
                                 <a href="#" class="stretched-link">(Nama Vendor)</a>
                             </h3>

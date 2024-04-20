@@ -35,7 +35,7 @@
             @for ($i = 0; $i < 3; $i++)
                 <div class="col">
                     <div class="card h-100">
-                        <div class="card-body p-0">
+                        <div class="card-body">
                             <div class="d-grid gap-3">
                                 <h3>Total Kuantitas</h3>
                                 <span class="text-secondary lead">Nama Menu</span>

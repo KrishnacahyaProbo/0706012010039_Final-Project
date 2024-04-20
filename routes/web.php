@@ -26,6 +26,9 @@ Route::get('/credit', function () {
 Route::get('/cart', function () {
     return view('pages.slicing.cart');
 })->name('cart');
+Route::get('/cart/checkout', function () {
+    return view('pages.slicing.checkout');
+})->name('checkout');
 
 Route::middleware([
     'auth:sanctum',

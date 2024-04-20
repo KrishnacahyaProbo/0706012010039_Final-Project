@@ -86,7 +86,7 @@
                             @foreach ($highlight['feature_items'] as $item)
                                 <div class="col">
                                     <div class="card h-100">
-                                        <div class="card-body p-0">
+                                        <div class="card-body">
                                             <div
                                                 class="bg-{{ $item['feature_color'] }}-subtle d-inline-block rounded-1 px-3 py-2">
                                                 <i

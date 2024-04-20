@@ -28,8 +28,8 @@ function setVendorToMenu() {
                 $.each(response.data, function (index, vendor) {
                     var cardCol = $('<div class="col d-flex"></div>');
                     var card = $('<div class="card gap-3 h-100"></div>');
-                    var img = $('<img src="' + (vendor.profile_photo_url != null ? vendor.profile_photo_url : "") + '" alt="" class="card-img-top rounded-0" loading="lazy">');
-                    var cardBody = $('<div class="card-body p-0"></div>');
+                    var img = $('<img src="' + (vendor.profile_photo_url != null ? vendor.profile_photo_url : "") + '" alt="" class="card-img-top" loading="lazy">');
+                    var cardBody = $('<div class="card-body"></div>');
                     var title = $('<h3 class="card-title"><a href="#" class="stretched-link">' + vendor.name + '</a></h3>');
                     var rating = $('<div class="d-grid text-secondary gap-1"><div class="d-flex gap-2"><i class="bi bi-star"></i><span class="card-text">' + vendor.rating + '/5</span></div></div>');
                     var address = $('<div class="d-flex gap-2"><i class="bi bi-geo-alt"></i><p class="card-text">' + vendor.address + ' - ' + calculateDistance(userLat, userLng, vendor.latitude, vendor.longitude) + 'km</p></div>');
@@ -56,8 +56,8 @@ function setVendorToMenu() {
                 $.each(response.data.data, function (index, vendor) {
                     var cardCol = $('<div class="col d-flex"></div>');
                     var card = $('<div class="card gap-3 h-100"></div>');
-                    var img = $('<img src="' + (vendor.profile_photo_url != null ? vendor.profile_photo_url : "") + '" alt="" class="card-img-top rounded-0" loading="lazy">');
-                    var cardBody = $('<div class="card-body p-0"></div>');
+                    var img = $('<img src="' + (vendor.profile_photo_url != null ? vendor.profile_photo_url : "") + '" alt="" class="card-img-top" loading="lazy">');
+                    var cardBody = $('<div class="card-body"></div>');
                     var title = $('<h3 class="card-title"><a href="#" class="stretched-link">' + vendor.name + '</a></h3>');
                     var rating = $('<div class="d-flex gap-2"><i class="bi bi-star"></i><span class="card-text">' + vendor.rating + '/5</span></div>');
                     var address = $('<div class="d-flex gap-2"><i class="bi bi-geo-alt"></i><p class="card-text">' + vendor.address + ' - ' + calculateDistance(userLat, userLng, vendor.latitude, vendor.longitude) + 'km</p></div>');
