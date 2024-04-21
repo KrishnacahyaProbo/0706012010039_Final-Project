@@ -18,61 +18,66 @@
             @section('page_title', 'Pengaturan')
         </div>
 
-        <div class="card">
-            <div class="card-body">
-                <form method="POST" id="pengiriman">
-                    @csrf
+        @if (Auth::user()->hasRole('vendor'))
+            <div class="card">
+                <div class="card-body">
+                    <form method="POST" id="pengiriman">
+                        @csrf
 
-                    <div class="d-grid gap-3">
-                        <h3>Pengiriman</h3>
+                        <div class="d-grid gap-3">
+                            <h3>Pengiriman</h3>
 
-                        <div>
-                            <label for="distance_between" class="form-label">{{ __('Jarak Maksimum') }}</label>
+                            <div>
+                                <label for="distance_between" class="form-label">{{ __('Jarak Maksimum') }}</label>
 
-                            <div class="input-group">
-                                <span class="input-group-text" id="basic-addon1">km</span>
-                                <input id="distance_between" type="number" name="distance_between" class="form-control"
-                                    value="{{ $delivery != null ? $delivery->distance_between : '' }}" required>
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1">km</span>
+                                    <input id="distance_between" type="number" name="distance_between"
+                                        class="form-control"
+                                        value="{{ $delivery != null ? $delivery->distance_between : '' }}" required>
+                                </div>
                             </div>
-                        </div>
-                        <div>
-                            <label for="shipping_cost" class="form-label">{{ __('Ongkos Pengiriman') }}</label>
+                            <div>
+                                <label for="shipping_cost" class="form-label">{{ __('Ongkos Pengiriman') }}</label>
 
-                            <div class="input-group">
-                                <span class="input-group-text" id="basic-addon1">Rp</span>
-                                <input id="shipping_cost" type="number" name="shipping_cost" class="form-control"
-                                    value = "{{ $delivery != null ? $delivery->shipping_cost : '' }}" required>
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1">Rp</span>
+                                    <input id="shipping_cost" type="number" name="shipping_cost" class="form-control"
+                                        value = "{{ $delivery != null ? $delivery->shipping_cost : '' }}" required>
+                                </div>
                             </div>
+
+                            <button class="btn btn-primary w-100" id="pengirimanBtn" type="button"
+                                onclick="settingsDelivery()">{{ __('Save') }}</button>
                         </div>
-
-                        <button class="btn btn-primary w-100" id="pengirimanBtn" type="button"
-                            onclick="settingsDelivery()">{{ __('Save') }}</button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
 
-        <div class="card">
-            <div class="card-body">
-                <form method="POST" id="pesanan">
-                    @csrf
+            <div class="card">
+                <div class="card-body">
+                    <form method="POST" id="pesanan">
+                        @csrf
 
-                    <div class="d-grid gap-3">
-                        <h3>Hari Konfirmasi Pesanan</h3>
+                        <div class="d-grid gap-3">
+                            <h3>Hari Konfirmasi Pesanan</h3>
 
-                        <div>
-                            <label for="confirmation_days"
-                                class="form-label">{{ __('Batas Hari Terakhir Sebelum Tanggal Permintaan dan Pembatalan') }}</label>
-                            <input id="confirmation_days" type="number" name="confirmation_days" class="form-control"
-                                value="{{ $user_setting != null ? $user_setting->confirmation_days : '' }}" required>
+                            <div>
+                                <label for="confirmation_days"
+                                    class="form-label">{{ __('Batas Hari Terakhir Sebelum Tanggal Permintaan dan Pembatalan') }}</label>
+                                <input id="confirmation_days" type="number" name="confirmation_days"
+                                    class="form-control"
+                                    value="{{ $user_setting != null ? $user_setting->confirmation_days : '' }}"
+                                    required>
+                            </div>
+
+                            <button class="btn btn-primary w-100" type="button"
+                                onclick="userSettings()">{{ __('Save') }}</button>
                         </div>
-
-                        <button class="btn btn-primary w-100" type="button"
-                            onclick="userSettings()">{{ __('Save') }}</button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
+        @endif
 
         <div class="card">
             <div class="card-body">
@@ -168,8 +173,9 @@
                 </form>
             </div>
         </div>
+    </div>
 
-        @section('js')
-            <script src="{{ asset('js/userSettings.js') }}"></script>
-        @endsection
+    @section('js')
+        <script src="{{ asset('js/userSettings.js') }}"></script>
+    @endsection
 </x-app-layout>

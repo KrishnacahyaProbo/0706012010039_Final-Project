@@ -68,7 +68,7 @@ input:is([type="radio"], [type="checkbox"]):checked {
     border: none;
 }
 
-select {
+select:not(.flatpickr-monthDropdown-months) {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="white"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>') !important;
 }
 
@@ -100,7 +100,7 @@ tr:last-child td:last-child {
     border-bottom-right-radius: 4px;
 }
 
-select,
+select:not(.flatpickr-monthDropdown-months),
 .btn-primary {
     background-color: $red-700 !important;
     border: 1px solid $red-700 !important;
@@ -179,6 +179,14 @@ select,
 
 .fc-list-day-cushion {
     background-color: $dark;
+}
+
+.flatpickr-weekday {
+    color: $white !important;
+}
+
+.flatpickr-day.today {
+    border: 1px solid $red-700 !important;
 }
 
 .flatpickr-day.selected,

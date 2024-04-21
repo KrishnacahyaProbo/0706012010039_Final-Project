@@ -21,7 +21,7 @@ class MenuController extends Controller
      */
     public function index()
     {
-        $vendor_name = User::where('id',Auth::user()->id)->first()->name;
+        $vendor_name = User::where('id', Auth::user()->id)->first()->name;
         return view('pages.menu.index', compact('vendor_name'));
     }
 
@@ -58,20 +58,6 @@ class MenuController extends Controller
         }
     }
 
-    public function menuVendor($id)
-    {
-        try {
-            $vendor = User::with('Delivery')->where('id', $id)->first();
-            return view('pages.customer.vendor.menu', compact('vendor'));
-        } catch (Exception $e) {
-            return response()->json([
-                'message' => 'Error occured while fetching detail menu data',
-                'success' => false,
-                'error' => $e->getMessage(),
-            ], 500); // HTTP status code 500 "Internal Server Error"
-        }
-    }
-
     public function scheduleMenu(Request $request)
     {
         $schedulesMenuData = Schedule::with('menus')->where('schedule', '=', $request->date)->first();
@@ -81,7 +67,8 @@ class MenuController extends Controller
                 'message' => 'Schedule data found',
                 'schedulesMenuData' => $schedulesMenuData
             ],
-        200);
+            200
+        );
     }
 
     public function dataMenuVendor(Request $request)

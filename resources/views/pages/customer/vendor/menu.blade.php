@@ -15,14 +15,14 @@
 
     <div class="d-grid gap-3">
         <div class="card mb-3">
-            <div class="row g-0">
-                <div class="col-md-3">
-                    <img src="{{ $vendor->profile_photo_url }}" alt="" class="card-img-top rounded-0"
-                        loading="lazy">
-                </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <img src="{{ $vendor->profile_photo_url }}" alt="" class="card-img-top rounded-0"
+                            loading="lazy">
+                    </div>
 
-                <div class="col-md-9">
-                    <div class="card-body">
+                    <div class="col-md-9">
                         <h3 class="card-title">{{ $vendor->name }}</h3>
 
                         <div class="d-grid text-secondary gap-1">
@@ -64,9 +64,9 @@
                     </div>
                 </div>
 
-                {{-- <div class="w-100" id="menuCart"></div> --}}
+                <div class="w-100" id="menuCart"></div>
 
-                <div class="w-100">
+                {{-- <div class="w-100">
                     @foreach ($menus as $menu)
                         <div class="card">
                             <div class="card-body d-grid gap-2">
@@ -84,7 +84,7 @@
                             </div>
                         </div>
                     @endforeach
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
@@ -94,7 +94,8 @@
             'latitude' => $vendor->latitude,
             'longitude' => $vendor->longitude,
             'address' => $vendor->address,
+            'menu' => $vendor->menu,
         ]); ?>;
     </script>
-    <script src="{{ asset('/js/menuvendor.js') }}"></script>
+    <script src="{{ asset('/js/detailVendor.js') }}"></script>
 </x-app-layout>

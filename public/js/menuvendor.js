@@ -1,8 +1,4 @@
-// Wrap your code inside a function
 function initialize() {
-    console.log("Initializing...");
-
-    // Your getLocation function
     function getLocation() {
         console.log("vendor", vendorData);
         if (navigator.geolocation) {
@@ -12,7 +8,6 @@ function initialize() {
         }
     }
 
-    // Your showDistance function
     function showDistance(position) {
         var userLatitude = position.coords.latitude;
         var userLongitude = position.coords.longitude;
@@ -21,7 +16,6 @@ function initialize() {
         document.getElementById("distance-info").innerHTML = vendorData.address + " - " + distance + "km";
     }
 
-    // Your calculateDistance and toRadians functions
     function calculateDistance(lat1, lon1, lat2, lon2) {
         var earthRadius = 6371; // Radius of the Earth in kilometers
         var dLat = toRadians(lat2 - lat1);
@@ -36,7 +30,6 @@ function initialize() {
         return degrees * Math.PI / 180;
     }
 
-    // Call getLocation function when the document is ready
     getLocation();
 
     var calendarEl = document.getElementById('calendar_menu');
@@ -46,24 +39,24 @@ function initialize() {
             left: 'title',
             right: 'today prev,next'
         },
+        buttonText: {
+            today: 'Today'
+        },
         titleFormat: {
             year: 'numeric',
             month: 'short'
         },
-        // navLinks: true,
         dateClick: function (info) {
             var clickedDate = info.date;
             var formattedDate = formatDate(clickedDate);
 
             $.ajax({
-                url: '/vendors/' + '{{ $vendor->id }}',
+                url: '/menu/scheduleMenu',
                 type: 'GET',
                 data: {
-                    'vendor_id': '{{ $vendor->id }}',
                     'date': formattedDate
                 },
                 success: function (response) {
-                    console.log(response.menus);
                     var divCard = document.createElement('div');
                     divCard.classList.add('card');
 
@@ -93,7 +86,7 @@ function initialize() {
                     spanPorsi.textContent = 'Porsi';
                     var divPorsiButtons = document.createElement('div');
                     divPorsiButtons.classList.add('d-flex');
-                    var porsiOptions = ['Small', 'Medium', 'Large']; // Example porsi options
+                    var porsiOptions = ['Small', 'Medium', 'Large'];
                     porsiOptions.forEach(function (option) {
                         var button = document.createElement('button');
                         button.classList.add('btn', 'btn-outline-secondary', 'rounded-pill', 'mx-1', 'px-3');
@@ -156,15 +149,27 @@ function initialize() {
                 }
             });
         },
-        eventClick: function (info) {
-            // Handle event click
-            console.log('Event clicked:', info.event);
-        }
-        // events: function (fetchInfo, successCallback, failureCallback) {
+        events: function (fetchInfo, successCallback, failureCallback) {
+            var events = [];
+            var eventColor = '#842029';
+
+            vendorData.menu.forEach(function (menuItem) {
+                menuItem.menu_schedule.forEach(function (scheduleItem) {
+                    console.log(scheduleItem);
+
+                    events.push({
+                        id: scheduleItem.pivot.id,
+                        title: menuItem.menu_name,
+                        start: scheduleItem.schedule,
+                        backgroundColor: eventColor,
+                        borderColor: eventColor,
+                    });
+                });
+            });
 
             // Memanggil callback dengan daftar acara
-            // successCallback(events);
-        // },
+            successCallback(events);
+        },
     });
     calendar.render();
 }
@@ -176,5 +181,4 @@ function formatDate(date) {
     return year + '-' + month + '-' + day;
 }
 
-// Call initialize function when the document is loaded
 document.addEventListener("DOMContentLoaded", initialize);

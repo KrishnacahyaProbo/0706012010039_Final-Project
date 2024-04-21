@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Menu;
 use Exception;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -56,21 +55,16 @@ class VendorController extends Controller
         }
     }
 
-    public function show($id)
+    public function menu($nama_vendor)
     {
         try {
-            $vendor = User::with('delivery', 'menu', 'menu.menu_schedule')
-                ->where('id', $id)
-                ->first();
-
-            $menus = Menu::where('vendor_id', $id)
-                ->with('menu_schedule')
-                ->get();
-            return view('pages.customer.vendor.menu', compact('vendor', 'menus'));
+            $vendor = User::with('Delivery', 'menu', 'menu.menu_schedule')->where('name', $nama_vendor)->first();
+            return view('pages.customer.vendor.menu', compact('vendor'));
         } catch (Exception $e) {
             return response()->json([
+                'message' => 'Error occured while fetching detail menu data',
                 'success' => false,
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ], 500);
         }
     }

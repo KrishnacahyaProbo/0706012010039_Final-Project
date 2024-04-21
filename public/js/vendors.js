@@ -3,8 +3,8 @@ var currentPage = 1;
 var perPage = 12;
 
 document.addEventListener("DOMContentLoaded", function () {
-    setVendorToMenu();
     getCurrentLocation();
+    setVendorToMenu();
 });
 
 function searchVendor() {
@@ -27,7 +27,7 @@ function setVendorToMenu() {
             if ($("#searchInput").val() != '') {
                 $.each(response.data, function (index, vendor) {
                     var cardCol = $('<div class="col d-flex"></div>');
-                    var card = $('<div class="card gap-3 h-100"></div>');
+                    var card = $('<div class="card h-100"></div>');
                     var img = $('<img src="' + (vendor.profile_photo_url != null ? vendor.profile_photo_url : "") + '" alt="" class="card-img-top" loading="lazy">');
                     var cardBody = $('<div class="card-body"></div>');
                     var title = $('<h3 class="card-title"><a href="#" class="stretched-link">' + vendor.name + '</a></h3>');
@@ -41,9 +41,10 @@ function setVendorToMenu() {
                     vendorContainer.append(cardCol);
 
                     cardCol.click(function () {
-                        // Get vendor_id from data attribute
-                        var vendorId = $(this).data('vendor_id');
-                        window.location.href = '/vendors/' + vendorId;
+                        // Get vendor_id and vendor_name from data attribute
+                        var vendorName = $(this).find('.card-title a').text();
+                        var encodedVendorName = encodeURIComponent(vendorName);
+                        window.location.href = '/vendors/menu/' + encodedVendorName;
                     });
 
                     title.click(function () {
@@ -55,7 +56,7 @@ function setVendorToMenu() {
             } else {
                 $.each(response.data.data, function (index, vendor) {
                     var cardCol = $('<div class="col d-flex"></div>');
-                    var card = $('<div class="card gap-3 h-100"></div>');
+                    var card = $('<div class="card h-100"></div>');
                     var img = $('<img src="' + (vendor.profile_photo_url != null ? vendor.profile_photo_url : "") + '" alt="" class="card-img-top" loading="lazy">');
                     var cardBody = $('<div class="card-body"></div>');
                     var title = $('<h3 class="card-title"><a href="#" class="stretched-link">' + vendor.name + '</a></h3>');
@@ -70,9 +71,10 @@ function setVendorToMenu() {
                     vendorContainer.append(cardCol);
 
                     cardCol.click(function () {
-                        // Get vendor_id from data attribute
-                        var vendorId = $(this).data('vendor_id');
-                        window.location.href = '/vendors/' + vendorId;
+                        // Get vendor_id and vendor_name from data attribute
+                        var vendorName = $(this).find('.card-title a').text();
+                        var encodedVendorName = encodeURIComponent(vendorName);
+                        window.location.href = '/vendors/menu/' + encodedVendorName;
                     });
 
                     // Attach click event to title

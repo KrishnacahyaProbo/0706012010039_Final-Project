@@ -8,10 +8,10 @@
     $isCart = Str::startsWith($routeName, 'cart');
     $isProfile = Str::startsWith($routeName, 'profile');
     $isSettings = Str::startsWith($routeName, 'users.settings');
-    // $isCredit = Str::startsWith($routeName, 'credit');
+    $isCredit = Str::startsWith($routeName, 'credit');
 @endphp
 
-<nav class="navbar navbar-light navbar-expand-lg bg-white shadow-sm">
+<nav class="navbar navbar-light navbar-expand-lg border-bottom bg-white">
     <div class="container">
         <a class="navbar-brand" href="{{ route('home') }}">
             <img src="{{ url('images/brand/logo.svg') }}" alt="Logo" id="logo">
