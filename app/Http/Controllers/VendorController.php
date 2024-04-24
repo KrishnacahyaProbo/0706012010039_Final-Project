@@ -20,8 +20,8 @@ class VendorController extends Controller
             $page = $request->input('page');
             $perPage = $request->input('perPage');
 
-            // Assuming User is your Eloquent model for vendors
-            $vendorQuery = User::role('vendor')->with('Delivery', 'UserSetting'); // Eager load delivery and user setting relationships
+            // Eager load delivery and user setting relationships
+            $vendorQuery = User::role('vendor')->with('Delivery', 'UserSetting');
 
             if ($request->has('search') && $request->search !== null) {
                 $searchTerm = $request->search;
@@ -40,7 +40,6 @@ class VendorController extends Controller
 
             $successMessage = 'Data retrieved successfully.';
 
-            // Return JSON response with success message and paginated data
             return response()->json([
                 'success' => true,
                 'message' => $successMessage,

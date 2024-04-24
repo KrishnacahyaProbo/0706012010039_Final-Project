@@ -58,17 +58,36 @@ class MenuController extends Controller
         }
     }
 
-    public function scheduleMenu(Request $request)
+    public function schedule(Request $request)
     {
-        $schedulesMenuData = Schedule::with('menus')->where('schedule', '=', $request->date)->first();
-        return response()->json(
-            [
-                'success' => true,
-                'message' => 'Schedule data found',
-                'schedulesMenuData' => $schedulesMenuData
-            ],
-            200
-        );
+        try {
+            $dataMenu = Schedule::with(['menus' => function ($query) use ($request) {
+                // Menambahkan kondisi whereHas untuk memfilter berdasarkan relasi menus
+                $query->where('vendor_id', $request->id);
+            }, 'menus.menuDetail'])
+                ->where('schedule', '=', $request->date)
+                ->first();
+
+            if ($dataMenu) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Schedule data found',
+                    'data_menu' => $dataMenu
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No schedule data found',
+                    'data_menu' => null
+                ], 404);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while fetching schedule data: ' . $e->getMessage(),
+                'data_menu' => null
+            ], 500);
+        }
     }
 
     public function dataMenuVendor(Request $request)

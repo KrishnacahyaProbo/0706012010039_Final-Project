@@ -52,6 +52,7 @@
     <script src="{{ asset('libraries/js/datatables.min-bs5-dt-2.0.3-r-3.0.0.js') }}"></script>
     <script src="{{ asset('libraries/js/flatpickr.js') }}"></script>
     <script src="{{ asset('libraries/js/jquery-ui-1.12.1.js') }}"></script>
+    <script src="{{ asset('libraries/js/sweetalert2-11.10.8.all.min.js') }}"></script>
 
     {{-- Custom JS --}}
     <script src="{{ asset('js/map.js') }}"></script>

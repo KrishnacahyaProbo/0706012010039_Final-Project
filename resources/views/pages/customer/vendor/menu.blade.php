@@ -65,37 +65,19 @@
                 </div>
 
                 <div class="w-100" id="menuCart"></div>
-
-                {{-- <div class="w-100">
-                    @foreach ($menus as $menu)
-                        <div class="card">
-                            <div class="card-body d-grid gap-2">
-                                <div class="d-flex gap-3">
-                                    <img src="{{ $menu->image }}" alt="" loading="lazy" class="rounded-1 w-25">
-                                    <div>
-                                        <h5 class="card-title">{{ $menu->menu_name }}</h5>
-                                        <div>
-                                            <span
-                                                class="badge rounded-pill text-{{ $menu->type == 'no_spicy' ? 'primary' : 'danger' }}-emphasis bg-{{ $menu->type == 'no_spicy' ? 'primary' : 'danger' }}-subtle border-{{ $menu->type == 'no_spicy' ? 'primary' : 'danger' }}-subtle border">{{ $menu->type == 'no_spicy' ? 'Tidak Pedas' : 'Pedas' }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <small class="card-text text-secondary">{{ $menu->description }}</small>
-                            </div>
-                        </div>
-                    @endforeach
-                </div> --}}
             </div>
         </div>
     </div>
 
     <script>
         var vendorData = <?php echo json_encode([
+            'id' => $vendor->id,
             'latitude' => $vendor->latitude,
             'longitude' => $vendor->longitude,
             'address' => $vendor->address,
             'menu' => $vendor->menu,
         ]); ?>;
     </script>
-    <script src="{{ asset('/js/detailVendor.js') }}"></script>
+    <script src="{{ asset('/js/menuvendor.js') }}"></script>
+    <script src="{{ asset('/js/formatRupiah.js') }}"></script>
 </x-app-layout>

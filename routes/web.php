@@ -41,6 +41,7 @@ Route::middleware([
         Route::post('/store', 'MenuController@store')->name('store');
         Route::get('/show', 'MenuController@show')->name('show');
         Route::delete('/destroy', 'MenuController@destroy')->name('destroy');
+        Route::get('/schedule', 'MenuController@schedule')->name('schedule');
     });
 
     Route::prefix('schedules')->name('schedule.')->namespace('App\Http\Controllers')->group(function () {
