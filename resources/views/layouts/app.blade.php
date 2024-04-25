@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="{{ asset('libraries/css/datatables.min-bs5-2.0.3.css') }}">
     <link rel="stylesheet" href="{{ asset('libraries/css/material_red.css') }}">
     <link rel="stylesheet" href="{{ asset('libraries/css/jquery-ui-1.12.1.css') }}">
+    <link rel="stylesheet" href="{{ asset('libraries/css/toastr.min-2.1.4.css') }}">
     <script src="{{ asset('libraries/js/fullcalendar-6.1.11_index.global.min.js') }}"></script>
     <script src="{{ asset('libraries/js/fullcalendar-bootstrap5-6.1.11_index.global.min.js') }}"></script>
 </head>
@@ -53,6 +54,7 @@
     <script src="{{ asset('libraries/js/flatpickr.js') }}"></script>
     <script src="{{ asset('libraries/js/jquery-ui-1.12.1.js') }}"></script>
     <script src="{{ asset('libraries/js/sweetalert2-11.10.8.all.min.js') }}"></script>
+    <script src="{{ asset('libraries/js/toastr.min-2.1.4.js') }}"></script>
 
     {{-- Custom JS --}}
     <script src="{{ asset('js/map.js') }}"></script>

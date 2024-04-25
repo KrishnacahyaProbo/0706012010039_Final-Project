@@ -57,6 +57,10 @@ Route::middleware([
         Route::get('/menu/{vendorName}', 'VendorController@menu')->name('menu');
     });
 
+    Route::prefix('carts')->name('carts.')->namespace('App\Http\Controllers')->group(function () {
+        Route::post('/store', 'CartsController@store')->name('store');
+    });
+
     Route::prefix('settings')->name('setting.')->namespace('App\Http\Controllers')->group(function () {
         Route::get('/', 'UserSettingController@index')->name('index');
         Route::get('/data', 'UserSettingController@data')->name('data');

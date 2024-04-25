@@ -64,7 +64,12 @@
                     </div>
                 </div>
 
-                <div class="w-100" id="menuCart"></div>
+                <div class="w-100" id="menuCart">
+                    <div id="spinner" class="spinner-border text-primary" role="status" style="display: none;">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p>Silahkan pilih tanggal terlebih dahulu</p>
+                </div>
             </div>
         </div>
     </div>

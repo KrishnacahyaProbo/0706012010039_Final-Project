@@ -1,5 +1,6 @@
 // Wrap your code inside a function
 function initialize() {
+    var status = 'success';
     // Your getLocation function
     function getLocation() {
         if (navigator.geolocation) {
@@ -69,12 +70,16 @@ function initialize() {
             year: "numeric",
             month: "short",
         },
+        navLinks: true,
+        editable: true, // Enable dragging & resizing
+        eventResizableFromStart: true, // Enable resizing from start
         dateClick: function (info) {
             // Extract the clicked date
             var clickedDate = info.date;
 
             // Format the date (if needed)
             var formattedDate = formatDate(clickedDate); // Implement formatDate function if needed
+            document.getElementById("spinner").style.display = "block";
 
             // Show the selected date
             $.ajax({
@@ -85,6 +90,7 @@ function initialize() {
                     id: vendorData.id,
                 },
                 success: function (response) {
+                    document.getElementById("spinner").style.display = "none";
                     var container = document.getElementById("menuCart"); // Ganti 'your-container-id' dengan ID aktual kontainer Anda
                     container.innerHTML = "";
                     // Loop melalui setiap menu dan membuat kartu untuk setiap menu
@@ -157,8 +163,11 @@ function initialize() {
                         // Loop melalui setiap tombol porsi
                         // Variable untuk menyimpan porsi yang dipilih
                         var selectedOption = null;
+                        var firstIteration = true;
 
                         // Loop melalui setiap tombol porsi
+                        var previousSelectedOption = null;
+
                         porsiOptions.forEach(function (option) {
                             var button = document.createElement("button");
                             button.classList.add(
@@ -171,19 +180,57 @@ function initialize() {
                             button.type = "button";
                             button.textContent = option;
 
+                            // Check if it's the first option and set background color
+                            if (firstIteration) {
+                                button.classList.add("font-weight-bold"); // Add bold font weight
+                                button.style.backgroundColor = "lightblue"; // Set background color
+                                selectedOption = option; // Set the selected option
+                                previousSelectedOption = option; // Set the previous selected option
+                                // Update the price accordingly
+                                var selectedMenuDetail = menu.menu_detail.find(function (menuDetail) {
+                                    return menuDetail.size === selectedOption;
+                                });
+                                if (selectedMenuDetail) {
+                                    var price = selectedMenuDetail.price;
+                                    var formattedPrice = formatRupiah(price);
+                                    h5.textContent = "Rp" + formattedPrice + "/pcs";
+                                }
+                                firstIteration = false; // Update the flag after the first iteration
+                            }
+
+                            // Set the background color for the previously selected option
+                            if (previousSelectedOption === option) {
+                                button.classList.add("font-weight-bold");
+                                button.style.backgroundColor = "lightblue";
+                            }
+
                             // Menambahkan event listener untuk menangani klik tombol porsi
                             button.addEventListener("click", function () {
+                                console.log(previousSelectedOption, option);
+
                                 // Memeriksa apakah tombol sudah dipilih atau tidak
                                 var isSelected =
                                     button.classList.contains(
                                         "font-weight-bold"
                                     );
 
+                                // Menghapus efek tebal dan warna latar belakang dari porsi sebelumnya
+                                divPorsiButtons
+                                    .querySelectorAll("button")
+                                    .forEach(function (btn) {
+                                        btn.classList.remove(
+                                            "font-weight-bold"
+                                        );
+                                        btn.style.backgroundColor = "";
+                                    });
+
                                 // Jika tombol belum dipilih dan belum ada porsi yang dipilih sebelumnya
                                 if (!isSelected && selectedOption === null) {
+                                    console.log("masuk 1");
                                     button.classList.add("font-weight-bold");
                                     button.style.backgroundColor = "lightblue";
                                     selectedOption = option;
+                                    previousSelectedOption = option; // Update the previous selected option
 
                                     // Memperbarui harga sesuai dengan ukuran porsi yang dipilih
                                     var selectedMenuDetail =
@@ -204,6 +251,8 @@ function initialize() {
                                             "Rp" + formattedPrice + "/pcs";
                                     }
                                 } else if (isSelected) {
+                                    console.log("masuk 2");
+
                                     // Jika tombol sudah dipilih, maka hapus efek tebal dan warna latar belakangnya
                                     button.classList.remove("font-weight-bold");
                                     button.style.backgroundColor = "";
@@ -231,59 +280,28 @@ function initialize() {
                                             );
                                             console.log(currentQuantity);
                                             if (currentQuantity !== 0) {
+                                                // Mendapatkan ID menu
+                                                var menuId = menu.id;
+
+                                                // Mendapatkan ukuran porsi yang dipilih
+                                                var selectedPorsiText = option;
+                                                console.log(
+                                                    menuId,
+                                                    previousSelectedOption,
+                                                    "menuId,selectedPorsiText"
+                                                );
                                                 // Jika sudah dipilih, lakukan proses yang diperlukan
                                                 // Misalnya, tambahkan item ke keranjang belanja
-                                                addToCart();
+                                                addToCart(menuId, previousSelectedOption, currentQuantity, button);
                                             } else if (currentQuantity == 0) {
                                                 // Tampilkan peringatan jika kuantitas belum dipilih
                                                 Swal.fire({
                                                     icon: "warning",
                                                     title: "Anda harus memilih jumlah pembelian sebelum menambah porsi!",
                                                     showConfirmButton: false,
-                                                    timer: 2000
+                                                    timer: 2000,
                                                 });
-                                            } else {
-                                                // Menghapus latar belakang dan efek tebal dari porsi sebelumnya
-                                                divPorsiButtons
-                                                    .querySelectorAll("button")
-                                                    .forEach(function (btn) {
-                                                        btn.classList.remove(
-                                                            "font-weight-bold"
-                                                        );
-                                                        btn.style.backgroundColor =
-                                                            "";
-                                                    });
-
-                                                button.classList.add(
-                                                    "font-weight-bold"
-                                                );
-                                                button.style.backgroundColor =
-                                                    "lightblue";
-                                                selectedOption = option;
-
-                                                // Memperbarui harga sesuai dengan ukuran porsi yang dipilih
-                                                var selectedMenuDetail =
-                                                    menu.menu_detail.find(function (
-                                                        menuDetail
-                                                    ) {
-                                                        return (
-                                                            menuDetail.size ===
-                                                            selectedOption
-                                                        );
-                                                    });
-                                                if (selectedMenuDetail) {
-                                                    // Mengupdate harga sesuai dengan harga dari menu_detail yang dipilih
-                                                    var price =
-                                                        selectedMenuDetail.price;
-                                                    var formattedPrice =
-                                                        formatRupiah(price); // Format harga
-                                                    h5.textContent =
-                                                        "Rp" +
-                                                        formattedPrice +
-                                                        "/pcs";
-                                                }
                                             }
-
                                         }
                                     });
                                 }
@@ -541,12 +559,64 @@ function initialize() {
     calendar.render();
 }
 
+function addToCart(menuId, previousSelectedOption, currentQuantity, button) {
+    console.log(menuId, previousSelectedOption, currentQuantity, button, 'masuk sini');
+
+    // Display SweetAlert with a text area
+    Swal.fire({
+        title: 'Add to Cart',
+        html: '<textarea id="swal-textarea" placeholder="Please enter additional notes..." style="width: 100%;"></textarea>',
+        showDenyButton: true,
+        confirmButtonText: 'Add',
+        denyButtonText: 'Cancel',
+        preConfirm: () => {
+            // Retrieve the value from the text area
+            return document.getElementById('swal-textarea').value.trim();
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // The user clicked the confirm button
+            const notes = result.value;
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+            // Send data to the server using AJAX
+            $.ajax({
+                url: '/carts/store', // Replace with your server endpoint
+                type: 'POST',
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                data: {
+                    menuId: menuId,
+                    previousSelectedOption: previousSelectedOption,
+                    currentQuantity: currentQuantity,
+                    notes: notes
+                },
+                success: function (response) {
+                    // Handle success response
+                    toastr.success('Item added to cart successfully');
+                    button.classList.add("font-weight-bold");
+                    button.style.backgroundColor = "lightblue";
+                    // You can continue with your logic here
+                },
+                error: function (xhr, status, error) {
+                    // Handle error
+                    toastr.error('Error adding item to cart');
+                }
+            });
+        } else if (result.isDenied) {
+            // The user clicked the cancel button
+            console.log('Add to cart canceled');
+        }
+    });
+}
+
 function formatDate(date) {
     var year = date.getFullYear();
     var month = (date.getMonth() + 1).toString().padStart(2, "0");
     var day = date.getDate().toString().padStart(2, "0");
     return year + "-" + month + "-" + day;
 }
-
 // Call initialize function when the document is loaded
 document.addEventListener("DOMContentLoaded", initialize);
