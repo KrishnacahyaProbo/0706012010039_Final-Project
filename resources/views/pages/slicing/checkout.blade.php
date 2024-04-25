@@ -45,9 +45,20 @@
                         </div>
                     </div>
                     <div class="card-body d-grid gap-3">
-                        <div>
-                            <span
-                                class="badge rounded-pill text-secondary-emphasis bg-secondary-subtle border-secondary-subtle border">{{ date('l, j F Y') }}</span>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <span
+                                    class="badge rounded-pill text-secondary-emphasis bg-secondary-subtle border-secondary-subtle border">{{ date('l, j F Y') }}</span>
+                            </div>
+                            <div>
+                                <x-secondary-button data-bs-toggle="collapse" data-bs-target="#collapseCatatanPesanan"
+                                    aria-expanded="false"
+                                    aria-controls="collapseCatatanPesanan">Catatan</x-secondary-button>
+                            </div>
+                        </div>
+                        <div class="collapse" id="collapseCatatanPesanan">
+                            <x-label for="catatan" value="{{ __('Catatan Pesanan') }}" />
+                            <x-input id="catatan" type="catatan" name="catatan" :value="old('catatan')" />
                         </div>
 
                         <div>
@@ -86,11 +97,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="my-1">
-                                    <button class="btn border-0 p-0" title="Remove from Cart">
-                                        <i class="bi bi-trash3 text-danger"></i>
-                                    </button>
                                 </div>
                             </div>
                         </div>
