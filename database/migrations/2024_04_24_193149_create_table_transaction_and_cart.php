@@ -35,7 +35,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('customer_id');
             $table->unsignedBigInteger('menu_id');
-            $table->unsignedBigInteger('transaction_id');
+            $table->unsignedBigInteger('transaction_id')->nullable();
             $table->string('portion');
             $table->integer('quantity');
             $table->enum('status', ['customer_unpaid', 'customer_paid']);

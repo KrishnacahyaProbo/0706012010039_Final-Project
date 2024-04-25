@@ -1,6 +1,8 @@
 // Wrap your code inside a function
 function initialize() {
     var status = 'success';
+    var previousSelectedOption = null;
+    var choosing = 0;
     // Your getLocation function
     function getLocation() {
         if (navigator.geolocation) {
@@ -33,9 +35,9 @@ function initialize() {
         var a =
             Math.sin(dLat / 2) * Math.sin(dLat / 2) +
             Math.cos(toRadians(lat1)) *
-            Math.cos(toRadians(lat2)) *
-            Math.sin(dLon / 2) *
-            Math.sin(dLon / 2);
+                Math.cos(toRadians(lat2)) *
+                Math.sin(dLon / 2) *
+                Math.sin(dLon / 2);
         var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         var distance = earthRadius * c; // Distance in kilometers
         return distance.toFixed(2);
@@ -166,8 +168,7 @@ function initialize() {
                         var firstIteration = true;
 
                         // Loop melalui setiap tombol porsi
-                        var previousSelectedOption = null;
-
+                        previousSelectedOption = null;
                         porsiOptions.forEach(function (option) {
                             var button = document.createElement("button");
                             button.classList.add(
@@ -185,7 +186,10 @@ function initialize() {
                                 button.classList.add("font-weight-bold"); // Add bold font weight
                                 button.style.backgroundColor = "lightblue"; // Set background color
                                 selectedOption = option; // Set the selected option
-                                previousSelectedOption = option; // Set the previous selected option
+                                if(choosing == 0){
+                                    previousSelectedOption = option;
+                                    choosing++
+                                }
                                 // Update the price accordingly
                                 var selectedMenuDetail = menu.menu_detail.find(function (menuDetail) {
                                     return menuDetail.size === selectedOption;
@@ -204,9 +208,9 @@ function initialize() {
                                 button.style.backgroundColor = "lightblue";
                             }
 
+
                             // Menambahkan event listener untuk menangani klik tombol porsi
                             button.addEventListener("click", function () {
-                                console.log(previousSelectedOption, option);
 
                                 // Memeriksa apakah tombol sudah dipilih atau tidak
                                 var isSelected =
@@ -292,7 +296,7 @@ function initialize() {
                                                 );
                                                 // Jika sudah dipilih, lakukan proses yang diperlukan
                                                 // Misalnya, tambahkan item ke keranjang belanja
-                                                addToCart(menuId, previousSelectedOption, currentQuantity, button);
+                                                addToCart(menuId, currentQuantity,button,selectedPorsiText);
                                             } else if (currentQuantity == 0) {
                                                 // Tampilkan peringatan jika kuantitas belum dipilih
                                                 Swal.fire({
@@ -559,8 +563,7 @@ function initialize() {
     calendar.render();
 }
 
-function addToCart(menuId, previousSelectedOption, currentQuantity, button) {
-    console.log(menuId, previousSelectedOption, currentQuantity, button, 'masuk sini');
+function addToCart(menuId, currentQuantity,button,selectedPorsiText) {
 
     // Display SweetAlert with a text area
     Swal.fire({
@@ -589,28 +592,60 @@ function addToCart(menuId, previousSelectedOption, currentQuantity, button) {
                 },
                 data: {
                     menuId: menuId,
-                    previousSelectedOption: previousSelectedOption,
+                    previousSelectedOption: selectedPorsiText,
                     currentQuantity: currentQuantity,
                     notes: notes
                 },
-                success: function (response) {
+                success: function(response) {
                     // Handle success response
                     toastr.success('Item added to cart successfully');
                     button.classList.add("font-weight-bold");
                     button.style.backgroundColor = "lightblue";
+                    previousSelectedOption = selectedPorsiText;
                     // You can continue with your logic here
                 },
-                error: function (xhr, status, error) {
+                error: function(xhr, status, error) {
                     // Handle error
                     toastr.error('Error adding item to cart');
                 }
             });
         } else if (result.isDenied) {
             // The user clicked the cancel button
-            console.log('Add to cart canceled');
+            const notes = result.value;
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+            // Send data to the server using AJAX
+            $.ajax({
+                url: '/carts/store', // Replace with your server endpoint
+                type: 'POST',
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                data: {
+                    menuId: menuId,
+                    previousSelectedOption: selectedPorsiText,
+                    currentQuantity: currentQuantity,
+                    notes: notes
+                },
+                success: function(response) {
+                    console.log('Add to cart canceled',response);
+
+                    // Handle success response
+                    toastr.success('Item added to cart successfully');
+                    button.classList.add("font-weight-bold");
+                    button.style.backgroundColor = "lightblue";
+                    // You can continue with your logic here
+                },
+                error: function(xhr, status, error) {
+                    // Handle error
+                    toastr.error('Error adding item to cart');
+                }
+            });
         }
     });
 }
+
 
 function formatDate(date) {
     var year = date.getFullYear();

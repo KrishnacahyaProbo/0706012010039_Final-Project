@@ -20,42 +20,38 @@ class CartsController extends Controller
                 'notes' => 'nullable|string'
             ]);
 
-            // Create a new entry in the cart table or model
-            // Create a new Cart instance
-            $cartItem = new Cart();
-            $cartItem->customer_id = Auth::user()->id;
-            $cartItem->menu_id = $validatedData['menuId'];
-            $cartItem->portion = $validatedData['previousSelectedOption'];
-            $cartItem->quantity = $validatedData['currentQuantity'];
-            $cartItem->note = $validatedData['notes'];
+            // Find if the item already exists in the cart for the authenticated user
+            $cartItem = Cart::where('customer_id', Auth::user()->id)
+                            ->where('menu_id', $validatedData['menuId'])
+                            ->where('status', 'customer_unpaid')
+                            ->where('portion', $validatedData['previousSelectedOption'])
+                            ->first();
+            // dd($request->all(),$cartItem);
 
-            // Save the new cart item
-            $cartItem->save();
-
-            // Check if the status is 'unpaid_customer'
-            if ($cartItem->status === 'unpaid_customer') {
-                // Retrieve the cart item with the same menu ID, 'unpaid_customer' status, and owned by the same customer
-                $existingCartItem = Cart::where('menu_id', $validatedData['menuId'])
-                    ->where('status', 'unpaid_customer')
-                    ->where('customer_id', Auth::user()->id)
-                    ->first();
-
-                if ($existingCartItem) {
-                    // Update the quantity of the existing cart item
-                    $existingCartItem->quantity += $validatedData['currentQuantity'];
-                    $existingCartItem->save();
-                }
+            if($cartItem) {
+                // If the item exists, update its details
+                $cartItem->portion = $validatedData['previousSelectedOption'];
+                $cartItem->quantity = $validatedData['currentQuantity'];
+                $cartItem->note = $validatedData['notes'];
+            } else {
+                // If the item doesn't exist, create a new entry in the cart
+                $cartItem = new Cart();
+                $cartItem->customer_id = Auth::user()->id;
+                $cartItem->menu_id = $validatedData['menuId'];
+                $cartItem->portion = $validatedData['previousSelectedOption'];
+                $cartItem->quantity = $validatedData['currentQuantity'];
+                $cartItem->note = $validatedData['notes'];
             }
-            // Add any additional fields you may have in your Cart model
 
-            // Save the cart item to the database
+            // Save the cart item
             $cartItem->save();
 
-            // Optionally, you can return a response indicating success
+            // Return a response indicating success
             return response()->json(['message' => 'Item added to cart successfully'], 200);
         } catch (Exception $e) {
             // Handle any exceptions that occur during the database operation
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
 }
