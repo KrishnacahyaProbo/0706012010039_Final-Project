@@ -60,8 +60,8 @@
                                 href="{{ route('profile.show') }}">{{ __('Profile') }}</a>
                             <a class="dropdown-item {{ $isSettings ? 'active' : '' }}"
                                 href="{{ route('setting.index') }}">{{ __('Setting') }}</a>
-                            {{-- <a class="dropdown-item {{ $isCredit ? 'active' : '' }}"
-                                href="{{ route('credit') }}">{{ __('Credit') }}</a> --}}
+                            <a class="dropdown-item {{ $isCredit ? 'active' : '' }}"
+                                href="{{ route('credit') }}">{{ __('Credit') }}</a>
                         </li>
                         <li>
                             <hr class="dropdown-divider">

@@ -17,9 +17,6 @@ Route::get('/', function () {
     return view('pages.home');
 })->name('home');
 
-Route::get('/order', function () {
-    return view('pages.slicing.order');
-})->name('order');
 Route::get('/credit', function () {
     return view('pages.slicing.credit');
 })->name('credit');
@@ -29,6 +26,12 @@ Route::get('/cart', function () {
 Route::get('/cart/checkout', function () {
     return view('pages.slicing.checkout');
 })->name('checkout');
+Route::get('/order', function () {
+    return view('pages.slicing.order');
+})->name('order');
+Route::get('/testimony', function () {
+    return view('pages.slicing.testimony');
+})->name('testimony');
 
 Route::middleware([
     'auth:sanctum',
