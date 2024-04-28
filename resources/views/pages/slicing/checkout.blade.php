@@ -23,13 +23,15 @@
                 <div>
                     <div class="card">
                         <div class="card-body">
-                            <div class="d-flex justify-content-between">
+                            <div class="d-flex justify-content-between align-items-start gap-3">
                                 <div class="d-grid">
-                                    <p class="text-secondary">Alamat Pengiriman</p>
-                                    <h6>Alamat</h6>
+                                    <span class="text-secondary">Alamat Pengiriman</span>
+                                    <strong>{{ Auth::user()->address }}</strong>
                                 </div>
 
-                                <button class="btn text-primary border-0 p-0">Ubah</button>
+                                <button class="btn text-primary border-0 p-0">
+                                    <a href="{{ route('setting.index') }}">Ubah</a>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -37,12 +39,7 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <div for="selected_vendor" class="d-flex gap-2">
-                            <x-checkbox id="selected_vendor" name="selected_vendor" />
-                            <label class="form-check-label" for="selected_vendor">
-                                <strong>Nama Vendor</strong>
-                            </label>
-                        </div>
+                        <strong>Nama Vendor</strong>
                     </div>
                     <div class="card-body d-grid gap-3">
                         <div class="d-flex justify-content-between align-items-center">
@@ -63,39 +60,13 @@
 
                         <div>
                             <div class="d-grid d-md-flex justify-content-between align-items-center">
-                                <div class="d-grid d-md-flex align-items-center gap-2">
-                                    <x-checkbox id="selected_vendor" name="selected_vendor" />
-                                    <div class="d-grid d-md-flex gap-3">
-                                        <img src="https://laravel.com/img/logotype.min.svg" alt=""
-                                            class="w-25 rounded-1">
-                                        <div class="d-grid gap-2">
-                                            <h3>Nama Menu</h3>
-                                            <small class="text-secondary">Deskripsi Menu</small>
-                                            <h5>Harga/pcs</h5>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <span>Porsi</span>
-                                                <div>
-                                                    <button
-                                                        class="btn btn-outline-secondary rounded-pill mx-1 px-3">Small</button>
-                                                    <button
-                                                        class="btn btn-outline-secondary rounded-pill mx-1 px-3">Medium</button>
-                                                    <button
-                                                        class="btn btn-outline-secondary rounded-pill mx-1 px-3">Large</button>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <span>Kuantitas</span>
-                                                <div class="d-flex align-items-center border-secondary rounded border">
-                                                    <button class="btn border-0">
-                                                        <i class="bi bi-dash-lg text-primary"></i>
-                                                    </button>
-                                                    <span class="mx-2">0</span>
-                                                    <button class="btn border-0">
-                                                        <i class="bi bi-plus-lg text-primary"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
+                                <div class="d-grid d-md-flex gap-3">
+                                    <img src="https://laravel.com/img/logotype.min.svg" alt=""
+                                        class="w-25 rounded-1">
+                                    <div class="d-grid gap-2">
+                                        <h3>Nama Menu</h3>
+                                        <small class="text-secondary">Deskripsi Menu</small>
+                                        <h5>Harga/pcs</h5>
                                     </div>
                                 </div>
                             </div>

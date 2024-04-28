@@ -1,9 +1,8 @@
-// Wrap your code inside a function
 function initialize() {
     var status = 'success';
     var previousSelectedOption = null;
     var choosing = 0;
-    // Your getLocation function
+
     function getLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showDistance);
@@ -13,7 +12,6 @@ function initialize() {
         }
     }
 
-    // Your showDistance function
     function showDistance(position) {
         var userLatitude = position.coords.latitude;
         var userLongitude = position.coords.longitude;
@@ -27,7 +25,6 @@ function initialize() {
             vendorData.address + " - " + distance + "km";
     }
 
-    // Your calculateDistance and toRadians functions
     function calculateDistance(lat1, lon1, lat2, lon2) {
         var earthRadius = 6371; // Radius of the Earth in kilometers
         var dLat = toRadians(lat2 - lat1);
@@ -35,9 +32,9 @@ function initialize() {
         var a =
             Math.sin(dLat / 2) * Math.sin(dLat / 2) +
             Math.cos(toRadians(lat1)) *
-                Math.cos(toRadians(lat2)) *
-                Math.sin(dLon / 2) *
-                Math.sin(dLon / 2);
+            Math.cos(toRadians(lat2)) *
+            Math.sin(dLon / 2) *
+            Math.sin(dLon / 2);
         var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         var distance = earthRadius * c; // Distance in kilometers
         return distance.toFixed(2);
@@ -47,12 +44,10 @@ function initialize() {
         return (degrees * Math.PI) / 180;
     }
 
-    // Call getLocation function when the document is ready
     getLocation();
 
     var calendarEl = document.getElementById("calendar_menu");
     var calendar = new FullCalendar.Calendar(calendarEl, {
-        // Konfigurasi FullCalendar
         themeSystem: "bootstrap5",
         headerToolbar: {
             left: "title",
@@ -72,30 +67,24 @@ function initialize() {
             year: "numeric",
             month: "short",
         },
-        navLinks: true,
-        editable: true, // Enable dragging & resizing
-        eventResizableFromStart: true, // Enable resizing from start
         dateClick: function (info) {
             // Extract the clicked date
             var clickedDate = info.date;
 
-            // Format the date (if needed)
-            var formattedDate = formatDate(clickedDate); // Implement formatDate function if needed
-            document.getElementById("spinner").style.display = "block";
+            // Format the date
+            var formattedDate = formatDate(clickedDate);
 
             // Show the selected date
             $.ajax({
-                url: "/menus/schedule", // Adjust the URL to match your server route
+                url: "/menus/schedule",
                 type: "GET",
                 data: {
                     date: formattedDate,
                     id: vendorData.id,
                 },
                 success: function (response) {
-                    document.getElementById("spinner").style.display = "none";
-                    var container = document.getElementById("menuCart"); // Ganti 'your-container-id' dengan ID aktual kontainer Anda
+                    var container = document.getElementById("menuCart");
                     container.innerHTML = "";
-                    // Loop melalui setiap menu dan membuat kartu untuk setiap menu
                     response.data_menu.menus.forEach(function (menu) {
                         var divCard = document.createElement("div");
                         divCard.classList.add("card");
@@ -104,28 +93,29 @@ function initialize() {
                         divCardBody.classList.add(
                             "card-body",
                             "d-grid",
-                            "gap-3",
-                            "p-0"
+                            "gap-3"
                         );
 
                         var img = document.createElement("img");
                         img.src = menu.image;
                         img.alt = "";
-                        img.classList.add("card-img-top", "rounded-0");
+                        img.classList.add("rounded-1", "w-50");
                         img.setAttribute("loading", "lazy");
 
                         var h3 = document.createElement("h3");
                         h3.classList.add("card-title");
                         h3.textContent = menu.menu_name;
 
+                        var type = document.createElement("small");
+                        type.classList.add("card-text", "text-secondary");
+                        type.textContent = menu.type;
+
                         var small = document.createElement("small");
                         small.classList.add("card-text", "text-secondary");
                         small.textContent = menu.description;
 
                         // Ambil semua harga dari menu_detail
-                        var prices = menu.menu_detail.map(function (
-                            menuDetail
-                        ) {
+                        var prices = menu.menu_detail.map(function (menuDetail) {
                             return menuDetail.price;
                         });
 
@@ -146,23 +136,15 @@ function initialize() {
                         var divPorsiButtons = document.createElement("div");
                         divPorsiButtons.classList.add("d-flex");
                         // Ambil semua ukuran yang tersedia dari menu_detail
-                        var porsiOptions = menu.menu_detail.map(function (
-                            menuDetail
-                        ) {
+                        var porsiOptions = menu.menu_detail.map(function (menuDetail) {
                             return menuDetail.size;
                         });
 
-                        // Anda mungkin ingin menghapus duplikat jika ada
-                        porsiOptions = porsiOptions.filter(function (
-                            value,
-                            index,
-                            self
-                        ) {
+                        // Menghapus duplikat jika ada
+                        porsiOptions = porsiOptions.filter(function (value, index, self) {
                             return self.indexOf(value) === index;
                         });
 
-                        // Loop melalui setiap tombol porsi
-                        // Loop melalui setiap tombol porsi
                         // Variable untuk menyimpan porsi yang dipilih
                         var selectedOption = null;
                         var firstIteration = true;
@@ -173,7 +155,7 @@ function initialize() {
                             var button = document.createElement("button");
                             button.classList.add(
                                 "btn",
-                                "btn-outline-secondary",
+                                "btn-outline-primary",
                                 "rounded-pill",
                                 "mx-1",
                                 "px-3"
@@ -183,10 +165,11 @@ function initialize() {
 
                             // Check if it's the first option and set background color
                             if (firstIteration) {
-                                button.classList.add("font-weight-bold"); // Add bold font weight
-                                button.style.backgroundColor = "lightblue"; // Set background color
-                                selectedOption = option; // Set the selected option
-                                if(choosing == 0){
+                                button.classList.add("font-weight-bold");
+                                button.style.backgroundColor = "#842029";
+                                button.style.color = "white";
+                                selectedOption = option;
+                                if (choosing == 0) {
                                     previousSelectedOption = option;
                                     choosing++
                                 }
@@ -205,18 +188,16 @@ function initialize() {
                             // Set the background color for the previously selected option
                             if (previousSelectedOption === option) {
                                 button.classList.add("font-weight-bold");
-                                button.style.backgroundColor = "lightblue";
+                                button.style.backgroundColor = "#842029";
+                                button.style.color = "white";
                             }
-
 
                             // Menambahkan event listener untuk menangani klik tombol porsi
                             button.addEventListener("click", function () {
 
                                 // Memeriksa apakah tombol sudah dipilih atau tidak
                                 var isSelected =
-                                    button.classList.contains(
-                                        "font-weight-bold"
-                                    );
+                                    button.classList.contains("font-weight-bold");
 
                                 // Menghapus efek tebal dan warna latar belakang dari porsi sebelumnya
                                 divPorsiButtons
@@ -226,77 +207,59 @@ function initialize() {
                                             "font-weight-bold"
                                         );
                                         btn.style.backgroundColor = "";
+                                        btn.style.color = "";
                                     });
 
                                 // Jika tombol belum dipilih dan belum ada porsi yang dipilih sebelumnya
                                 if (!isSelected && selectedOption === null) {
                                     console.log("masuk 1");
                                     button.classList.add("font-weight-bold");
-                                    button.style.backgroundColor = "lightblue";
+                                    button.style.backgroundColor = "#842029";
+                                    button.style.color = "white";
                                     selectedOption = option;
-                                    previousSelectedOption = option; // Update the previous selected option
+                                    previousSelectedOption = option;
 
                                     // Memperbarui harga sesuai dengan ukuran porsi yang dipilih
                                     var selectedMenuDetail =
-                                        menu.menu_detail.find(function (
-                                            menuDetail
-                                        ) {
-                                            return (
-                                                menuDetail.size ===
-                                                selectedOption
-                                            );
+                                        menu.menu_detail.find(function (menuDetail) {
+                                            return (menuDetail.size === selectedOption);
                                         });
                                     if (selectedMenuDetail) {
-                                        // Mengupdate harga sesuai dengan harga dari menu_detail yang dipilih
+                                        // Mengubah harga sesuai dengan harga dari menu_detail yang dipilih
                                         var price = selectedMenuDetail.price;
-                                        var formattedPrice =
-                                            formatRupiah(price); // Format harga
-                                        h5.textContent =
-                                            "Rp" + formattedPrice + "/pcs";
+                                        var formattedPrice = formatRupiah(price);
+                                        h5.textContent = "Rp" + formattedPrice + "/pcs";
                                     }
                                 } else if (isSelected) {
-                                    console.log("masuk 2");
-
-                                    // Jika tombol sudah dipilih, maka hapus efek tebal dan warna latar belakangnya
                                     button.classList.remove("font-weight-bold");
                                     button.style.backgroundColor = "";
+                                    button.style.color = "";
                                     selectedOption = null;
 
                                     // Mengembalikan harga ke harga asal jika porsi dibatalkan
-                                    var originalPrice = minPrice; // Ganti dengan harga asli
-                                    var formattedPrice =
-                                        formatRupiah(originalPrice); // Format harga
-                                    h5.textContent =
-                                        "Rp" + formattedPrice + "/pcs";
+                                    var originalPrice = minPrice;
+                                    var formattedPrice = formatRupiah(originalPrice);
+                                    h5.textContent = "Rp" + formattedPrice + "/pcs";
                                 } else {
                                     // Jika tombol belum dipilih dan ada porsi yang dipilih sebelumnya
                                     Swal.fire({
                                         icon: "question",
                                         title: "Anda telah memilih porsi pada menu ini. Apakah Anda ingin menambahkan ke keranjang belanja terlebih dahulu sebelum memilih porsi yang lainnya?",
-                                        showDenyButton: true,
                                         showCancelButton: true,
                                         confirmButtonText: `Tambah Porsi Baru`,
-                                        denyButtonText: `Batal`,
                                     }).then((result) => {
                                         if (result.isConfirmed) {
-                                            var currentQuantity = parseInt(
-                                                spanQuantity.textContent
-                                            );
+                                            var currentQuantity = parseInt(spanQuantity.textContent);
                                             console.log(currentQuantity);
                                             if (currentQuantity !== 0) {
-                                                // Mendapatkan ID menu
                                                 var menuId = menu.id;
-
-                                                // Mendapatkan ukuran porsi yang dipilih
                                                 var selectedPorsiText = option;
                                                 console.log(
                                                     menuId,
                                                     previousSelectedOption,
-                                                    "menuId,selectedPorsiText"
+                                                    "menuId, selectedPorsiText"
                                                 );
-                                                // Jika sudah dipilih, lakukan proses yang diperlukan
-                                                // Misalnya, tambahkan item ke keranjang belanja
-                                                addToCart(menuId, currentQuantity,button,selectedPorsiText);
+                                                addToCart(menuId, currentQuantity, button, selectedPorsiText);
                                             } else if (currentQuantity == 0) {
                                                 // Tampilkan peringatan jika kuantitas belum dipilih
                                                 Swal.fire({
@@ -348,7 +311,6 @@ function initialize() {
                         );
                         buttonMinus.appendChild(iMinus);
 
-                        //quantity
                         var spanQuantity = document.createElement("span");
                         spanQuantity.classList.add("mx-2");
                         spanQuantity.textContent = "0";
@@ -362,9 +324,7 @@ function initialize() {
                         divKuantitasControls.appendChild(buttonPlus);
                         divKuantitasContainer.appendChild(spanKuantitas);
                         divKuantitasContainer.appendChild(divKuantitasControls);
-                        //quantity
 
-                        //add to cart button
                         var addToCartButton = document.createElement("button");
                         addToCartButton.classList.add(
                             "w-100",
@@ -372,9 +332,7 @@ function initialize() {
                             "btn-primary"
                         );
                         addToCartButton.textContent = "Add to Cart";
-                        //add to cart button
 
-                        // Append elements to each other
                         divCardBody.appendChild(img);
                         divCardBody.appendChild(h3);
                         divCardBody.appendChild(small);
@@ -385,7 +343,6 @@ function initialize() {
 
                         divCard.appendChild(divCardBody);
 
-                        // Append the card to a container in the DOM
                         container.appendChild(divCard);
 
                         buttonPlus.addEventListener("click", function () {
@@ -430,7 +387,6 @@ function initialize() {
 
                             // Jika tidak ada yang dipilih, tampilkan pesan toast
                             if (!selectedPorsi) {
-                                // Tampilkan pesan toast menggunakan SweetAlert
                                 Swal.fire({
                                     title: "Pilih ukuran porsi terlebih dahulu!",
                                     icon: "warning",
@@ -440,15 +396,12 @@ function initialize() {
                             } else if (currentQuantity === 0) {
                                 // Jika nilai quantity nol, tampilkan pesan toast
                                 Swal.fire({
-                                    title: "Silahkan input jumlah pembelian untuk menu ini!",
+                                    title: "Silakan input jumlah pembelian untuk menu ini!",
                                     icon: "warning",
                                     showConfirmButton: false,
                                     timer: 2000,
                                 });
                             } else {
-                                // Jika ada yang dipilih, lakukan sesuatu, misalnya tambahkan item ke keranjang belanja
-                                // atau tampilkan pesan konfirmasi
-                                // Contoh: Tampilkan pesan konfirmasi menggunakan SweetAlert
                                 Swal.fire({
                                     title: "Item berhasil ditambahkan ke keranjang!",
                                     icon: "success",
@@ -459,6 +412,7 @@ function initialize() {
                         });
                     });
                 },
+
                 error: function (xhr, status, error) {
                     console.error("Error fetching menu schedules:", error);
 
@@ -487,85 +441,11 @@ function initialize() {
             // Memanggil callback dengan daftar acara
             successCallback(events);
         },
-
-        // Menangani event ketika event di-drop (dragged)
-        eventDrop: function (arg) {
-            var eventId = arg.event.id; // ID dari event yang di-drop
-            var newStart = arg.event.start; // Tanggal baru setelah di-drop
-            var csrfToken = $('meta[name="csrf-token"]').attr("content");
-
-            // Create a new Date object
-            var date = new Date(newStart);
-
-            // Extract year, month, and day components
-            var year = date.getFullYear();
-            // JavaScript months are 0-based, so we add 1 to get the correct month
-            var month = (date.getMonth() + 1).toString().padStart(2, "0");
-            var day = date.getDate().toString().padStart(2, "0");
-
-            // Form the yyyy-mm-dd format
-            var formattedDate = year + "-" + month + "-" + day;
-            // Perform AJAX request untuk update tanggal event
-            $.ajax({
-                url: "schedules/update",
-                type: "POST",
-                data: {
-                    id: eventId,
-                    new_start: formattedDate,
-                    _token: csrfToken,
-                },
-                success: function (response) {
-                    console.log("vendor", response);
-
-                    if (response.success) {
-                        $("#mdlForm").modal("hide");
-                        $("#mdlFormContent").html("");
-                        setTimeout(function () {
-                            showDetail(id);
-                        }, 1000);
-                    } else {
-                        alert("Event date update failed. Please try again.");
-                    }
-                },
-                error: function (xhr, status, error) {
-                    alert(
-                        "Event date update failed. Please try again.",
-                        xhr.responseJSON.error
-                    );
-                },
-            });
-        },
-
-        // Menangani event ketika event di-resize
-        eventResize: function (arg) {
-            var eventId = arg.event.id; // ID dari event yang di-resize
-            var newEnd = arg.event.end; // Tanggal baru setelah di-resize
-            var csrfToken = $('meta[name="csrf-token"]').attr("content");
-
-            // Perform AJAX request untuk update tanggal event
-            $.ajax({
-                url: "schedules/update",
-                type: "PUT",
-                data: {
-                    id: eventId,
-                    new_end: newEnd.format(), // Format tanggal baru sesuai kebutuhan Anda
-                    _token: csrfToken,
-                },
-                success: function (response) {
-                    console.log("Event date updated successfully");
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error updating event date:", error);
-                },
-            });
-        },
     });
     calendar.render();
 }
 
-function addToCart(menuId, currentQuantity,button,selectedPorsiText) {
-
-    // Display SweetAlert with a text area
+function addToCart(menuId, currentQuantity, button, selectedPorsiText) {
     Swal.fire({
         title: 'Add to Cart',
         html: '<textarea id="swal-textarea" placeholder="Please enter additional notes..." style="width: 100%;"></textarea>',
@@ -582,9 +462,8 @@ function addToCart(menuId, currentQuantity,button,selectedPorsiText) {
             const notes = result.value;
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
-            // Send data to the server using AJAX
             $.ajax({
-                url: '/carts/store', // Replace with your server endpoint
+                url: '/carts/store',
                 type: 'POST',
                 dataType: 'json',
                 headers: {
@@ -596,15 +475,15 @@ function addToCart(menuId, currentQuantity,button,selectedPorsiText) {
                     currentQuantity: currentQuantity,
                     notes: notes
                 },
-                success: function(response) {
+                success: function (response) {
                     // Handle success response
                     toastr.success('Item added to cart successfully');
                     button.classList.add("font-weight-bold");
-                    button.style.backgroundColor = "lightblue";
+                    button.style.backgroundColor = "#842029";
+                    button.style.color = "white";
                     previousSelectedOption = selectedPorsiText;
-                    // You can continue with your logic here
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     // Handle error
                     toastr.error('Error adding item to cart');
                 }
@@ -614,30 +493,14 @@ function addToCart(menuId, currentQuantity,button,selectedPorsiText) {
             const notes = result.value;
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
-            // Send data to the server using AJAX
             $.ajax({
-                url: '/carts/store', // Replace with your server endpoint
-                type: 'POST',
-                dataType: 'json',
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken
-                },
-                data: {
-                    menuId: menuId,
-                    previousSelectedOption: selectedPorsiText,
-                    currentQuantity: currentQuantity,
-                    notes: notes
-                },
-                success: function(response) {
-                    console.log('Add to cart canceled',response);
-
-                    // Handle success response
-                    toastr.success('Item added to cart successfully');
+                success: function (response) {
+                    console.log('Add to cart canceled', response);
                     button.classList.add("font-weight-bold");
-                    button.style.backgroundColor = "lightblue";
-                    // You can continue with your logic here
+                    button.style.backgroundColor = "#842029";
+                    button.style.color = "white";
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     // Handle error
                     toastr.error('Error adding item to cart');
                 }
@@ -646,6 +509,26 @@ function addToCart(menuId, currentQuantity,button,selectedPorsiText) {
     });
 }
 
+function destroy(id) {
+    var confirmation = window.confirm("Yakin ingin hapus item keranjang belanja?");
+    if (confirmation) {
+        $.ajax({
+            url: "/carts/destroy",
+            method: "DELETE",
+            data: {
+                _token: $('meta[name="csrf-token"]').attr("content"),
+                id: id
+            },
+            success: function (response) {
+                toastr.success("Cart item deleted successfully");
+                fetchDataMenuItem();
+            },
+            error: function (xhr, status, error) {
+                toastr.error("Error deleting Cart item:", error);
+            },
+        });
+    }
+}
 
 function formatDate(date) {
     var year = date.getFullYear();
@@ -653,5 +536,6 @@ function formatDate(date) {
     var day = date.getDate().toString().padStart(2, "0");
     return year + "-" + month + "-" + day;
 }
+
 // Call initialize function when the document is loaded
 document.addEventListener("DOMContentLoaded", initialize);

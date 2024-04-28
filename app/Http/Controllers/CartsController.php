@@ -9,6 +9,29 @@ use Illuminate\Support\Facades\Auth;
 
 class CartsController extends Controller
 {
+    public function index()
+    {
+        $cart = Cart::where('customer_id', Auth::user()->id)
+            ->with('menu', 'menu.menuDetail')
+            ->get();
+        return view('pages.slicing.cart', compact('cart'));
+    }
+
+    public function data()
+    {
+        try {
+            // Retrieve data
+            $cart = Cart::where('customer_id', Auth::user()->id)
+                ->where('status', 'customer_unpaid')
+                ->with('menu')
+                ->get();
+
+            return response()->json(['cart' => $cart], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to retrieve data: ' . $e->getMessage()], 500);
+        }
+    }
+
     public function store(Request $request)
     {
         try {
@@ -22,13 +45,12 @@ class CartsController extends Controller
 
             // Find if the item already exists in the cart for the authenticated user
             $cartItem = Cart::where('customer_id', Auth::user()->id)
-                            ->where('menu_id', $validatedData['menuId'])
-                            ->where('status', 'customer_unpaid')
-                            ->where('portion', $validatedData['previousSelectedOption'])
-                            ->first();
-            // dd($request->all(),$cartItem);
+                ->where('menu_id', $validatedData['menuId'])
+                ->where('status', 'customer_unpaid')
+                ->where('portion', $validatedData['previousSelectedOption'])
+                ->first();
 
-            if($cartItem) {
+            if ($cartItem) {
                 // If the item exists, update its details
                 $cartItem->portion = $validatedData['previousSelectedOption'];
                 $cartItem->quantity = $validatedData['currentQuantity'];
@@ -54,4 +76,19 @@ class CartsController extends Controller
         }
     }
 
+    public function destroy(Request $request)
+    {
+        try {
+            $id = $request->input('id');
+            Cart::where('id', $id)->delete();
+
+            return response()->json([
+                'message' => 'Cart item deleted successfully',
+                'success' => true
+            ], 200);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return response()->json(['error' => 'An error occurred while deleting the Cart item'], 500);
+        }
+    }
 }

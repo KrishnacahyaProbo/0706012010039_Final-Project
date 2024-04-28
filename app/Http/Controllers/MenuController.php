@@ -16,18 +16,12 @@ use Yajra\DataTables\Facades\DataTables;
 
 class MenuController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $vendor_name = User::where('id', Auth::user()->id)->first()->name;
         return view('pages.menu.index', compact('vendor_name'));
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Request $request)
     {
         try {
@@ -130,9 +124,6 @@ class MenuController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         try {
@@ -216,9 +207,6 @@ class MenuController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Request $request)
     {
         DB::beginTransaction();
@@ -285,8 +273,8 @@ class MenuController extends Controller
 
                 // Create a new MenuSchedule record
                 $menuSchedule = new MenuSchedule();
-                $menuSchedule->schedule_id = $schedule_id; // Assign the schedule ID
-                $menuSchedule->menu_id = $request->menuId; // Assign the menu ID
+                $menuSchedule->schedule_id = $schedule_id;
+                $menuSchedule->menu_id = $request->menuId;
                 $menuSchedule->save();
             }
 

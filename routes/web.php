@@ -61,7 +61,10 @@ Route::middleware([
     });
 
     Route::prefix('carts')->name('carts.')->namespace('App\Http\Controllers')->group(function () {
+        Route::get('/', 'CartsController@index')->name('index');
+        Route::get('/data', 'CartsController@data')->name('data');
         Route::post('/store', 'CartsController@store')->name('store');
+        Route::delete('/destroy', 'CartsController@destroy')->name('destroy');
     });
 
     Route::prefix('settings')->name('setting.')->namespace('App\Http\Controllers')->group(function () {
