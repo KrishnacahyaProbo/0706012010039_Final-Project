@@ -55,6 +55,11 @@
     <script src="{{ asset('libraries/js/jquery-ui-1.12.1.js') }}"></script>
     <script src="{{ asset('libraries/js/sweetalert2-11.10.8.all.min.js') }}"></script>
     <script src="{{ asset('libraries/js/toastr.min-2.1.4.js') }}"></script>
+    <script src="{{ asset('libraries/js/dataTables.buttons-3.0.2.js') }}"></script>
+    <script src="{{ asset('libraries/js/buttons.dataTables-3.0.2.js') }}"></script>
+    <script src="{{ asset('libraries/js/buttons.html5.min-3.0.2.js') }}"></script>
+    <script src="{{ asset('libraries/js/pdfmake.min-0.2.7.js') }}"></script>
+    <script src="{{ asset('libraries/js/vfs_fonts-0.2.7.js') }}"></script>
 
     {{-- Custom JS --}}
     <script src="{{ asset('js/map.js') }}"></script>

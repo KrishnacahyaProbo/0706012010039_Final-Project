@@ -222,6 +222,23 @@ function fetchDataMenuItem() {
             table.DataTable({
                 processing: true,
                 serverSide: true,
+                layout: {
+                    top: 'buttons',
+                    topStart: 'pageLength',
+                    topEnd: 'search',
+                    bottomStart: 'info',
+                    bottomEnd: 'paging',
+                },
+                buttons: {
+                    buttons: [{
+                        extend: 'pdf',
+                        exportOptions: {
+                            columns: [0, 1, 2],
+                        },
+                        className: 'btn btn-outline-primary d-flex ms-auto',
+                        text: 'Download PDF',
+                    }]
+                },
                 ajax: {
                     url: "/menus/data",
                     type: "GET",
