@@ -12,21 +12,19 @@ class BalanceSettingController extends Controller
     {
         try {
             // Retrieve the user setting record or create a new one if it doesn't exist
-            $ballance = BalanceNominal::firstOrNew(['user_id' => Auth::user()->id]);
+            $balance = BalanceNominal::firstOrNew(['user_id' => Auth::user()->id]);
 
             // Update the attributes
-            $ballance->user_id = Auth::user()->id;
-            $ballance->bank_name = $request->bank_name;
-            $ballance->account_number = $request->account_number;
-            $ballance->account_holder_name = $request->account_holder_name;
+            $balance->user_id = Auth::user()->id;
+            $balance->bank_name = $request->bank_name;
+            $balance->account_number = $request->account_number;
+            $balance->account_holder_name = $request->account_holder_name;
 
             // Save the record
-            $ballance->save();
+            $balance->save();
 
-            // Optionally, you can return a success response or perform additional actions
             return response()->json(['message' => 'Data saved successfully'], 200);
         } catch (\Exception $e) {
-            // Handle any exceptions
             return response()->json(['error' => 'Failed to save data: ' . $e->getMessage()], 500);
         }
     }

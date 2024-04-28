@@ -19,8 +19,25 @@ function fetchDataAddress() {
     });
 }
 
-function balanceSettings() {
+function aboutSetting() {
+    var formData = $('#about').serialize();
+
+    $.ajax({
+        url: '/settings/about',
+        type: 'POST',
+        data: formData,
+        success: function (response) {
+            window.location.href = '/settings';
+        },
+        error: function (xhr, status, error) {
+            console.error('Error submitting data:', error);
+        }
+    });
+}
+
+function balanceSetting() {
     var formData = $('#rekeningUser').serialize();
+
     $.ajax({
         url: '/balance/settings',
         type: 'POST',
@@ -34,8 +51,9 @@ function balanceSettings() {
     });
 }
 
-function settingsDelivery() {
+function deliverySetting() {
     var formData = $('#pengiriman').serialize();
+
     $.ajax({
         url: '/delivery/settings',
         type: 'POST',
@@ -49,13 +67,14 @@ function settingsDelivery() {
     });
 }
 
-function userSettings() {
+function setPesanan() {
     // Serialize both form data
     var formDataAlamat = $('#alamat').serialize();
     var formDataPemesanan = $('#pesanan').serialize();
 
     // Merge both form data into one object
     var combinedFormData = formDataAlamat + '&' + formDataPemesanan;
+
     $.ajax({
         url: '/settings/order',
         type: 'POST',

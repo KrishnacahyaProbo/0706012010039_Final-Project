@@ -38,7 +38,6 @@ class UserFactory extends Factory
             'address' => $this->faker->address(),
             'latitude' => $latitude,
             'longitude' => $longitude,
-            'about_us' => $this->faker->paragraph(),
             'rating' => $this->faker->numberBetween(1, 5),
         ];
     }

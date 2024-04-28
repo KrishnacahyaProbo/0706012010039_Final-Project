@@ -48,7 +48,7 @@
                             </div>
 
                             <button class="btn btn-primary w-100" id="pengirimanBtn" type="button"
-                                onclick="settingsDelivery()">{{ __('Save') }}</button>
+                                onclick="deliverySetting()">{{ __('Save') }}</button>
                         </div>
                     </form>
                 </div>
@@ -72,7 +72,27 @@
                             </div>
 
                             <button class="btn btn-primary w-100" type="button"
-                                onclick="userSettings()">{{ __('Save') }}</button>
+                                onclick="setPesanan()">{{ __('Save') }}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <form method="POST" id="about">
+                        @csrf
+
+                        <div class="d-grid gap-3">
+                            <h3>Tentang Vendor</h3>
+
+                            <div>
+                                <label for="about_us" class="form-label">{{ __('Deskripsi Vendor') }}</label>
+                                <textarea id="about_us" name="about_us" class="form-control" required>{{ $user_setting != null ? $user_setting->about_us : '' }}</textarea>
+                            </div>
+
+                            <button class="btn btn-primary w-100" type="button"
+                                onclick="aboutSetting()">{{ __('Save') }}</button>
                         </div>
                     </form>
                 </div>
@@ -108,7 +128,7 @@
                         </div>
 
                         <button class="btn btn-primary w-100" type="button"
-                            onclick="balanceSettings()">{{ __('Save') }}</button>
+                            onclick="balanceSetting()">{{ __('Save') }}</button>
                     </div>
                 </form>
             </div>
@@ -122,12 +142,10 @@
                     <div class="d-grid gap-3">
                         <h3>Alamat Pengiriman</h3>
 
-                        @if ($user_setting != null)
-                            <div>
-                                <strong>Lokasi Asal Pengiriman: </strong>
-                                <span>{{ $user_setting->address }}</span>
-                            </div>
-                        @endif
+                        <div>
+                            <strong>{{ Auth::user()->hasRole('vendor') ? 'Lokasi Asal Pengiriman: ' : 'Lokasi Tujuan Pengiriman: ' }}</strong>
+                            <span>{{ $user_setting != null ? $user_setting->address : Auth::user()->address }}</span>
+                        </div>
 
                         <hr>
 

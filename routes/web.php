@@ -68,10 +68,11 @@ Route::middleware([
         Route::get('/', 'UserSettingController@index')->name('index');
         Route::get('/data', 'UserSettingController@data')->name('data');
         Route::post('/order', 'UserSettingController@order')->name('order');
+        Route::post('/about', 'UserSettingController@about')->name('about');
     });
 
     Route::prefix('delivery')->name('delivery.')->namespace('App\Http\Controllers')->group(function () {
-        Route::post('/settings', 'DeliveryController@settingsDelivery')->name('delivery.settings');
+        Route::post('/settings', 'DeliveryController@deliverySetting')->name('delivery.settings');
     });
 
     Route::prefix('balance')->name('balance.')->namespace('App\Http\Controllers')->group(function () {

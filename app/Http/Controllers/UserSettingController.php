@@ -7,14 +7,9 @@ use App\Models\UserSetting;
 use Illuminate\Http\Request;
 use App\Models\BalanceNominal;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\StoreUserSettingRequest;
-use App\Http\Requests\UpdateUserSettingRequest;
 
 class UserSettingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $delivery = Delivery::where('vendor_id', Auth::user()->id)->first();
@@ -29,12 +24,30 @@ class UserSettingController extends Controller
             // Retrieve data
             $delivery = Delivery::where('vendor_id', Auth::user()->id)->first();
             $user_setting = UserSetting::where('vendor_id', Auth::user()->id)->first();
+            $balance = BalanceNominal::where('user_id', Auth::user()->id)->first();
 
-            // Optionally, you can return the retrieved data or perform additional actions
-            return response()->json(['delivery' => $delivery, 'user_setting' => $user_setting], 200);
+            return response()->json(['delivery' => $delivery, 'user_setting' => $user_setting, 'balance' => $balance], 200);
         } catch (\Exception $e) {
-            // Handle any exceptions
             return response()->json(['error' => 'Failed to retrieve data: ' . $e->getMessage()], 500);
+        }
+    }
+
+    public function about(Request $request)
+    {
+        try {
+            // Retrieve the user setting record or create a new one if it doesn't exist
+            $user_setting = UserSetting::firstOrNew(['vendor_id' => Auth::user()->id]);
+
+            // Update the attributes
+            $user_setting->vendor_id = Auth::user()->id;
+            $user_setting->about_us = $request->about_us;
+
+            // Save the record
+            $user_setting->save();
+
+            return response()->json(['message' => 'Data saved successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to save data: ' . $e->getMessage()], 500);
         }
     }
 
@@ -54,33 +67,8 @@ class UserSettingController extends Controller
             // Save the record
             $user_setting->save();
 
-            // Optionally, you can return a success response or perform additional actions
             return response()->json(['message' => 'Data saved successfully'], 200);
         } catch (\Exception $e) {
-            // Handle any exceptions
-            return response()->json(['error' => 'Failed to save data: ' . $e->getMessage()], 500);
-        }
-    }
-
-    public function balanceSettings(Request $request)
-    {
-        try {
-            // Retrieve the user setting record or create a new one if it doesn't exist
-            $ballance = BalanceNominal::firstOrNew(['user_id' => Auth::user()->id]);
-
-            // Update the attributes
-            $ballance->user_id = Auth::user()->id;
-            $ballance->bank_name = $request->bank_name;
-            $ballance->account_number = $request->account_number;
-            $ballance->account_holder_name = $request->account_holder_name;
-
-            // Save the record
-            $ballance->save();
-
-            // Optionally, you can return a success response or perform additional actions
-            return response()->json(['message' => 'Data saved successfully'], 200);
-        } catch (\Exception $e) {
-            // Handle any exceptions
             return response()->json(['error' => 'Failed to save data: ' . $e->getMessage()], 500);
         }
     }

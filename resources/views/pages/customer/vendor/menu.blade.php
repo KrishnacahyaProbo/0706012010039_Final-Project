@@ -44,7 +44,7 @@
 
                         <hr>
 
-                        <small class="card-text">{{ $vendor->about_us ?? '' }}</small>
+                        <small class="card-text">{{ $vendor->UserSetting->about_us ?? '' }}</small>
                     </div>
                 </div>
             </div>

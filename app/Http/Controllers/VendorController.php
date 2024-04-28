@@ -57,7 +57,7 @@ class VendorController extends Controller
     public function menu($nama_vendor)
     {
         try {
-            $vendor = User::with('Delivery', 'menu', 'menu.menu_schedule')->where('name', $nama_vendor)->first();
+            $vendor = User::with('Delivery', 'menu', 'menu.menu_schedule', 'UserSetting')->where('name', $nama_vendor)->first();
             return view('pages.customer.vendor.menu', compact('vendor'));
         } catch (Exception $e) {
             return response()->json([
