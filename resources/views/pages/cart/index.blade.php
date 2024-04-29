@@ -58,7 +58,9 @@
                                     <div class="d-grid d-md-flex align-items-center gap-2">
                                         <x-checkbox id="selected_vendor" name="selected_vendor" />
                                         <div class="d-grid d-md-flex gap-3">
-                                            <img src={{ $item->menu->image }} alt="" class="w-25 rounded-1">
+                                            <img src="{{ Str::startsWith($item->menu->image, 'http') ? $item->menu->image : asset('menu/' . $item->menu->image) }}"
+                                                alt="Menu Image" class="w-25 rounded-1">
+
                                             <div class="d-grid gap-2">
                                                 <h3>{{ $item->menu->menu_name }}</h3>
                                                 <small class="text-secondary">{{ $item->menu->description }}</small>
