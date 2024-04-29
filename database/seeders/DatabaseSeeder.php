@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         // Create a user
         $vendorUser = User::factory()->create([
             'name' => 'Jessi Jon\'s Kitchen',
-            'email' => 'jessijonskitchen1@gmail.com',
+            'email' => 'jessijonskitchen@example.com',
             'password' => bcrypt('password'),
         ]);
 
@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
 
         $customerUser = User::factory()->create([
             'name' => 'Probo Krishnacahya',
-            'email' => 'pkrishnacahya@student.ciputra.ac.id',
+            'email' => 'pkrishnacahya@example.com',
             'password' => bcrypt('password'),
         ]);
 
