@@ -20,9 +20,4 @@ class Cart extends Model
     {
         return $this->hasMany(MenuDetail::class, 'menu_id', 'id');
     }
-
-    public function vendor()
-    {
-        return $this->belongsTo(User::class, 'vendor_id', 'id');
-    }
 }

@@ -29,6 +29,7 @@
     <link rel="stylesheet" href="{{ asset('libraries/css/toastr.min-2.1.4.css') }}">
     <script src="{{ asset('libraries/js/fullcalendar-6.1.11_index.global.min.js') }}"></script>
     <script src="{{ asset('libraries/js/fullcalendar-bootstrap5-6.1.11_index.global.min.js') }}"></script>
+    <script src="{{ asset('libraries/js/jquery-3.7.1.min.js') }}"></script>
 </head>
 
 <body>
@@ -47,7 +48,6 @@
     @yield('js')
 
     {{-- Libraries --}}
-    <script src="{{ asset('libraries/js/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ asset('libraries/js/jquery.validate-1.20.0.min.js') }}"></script>
     <script src="{{ asset('libraries/js/leaflet.js') }}"></script>
     <script src="{{ asset('libraries/js/datatables.min-bs5-dt-2.0.3-r-3.0.0.js') }}"></script>

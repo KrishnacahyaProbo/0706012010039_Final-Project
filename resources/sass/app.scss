@@ -240,6 +240,14 @@ select:not(.flatpickr-monthDropdown-months),
     object-position: center;
 }
 
+#quantity_counter {
+    width: 8rem;
+
+    &>input {
+        border: none !important;
+    }
+}
+
 @font-face {
     font-family: "Manrope-Regular";
     src: url("/public/fonts/Manrope/Manrope-Regular.ttf") format("truetype");

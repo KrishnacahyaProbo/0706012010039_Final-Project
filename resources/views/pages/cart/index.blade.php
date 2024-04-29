@@ -67,24 +67,27 @@
                                                     <span>Porsi</span>
                                                     <div>
                                                         <button
-                                                            class="btn btn-outline-secondary rounded-pill mx-1 px-3">Small</button>
+                                                            class="btn btn-outline-primary rounded-pill mx-1 px-3">Small</button>
                                                         <button
-                                                            class="btn btn-outline-secondary rounded-pill mx-1 px-3">Medium</button>
+                                                            class="btn btn-outline-primary rounded-pill mx-1 px-3">Medium</button>
                                                         <button
-                                                            class="btn btn-outline-secondary rounded-pill mx-1 px-3">Large</button>
+                                                            class="btn btn-outline-primary rounded-pill mx-1 px-3">Large</button>
                                                     </div>
                                                 </div>
                                                 <div class="d-flex align-items-center gap-2">
                                                     <span>Kuantitas</span>
                                                     <div
                                                         class="d-flex align-items-center border-secondary rounded border">
-                                                        <button class="btn border-0">
-                                                            <i class="bi bi-dash-lg text-primary"></i>
-                                                        </button>
-                                                        <span class="mx-2">0</span>
-                                                        <button class="btn border-0">
-                                                            <i class="bi bi-plus-lg text-primary"></i>
-                                                        </button>
+                                                        <div class="input-group text-center" id="quantity_counter">
+                                                            <button class="input-group-text btn decrement-btn border-0">
+                                                                <i class="bi bi-dash-lg text-primary"></i>
+                                                            </button>
+                                                            <input type="text" name="quantity" value="1"
+                                                                class="qty-input form-control text-center" readonly>
+                                                            <button class="input-group-text btn increment-btn border-0">
+                                                                <i class="bi bi-plus-lg text-primary"></i>
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -133,5 +136,32 @@
         </div>
     </div>
 
-    <script src="{{ asset('/js/detailVendor.js') }}"></script>
+    @section('js')
+        <script src="{{ asset('/js/detailVendor.js') }}"></script>
+        <script>
+            $(document).ready(function() {
+                $('.increment-btn').click(function(e) {
+                    e.preventDefault();
+
+                    var $input = $(this).closest('.d-flex').find('.qty-input');
+                    var value = parseInt($input.val(), 10);
+                    value = isNaN(value) ? 0 : value;
+                    if (value < 999) {
+                        $input.val(value + 1);
+                    }
+                });
+
+                $('.decrement-btn').click(function(e) {
+                    e.preventDefault();
+
+                    var $input = $(this).closest('.d-flex').find('.qty-input');
+                    var value = parseInt($input.val(), 10);
+                    value = isNaN(value) ? 0 : value;
+                    if (value > 1) {
+                        $input.val(value - 1);
+                    }
+                });
+            });
+        </script>
+    @endsection
 </x-app-layout>
