@@ -30,7 +30,7 @@
                         <a class="nav-link {{ $isOrder ? 'active' : '' }}" href="{{ url('/order') }}">Order</a>
                     @else
                         <a class="nav-link {{ $isVendor ? 'active' : '' }}" href="{{ route('vendor.index') }}">Vendor</a>
-                        <a class="nav-link {{ $isCart ? 'active' : '' }}" href="{{ url('/cart') }}">Cart</a>
+                        <a class="nav-link {{ $isCart ? 'active' : '' }}" href="{{ route('cart.index') }}">Cart</a>
                         <a class="nav-link {{ $isOrder ? 'active' : '' }}" href="{{ url('/order') }}">Order</a>
                     @endif
                 </div>

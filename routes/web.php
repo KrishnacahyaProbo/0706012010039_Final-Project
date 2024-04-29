@@ -20,9 +20,6 @@ Route::get('/', function () {
 Route::get('/credit', function () {
     return view('pages.slicing.credit');
 })->name('credit');
-Route::get('/cart', function () {
-    return view('pages.slicing.cart');
-})->name('cart');
 Route::get('/cart/checkout', function () {
     return view('pages.slicing.checkout');
 })->name('checkout');
@@ -60,11 +57,11 @@ Route::middleware([
         Route::get('/menu/{vendorName}', 'VendorController@menu')->name('menu');
     });
 
-    Route::prefix('carts')->name('carts.')->namespace('App\Http\Controllers')->group(function () {
-        Route::get('/', 'CartsController@index')->name('index');
-        Route::get('/data', 'CartsController@data')->name('data');
-        Route::post('/store', 'CartsController@store')->name('store');
-        Route::delete('/destroy', 'CartsController@destroy')->name('destroy');
+    Route::prefix('carts')->name('cart.')->namespace('App\Http\Controllers')->group(function () {
+        Route::get('/', 'CartController@index')->name('index');
+        Route::get('/data', 'CartController@data')->name('data');
+        Route::post('/store', 'CartController@store')->name('store');
+        Route::delete('/destroy', 'CartController@destroy')->name('destroy');
     });
 
     Route::prefix('settings')->name('setting.')->namespace('App\Http\Controllers')->group(function () {

@@ -7,14 +7,14 @@ use App\Models\Cart;
 use Exception; // Import the Exception class
 use Illuminate\Support\Facades\Auth;
 
-class CartsController extends Controller
+class CartController extends Controller
 {
     public function index()
     {
         $cart = Cart::where('customer_id', Auth::user()->id)
             ->with('menu', 'menu.menuDetail')
             ->get();
-        return view('pages.slicing.cart', compact('cart'));
+        return view('pages.cart.index', compact('cart'));
     }
 
     public function data()
@@ -22,8 +22,7 @@ class CartsController extends Controller
         try {
             // Retrieve data
             $cart = Cart::where('customer_id', Auth::user()->id)
-                ->where('status', 'customer_unpaid')
-                ->with('menu')
+                ->with('menu', 'menu.menuDetail')
                 ->get();
 
             return response()->json(['cart' => $cart], 200);

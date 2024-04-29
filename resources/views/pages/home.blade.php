@@ -82,7 +82,7 @@
                     <div class="d-grid gap-1">
                         <h3>{{ $highlight['feature_title'] }}</h3>
 
-                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
                             @foreach ($highlight['feature_items'] as $item)
                                 <div class="col">
                                     <div class="card h-100">
