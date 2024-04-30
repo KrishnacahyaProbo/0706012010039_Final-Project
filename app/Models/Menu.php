@@ -21,4 +21,9 @@ class Menu extends Model
         return $this->belongsToMany(Schedule::class)
             ->withPivot('id'); // Include pivot table's ID
     }
+
+    public function vendor()
+    {
+        return $this->belongsTo(User::class, 'vendor_id', 'id');
+    }
 }

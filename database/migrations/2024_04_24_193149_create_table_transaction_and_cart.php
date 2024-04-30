@@ -35,6 +35,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('customer_id');
             $table->unsignedBigInteger('menu_id');
+            $table->date('schedule_date');
             $table->unsignedBigInteger('transaction_id')->nullable();
             $table->string('portion');
             $table->integer('quantity');

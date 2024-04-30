@@ -1,3 +1,5 @@
+var menuDate = null;
+
 function initialize() {
     var status = 'success';
     var previousSelectedOption = null;
@@ -83,6 +85,7 @@ function initialize() {
                     id: vendorData.id,
                 },
                 success: function (response) {
+                    menuDate = response.data_menu.schedule;
                     var container = document.getElementById("menuCart");
                     container.innerHTML = "";
                     response.data_menu.menus.forEach(function (menu) {
@@ -113,6 +116,10 @@ function initialize() {
                         var small = document.createElement("small");
                         small.classList.add("card-text", "text-secondary");
                         small.textContent = menu.description;
+
+                        var h3 = document.createElement("h3");
+                        h3.classList.add("card-title");
+                        h3.textContent = menu.type;
 
                         // Ambil semua harga dari menu_detail
                         var prices = menu.menu_detail.map(function (menuDetail) {
@@ -164,26 +171,26 @@ function initialize() {
                             button.textContent = option;
 
                             // Check if it's the first option and set background color
-                            if (firstIteration) {
-                                button.classList.add("font-weight-bold");
-                                button.style.backgroundColor = "#842029";
-                                button.style.color = "white";
-                                selectedOption = option;
-                                if (choosing == 0) {
-                                    previousSelectedOption = option;
-                                    choosing++
-                                }
-                                // Update the price accordingly
-                                var selectedMenuDetail = menu.menu_detail.find(function (menuDetail) {
-                                    return menuDetail.size === selectedOption;
-                                });
-                                if (selectedMenuDetail) {
-                                    var price = selectedMenuDetail.price;
-                                    var formattedPrice = formatRupiah(price);
-                                    h5.textContent = "Rp" + formattedPrice + "/pcs";
-                                }
-                                firstIteration = false; // Update the flag after the first iteration
-                            }
+                            // if (firstIteration) {
+                            //     button.classList.add("font-weight-bold");
+                            //     button.style.backgroundColor = "#842029";
+                            //     button.style.color = "white";
+                            //     selectedOption = option;
+                            //     if (choosing == 0) {
+                            //         previousSelectedOption = option;
+                            //         choosing++
+                            //     }
+                            //     // Update the price accordingly
+                            //     var selectedMenuDetail = menu.menu_detail.find(function (menuDetail) {
+                            //         return menuDetail.size === selectedOption;
+                            //     });
+                            //     if (selectedMenuDetail) {
+                            //         var price = selectedMenuDetail.price;
+                            //         var formattedPrice = formatRupiah(price);
+                            //         h5.textContent = "Rp" + formattedPrice + "/pcs";
+                            //     }
+                            //     firstIteration = false; // Update the flag after the first iteration
+                            // }
 
                             // Set the background color for the previously selected option
                             if (previousSelectedOption === option) {
@@ -471,6 +478,7 @@ function addToCart(menuId, currentQuantity, button, selectedPorsiText) {
                 },
                 data: {
                     menuId: menuId,
+                    menuDate: menuDate,
                     previousSelectedOption: selectedPorsiText,
                     currentQuantity: currentQuantity,
                     notes: notes

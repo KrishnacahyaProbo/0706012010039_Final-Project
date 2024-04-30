@@ -210,6 +210,11 @@ select:not(.flatpickr-monthDropdown-months),
     color: $white !important;
 }
 
+.portion {
+    background-color: $red-700;
+    color: $white;
+}
+
 .text-primary {
     color: $red-700 !important;
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Cart;
+use App\Models\User;
 use Exception; // Import the Exception class
 use Illuminate\Support\Facades\Auth;
 
@@ -11,10 +12,15 @@ class CartController extends Controller
 {
     public function index()
     {
-        $cart = Cart::where('customer_id', Auth::user()->id)
+        $param["cart"] = Cart::where('customer_id', Auth::user()->id)
             ->with('menu', 'menu.menuDetail')
             ->get();
-        return view('pages.cart.index', compact('cart'));
+        foreach ($param["cart"] as $key => $value) {
+            $user = User::find($value->menu->vendor_id);
+            $value->menu->vendor_name = $user->name;
+        }
+        // return view('pages.cart.index', compact('cart'));
+        return view('pages.cart.index', $param);
     }
 
     public function data()
@@ -24,6 +30,12 @@ class CartController extends Controller
             $cart = Cart::where('customer_id', Auth::user()->id)
                 ->with('menu', 'menu.menuDetail')
                 ->get();
+
+            dd($cart);
+            foreach ($cart as $key => $value) {
+                $user = User::find($value->menu->vendor_id);
+                $value->menu->vendor_name = $user->name;
+            }
 
             return response()->json(['cart' => $cart], 200);
         } catch (\Exception $e) {
@@ -37,6 +49,7 @@ class CartController extends Controller
             // Validate and sanitize the input data
             $validatedData = $request->validate([
                 'menuId' => 'required|numeric',
+                'menuDate' => 'required',
                 'previousSelectedOption' => 'required|string',
                 'currentQuantity' => 'required|numeric',
                 'notes' => 'nullable|string'
@@ -52,13 +65,14 @@ class CartController extends Controller
             if ($cartItem) {
                 // If the item exists, update its details
                 $cartItem->portion = $validatedData['previousSelectedOption'];
-                $cartItem->quantity = $validatedData['currentQuantity'];
+                $cartItem->quantity += $validatedData['currentQuantity'];
                 $cartItem->note = $validatedData['notes'];
             } else {
                 // If the item doesn't exist, create a new entry in the cart
                 $cartItem = new Cart();
                 $cartItem->customer_id = Auth::user()->id;
                 $cartItem->menu_id = $validatedData['menuId'];
+                $cartItem->schedule_date = $validatedData['menuDate'];
                 $cartItem->portion = $validatedData['previousSelectedOption'];
                 $cartItem->quantity = $validatedData['currentQuantity'];
                 $cartItem->note = $validatedData['notes'];

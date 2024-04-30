@@ -37,20 +37,40 @@
                     </div>
                 </div>
 
+                @php
+                    $temp = [];
+                    dd($cart);
+                @endphp
                 @foreach ($cart as $item)
-                    <div class="card">
+                    @php
+                        $index = -1;
+                        foreach ($temp as $keys => $detail) {
+                            if ($detail['name'] == $item['menu']['vendor']['name']) {
+                                $index = $keys;
+                            }
+                        }
+                        if ($index == -1) {
+                            array_push($temp, [
+                                'name' => $item['menu']['vendor']['name'],
+                                'price' => 0,
+                            ]);
+                            $index = count($temp) - 1;
+                        }
+                    @endphp
+
+                    <div class="card" id="deleteCartItem{{ $item->id }}">
                         <div class="card-header">
                             <div for="selected_vendor" class="d-flex gap-2">
                                 <x-checkbox id="selected_vendor" name="selected_vendor" />
                                 <label class="form-check-label" for="selected_vendor">
-                                    <strong>Nama Vendor</strong>
+                                    <strong>{{ $item->menu->vendor->name }}</strong>
                                 </label>
                             </div>
                         </div>
                         <div class="card-body d-grid gap-3">
                             <div>
                                 <span
-                                    class="badge rounded-pill text-secondary-emphasis bg-secondary-subtle border-secondary-subtle border">{{ date('l, j F Y') }}</span>
+                                    class="badge rounded-pill text-secondary-emphasis bg-secondary-subtle border-secondary-subtle border">{{ $item->schedule }}</span>
                             </div>
 
                             <div>
@@ -64,17 +84,24 @@
                                             <div class="d-grid gap-2">
                                                 <h3>{{ $item->menu->menu_name }}</h3>
                                                 <small class="text-secondary">{{ $item->menu->description }}</small>
-                                                <h5>Harga/pcs</h5>
+                                                @foreach ($item->menu->menuDetail as $detail)
+                                                    @if ($detail->size == $item->portion)
+                                                        @php
+                                                            $temp[$index]['price'] += $detail->price * $item->quantity;
+                                                        @endphp
+                                                        <h5>Rp{{ number_format($detail->price, 0, ',', '.') }}/pcs</h5>
+                                                    @endif
+                                                @endforeach
                                                 <div class="d-flex align-items-center gap-2">
                                                     <span>Porsi</span>
-                                                    <div>
+                                                    @foreach ($item->menu->menuDetail as $detail)
+                                                        @php
+                                                            $active = $detail->size == $item->portion ? 'portion' : '';
+
+                                                        @endphp
                                                         <button
-                                                            class="btn btn-outline-primary rounded-pill mx-1 px-3">Small</button>
-                                                        <button
-                                                            class="btn btn-outline-primary rounded-pill mx-1 px-3">Medium</button>
-                                                        <button
-                                                            class="btn btn-outline-primary rounded-pill mx-1 px-3">Large</button>
-                                                    </div>
+                                                            class="btn btn-outline-primary rounded-pill {{ $active }} mx-1 px-3">{{ $detail->size }}</button>
+                                                    @endforeach
                                                 </div>
                                                 <div class="d-flex align-items-center gap-2">
                                                     <span>Kuantitas</span>
@@ -84,7 +111,8 @@
                                                             <button class="input-group-text btn decrement-btn border-0">
                                                                 <i class="bi bi-dash-lg text-primary"></i>
                                                             </button>
-                                                            <input type="text" name="quantity" value="1"
+                                                            <input type="text" name="quantity"
+                                                                value="{{ $item->quantity }}"
                                                                 class="qty-input form-control text-center" readonly>
                                                             <button class="input-group-text btn increment-btn border-0">
                                                                 <i class="bi bi-plus-lg text-primary"></i>
@@ -96,7 +124,8 @@
                                         </div>
                                     </div>
                                     <div class="my-1">
-                                        <button class="btn border-0 p-0" title="Remove from Cart" onclick="destroy()">
+                                        <button class="btn border-0 p-0" title="Remove from Cart"
+                                            onclick="destroy({{ $item->id }})">
                                             <i class="bi bi-trash3 text-danger"></i>
                                         </button>
                                     </div>
@@ -115,8 +144,13 @@
                             <ul class="list-unstyled">
                                 <li class="row justify-content-between gap-3">
                                     <div class="col">
-                                        <span>Nama Vendor: </span>
-                                        <span class="text-break">Nominal</span>
+                                        @foreach ($temp as $item)
+                                            <span>{{ $item['name'] }}: </span>
+                                            <span class="text-break">
+                                                <strong>Rp{{ number_format($item['price'], 0, ',', '.') }}</strong>
+                                            </span>
+                                            <br>
+                                        @endforeach
                                     </div>
                                 </li>
                             </ul>
@@ -126,7 +160,17 @@
                             <div class="row align-items-center gap-3">
                                 <div class="col">
                                     <span class="text-secondary">Total: </span>
-                                    <span class="fs-5 text-break"><strong>Nominal</strong></span>
+                                    <span class="fs-5 text-break">
+                                        @php
+                                            $total = 0;
+                                        @endphp
+                                        @foreach ($temp as $collection)
+                                            @php
+                                                $total += $collection['price'];
+                                            @endphp
+                                        @endforeach
+                                        <strong>Rp{{ number_format($total, 0, ',', '.') }}</strong>
+                                    </span>
                                 </div>
                             </div>
 
