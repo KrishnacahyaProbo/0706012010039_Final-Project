@@ -488,6 +488,7 @@ function destroy(id) {
                 id: id
             },
             success: function (response) {
+                window.location.reload();
                 toastr.success("Cart item deleted successfully");
                 fetchDataMenuItem();
             },

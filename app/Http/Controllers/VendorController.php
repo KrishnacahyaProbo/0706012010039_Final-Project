@@ -58,7 +58,7 @@ class VendorController extends Controller
     {
         try {
             $vendor = User::with('Delivery', 'menu', 'menu.menu_schedule', 'UserSetting')->where('name', $nama_vendor)->first();
-            return view('pages.customer.vendor.menu', compact('vendor'));
+            return view('pages.customer.vendor.detailVendor', compact('vendor'));
         } catch (Exception $e) {
             return response()->json([
                 'message' => 'Error occured while fetching detail menu data',
