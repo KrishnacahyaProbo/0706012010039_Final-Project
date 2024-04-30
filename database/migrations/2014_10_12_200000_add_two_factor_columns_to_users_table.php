@@ -26,11 +26,6 @@ return new class extends Migration
                     ->after('two_factor_recovery_codes')
                     ->nullable();
             }
-
-            $table->text('address')->nullable();
-            $table->double('latitude')->nullable();
-            $table->double('longitude')->nullable();
-            $table->integer('rating')->nullable();
         });
     }
 

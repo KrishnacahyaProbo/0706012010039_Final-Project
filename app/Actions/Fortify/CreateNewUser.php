@@ -3,10 +3,13 @@
 namespace App\Actions\Fortify;
 
 use App\Models\User;
+use Laravel\Jetstream\Jetstream;
+use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
-use Laravel\Jetstream\Jetstream;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -17,6 +20,17 @@ class CreateNewUser implements CreatesNewUsers
      *
      * @param  array<string, string>  $input
      */
+    protected function createRole(User $user)
+    {
+        if (request('role') === 'vendor') {
+            $user->assignRole('vendor');
+        }
+
+        if (request('role') === 'customer') {
+            $user->assignRole('customer');
+        }
+    }
+
     public function create(array $input): User
     {
         Validator::make($input, [
@@ -30,14 +44,18 @@ class CreateNewUser implements CreatesNewUsers
             // 'rating' => ['required', 'numeric'],
         ])->validate();
 
-        return User::create([
-            'name' => $input['name'],
-            'email' => $input['email'],
-            'password' => Hash::make($input['password']),
-            'address' => $input['address'],
-            'latitude' => $input['latitude'],
-            'longitude' => $input['longitude'],
-            // 'rating' => $input['rating'],
-        ]);
+        return DB::transaction(function () use ($input) {
+            return tap(User::create([
+                'name' => $input['name'],
+                'email' => $input['email'],
+                'password' => Hash::make($input['password']),
+                'address' => $input['address'],
+                'latitude' => $input['latitude'],
+                'longitude' => $input['longitude'],
+                // 'rating' => $input['rating'],
+            ]), function (User $user) {
+                $this->createRole($user);
+            });
+        });
     }
 }
