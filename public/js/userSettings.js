@@ -4,7 +4,7 @@ $(document).ready(function () {
 
 function fetchDataAddress() {
     $.ajax({
-        url: '/getDataSettings',
+        url: '/settings/data',
         type: 'GET',
         success: function (data) {
             if (data.user_setting != null) {
