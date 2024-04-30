@@ -20,26 +20,8 @@
 
         <div class="row g-3">
             <div class="col-lg-8 d-grid gap-3">
-                <div>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <div for="select_all" class="d-flex gap-2">
-                                    <x-checkbox id="select_all" name="select_all" />
-                                    <label class="form-check-label" for="select_all">
-                                        <span><strong>Pilih Semua ({{ $cart->count() }})</strong></span>
-                                    </label>
-                                </div>
-
-                                <button class="btn text-danger border-0 p-0">Hapus</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 @php
                     $temp = [];
-                    // dd($cart);
                 @endphp
                 @foreach ($cart as $item)
                     @php
@@ -60,12 +42,7 @@
 
                     <div class="card" id="deleteCartItem{{ $item->id }}">
                         <div class="card-header">
-                            <div for="selected_vendor" class="d-flex gap-2">
-                                <x-checkbox id="selected_vendor" name="selected_vendor" />
-                                <label class="form-check-label" for="selected_vendor">
-                                    <strong>{{ $item->menu->vendor->name }}</strong>
-                                </label>
-                            </div>
+                            <strong>{{ $item->menu->vendor->name }}</strong>
                         </div>
                         <div class="card-body d-grid gap-3">
                             <div>
@@ -74,9 +51,7 @@
                             </div>
 
                             <div>
-                                <div class="d-grid d-md-flex justify-content-between align-items-center">
-                                    <div class="d-grid d-md-flex align-items-center gap-2">
-                                        <x-checkbox id="selected_vendor" name="selected_vendor" />
+                                <div class="d-grid d-md-flex justify-content-between align-items-center gap-1">
                                         <div class="d-grid d-md-flex gap-3">
                                             <img src="{{ Str::startsWith($item->menu->image, 'http') ? $item->menu->image : asset('menu/' . $item->menu->image) }}"
                                                 alt="Menu Image" class="w-25 rounded-1">
@@ -121,7 +96,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
                                     <div class="my-1">
                                         <button class="btn border-0 p-0" title="Remove from Cart"
                                             onclick="destroy({{ $item->id }})">

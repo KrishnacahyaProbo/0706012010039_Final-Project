@@ -37,11 +37,12 @@ class DatabaseSeeder extends Seeder
         $customerUser->assignRole($customerRole);
 
         // Create a permission
-        $manageMenuPermissionVendor = Permission::create(['name' => 'manage-menu']);
-        $manageMenuPermissionCustomer = Permission::create(['name' => 'show-menu']);
+        $manageMenuPermissionVendor = Permission::create(['name' => 'manage menu']);
+        $manageSchedulePermissionVendor = Permission::create(['name' => 'manage schedule']);
+        $manageMenuPermissionCustomer = Permission::create(['name' => 'show menu']);
 
         // Assign the manage-menu permission to the vendor role
-        $vendorRole->givePermissionTo($manageMenuPermissionVendor);
+        $vendorRole->givePermissionTo([$manageMenuPermissionVendor, $manageSchedulePermissionVendor]);
         $customerRole->givePermissionTo($manageMenuPermissionCustomer);
 
         // Create users
