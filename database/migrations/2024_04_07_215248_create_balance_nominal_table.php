@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('bank_name');
             $table->string('account_number');
             $table->string('account_holder_name');
-            $table->varchar('transaction_proof');
+            $table->string('transaction_proof');
             $table->timestamps();
         });
     }
