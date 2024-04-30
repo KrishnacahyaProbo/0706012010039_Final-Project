@@ -12,15 +12,16 @@ class CartController extends Controller
 {
     public function index()
     {
-        $param["cart"] = Cart::where('customer_id', Auth::user()->id)
+        $cart = Cart::where('customer_id', Auth::user()->id)
             ->with('menu', 'menu.menuDetail')
             ->get();
-        foreach ($param["cart"] as $key => $value) {
+
+        foreach ($cart as $key => $value) {
             $user = User::find($value->menu->vendor_id);
             $value->menu->vendor_name = $user->name;
         }
-        // return view('pages.cart.index', compact('cart'));
-        return view('pages.cart.index', $param);
+
+        return view('pages.cart.index', ['cart' => $cart]);
     }
 
     public function data()
@@ -31,7 +32,6 @@ class CartController extends Controller
                 ->with('menu', 'menu.menuDetail')
                 ->get();
 
-            dd($cart);
             foreach ($cart as $key => $value) {
                 $user = User::find($value->menu->vendor_id);
                 $value->menu->vendor_name = $user->name;

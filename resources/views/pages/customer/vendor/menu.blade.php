@@ -60,7 +60,7 @@
                             <div id="calendar_menu" class="card-body"></div>
                         </div>
 
-                        <x-button class="w-100">View Cart</x-button>
+                        <a href="{{ route('cart.index') }}" class="btn btn-primary">View Cart</a>
                     </div>
                 </div>
 

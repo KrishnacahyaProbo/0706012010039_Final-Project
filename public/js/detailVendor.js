@@ -109,17 +109,13 @@ function initialize() {
                         h3.classList.add("card-title");
                         h3.textContent = menu.menu_name;
 
-                        var type = document.createElement("small");
-                        type.classList.add("card-text", "text-secondary");
-                        type.textContent = menu.type;
-
                         var small = document.createElement("small");
                         small.classList.add("card-text", "text-secondary");
                         small.textContent = menu.description;
 
-                        var h3 = document.createElement("h3");
-                        h3.classList.add("card-title");
-                        h3.textContent = menu.type;
+                        var p = document.createElement("p");
+                        p.classList.add("card-text");
+                        p.textContent = menu.type;
 
                         // Ambil semua harga dari menu_detail
                         var prices = menu.menu_detail.map(function (menuDetail) {
@@ -170,28 +166,6 @@ function initialize() {
                             button.type = "button";
                             button.textContent = option;
 
-                            // Check if it's the first option and set background color
-                            // if (firstIteration) {
-                            //     button.classList.add("font-weight-bold");
-                            //     button.style.backgroundColor = "#842029";
-                            //     button.style.color = "white";
-                            //     selectedOption = option;
-                            //     if (choosing == 0) {
-                            //         previousSelectedOption = option;
-                            //         choosing++
-                            //     }
-                            //     // Update the price accordingly
-                            //     var selectedMenuDetail = menu.menu_detail.find(function (menuDetail) {
-                            //         return menuDetail.size === selectedOption;
-                            //     });
-                            //     if (selectedMenuDetail) {
-                            //         var price = selectedMenuDetail.price;
-                            //         var formattedPrice = formatRupiah(price);
-                            //         h5.textContent = "Rp" + formattedPrice + "/pcs";
-                            //     }
-                            //     firstIteration = false; // Update the flag after the first iteration
-                            // }
-
                             // Set the background color for the previously selected option
                             if (previousSelectedOption === option) {
                                 button.classList.add("font-weight-bold");
@@ -201,25 +175,20 @@ function initialize() {
 
                             // Menambahkan event listener untuk menangani klik tombol porsi
                             button.addEventListener("click", function () {
-
                                 // Memeriksa apakah tombol sudah dipilih atau tidak
-                                var isSelected =
-                                    button.classList.contains("font-weight-bold");
+                                var isSelected = button.classList.contains("font-weight-bold");
 
                                 // Menghapus efek tebal dan warna latar belakang dari porsi sebelumnya
                                 divPorsiButtons
                                     .querySelectorAll("button")
                                     .forEach(function (btn) {
-                                        btn.classList.remove(
-                                            "font-weight-bold"
-                                        );
+                                        btn.classList.remove("font-weight-bold");
                                         btn.style.backgroundColor = "";
                                         btn.style.color = "";
                                     });
 
                                 // Jika tombol belum dipilih dan belum ada porsi yang dipilih sebelumnya
                                 if (!isSelected && selectedOption === null) {
-                                    console.log("masuk 1");
                                     button.classList.add("font-weight-bold");
                                     button.style.backgroundColor = "#842029";
                                     button.style.color = "white";
@@ -354,9 +323,7 @@ function initialize() {
 
                         buttonPlus.addEventListener("click", function () {
                             // Mendapatkan nilai quantity saat ini
-                            var currentQuantity = parseInt(
-                                spanQuantity.textContent
-                            );
+                            var currentQuantity = parseInt(spanQuantity.textContent);
 
                             // Menambahkan 1 ke nilai quantity
                             var newQuantity = currentQuantity + 1;
@@ -367,9 +334,7 @@ function initialize() {
 
                         buttonMinus.addEventListener("click", function () {
                             // Mendapatkan nilai quantity saat ini
-                            var currentQuantity = parseInt(
-                                spanQuantity.textContent
-                            );
+                            var currentQuantity = parseInt(spanQuantity.textContent);
 
                             // Pastikan nilai quantity tidak kurang dari 0
                             if (currentQuantity > 0) {
@@ -384,13 +349,8 @@ function initialize() {
                         // Menambahkan event listener untuk menangani klik tombol "Add to Cart"
                         addToCartButton.addEventListener("click", function () {
                             // Memeriksa apakah ada tombol porsi yang dipilih
-                            var selectedPorsi =
-                                divPorsiButtons.querySelector(
-                                    ".font-weight-bold"
-                                );
-                            var currentQuantity = parseInt(
-                                spanQuantity.textContent
-                            );
+                            var selectedPorsi = divPorsiButtons.querySelector(".font-weight-bold");
+                            var currentQuantity = parseInt(spanQuantity.textContent);
 
                             // Jika tidak ada yang dipilih, tampilkan pesan toast
                             if (!selectedPorsi) {

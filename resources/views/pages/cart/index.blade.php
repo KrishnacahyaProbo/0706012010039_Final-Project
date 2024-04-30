@@ -39,7 +39,7 @@
 
                 @php
                     $temp = [];
-                    dd($cart);
+                    // dd($cart);
                 @endphp
                 @foreach ($cart as $item)
                     @php
@@ -70,7 +70,7 @@
                         <div class="card-body d-grid gap-3">
                             <div>
                                 <span
-                                    class="badge rounded-pill text-secondary-emphasis bg-secondary-subtle border-secondary-subtle border">{{ $item->schedule }}</span>
+                                    class="badge rounded-pill text-secondary-emphasis bg-secondary-subtle border-secondary-subtle border">{{ date('l, j F Y', strtotime($item->schedule_date)) }}</span>
                             </div>
 
                             <div>
@@ -97,10 +97,9 @@
                                                     @foreach ($item->menu->menuDetail as $detail)
                                                         @php
                                                             $active = $detail->size == $item->portion ? 'portion' : '';
-
                                                         @endphp
                                                         <button
-                                                            class="btn btn-outline-primary rounded-pill {{ $active }} mx-1 px-3">{{ $detail->size }}</button>
+                                                            class="btn btn-outline-primary rounded-pill {{ $active }} px-3">{{ $detail->size }}</button>
                                                     @endforeach
                                                 </div>
                                                 <div class="d-flex align-items-center gap-2">
