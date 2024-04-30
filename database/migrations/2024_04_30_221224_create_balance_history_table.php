@@ -11,15 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('balance_nominal', function (Blueprint $table) {
+        Schema::create('balance_history', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->index();
+            $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->integer('credit')->nullable();
-            $table->string('bank_name');
-            $table->string('account_number');
-            $table->string('account_holder_name');
-            $table->varchar('transaction_proof');
+            $table->integer('credit');
             $table->timestamps();
         });
     }
@@ -29,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('balance_nominal');
+        Schema::dropIfExists('balance_history');
     }
 };

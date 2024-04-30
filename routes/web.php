@@ -17,9 +17,6 @@ Route::get('/', function () {
     return view('pages.home');
 })->name('home');
 
-Route::get('/credit', function () {
-    return view('pages.slicing.credit');
-})->name('credit');
 Route::get('/cart/checkout', function () {
     return view('pages.slicing.checkout');
 })->name('checkout');
@@ -77,5 +74,11 @@ Route::middleware([
 
     Route::prefix('balance')->name('balance.')->namespace('App\Http\Controllers')->group(function () {
         Route::post('/settings', 'BalanceSettingController@settings')->name('balance.settings');
+    });
+
+    Route::prefix('credits')->name('credit.')->namespace('App\Http\Controllers')->group(function () {
+        Route::get('/', 'BalanceNominalController@index')->name('index');
+        Route::post('/top-up', 'BalanceNominalController@topUp')->name('top-up');
+        Route::post('/cash-out', 'BalanceNominalController@cashOut')->name('cash-out');
     });
 });
