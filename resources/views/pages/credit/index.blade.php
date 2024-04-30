@@ -22,26 +22,26 @@
             @if (!$balance || $balance->credit <= 0)
                 <x-button class="d-flex ms-auto" disabled>Request Cash out</x-button>
             @else
-                <x-button class="d-flex ms-auto" data-bs-toggle="modal" data-bs-target="#mdlForm">Request Cash
+                <x-button class="d-flex ms-auto" data-bs-toggle="modal" data-bs-target="#modalForm">Request Cash
                     out</x-button>
             @endif
 
-            <div class="modal fade" id="mdlForm" tabindex="-1" aria-hidden="true" data-bs-backdrop='static'>
+            <div class="modal fade" id="modalForm" tabindex="-1" aria-hidden="true" data-bs-backdrop='static'>
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h3 id="mdlFormTitle">Pencairan Kredit</h3>
+                            <h3 id="modalFormTitle">Pencairan Kredit</h3>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                         </div>
-                        <div class="modal-body" id="mdlFormContent">
+                        <div class="modal-body" id="modalFormContent">
                             <form method="POST" action="/credits/cash-out">
                                 @csrf
 
                                 <div class="d-grid gap-3">
                                     <div>
                                         <x-label for="credit" value="{{ __('Nominal') }}" />
-                                        <x-input id="credit" type="number" name="credit" required />
+                                        <x-input id="credit_cash_out" type="number" name="credit" required />
                                     </div>
 
                                     <x-button>{{ __('Save') }}</x-button>
@@ -110,17 +110,17 @@
                 @section('page_title', 'Isi Ulang Kredit')
             </div>
 
-            <x-button class="d-flex ms-auto" data-bs-toggle="modal" data-bs-target="#mdlForm">Top up</x-button>
+            <x-button class="d-flex ms-auto" data-bs-toggle="modal" data-bs-target="#modalForm">Top up</x-button>
 
-            <div class="modal fade" id="mdlForm" tabindex="-1" aria-hidden="true" data-bs-backdrop='static'>
+            <div class="modal fade" id="modalForm" tabindex="-1" aria-hidden="true" data-bs-backdrop='static'>
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h3 id="mdlFormTitle">Isi Ulang Kredit</h3>
+                            <h3 id="modalFormTitle">Isi Ulang Kredit</h3>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                         </div>
-                        <div class="modal-body" id="mdlFormContent">
+                        <div class="modal-body" id="modalFormContent">
                             <form method="POST" action="/credits/top-up" enctype="multipart/form-data">
                                 @csrf
 
@@ -199,4 +199,16 @@
             </div>
         @endif
     </div>
+
+    <script>
+        var balanceNominal = {!! json_encode($balance->credit ?? 0) !!}
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Mendapatkan elemen input Nominal
+            var creditInput = document.getElementById('credit_cash_out');
+
+            // Mengatur nilai maksimum input Nominal berdasarkan nilai balanceNominal
+            creditInput.max = balanceNominal;
+        });
+    </script>
 </x-app-layout>
