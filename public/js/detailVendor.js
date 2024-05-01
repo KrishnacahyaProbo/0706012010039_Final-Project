@@ -100,7 +100,7 @@ function initialize() {
                         );
 
                         var img = document.createElement("img");
-                        img.src = menu.image;
+                        img.src = menu.image.includes('http') ? menu.image : public + 'menu/' + menu.image;
                         img.alt = "";
                         img.classList.add("rounded-1", "w-50");
                         img.setAttribute("loading", "lazy");
@@ -109,13 +109,24 @@ function initialize() {
                         h3.classList.add("card-title");
                         h3.textContent = menu.menu_name;
 
+                        var type = document.createElement("span");
+                        type.classList.add("card-text");
+
+                        if (menu.type === "spicy") {
+                            var span = document.createElement("span");
+                            span.classList.add("badge", "rounded-pill", "text-danger-emphasis", "bg-danger-subtle", "border", "border-danger-subtle");
+                            span.textContent = "Pedas";
+                            type.appendChild(span);
+                        } else if (menu.type === "no_spicy") {
+                            var span = document.createElement("span");
+                            span.classList.add("badge", "rounded-pill", "text-primary-emphasis", "bg-primary-subtle", "border", "border-primary-subtle");
+                            span.textContent = "Tidak Pedas";
+                            type.appendChild(span);
+                        }
+
                         var small = document.createElement("small");
                         small.classList.add("card-text", "text-secondary");
                         small.textContent = menu.description;
-
-                        var p = document.createElement("p");
-                        p.classList.add("card-text");
-                        p.textContent = menu.type;
 
                         // Ambil semua harga dari menu_detail
                         var prices = menu.menu_detail.map(function (menuDetail) {
@@ -311,6 +322,7 @@ function initialize() {
 
                         divCardBody.appendChild(img);
                         divCardBody.appendChild(h3);
+                        divCardBody.appendChild(type);
                         divCardBody.appendChild(small);
                         divCardBody.appendChild(h5);
                         divCardBody.appendChild(divPorsiContainer);

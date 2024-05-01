@@ -89,6 +89,37 @@ class CartController extends Controller
         }
     }
 
+    public function update(Request $request) {
+        try {
+            // Validate and sanitize the input data
+            $validatedData = $request->validate([
+                'portion' => 'nullable|string',
+                'quantity' => 'nullable|numeric',
+                // 'notes' => 'nullable|string'
+            ]);
+
+            // Find the cart item
+            $cartItem = Cart::find($request->input('cart_menu_id'));
+
+            // Update the cart item details
+            $cartItem->portion = $validatedData['portion'];
+            $cartItem->quantity = $validatedData['quantity'];
+            // $cartItem->note = $validatedData['notes'];
+
+            // Save the updated cart item
+            $cartItem->save();
+
+            // Return a response indicating success
+            return response()->json([
+                'message' => 'Cart item updated successfully',
+                'success' => true
+            ], 200);
+        } catch (\Exception $e) {
+            // Handle any exceptions that occur during the database operation
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
     public function destroy(Request $request)
     {
         try {

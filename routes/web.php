@@ -58,6 +58,7 @@ Route::middleware([
         Route::get('/', 'CartController@index')->name('index');
         Route::get('/data', 'CartController@data')->name('data');
         Route::post('/store', 'CartController@store')->name('store');
+        Route::post('/update', 'CartController@update')->name('update');
         Route::delete('/destroy', 'CartController@destroy')->name('destroy');
     });
 

@@ -54,7 +54,8 @@ img {
 
 select,
 input:is([type="radio"], [type="checkbox"]),
-.form-check-label {
+.form-check-label,
+.star {
     cursor: pointer;
 }
 

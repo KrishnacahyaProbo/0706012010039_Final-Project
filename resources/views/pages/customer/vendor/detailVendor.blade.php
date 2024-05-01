@@ -77,6 +77,8 @@
             'address' => $vendor->address,
             'menu' => $vendor->menu,
         ]); ?>;
+
+        var public = "{{ asset('') }}";
     </script>
     <script src="{{ asset('/js/detailVendor.js') }}"></script>
     <script src="{{ asset('/js/formatRupiah.js') }}"></script>

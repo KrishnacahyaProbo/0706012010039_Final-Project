@@ -92,7 +92,7 @@
                     <tbody>
                         @if ($balance_history->isEmpty())
                             <tr>
-                                <td colspan="2">No data</td>
+                                <td colspan="2">Belum ada riwayat.</td>
                             </tr>
                         @else
                             @foreach ($balance_history as $item)
@@ -129,7 +129,6 @@
                                         <x-label for="credit" value="{{ __('Nominal') }}" />
                                         <x-input id="credit" type="number" name="credit" required />
                                     </div>
-
                                     <div>
                                         <x-label for="transaction_proof" value="{{ __('Foto Bukti Top Up') }}" />
                                         <input type="file" class="form-control" id="transaction_proof"
@@ -184,7 +183,7 @@
                     <tbody>
                         @if ($balance_history->isEmpty())
                             <tr>
-                                <td colspan="2">No data</td>
+                                <td colspan="2">Belum ada riwayat.</td>
                             </tr>
                         @else
                             @foreach ($balance_history as $item)
@@ -200,15 +199,17 @@
         @endif
     </div>
 
-    <script>
-        var balanceNominal = {!! json_encode($balance->credit ?? 0) !!}
+    @section('js')
+        <script>
+            var balanceNominal = {!! json_encode($balance->credit ?? 0) !!}
 
-        document.addEventListener("DOMContentLoaded", function() {
-            // Mendapatkan elemen input Nominal
-            var creditInput = document.getElementById('credit_cash_out');
+            document.addEventListener("DOMContentLoaded", function() {
+                // Mendapatkan elemen input Nominal
+                var creditInput = document.getElementById('credit_cash_out');
 
-            // Mengatur nilai maksimum input Nominal berdasarkan nilai balanceNominal
-            creditInput.max = balanceNominal;
-        });
-    </script>
+                // Mengatur nilai maksimum input Nominal berdasarkan nilai balanceNominal
+                creditInput.max = balanceNominal;
+            });
+        </script>
+    @endsection
 </x-app-layout>
