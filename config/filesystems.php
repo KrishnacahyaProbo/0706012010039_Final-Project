@@ -62,6 +62,13 @@ return [
             'url' => env('APP_URL') . '/assets/image/transaction_proof',
             'visibility' => 'public',
         ],
+
+        'public_uploads_testimony_photo' => [
+            'driver' => 'local',
+            'root' => public_path('assets') . '/image/testimony_photo',
+            'url' => env('APP_URL') . '/assets/image/testimony_photo',
+            'visibility' => 'public',
+        ],
     ],
 
     /*

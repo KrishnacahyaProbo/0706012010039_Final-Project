@@ -26,10 +26,12 @@
                         <h3 class="card-title">{{ $vendor->name }}</h3>
 
                         <div class="d-grid text-secondary gap-1">
+                            <a href="/testimonies/{{ $vendor->id }}">
                             <div class="d-flex gap-2">
-                                <i class="bi bi-star"></i>
-                                <p class="card-text">{{ $vendor->rating }}/5</p>
-                            </div>
+                                    <i class="bi bi-star"></i>
+                                    <p class="card-text">{{ $vendor->rating }}/5</p>
+                                </div>
+                            </a>
 
                             <div class="d-flex gap-2">
                                 <i class="bi bi-geo-alt"></i>

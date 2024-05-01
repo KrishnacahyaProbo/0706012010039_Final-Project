@@ -18,25 +18,27 @@
             @section('page_title', 'Testimoni')
         </div>
 
-        @for ($i = 0; $i < 3; $i++)
+        @foreach ($testimony as $item)
             <div class="card">
                 <div class="card-body">
                     <div class="d-grid gap-3">
                         <div class="d-flex align-items-center gap-2">
-                            <img src="https://laravel.com/img/logotype.min.svg" alt="" width="48">
-                            <span>Nama Pelanggan</span>
+                            <img src={{ $item->customer?->profile_photo_url }} alt="" width="48">
+                            <span>{{ $item?->customer?->name }}</span>
                         </div>
                         <div class="d-flex gap-2">
                             <i class="bi bi-star-fill text-warning"></i>
-                            <strong>Rating/5</strong>
+                            <strong>{{ $item->rating }}/5</strong>
                         </div>
-                        <span>Isi Testimoni</span>
+                        <span>{{ $item->description ?? '-' }}</span>
+                        <img src="/assets/image/testimony_photo/{{ $item->testimony_photo }}" alt=""
+                            class="rounded-1" width="196">
                     </div>
                 </div>
                 <div class="card-footer">
-                    <small class="text-secondary">DD/MM/YYYY H:M:S</small>
+                    <small class="text-secondary">{{ $item->created_at ?? '-' }}</small>
                 </div>
             </div>
-        @endfor
+        @endforeach
     </div>
 </x-app-layout>

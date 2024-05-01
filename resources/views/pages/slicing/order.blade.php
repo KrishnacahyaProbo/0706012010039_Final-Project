@@ -95,6 +95,8 @@
                     <option selected>Belum Bayar</option>
                     <option value="">Dikirim</option>
                     <option value="">Diterima</option>
+                    <option value="">Ditolak</option>
+                    <option value="">Dibatalkan</option>
                 </select>
             </div>
 
@@ -139,12 +141,12 @@
                                     <div class="modal-dialog modal-xl">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h3 id="addTestimonyTitle">Pencairan Kredit</h3>
+                                                <h3 id="addTestimonyTitle">Unggah Testimoni</h3>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                     aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body" id="addTestimonyContent">
-                                                <form method="POST" action="/testimonies/store" id="testimonyForm">
+                                                <form method="POST" action="/testimonies/store" id="testimonyForm" enctype="multipart/form-data">
                                                     @csrf
 
                                                     <div class="d-grid gap-3">
@@ -153,15 +155,16 @@
                                                             <div class="d-flex gap-2" id="ratingStars">
                                                                 @for ($i = 0; $i < 5; $i++)
                                                                     <i class="bi bi-star text-primary fs-2 star"
-                                                                        data-rating="{{ $i + 1 }}"></i>
+                                                                        data-rating="{{ $i + 1 }}"
+                                                                        data-value="1"></i>
                                                                 @endfor
                                                             </div>
                                                             <input type="hidden" name="rating" id="ratingInput"
                                                                 value="1">
                                                         </div>
                                                         <div>
-                                                            <x-label for="testimony" value="{{ __('Ulasan') }}" />
-                                                            <textarea class="form-control" id="testimony" name="testimony" required></textarea>
+                                                            <x-label for="description" value="{{ __('Ulasan') }}" />
+                                                            <textarea class="form-control" id="description" name="description" required></textarea>
                                                         </div>
                                                         <div>
                                                             <x-label for="testimony_photo"
@@ -196,6 +199,7 @@
                 ratingInput.value = rating;
             });
         });
+        console.log(ratingInput);
 
         function highlightStars(selectedRating) {
             stars.forEach((star, index) => {

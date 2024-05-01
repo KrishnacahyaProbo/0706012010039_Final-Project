@@ -23,9 +23,6 @@ Route::get('/cart/checkout', function () {
 Route::get('/order', function () {
     return view('pages.slicing.order');
 })->name('order');
-Route::get('/testimony', function () {
-    return view('pages.slicing.testimony');
-})->name('testimony');
 
 Route::middleware([
     'auth:sanctum',
@@ -61,6 +58,11 @@ Route::middleware([
         Route::post('/update', 'CartController@update')->name('update');
         Route::delete('/destroy', 'CartController@destroy')->name('destroy');
         Route::post('/checkout', 'CheckoutController@checkout')->name('checkout');
+    });
+
+    Route::prefix('testimonies')->name('testimony.')->namespace('App\Http\Controllers')->group(function () {
+        Route::get('/{id}', 'TestimonyController@show')->name('show');
+        Route::post('/store', 'TestimonyController@store')->name('store');
     });
 
     Route::prefix('settings')->name('setting.')->namespace('App\Http\Controllers')->group(function () {
