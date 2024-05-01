@@ -18,6 +18,13 @@
             @section('page_title', 'Keranjang Belanja')
         </div>
 
+        @if (count($cart) == 0)
+            <div class="alert alert-info">
+                <p>Keranjang belanja Anda kosong. Silakan pilih menu yang ingin dimasukkan keranjang belanja.</p>
+                <a href="{{ route('vendor.index') }}" class="btn btn-primary">Eksplor Vendor</a>
+            </div>
+        @endif
+
         <div class="row g-3">
             <div class="col-lg-8 d-grid gap-3">
                 @php
@@ -149,49 +156,54 @@
                 @endforeach
             </div>
 
-            <div class="col-lg-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-grid gap-3">
-                            <h3>Ringkasan Belanja</h3>
-                            <ul class="list-unstyled">
-                                <li class="row justify-content-between gap-3">
+            @if (count($cart) != 0)
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-grid gap-3">
+                                <h3>Ringkasan Belanja</h3>
+                                <ul class="list-unstyled">
+                                    <li class="row justify-content-between gap-3">
+                                        <div class="col">
+                                            @foreach ($temp as $item)
+                                                <span>{{ $item['name'] }}: </span>
+                                                <span class="text-break">
+                                                    <strong>Rp{{ number_format($item['price'], 0, ',', '.') }}</strong>
+                                                </span>
+                                                <br>
+                                            @endforeach
+                                        </div>
+                                    </li>
+                                </ul>
+
+                                <hr class="my-0">
+
+                                <div class="row align-items-center gap-3">
                                     <div class="col">
-                                        @foreach ($temp as $item)
-                                            <span>{{ $item['name'] }}: </span>
-                                            <span class="text-break">
-                                                <strong>Rp{{ number_format($item['price'], 0, ',', '.') }}</strong>
-                                            </span>
-                                            <br>
-                                        @endforeach
-                                    </div>
-                                </li>
-                            </ul>
-
-                            <hr class="my-0">
-
-                            <div class="row align-items-center gap-3">
-                                <div class="col">
-                                    <span class="text-secondary">Total: </span>
-                                    <span class="fs-5 text-break">
-                                        @php
-                                            $total = 0;
-                                        @endphp
-                                        @foreach ($temp as $collection)
+                                        <span class="text-secondary">Total: </span>
+                                        <span class="fs-5 text-break">
                                             @php
-                                                $total += $collection['price'];
+                                                $total = 0;
                                             @endphp
-                                        @endforeach
-                                        <strong>Rp{{ number_format($total, 0, ',', '.') }}</strong>
-                                    </span>
+                                            @foreach ($temp as $collection)
+                                                @php
+                                                    $total += $collection['price'];
+                                                @endphp
+                                            @endforeach
+                                            <strong>Rp{{ number_format($total, 0, ',', '.') }}</strong>
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <x-button>Checkout</x-button>
+                                <form action="{{ route('cart.checkout') }}" method="post">
+                                    @csrf
+                                    <button type="submit" class="btn btn-primary w-100">Checkout</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endif
         </div>
     </div>
 
@@ -234,28 +246,32 @@
                 var portion = $(this).closest('.row-item').find('.portion').text();
                 var price = $(this).closest('.row-item').find('#price').val();
                 var quantity = $(this).closest('.row-item').find('#quantity').val();
-                updateCart(ringkasanBelanja, indexItem, cart_menu_id, portion, price, quantity);
-
+                updateCart(ringkasanBelanja, indexItem, 1, cart_menu_id, portion, price, quantity);
                 console.log(cart_menu_id, portion, price, quantity);
             })
 
             $(document).on("click", '.btn-increment', function() {
+                var ringkasanBelanja = $(this).attr('ringkasanBelanja');
+                var indexItem = $(this).attr('indexItem');
                 var cart_menu_id = $(this).closest('.d-grid').find('#cart_menu_id').val();
                 var portion = $(this).closest('.row-item').find('.portion').text();
                 var price = $(this).closest('.d-grid').find('#price').val();
                 var quantity = $(this).closest('.d-grid').find('#quantity').val();
-                updateCart(null, null, cart_menu_id, portion, price, quantity);
+                updateCart(null, null, 0, cart_menu_id, portion, price, quantity);
             })
 
             $(document).on("click", '.btn-decrement', function() {
+                var ringkasanBelanja = $(this).attr('ringkasanBelanja');
+                var indexItem = $(this).attr('indexItem');
                 var cart_menu_id = $(this).closest('.d-grid').find('#cart_menu_id').val();
                 var portion = $(this).closest('.row-item').find('.portion').text();
                 var price = $(this).closest('.d-grid').find('#price').val();
                 var quantity = $(this).closest('.d-grid').find('#quantity').val();
-                updateCart(null, null, cart_menu_id, portion, price, quantity);
+                updateCart(null, null, 0, cart_menu_id, portion, price, quantity);
             })
 
-            function updateCart(ringkasanBelanja = null, indexItem = null, cart_menu_id, portion, price, quantity) {
+            function updateCart(ringkasanBelanja = null, indexItem = null, editButton = 0, cart_menu_id, portion, price,
+                quantity) {
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
                 $.ajax({
                     url: '/carts/update',
@@ -271,7 +287,7 @@
                         quantity: quantity
                     },
                     success: function(response) {
-                        if (ringkasanBelanja != null && indexItem != null) {
+                        if (editButton == 1) {
                             var newHarga = 0;
 
                             data[ringkasanBelanja]['items'][indexItem]['menu']['menu_detail'].forEach(element => {

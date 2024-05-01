@@ -14,7 +14,7 @@ class BalanceNominalController extends Controller
 {
     public function index()
     {
-        $balance_history = BalanceHistory::where('user_id', Auth::user()->id)->get();
+        $balance_history = BalanceHistory::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
         $user_setting = UserSetting::where('vendor_id', Auth::user()->id)->first();
         $balance = BalanceNominal::where('user_id', Auth::user()->id)->first();
 

@@ -14,6 +14,7 @@ class CartController extends Controller
     {
         $cart = Cart::where('customer_id', Auth::user()->id)
             ->with('menu', 'menu.menuDetail')
+            ->orderBy('schedule_date', 'asc')
             ->get();
 
         foreach ($cart as $key => $value) {
@@ -58,7 +59,6 @@ class CartController extends Controller
             // Find if the item already exists in the cart for the authenticated user
             $cartItem = Cart::where('customer_id', Auth::user()->id)
                 ->where('menu_id', $validatedData['menuId'])
-                ->where('status', 'customer_unpaid')
                 ->where('portion', $validatedData['previousSelectedOption'])
                 ->first();
 
@@ -89,7 +89,8 @@ class CartController extends Controller
         }
     }
 
-    public function update(Request $request) {
+    public function update(Request $request)
+    {
         try {
             // Validate and sanitize the input data
             $validatedData = $request->validate([

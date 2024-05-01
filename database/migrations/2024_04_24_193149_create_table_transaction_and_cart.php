@@ -11,24 +11,44 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::create('reasons', function (Blueprint $table) {
+            $table->id();
+            $table->string('reason');
+        });
+
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('vendor_id');
-            $table->bigInteger('total_price');
+            $table->unsignedBigInteger('customer_id');
+            $table->bigInteger('subtotal');
             $table->text('address');
             $table->double('longitude');
             $table->double('latitude');
             $table->double('distance_between');
             $table->integer('shipping_costs');
+            $table->enum('status', ['customer_unpaid', 'customer_paid', 'customer_canceled', 'vendor_packing', 'vendor_delivering', 'customer_received', 'customer_problem']);
             $table->timestamps();
 
-            // Foreign key constraint
-            $table->foreign('vendor_id')->references('id')->on('users');
+            $table->foreign('customer_id')->references('id')->on('users');
         });
 
-        Schema::create('reasons', function (Blueprint $table) {
+        Schema::create('transactions_detail', function (Blueprint $table) {
             $table->id();
-            $table->string('reason');
+            $table->unsignedBigInteger('transaction_id');
+            $table->unsignedBigInteger('vendor_id');
+            $table->unsignedBigInteger('menu_id');
+            $table->text('note')->nullable();
+            $table->date('schedule_date');
+            $table->string('portion');
+            $table->integer('quantity');
+            $table->bigInteger('price');
+            $table->bigInteger('total_price');
+            $table->unsignedBigInteger('refund_reason')->nullable();
+            $table->timestamps();
+
+            $table->foreign('transaction_id')->references('id')->on('transactions');
+            $table->foreign('vendor_id')->references('id')->on('users');
+            $table->foreign('menu_id')->references('id')->on('menu');
+            $table->foreign('refund_reason')->references('id')->on('reasons');
         });
 
         Schema::create('carts', function (Blueprint $table) {
@@ -39,16 +59,12 @@ return new class extends Migration
             $table->unsignedBigInteger('transaction_id')->nullable();
             $table->string('portion');
             $table->integer('quantity');
-            $table->enum('status', ['customer_unpaid', 'customer_paid']);
-            $table->unsignedBigInteger('refund_reason')->nullable();
             $table->text('note')->nullable();
             $table->timestamps();
 
-            // Foreign key constraints
             $table->foreign('customer_id')->references('id')->on('users');
             $table->foreign('menu_id')->references('id')->on('menu');
             $table->foreign('transaction_id')->references('id')->on('transactions');
-            $table->foreign('refund_reason')->references('id')->on('reasons');
         });
     }
 

@@ -60,6 +60,7 @@ Route::middleware([
         Route::post('/store', 'CartController@store')->name('store');
         Route::post('/update', 'CartController@update')->name('update');
         Route::delete('/destroy', 'CartController@destroy')->name('destroy');
+        Route::post('/checkout', 'CheckoutController@checkout')->name('checkout');
     });
 
     Route::prefix('settings')->name('setting.')->namespace('App\Http\Controllers')->group(function () {
