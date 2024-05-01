@@ -41,7 +41,6 @@ class CreateNewUser implements CreatesNewUsers
             'address' => ['required', 'string'],
             'latitude' => ['required', 'numeric'],
             'longitude' => ['required', 'numeric'],
-            // 'rating' => ['required', 'numeric'],
         ])->validate();
 
         return DB::transaction(function () use ($input) {
@@ -52,7 +51,6 @@ class CreateNewUser implements CreatesNewUsers
                 'address' => $input['address'],
                 'latitude' => $input['latitude'],
                 'longitude' => $input['longitude'],
-                // 'rating' => $input['rating'],
             ]), function (User $user) {
                 $this->createRole($user);
             });

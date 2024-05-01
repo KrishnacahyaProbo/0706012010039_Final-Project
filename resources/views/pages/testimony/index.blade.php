@@ -18,6 +18,11 @@
             @section('page_title', 'Testimoni')
         </div>
 
+        @if ($testimony->isEmpty())
+            <div class="alert alert-info">
+                Belum terdapat testimoni pada vendor.
+            </div>
+        @endif
         @foreach ($testimony as $item)
             <div class="card">
                 <div class="card-body">

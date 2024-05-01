@@ -76,12 +76,17 @@
                                             <div
                                                 class="d-grid d-md-flex justify-content-between align-items-center row-item">
                                                 <div class="d-grid d-md-flex align-items-center gap-1">
-                                                    <div class="d-grid d-md-flex gap-3">
-                                                        <img src="{{ Str::startsWith($item->menu->image, 'http') ? $item->menu->image : asset('menu/' . $item->menu->image) }}"
-                                                            alt="Menu Image" class="w-25 rounded-1">
+                                                    <div class="row g-3">
+                                                        <div class="col-md-3">
+                                                            <img src="{{ Str::startsWith($item->menu->image, 'http') ? $item->menu->image : asset('menu/' . $item->menu->image) }}"
+                                                                alt="Menu Image" class="rounded-1">
+                                                        </div>
 
-                                                        <div class="d-grid gap-2">
+                                                        <div class="col-md-9 d-grid gap-2">
                                                             <h3>{{ $item->menu->menu_name }}</h3>
+                                                            <span>{!! $item->menu->type === 'spicy'
+                                                                ? '<span class="badge rounded-pill text-danger-emphasis bg-danger-subtle border border-danger-subtle">Pedas</span>'
+                                                                : '<span class="badge rounded-pill text-primary-emphasis bg-primary-subtle border border-primary-subtle">Tidak Pedas</span>' !!}</span>
                                                             <small
                                                                 class="text-secondary">{{ $item->menu->description }}</small>
                                                             @foreach ($item->menu->menuDetail as $detail)
@@ -299,7 +304,7 @@
                             $(`#newHarga${ringkasanBelanja + indexItem}`).html(
                                 `Rp${newHarga.toLocaleString()}/pcs`);
                         }
-                        toastr.success('Cart item updated successfully');
+                        // toastr.success('Cart item updated successfully');
                     },
                     error: function(xhr, status, error) {
                         toastr.error('Error updating cart item');

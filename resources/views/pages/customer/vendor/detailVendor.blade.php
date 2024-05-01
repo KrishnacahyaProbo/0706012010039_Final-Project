@@ -27,9 +27,9 @@
 
                         <div class="d-grid text-secondary gap-1">
                             <a href="/testimonies/{{ $vendor->id }}">
-                            <div class="d-flex gap-2">
+                                <div class="d-flex gap-2">
                                     <i class="bi bi-star"></i>
-                                    <p class="card-text">{{ $vendor->rating }}/5</p>
+                                    <p class="card-text">{{ $vendor->rating ?? '-' }}/5</p>
                                 </div>
                             </a>
 
@@ -40,7 +40,7 @@
 
                             <div class="d-flex gap-2">
                                 <i class="bi bi-truck"></i>
-                                <p class="card-text">Rp{{ $vendor->Delivery->shipping_cost ?? 0 }}</p>
+                                <p class="card-text">Rp{{ $vendor->Delivery->shipping_cost ?? '-' }}</p>
                             </div>
                         </div>
 

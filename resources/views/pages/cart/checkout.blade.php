@@ -20,7 +20,7 @@
 
         <div class="row g-3">
             <div class="col-lg-8 d-grid gap-3">
-                <div>
+                {{-- <div>
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-start gap-3">
@@ -35,7 +35,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="card">
                     <div class="card-header">
@@ -82,9 +82,10 @@
                             <div class="col-auto">
                                 <span class="text-secondary">Kredit</span>
                             </div>
-                            <div class="col">
+                            <div class="col px-1">
                                 <span class="badge rounded-pill nominal_background">
-                                    <h6 class="mb-0 px-2 py-1">Nominal</h6>
+                                    <h6 class="mb-0 px-2 py-1">
+                                        Rp{{ number_format($balance->credit ?? '0', 0, ',', '.') }}</h6>
                                 </span>
                             </div>
                         </div>

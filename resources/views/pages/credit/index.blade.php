@@ -60,7 +60,8 @@
                                 <span class="text-secondary">Kredit</span>
                                 <div>
                                     <span class="badge rounded-pill nominal_background">
-                                        <h3 class="mb-0 px-2 py-1">Rp{{ $balance->credit ?? '0' }}</h3>
+                                        <h3 class="mb-0 px-2 py-1">
+                                            Rp{{ number_format($balance->credit ?? '0', 0, ',', '.') }}</h3>
                                     </span>
                                 </div>
                             </div>
@@ -97,7 +98,7 @@
                         @else
                             @foreach ($balance_history as $item)
                                 <tr>
-                                    <td>Rp{{ $item->credit }}</td>
+                                    <td>Rp{{ number_format($item->credit, 0, ',', '.') }}</td>
                                     <td>{{ $item->created_at }}</td>
                                 </tr>
                             @endforeach
@@ -151,7 +152,8 @@
                                 <span class="text-secondary">Kredit</span>
                                 <div>
                                     <span class="badge rounded-pill nominal_background">
-                                        <h3 class="mb-0 px-2 py-1">Rp{{ $balance->credit ?? '0' }}</h3>
+                                        <h3 class="mb-0 px-2 py-1">
+                                            Rp{{ number_format($balance->credit ?? '0', 0, ',', '.') }}</h3>
                                     </span>
                                 </div>
                             </div>
@@ -188,7 +190,7 @@
                         @else
                             @foreach ($balance_history as $item)
                                 <tr>
-                                    <td>Rp{{ $item->credit }}</td>
+                                    <td>Rp{{ number_format($item->credit, 0, ',', '.') }}</td>
                                     <td>{{ $item->created_at }}</td>
                                 </tr>
                             @endforeach

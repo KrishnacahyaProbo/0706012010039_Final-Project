@@ -23,7 +23,6 @@ return new class extends Migration
             $table->text('address')->nullable();
             $table->double('latitude')->nullable();
             $table->double('longitude')->nullable();
-            $table->integer('rating')->nullable();
             $table->timestamps();
         });
     }
