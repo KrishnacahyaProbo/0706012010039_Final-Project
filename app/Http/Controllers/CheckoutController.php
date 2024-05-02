@@ -89,7 +89,8 @@ class CheckoutController extends Controller
 
         $data = [
             'cart' => $cart,
-            'balance' => $balance,
+            'shipping_costs' => $total_shipping_costs,
+            'balance' => $balance
         ];
 
         return view('pages.cart.checkout', $data);

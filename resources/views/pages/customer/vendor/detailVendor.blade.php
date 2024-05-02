@@ -40,13 +40,16 @@
 
                             <div class="d-flex gap-2">
                                 <i class="bi bi-truck"></i>
-                                <p class="card-text">Rp{{ $vendor->Delivery->shipping_cost ?? '-' }}</p>
+                                <p class="card-text">
+                                    Rp{{ number_format($vendor->Delivery->shipping_cost ?? '0', 0, ',', '.') }}</p>
                             </div>
                         </div>
 
                         <hr>
 
-                        <small class="card-text">{{ $vendor->UserSetting->about_us ?? 'No description yet.' }}</small>
+                        <small class="card-text">
+                            <pre class="mb-0">{{ $vendor->UserSetting->about_us ?? 'No description yet.' }}</pre>
+                        </small>
                     </div>
                 </div>
             </div>

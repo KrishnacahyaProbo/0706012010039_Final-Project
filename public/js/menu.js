@@ -101,7 +101,7 @@ function addMenuItem(value) {
     const imagePreview = document.getElementById('imagePreview');
 
     if (value != null && value.image != null) {
-        imagePreview.src = '/menu/' + value.image;
+        imagePreview.src = '/menu/' + value.image ? value.image : '';
         imagePreview.style.display = 'block';
     }
 
@@ -306,7 +306,7 @@ function fetchDataMenuItem() {
                                 '" title="Edit Menu" onclick="editMenu(' +
                                 row.id +
                                 ')"><i class="bi bi-pencil-square"></i></button> ' +
-                                '<button class="btn btn-danger btn-delete" data-id="' +
+                                '<button class="btn btn-outline-danger btn-delete" data-id="' +
                                 data.id +
                                 '" title="Delete Menu" onclick="destroy(' +
                                 row.id +
@@ -475,7 +475,9 @@ function showDetail(id) {
                         <img src="${response.data.image.includes('http') ? response.data.image : `/menu/${response.data.image}`}" class="rounded-1 w-50 d-block mx-auto mx-lg-0 mb-3" loading="lazy">
                         <div>
                             <div>${response.data.type === 'no_spicy' ? '<span class="badge rounded-pill text-primary-emphasis bg-primary-subtle border border-primary-subtle">Tidak Pedas</span>' : '<span class="badge rounded-pill text-danger-emphasis bg-danger-subtle border border-danger-subtle">Pedas</span>'}</div>
-                            <p class="text-secondary my-3">${response.data.description}</p>
+                            <p class="text-secondary my-3">
+                                <pre class="mb-0">${response.data.description}</pre>
+                            </p>
                         </div>
                     </div>
                 `);

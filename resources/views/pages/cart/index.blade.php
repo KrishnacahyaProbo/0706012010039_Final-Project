@@ -79,7 +79,7 @@
                                                     <div class="row g-3">
                                                         <div class="col-md-3">
                                                             <img src="{{ Str::startsWith($item->menu->image, 'http') ? $item->menu->image : asset('menu/' . $item->menu->image) }}"
-                                                                alt="Menu Image" class="rounded-1">
+                                                                alt="" class="rounded-1 menu-photo">
                                                         </div>
 
                                                         <div class="col-md-9 d-grid gap-2">
@@ -87,8 +87,9 @@
                                                             <span>{!! $item->menu->type === 'spicy'
                                                                 ? '<span class="badge rounded-pill text-danger-emphasis bg-danger-subtle border border-danger-subtle">Pedas</span>'
                                                                 : '<span class="badge rounded-pill text-primary-emphasis bg-primary-subtle border border-primary-subtle">Tidak Pedas</span>' !!}</span>
-                                                            <small
-                                                                class="text-secondary">{{ $item->menu->description }}</small>
+                                                            <small class="text-secondary">
+                                                                <pre class="mb-0">{{ $item->menu->description }}</pre>
+                                                            </small>
                                                             @foreach ($item->menu->menuDetail as $detail)
                                                                 @if ($detail->size == $item->portion)
                                                                     @php

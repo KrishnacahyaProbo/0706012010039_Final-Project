@@ -35,7 +35,9 @@
                             <i class="bi bi-star-fill text-warning"></i>
                             <strong>{{ $item->rating }}/5</strong>
                         </div>
-                        <span>{{ $item->description ?? '-' }}</span>
+                        <span>
+                            <pre class="mb-0">{{ $item->description ?? '-' }}</pre>
+                        </span>
                         <img src="/assets/image/testimony_photo/{{ $item->testimony_photo }}" alt=""
                             class="rounded-1" width="196">
                     </div>

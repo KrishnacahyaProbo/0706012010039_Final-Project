@@ -31,9 +31,10 @@ function setVendorToMenu() {
                     var img = $('<img src="' + (vendor.profile_photo_url != null ? vendor.profile_photo_url : "") + '" alt="" class="card-img-top" loading="lazy">');
                     var cardBody = $('<div class="card-body"></div>');
                     var title = $('<h3 class="card-title"><a href="#" class="stretched-link">' + vendor.name + '</a></h3>');
-                    var rating = $('<div class="d-grid text-secondary gap-1"><div class="d-flex gap-2"><i class="bi bi-star"></i><span class="card-text">' + vendor.rating + '/5</span></div></div>');
+                    var ratingText = (vendor.rating !== undefined) ? vendor.rating + '/5' : '-/5';
+                    var rating = $('<div class="d-grid gap-1"><div class="d-flex gap-2"><i class="bi bi-star"></i><span class="card-text">' + ratingText + '</span></div></div>');
                     var address = $('<div class="d-flex gap-2"><i class="bi bi-geo-alt"></i><p class="card-text">' + vendor.address + ' - ' + calculateDistance(userLat, userLng, vendor.latitude, vendor.longitude) + 'km</p></div>');
-                    var shipping = $('<div class="d-flex gap-2"><i class="bi bi-truck"></i><p class="card-text">Rp' + (vendor.delivery !== null ? formatRupiah(vendor.delivery.shipping_cost) : 0) + '</p></div>');
+                    var shipping = $('<div class="d-flex gap-2"><i class="bi bi-truck"></i><p class="card-text">Rp' + (vendor.delivery !== null ? formatRupiah(vendor.delivery.shipping_cost) : '-') + '</p></div>');
 
                     cardBody.append(title).append(rating).append(address).append(shipping);
                     card.append(img).append(cardBody);
@@ -44,7 +45,7 @@ function setVendorToMenu() {
                         // Get vendor_id and vendor_name from data attribute
                         var vendorName = $(this).find('.card-title a').text();
                         var encodedVendorName = encodeURIComponent(vendorName);
-                        window.location.href = '/vendors/menu/' + encodedVendorName;
+                        window.location.href = '/vendors/' + encodedVendorName;
                     });
 
                     title.click(function () {
@@ -60,9 +61,10 @@ function setVendorToMenu() {
                     var img = $('<img src="' + (vendor.profile_photo_url != null ? vendor.profile_photo_url : "") + '" alt="" class="card-img-top" loading="lazy">');
                     var cardBody = $('<div class="card-body"></div>');
                     var title = $('<h3 class="card-title"><a href="#" class="stretched-link">' + vendor.name + '</a></h3>');
-                    var rating = $('<div class="d-flex gap-2"><i class="bi bi-star"></i><span class="card-text">' + vendor.rating + '/5</span></div>');
+                    var ratingText = (vendor.rating !== undefined) ? vendor.rating + '/5' : '-/5';
+                    var rating = $('<div class="d-grid gap-1"><div class="d-flex gap-2"><i class="bi bi-star"></i><span class="card-text">' + ratingText + '</span></div></div>');
                     var address = $('<div class="d-flex gap-2"><i class="bi bi-geo-alt"></i><p class="card-text">' + vendor.address + ' - ' + calculateDistance(userLat, userLng, vendor.latitude, vendor.longitude) + 'km</p></div>');
-                    var shipping = $('<div class="d-flex gap-2"><i class="bi bi-truck"></i><p class="card-text">Rp' + (vendor.delivery !== null ? formatRupiah(vendor.delivery.shipping_cost) : 0) + '</p></div>');
+                    var shipping = $('<div class="d-flex gap-2"><i class="bi bi-truck"></i><p class="card-text">Rp' + (vendor.delivery !== null ? formatRupiah(vendor.delivery.shipping_cost) : '-') + '</p></div>');
                     cardCol.data('vendor_id', vendor.id);
 
                     cardBody.append(title).append(rating).append(address).append(shipping);
@@ -74,7 +76,7 @@ function setVendorToMenu() {
                         // Get vendor_id and vendor_name from data attribute
                         var vendorName = $(this).find('.card-title a').text();
                         var encodedVendorName = encodeURIComponent(vendorName);
-                        window.location.href = '/vendors/menu/' + encodedVendorName;
+                        window.location.href = '/vendors/' + encodedVendorName;
                     });
 
                     // Attach click event to title

@@ -10,7 +10,8 @@ $manrope-bold: "Manrope-Bold", system-ui;
 $manrope-extrabold: "Manrope-ExtraBold", system-ui;
 
 // Styles
-* {
+*,
+pre {
     font-family: $manrope-regular;
 }
 
@@ -195,6 +196,10 @@ select:not(.flatpickr-monthDropdown-months),
     background-color: $red-700 !important;
     border: 1px solid $red-700 !important;
     box-shadow: none;
+}
+
+.menu-photo {
+    width: 40rem;
 }
 
 .nominal_background {
