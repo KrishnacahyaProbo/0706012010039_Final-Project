@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class BalanceNominal extends Model
 {
     use HasFactory;
+
     protected $table = 'balance_nominal';
     public $guarded = ['id'];
 }

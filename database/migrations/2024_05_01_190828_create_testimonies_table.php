@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('testimonies', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('transaction_id');
+            $table->unsignedBigInteger('transactions_detail_id');
             $table->unsignedBigInteger('vendor_id');
             $table->unsignedBigInteger('customer_id');
             $table->integer('rating');
@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('testimony_photo')->nullable();
             $table->timestamps();
 
-            $table->foreign('transaction_id')->references('id')->on('transactions');
+            $table->foreign('transactions_detail_id')->references('id')->on('transactions_detail');
             $table->foreign('vendor_id')->references('id')->on('users');
             $table->foreign('customer_id')->references('id')->on('users');
         });

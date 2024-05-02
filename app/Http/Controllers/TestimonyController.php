@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Testimony;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
 class TestimonyController extends Controller
@@ -17,7 +17,7 @@ class TestimonyController extends Controller
         $data = [
             'testimony' => $testimony,
         ];
-        
+
         return view('pages.testimony.index', $data);
     }
 
@@ -25,8 +25,8 @@ class TestimonyController extends Controller
     {
         try {
             $testimony = [
-                'transaction_id' => $request->transaction_id,
-                'vendor_id' => $request->vendor_id,
+                'transactions_detail_id' => $request->addTestimonyId,
+                'vendor_id' => $request->vendorId,
                 'customer_id' => Auth::user()->id,
                 'rating' => $request->rating,
                 'description' => $request->description,

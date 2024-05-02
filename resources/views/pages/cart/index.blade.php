@@ -20,7 +20,7 @@
 
         @if (count($cart) == 0)
             <div class="alert alert-info">
-                <p>Keranjang belanja Anda kosong. Silakan pilih menu yang ingin dimasukkan keranjang belanja.</p>
+                <p>Keranjang Belanja masih kosong. Silakan pilih menu yang ingin dimasukkan Keranjang Belanja.</p>
                 <a href="{{ route('vendor.index') }}" class="btn btn-primary">Eksplor Vendor</a>
             </div>
         @endif
@@ -58,17 +58,27 @@
                         <div class="card-header">
                             <strong>{{ $vendor['name'] }}</strong>
                         </div>
-                        <div class="card-body d-grid gap-4">
+                        <div class="card-body d-grid gap-3">
                             @foreach ($vendor['items'] as $item)
                                 @php
                                     $indexItem = $loop->iteration - 1;
                                 @endphp
-                                <div class="d-grid row-per-item gap-3">
-                                    <div>
+                                <div class="d-grid row-per-item note gap-2">
+                                    <div class="d-flex justify-content-between align-items-center">
                                         <div>
                                             <span
                                                 class="badge rounded-pill text-secondary-emphasis bg-secondary-subtle border-secondary-subtle border">{{ date('l, j F Y', strtotime($item->schedule_date)) }}</span>
                                         </div>
+                                        <div>
+                                            <x-secondary-button data-bs-toggle="collapse"
+                                                data-bs-target="#collapseCatatanPesanan" aria-expanded="false"
+                                                aria-controls="collapseCatatanPesanan">Catatan</x-secondary-button>
+                                        </div>
+                                    </div>
+                                    <div class="collapse" id="collapseCatatanPesanan">
+                                        <x-label for="note" value="{{ __('Catatan Pesanan') }}" />
+                                        <textarea id="note" name="note" class="form-control" ringkasanBelanja="{{ $ringkasanBelanja }}"
+                                            indexItem="{{ $indexItem }}">{{ $item->note }}</textarea>
                                     </div>
 
                                     <div>
@@ -97,13 +107,15 @@
                                                                             $detail->price * $item->quantity;
                                                                     @endphp
                                                                     <h5
-                                                                        id="newHarga{{ $ringkasanBelanja . $indexItem }}">
+                                                                        id="newPrice{{ $ringkasanBelanja . $indexItem }}">
                                                                         Rp{{ number_format($detail->price, 0, ',', '.') }}/pcs
                                                                     </h5>
                                                                     <input type="hidden" name="cart_menu_id"
                                                                         id="cart_menu_id" value="{{ $item->id }}">
                                                                     <input type="hidden" name="price" id="price"
                                                                         value="{{ $detail->price }}">
+                                                                    <input type="hidden" name="note" id="note"
+                                                                        value="{{ $detail->note }}">
                                                                 @endif
                                                             @endforeach
                                                             <div class="d-flex align-items-center gap-2">
@@ -145,17 +157,21 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="my-1">
+                                                <div class="my-md-1 my-2 text-center">
                                                     <button class="btn border-0 p-0" title="Remove from Cart"
                                                         onclick="destroy({{ $item->id }})">
                                                         <i class="bi bi-trash3 text-danger d-none d-md-block"></i>
-                                                        <strong class="text-danger d-md-none">Hapus</strong>
+                                                        <strong class="text-danger d-md-none">Remove from Cart</strong>
                                                     </button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
+                                @if ($loop->remaining > 0)
+                                    <hr class="my-0">
+                                @endif
                             @endforeach
                         </div>
                     </div>
@@ -164,47 +180,54 @@
 
             @if (count($cart) != 0)
                 <div class="col-lg-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-grid gap-3">
-                                <h3>Ringkasan Belanja</h3>
-                                <ul class="list-unstyled">
-                                    <li class="row justify-content-between gap-3">
-                                        <div class="col">
-                                            @foreach ($temp as $item)
-                                                <span>{{ $item['name'] }}: </span>
-                                                <span class="text-break">
-                                                    <strong>Rp{{ number_format($item['price'], 0, ',', '.') }}</strong>
-                                                </span>
-                                                <br>
-                                            @endforeach
-                                        </div>
-                                    </li>
-                                </ul>
-
-                                <hr class="my-0">
-
-                                <div class="row align-items-center gap-3">
-                                    <div class="col">
-                                        <span class="text-secondary">Total: </span>
-                                        <span class="fs-5 text-break">
-                                            @php
-                                                $total = 0;
-                                            @endphp
-                                            @foreach ($temp as $collection)
-                                                @php
-                                                    $total += $collection['price'];
-                                                @endphp
-                                            @endforeach
-                                            <strong>Rp{{ number_format($total, 0, ',', '.') }}</strong>
-                                        </span>
+                    <div class="sticky-md-top">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-grid gap-3">
+                                    <h3>Ringkasan Belanja</h3>
+                                    <div class="table-responsive">
+                                        <table class="table-striped table-hover table-borderless table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Vendor</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($temp as $item)
+                                                    <tr>
+                                                        <td>{{ $item['name'] }}</td>
+                                                        <td>
+                                                            <strong>Rp{{ number_format($item['price'], 0, ',', '.') }}</strong>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
                                     </div>
-                                </div>
 
-                                <form action="{{ route('cart.checkout') }}" method="post">
-                                    @csrf
-                                    <button type="submit" class="btn btn-primary w-100">Checkout</button>
-                                </form>
+                                    <div class="row align-items-center gap-3">
+                                        <div class="col">
+                                            <span class="fs-5 text-secondary">Total: </span>
+                                            <span class="fs-5 text-break">
+                                                @php
+                                                    $total = 0;
+                                                @endphp
+                                                @foreach ($temp as $collection)
+                                                    @php
+                                                        $total += $collection['price'];
+                                                    @endphp
+                                                @endforeach
+                                                <strong>Rp{{ number_format($total, 0, ',', '.') }}</strong>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <form action="{{ route('cart.checkout') }}" method="post">
+                                        @csrf
+                                        <button type="submit" class="btn btn-primary w-100">Checkout</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>

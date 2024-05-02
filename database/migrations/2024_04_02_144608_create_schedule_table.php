@@ -16,6 +16,7 @@ return new class extends Migration
             $table->date('schedule')->nullable();
             $table->timestamps();
         });
+
         Schema::create('menu_schedule', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('menu_id')->index();

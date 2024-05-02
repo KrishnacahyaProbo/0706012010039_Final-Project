@@ -68,7 +68,7 @@
         @foreach ($highlights as $highlight)
             <div class="my-3">
                 <div class="d-grid gap-4">
-                    <div class="d-grid rounded-3 p-md-5 gap-3 p-4 text-white shadow-sm" id={{ $highlight['cta_id'] }}>
+                    <div class="d-grid rounded-3 p-md-5 gap-4 p-4 text-white shadow-sm" id={{ $highlight['cta_id'] }}>
                         <div>
                             <h1 class="display-4">{{ $highlight['cta_title'] }}</h1>
                         </div>

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Cart;
 use App\Models\User;
-use Exception; // Import the Exception class
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Exception; // Import the Exception class
 
 class CartController extends Controller
 {
@@ -96,7 +96,7 @@ class CartController extends Controller
             $validatedData = $request->validate([
                 'portion' => 'nullable|string',
                 'quantity' => 'nullable|numeric',
-                // 'notes' => 'nullable|string'
+                'notes' => 'nullable|string'
             ]);
 
             // Find the cart item
@@ -105,7 +105,7 @@ class CartController extends Controller
             // Update the cart item details
             $cartItem->portion = $validatedData['portion'];
             $cartItem->quantity = $validatedData['quantity'];
-            // $cartItem->note = $validatedData['notes'];
+            $cartItem->note = $validatedData['notes'];
 
             // Save the updated cart item
             $cartItem->save();

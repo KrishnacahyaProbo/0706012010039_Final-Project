@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('menu', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('vendor_id')->index(); // Use unsignedBigInteger for the foreign key
+            $table->unsignedBigInteger('vendor_id')->index();
             $table->foreign('vendor_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('menu_name')->nullable();
             $table->text('description')->nullable();

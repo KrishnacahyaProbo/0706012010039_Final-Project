@@ -86,18 +86,20 @@
                 <table class="table-striped table-hover table-borderless table">
                     <thead>
                         <tr>
-                            <th>Nominal</th>
-                            <th>Timestamp</th>
+                            <th class="col-0">#</th>
+                            <th class="col-6">Nominal</th>
+                            <th class="col-6">Timestamp</th>
                         </tr>
                     </thead>
                     <tbody>
                         @if ($balance_history->isEmpty())
                             <tr>
-                                <td colspan="2">Belum ada riwayat.</td>
+                                <td colspan="3">Belum ada riwayat.</td>
                             </tr>
                         @else
                             @foreach ($balance_history as $item)
                                 <tr>
+                                    <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>Rp{{ number_format($item->credit, 0, ',', '.') }}</td>
                                     <td>{{ $item->created_at }}</td>
                                 </tr>
@@ -178,20 +180,22 @@
                 <table class="table-striped table-hover table-borderless table">
                     <thead>
                         <tr>
-                            <th>Nominal</th>
-                            <th>Timestamp</th>
+                            <th class="col-0">#</th>
+                            <th class="col-6">Nominal</th>
+                            <th class="col-6">Timestamp</th>
                         </tr>
                     </thead>
                     <tbody>
                         @if ($balance_history->isEmpty())
                             <tr>
-                                <td colspan="2">Belum ada riwayat.</td>
+                                <td colspan="3">Belum ada riwayat.</td>
                             </tr>
                         @else
                             @foreach ($balance_history as $item)
                                 <tr>
+                                    <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>Rp{{ number_format($item->credit, 0, ',', '.') }}</td>
-                                    <td>{{ $item->created_at }}</td>
+                                    <td>{{ date('l, j F Y H:i:s', strtotime($item->created_at)) }}</td>
                                 </tr>
                             @endforeach
                         @endif

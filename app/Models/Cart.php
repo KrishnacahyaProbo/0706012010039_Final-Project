@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Cart extends Model
 {
     use HasFactory;
+
     protected $table = 'carts';
     public $guarded = [];
 
@@ -20,9 +21,4 @@ class Cart extends Model
     {
         return $this->hasMany(MenuDetail::class, 'menu_id', 'id');
     }
-
-    // public function menuSchedule()
-    // {
-    //     return $this->belongsTo(MenuSchedule::class, 'id', 'id');
-    // }
 }

@@ -22,16 +22,16 @@
         </button>
         <div class="navbar-collapse collapse" id="navbarNav">
             @auth
-                <div class="navbar-nav mx-lg-4 my-lg-0 my-3 gap-1">
+                <div class="navbar-nav mx-lg-4 my-lg-0 my-3 gap-2">
                     @if (Auth::user()->hasRole('vendor'))
                         <a class="nav-link {{ $isMenu ? 'active' : '' }}" href="{{ route('menu.index') }}">Menu</a>
                         <a class="nav-link {{ $isSchedule ? 'active' : '' }}"
                             href="{{ route('schedule.vendor', ['vendor_name' => Auth::user()->name]) }}">Schedule</a>
-                        <a class="nav-link {{ $isOrder ? 'active' : '' }}" href="{{ url('/order') }}">Order</a>
+                        <a class="nav-link {{ $isOrder ? 'active' : '' }}" href="{{ route('order.index') }}">Order</a>
                     @else
                         <a class="nav-link {{ $isVendor ? 'active' : '' }}" href="{{ route('vendor.index') }}">Vendor</a>
                         <a class="nav-link {{ $isCart ? 'active' : '' }}" href="{{ route('cart.index') }}">Cart</a>
-                        <a class="nav-link {{ $isOrder ? 'active' : '' }}" href="{{ url('/order') }}">Order</a>
+                        <a class="nav-link {{ $isOrder ? 'active' : '' }}" href="{{ route('order.index') }}">Order</a>
                     @endif
                 </div>
 

@@ -10,5 +10,4 @@ class Delivery extends Model
     use HasFactory;
     protected $table = 'deliveries';
     public $guarded = [];
-
 }

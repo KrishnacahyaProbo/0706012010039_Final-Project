@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BalanceNominal;
 use App\Models\Cart;
+use App\Models\User;
 use App\Models\Delivery;
 use App\Models\Transaction;
-use App\Models\TransactionDetail;
-use App\Models\User;
 use App\Models\UserSetting;
-use Illuminate\Http\Request;
+use App\Models\BalanceNominal;
+use App\Models\TransactionDetail;
 use Illuminate\Support\Facades\Auth;
 
 class CheckoutController extends Controller
@@ -113,7 +112,6 @@ class CheckoutController extends Controller
         $transaction->latitude = Auth::user()->latitude;
         $transaction->distance_between = 0;
         $transaction->shipping_costs = $total_shipping_costs;
-        $transaction->status = 'customer_unpaid';
         $transaction->save();
 
         foreach ($cart as $key => $value) {
@@ -127,9 +125,15 @@ class CheckoutController extends Controller
             $transactionDetail->quantity = $value->quantity;
             $transactionDetail->price = $value->price;
             $transactionDetail->total_price = $value->price * $value->quantity;
+            $transactionDetail->status = 'customer_unpaid';
             $transactionDetail->refund_reason = null;
             $transactionDetail->save();
         }
+
+        // Kurangi credit customer
+        $balance = BalanceNominal::where('user_id', Auth::user()->id)->first();
+        $balance->credit -= $total + $total_shipping_costs;
+        $balance->save();
 
         return redirect()->route('order.index');
     }

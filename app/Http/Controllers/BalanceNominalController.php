@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BalanceHistory;
 use App\Models\UserSetting;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\BalanceHistory;
 use App\Models\BalanceNominal;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -14,11 +14,17 @@ class BalanceNominalController extends Controller
 {
     public function index()
     {
-        $balance_history = BalanceHistory::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
         $user_setting = UserSetting::where('vendor_id', Auth::user()->id)->first();
         $balance = BalanceNominal::where('user_id', Auth::user()->id)->first();
+        $balance_history = BalanceHistory::where('user_id', Auth::user()->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
 
-        $data = ['user_setting' => $user_setting, 'balance' => $balance, 'balance_history' => $balance_history];
+        $data = [
+            'user_setting' => $user_setting,
+            'balance' => $balance,
+            'balance_history' => $balance_history,
+        ];
 
         return view('pages.credit.index', $data);
     }
@@ -45,10 +51,11 @@ class BalanceNominalController extends Controller
                 Storage::disk('public_uploads_transaction_proof')->put($imageName, file_get_contents($image));
             }
 
+            // Update the balance record
             $payload = ['credit' => $topUp, 'transaction_proof' => $imageName];
-
             BalanceNominal::where('user_id', Auth::user()->id)->update($payload);
 
+            // Save the top up history
             $isiUlang = ['user_id' => Auth::user()->id, 'credit' => $request->credit];
             BalanceHistory::create($isiUlang);
 
@@ -72,8 +79,10 @@ class BalanceNominalController extends Controller
                 $cashOut = $request->credit;
             }
 
+            // Update the balance record
             BalanceNominal::where('user_id', Auth::user()->id)->update(['credit' => $cashOut]);
 
+            // Save the cash out history
             $payload = ['user_id' => Auth::user()->id, 'credit' => $request->credit];
             BalanceHistory::create($payload);
 

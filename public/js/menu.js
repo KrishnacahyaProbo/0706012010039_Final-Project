@@ -249,7 +249,7 @@ function fetchDataMenuItem() {
                         name: "menu_name",
                         render: function (data, type, row) {
                             if (data === null) {
-                                return '<p>Null</p>';
+                                return '<p>-</p>';
                             } else {
                                 return data;
                             }
@@ -278,7 +278,7 @@ function fetchDataMenuItem() {
                         name: "type",
                         render: function (data, type, row) {
                             if (data === null || data.trim() === "") {
-                                return '<p>Null</p>';
+                                return '<p>-</p>';
                             } else if (data.toLowerCase() === "no_spicy") {
                                 return '<span class="badge rounded-pill text-primary-emphasis bg-primary-subtle border border-primary-subtle">Tidak Pedas</span>';
                             } else {

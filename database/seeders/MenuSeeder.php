@@ -16,6 +16,7 @@ class MenuSeeder extends Seeder
     public function run(): void
     {
         DB::beginTransaction();
+
         try {
             $faker = Faker::create();
             $faker->addProvider(new \FakerRestaurant\Provider\id_ID\Restaurant($faker));
@@ -24,8 +25,8 @@ class MenuSeeder extends Seeder
             $startDate = new DateTime();
             // Create an array to store the schedules
             $schedules = [];
-            // Loop through the next 50 days
-            for ($i = 0; $i < 50; $i++) {
+            // Loop through the next 30 days
+            for ($i = 0; $i < 30; $i++) {
                 // Add $i days to the start date
                 $scheduleDate = $startDate->modify("+{$i} day")->format('Y-m-d');
                 // Create a new Schedule instance

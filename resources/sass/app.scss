@@ -204,6 +204,7 @@ select:not(.flatpickr-monthDropdown-months),
 
 .nominal_background {
     background-color: $yellow-600;
+    border-bottom: 2px solid $yellow-700;
 }
 
 .navbar-brand:focus {
@@ -219,6 +220,11 @@ select:not(.flatpickr-monthDropdown-months),
 .portion {
     background-color: $red-700;
     color: $white;
+}
+
+.sticky-md-top {
+    top: 0.5rem;
+    z-index: 10;
 }
 
 .text-primary {

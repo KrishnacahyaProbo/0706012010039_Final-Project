@@ -15,10 +15,11 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id')->index();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->integer('credit')->nullable();
+            $table->integer('credit')->default(0);
             $table->string('bank_name');
             $table->string('account_number');
             $table->string('account_holder_name');
+            $table->string('transaction_proof')->nullable();
             $table->timestamps();
         });
     }

@@ -27,12 +27,13 @@ $(document).on("click", '.btn-portion', function () {
     $(this).addClass('portion');
     var ringkasanBelanja = $(this).attr('ringkasanBelanja');
     var indexItem = $(this).attr('indexItem');
-    var cart_menu_id = $(this).closest('.row-item').find('#cart_menu_id').val();
+    var cart_menu_id = $(this).closest('.d-grid').find('#cart_menu_id').val();
     var portion = $(this).closest('.row-item').find('.portion').text();
-    var price = $(this).closest('.row-item').find('#price').val();
-    var quantity = $(this).closest('.row-item').find('#quantity').val();
+    var price = $(this).closest('.d-grid').find('#price').val();
+    var quantity = $(this).closest('.d-grid').find('#quantity').val();
+    var note = $(this).closest('.note').find('#note').val();
     updateCart(ringkasanBelanja, indexItem, 1, cart_menu_id, portion, price, quantity);
-    console.log(cart_menu_id, portion, price, quantity);
+    console.log(cart_menu_id, portion, price, quantity, note);
 })
 
 $(document).on("click", '.btn-increment', function () {
@@ -42,7 +43,8 @@ $(document).on("click", '.btn-increment', function () {
     var portion = $(this).closest('.row-item').find('.portion').text();
     var price = $(this).closest('.d-grid').find('#price').val();
     var quantity = $(this).closest('.d-grid').find('#quantity').val();
-    updateCart(null, null, 0, cart_menu_id, portion, price, quantity);
+    var note = $(this).closest('.note').find('#note').val();
+    updateCart(null, null, 0, cart_menu_id, portion, price, quantity, note);
 })
 
 $(document).on("click", '.btn-decrement', function () {
@@ -52,11 +54,23 @@ $(document).on("click", '.btn-decrement', function () {
     var portion = $(this).closest('.row-item').find('.portion').text();
     var price = $(this).closest('.d-grid').find('#price').val();
     var quantity = $(this).closest('.d-grid').find('#quantity').val();
-    updateCart(null, null, 0, cart_menu_id, portion, price, quantity);
+    var note = $(this).closest('.note').find('#note').val();
+    updateCart(null, null, 0, cart_menu_id, portion, price, quantity, note);
+})
+
+$(document).on("change", '#note', function () {
+    var ringkasanBelanja = $(this).attr('ringkasanBelanja');
+    var indexItem = $(this).attr('indexItem');
+    var cart_menu_id = $(this).closest('.d-grid').find('#cart_menu_id').val();
+    var portion = $(this).closest('.row-item').find('.portion').text();
+    var price = $(this).closest('.d-grid').find('#price').val();
+    var quantity = $(this).closest('.d-grid').find('#quantity').val();
+    var note = $(this).closest('.note').find('#note').val();
+    updateCart(null, null, 0, cart_menu_id, portion, price, quantity, note);
 })
 
 function updateCart(ringkasanBelanja = null, indexItem = null, editButton = 0, cart_menu_id, portion, price,
-    quantity) {
+    quantity, note = null) {
     var csrfToken = $('meta[name="csrf-token"]').attr('content');
     $.ajax({
         url: '/carts/update',
@@ -69,20 +83,21 @@ function updateCart(ringkasanBelanja = null, indexItem = null, editButton = 0, c
             cart_menu_id: cart_menu_id,
             portion: portion,
             price: price,
-            quantity: quantity
+            quantity: quantity,
+            note: note
         },
         success: function (response) {
             if (editButton == 1) {
-                var newHarga = 0;
+                var newPrice = 0;
 
                 data[ringkasanBelanja]['items'][indexItem]['menu']['menu_detail'].forEach(element => {
                     if (element.size == portion) {
-                        newHarga = element.price;
+                        newPrice = element.price;
                     }
                 });
-                console.log(newHarga);
-                $(`#newHarga${ringkasanBelanja + indexItem}`).html(
-                    `Rp${newHarga.toLocaleString()}/pcs`);
+                console.log(newPrice);
+                $(`#newPrice${ringkasanBelanja + indexItem}`).html(
+                    `Rp${newPrice.toLocaleString()}/pcs`);
             }
             // toastr.success('Cart item updated successfully');
         },
