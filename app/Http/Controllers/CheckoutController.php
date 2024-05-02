@@ -14,7 +14,53 @@ use Illuminate\Support\Facades\Auth;
 
 class CheckoutController extends Controller
 {
-    public function checkout()
+    public function checkout(Request $request)
+    {
+        $cart = Cart::where('customer_id', Auth::user()->id)
+            ->with('menu', 'menu.menuDetail')
+            ->orderBy('schedule_date', 'asc')
+            ->get();
+
+        $total = 0;
+        $shipping_costs = [];
+
+        foreach ($cart as $key => $value) {
+            $user = User::find($value->menu->vendor_id);
+            $delivery = Delivery::where('vendor_id', $value->menu->vendor_id)->first();
+
+            $menu_total_price = 0; // Total price for this menu item
+
+            foreach ($value->menu->menuDetail as $key => $menuDetail) {
+                if ($menuDetail->size == $value->portion) {
+                    $menu_total_price = $menuDetail->price * $value->quantity; // Calculate total price for this menu item
+                    $value->price = $menuDetail->price; // Store the price for display purposes
+                    break; // Exit the loop once the correct menuDetail is found
+                }
+            }
+
+            $total += $menu_total_price; // Add the total price for this menu item to the overall total
+
+            $vendor_id = $value->menu->vendor_id;
+            if (!isset($shipping_costs[$vendor_id])) {
+                $shipping_costs[$vendor_id] = $delivery->shipping_cost;
+            }
+            $value->menu->vendor = $user;
+        }
+
+        $total_shipping_costs = array_sum($shipping_costs);
+
+        $balance = BalanceNominal::where('user_id', Auth::user()->id)->first();
+
+        $data = [
+            'cart' => $cart,
+            'shipping_costs' => $total_shipping_costs,
+            'balance' => $balance
+        ];
+
+        return view('pages.cart.checkout', $data);
+    }
+
+    public function pay()
     {
         $cart = Cart::where('customer_id', Auth::user()->id)
             ->with('menu', 'menu.menuDetail')
@@ -85,14 +131,6 @@ class CheckoutController extends Controller
             $transactionDetail->save();
         }
 
-        $balance = BalanceNominal::where('user_id', Auth::user()->id)->first();
-
-        $data = [
-            'cart' => $cart,
-            'shipping_costs' => $total_shipping_costs,
-            'balance' => $balance
-        ];
-
-        return view('pages.cart.checkout', $data);
+        return redirect()->route('order.index');
     }
 }

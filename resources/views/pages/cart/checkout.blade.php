@@ -193,11 +193,33 @@
                                 </div>
                             </div>
 
-                            <x-button>Pay</x-button>
+                            @if ($balance->credit == 0 || $balance->credit < $total + $shipping_costs)
+                                <button class="btn btn-primary" onclick="pay()">Pay</button>
+                            @else
+                                <form action="{{ route('cart.pay') }}" method="post">
+                                    @csrf
+                                    <button type="submit" class="btn btn-primary w-100">Pay</button>
+                                </form>
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    @section('js')
+        <script>
+            function pay() {
+                let total = {{ $total }};
+                let shipping_costs = {{ $shipping_costs }};
+                let credit = {{ $balance->credit }};
+                let total_payment = total + shipping_costs;
+
+                if (credit == 0 || credit < total_payment) {
+                    alert('Saldo Anda tidak mencukupi');
+                }
+            }
+        </script>
+    @endsection
 </x-app-layout>

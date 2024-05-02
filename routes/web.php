@@ -17,13 +17,6 @@ Route::get('/', function () {
     return view('pages.home');
 })->name('home');
 
-Route::get('/cart/checkout', function () {
-    return view('pages.slicing.checkout');
-})->name('checkout');
-Route::get('/order', function () {
-    return view('pages.slicing.order');
-})->name('order');
-
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -58,6 +51,12 @@ Route::middleware([
         Route::post('/update', 'CartController@update')->name('update');
         Route::delete('/destroy', 'CartController@destroy')->name('destroy');
         Route::post('/checkout', 'CheckoutController@checkout')->name('checkout');
+        Route::post('/pay', 'CheckoutController@pay')->name('pay');
+    });
+
+    Route::prefix('orders')->name('order.')->namespace('App\Http\Controllers')->group(function () {
+        Route::get('/', 'OrderController@index')->name('index');
+        Route::post('/store', 'OrderController@store')->name('store');
     });
 
     Route::prefix('testimonies')->name('testimony.')->namespace('App\Http\Controllers')->group(function () {
