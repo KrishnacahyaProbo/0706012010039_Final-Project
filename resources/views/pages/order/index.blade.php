@@ -21,10 +21,6 @@
 
             <div class="d-flex ms-auto gap-2">
                 <div>
-                    <x-secondary-button>Download Report</x-secondary-button>
-                </div>
-
-                <div>
                     <select class="form-select" aria-label="Date select">
                         <option selected>{{ date('j F Y') }}</option>
                         <option value="">Tanggal jadwal penjualan</option>
@@ -48,7 +44,7 @@
             </div>
 
             <div class="table-responsive">
-                <table id="menuTable" class="table-striped table-hover table-borderless table">
+                <table id="orderVendorTable" class="table-striped table-hover table-borderless table">
                     <thead>
                         <tr>
                             <th>Pelanggan</th>
@@ -92,29 +88,32 @@
 
             <div class="d-flex ms-auto">
                 <select class="form-select" aria-label="Date select">
-                    <option selected>Belum Bayar</option>
-                    <option value="">Dikirim</option>
-                    <option value="">Diterima</option>
-                    <option value="">Ditolak</option>
-                    <option value="">Dibatalkan</option>
+                    <option selected value="customer_unpaid">Belum Bayar</option>
+                    <option value="customer_paid">Lunas</option>
+                    <option value="customer_canceled">Dibatalkan</option>
+                    <option value="vendor_packing">Dikemas</option>
+                    <option value="vendor_delivering">Dikirim</option>
+                    <option value="customer_received">Diterima</option>
+                    <option value="customer_problem">Komplain</option>
                 </select>
             </div>
 
             <div class="table-responsive">
-                <table id="menuTable" class="table-striped table-hover table-borderless table">
+                <table id="orderCustomerTable" class="table-striped table-hover table-borderless table">
                     <thead>
                         <tr>
                             <th>Tanggal</th>
                             <th>Vendor</th>
                             <th>Nama Menu</th>
                             <th>Ukuran Porsi</th>
+                            <th>Harga Item</th>
                             <th>Kuantitas</th>
                             <th>Total Pembayaran</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
-                    {{-- <tbody></tbody> --}}
-                    <tbody>
+                    <tbody></tbody>
+                    {{-- <tbody>
                         <tr>
                             <td>Tanggal</td>
                             <td>Vendor</td>
@@ -182,7 +181,7 @@
                                 </div>
                             </td>
                         </tr>
-                    </tbody>
+                    </tbody> --}}
                 </table>
             </div>
         </div>
@@ -214,4 +213,5 @@
             });
         }
     </script>
+    <script src="{{ asset('/js/order.js') }}"></script>
 </x-app-layout>

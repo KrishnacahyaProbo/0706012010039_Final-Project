@@ -56,7 +56,10 @@ Route::middleware([
 
     Route::prefix('orders')->name('order.')->namespace('App\Http\Controllers')->group(function () {
         Route::get('/', 'OrderController@index')->name('index');
+        Route::get('/data', 'OrderController@data')->name('data');
         Route::post('/store', 'OrderController@store')->name('store');
+        Route::delete('/cancelOrder', 'OrderController@cancelOrder')->name('cancelOrder');
+        Route::post('/receiveOrder', 'OrderController@receiveOrder')->name('receiveOrder');
     });
 
     Route::prefix('testimonies')->name('testimony.')->namespace('App\Http\Controllers')->group(function () {

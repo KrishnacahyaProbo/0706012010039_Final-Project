@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CheckoutController extends Controller
 {
-    public function checkout(Request $request)
+    public function checkout()
     {
         $cart = Cart::where('customer_id', Auth::user()->id)
             ->with('menu', 'menu.menuDetail')
