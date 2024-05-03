@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('credit');
             $table->string('transaction_proof')->nullable();
+            $table->enum('category', ['vendor_income', 'vendor_outcome', 'customer_income', 'customer_outcome'])->nullable();
             $table->timestamps();
         });
     }

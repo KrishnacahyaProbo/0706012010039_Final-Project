@@ -226,7 +226,7 @@
                 let total_payment = total + shipping_costs;
 
                 if (credit == 0 || credit < total_payment) {
-                    alert('Saldo Anda tidak mencukupi');
+                    alert('Maaf, kredit tidak mencukupi untuk pembelian.');
                 }
             }
         </script>

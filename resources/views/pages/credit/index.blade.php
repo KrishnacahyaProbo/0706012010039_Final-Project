@@ -86,7 +86,7 @@
                 <table class="table-striped table-hover table-borderless table">
                     <thead>
                         <tr>
-                            <th class="col-0">#</th>
+                            <th class="col-0 text-center">#</th>
                             <th class="col-6">Nominal</th>
                             <th class="col-6">Timestamp</th>
                         </tr>
@@ -176,30 +176,26 @@
                 </div>
             </div>
 
+            <div class="d-flex ms-auto">
+                <select class="form-select" aria-label="Category select" id="customer_category">
+                    <option selected value="all_category">Semua</option>
+                    <option value="customer_income">Top up</option>
+                    <option value="customer_outcome">Pembelian</option>
+                </select>
+            </div>
+
             <div class="table-responsive">
                 <table class="table-striped table-hover table-borderless table">
                     <thead>
                         <tr>
-                            <th class="col-0">#</th>
-                            <th class="col-6">Nominal</th>
-                            <th class="col-6">Timestamp</th>
+                            <th class="col-0 text-center">#</th>
+                            <th class="col-4">Nominal</th>
+                            <th class="col-3">Kategori</th>
+                            <th class="col-3">Timestamp</th>
+                            <th class="col-0">Bukti Top Up</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @if ($balance_history->isEmpty())
-                            <tr>
-                                <td colspan="3">Belum ada riwayat.</td>
-                            </tr>
-                        @else
-                            @foreach ($balance_history as $item)
-                                <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>Rp{{ number_format($item->credit, 0, ',', '.') }}</td>
-                                    <td>{{ date('l, j F Y H:i:s', strtotime($item->created_at)) }}</td>
-                                </tr>
-                            @endforeach
-                        @endif
-                    </tbody>
+                    <tbody id="customer_category_value"></tbody>
                 </table>
             </div>
         @endif
@@ -208,14 +204,8 @@
     @section('js')
         <script>
             var balanceNominal = {!! json_encode($balance->credit ?? 0) !!}
-
-            document.addEventListener("DOMContentLoaded", function() {
-                // Mendapatkan elemen input Nominal
-                var creditInput = document.getElementById('credit_cash_out');
-
-                // Mengatur nilai maksimum input Nominal berdasarkan nilai balanceNominal
-                creditInput.max = balanceNominal;
-            });
         </script>
+        <script src="{{ asset('/js/credit.js') }}"></script>
+        <script src="{{ asset('/js/formatRupiah.js') }}"></script>
     @endsection
 </x-app-layout>

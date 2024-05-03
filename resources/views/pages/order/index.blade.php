@@ -117,6 +117,8 @@
             </div>
         </div>
 
+        @include('pages.order.modal.detail')
+
         <div class="modal fade" id="addTestimony" tabindex="-1" aria-hidden="true" data-bs-backdrop='static'>
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">

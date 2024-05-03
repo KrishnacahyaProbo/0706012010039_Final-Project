@@ -51,7 +51,7 @@ function fetchDataOrderCustomerItem() {
                             if (data === null) {
                                 return '<p>-</p>';
                             } else {
-                                return moment(data).format('ddd, D MMMM YYYY');
+                                return moment(data).format('dddd, D MMMM YYYY');
                             }
                         },
                     },
@@ -126,23 +126,30 @@ function fetchDataOrderCustomerItem() {
                         name: "action",
                         render: function (data, type, row) {
                             console.log(row);
+                            let buttons = '';
+
                             if (row.status === 'customer_unpaid') {
-                                return `<button class="btn btn-outline-danger customer_unpaid" data-id="${row.detail_id}" title="Cancel Order"><i class="bi bi-x-circle"></i></button>`;
+                                buttons += `<button class="btn btn-info" data-id="${row.detail_id}" title="Detail Order" onclick="detailOrder('${row.detail_id}', '${row.schedule_date}', '${row.name}', '${row.menu_name}', '${row.portion}', '${row.price}', '${row.quantity}', '${row.total_price}', '${row.note}')"><i class="bi bi-info-circle"></i></button>`;
+                                buttons += `<button class="btn btn-outline-danger customer_unpaid" data-id="${row.detail_id}" title="Cancel Order"><i class="bi bi-x-circle"></i></button>`;
                             } else if (row.status === 'customer_paid') {
                                 return '-';
                             } else if (row.status === 'customer_canceled') {
-                                return '-';
+                                buttons += `<button class="btn btn-info" data-id="${row.detail_id}" title="Detail Order" onclick="detailOrder('${row.detail_id}', '${row.schedule_date}', '${row.name}', '${row.menu_name}', '${row.portion}', '${row.price}', '${row.quantity}', '${row.total_price}', '${row.note}')"><i class="bi bi-info-circle"></i></button>`;
                             } else if (row.status === 'vendor_packing') {
                                 return '-';
                             } else if (row.status === 'vendor_delivering') {
-                                return `<button class="btn btn-success vendor_delivering" data-id="${row.detail_id}" title="Receive Order"><i class="bi bi-check-circle"></i></button>`;
+                                buttons += `<button class="btn btn-info" data-id="${row.detail_id}" title="Detail Order" onclick="detailOrder('${row.detail_id}', '${row.schedule_date}', '${row.name}', '${row.menu_name}', '${row.portion}', '${row.price}', '${row.quantity}', '${row.total_price}', '${row.note}')"><i class="bi bi-info-circle"></i></button>`;
+                                buttons += `<button class="btn btn-success vendor_delivering" data-id="${row.detail_id}" title="Receive Order"><i class="bi bi-check-circle"></i></button>`;
                             } else if (row.status === 'customer_received' && row.testimony === 0) {
-                                return `<button class="btn btn-info customer_received" data-id="${row.detail_id}" vendor-id="${row.vendor_id}" title="Add Testimony"><i class="bi bi-chat-left-text"></i></button>`;
+                                buttons += `<button class="btn btn-info" data-id="${row.detail_id}" title="Detail Order" onclick="detailOrder('${row.detail_id}', '${row.schedule_date}', '${row.name}', '${row.menu_name}', '${row.portion}', '${row.price}', '${row.quantity}', '${row.total_price}', '${row.note}')"><i class="bi bi-info-circle"></i></button>`;
+                                buttons += `<button class="btn btn-info customer_received" data-id="${row.detail_id}" vendor-id="${row.vendor_id}" title="Add Testimony"><i class="bi bi-chat-left-text"></i></button>`;
                             } else if (row.status === 'customer_problem') {
-                                return `<button class="btn btn-danger customer_problem" data-id="${row.detail_id}" title="Order Problem"><i class="bi bi-exclamation-circle"></i></button>`;
+                                buttons += `<button class="btn btn-info" data-id="${row.detail_id}" title="Detail Order" onclick="detailOrder('${row.detail_id}', '${row.schedule_date}', '${row.name}', '${row.menu_name}', '${row.portion}', '${row.price}', '${row.quantity}', '${row.total_price}', '${row.note}')"><i class="bi bi-info-circle"></i></button>`;
+                                buttons += `<button class="btn btn-danger customer_problem" data-id="${row.detail_id}" title="Order Problem"><i class="bi bi-exclamation-circle"></i></button>`;
                             } else {
                                 return '-';
                             }
+                            return `<div class="d-flex gap-2">${buttons}</div>`;
                         },
                     },
                 ],
@@ -171,11 +178,24 @@ $(document).on("change", '#customer_status', function () {
     fetchDataOrderCustomerItem();
 })
 
+function detailOrder(id, schedule_date, name, menu_name, portion, price, quantity, total_price, note) {
+    $('#detailOrder').modal('show');
+
+    document.getElementById('schedule_date').innerHTML = moment(schedule_date).format('dddd, D MMMM YYYY');
+    document.getElementById('name').innerHTML = name;
+    document.getElementById('menu_name').innerHTML = menu_name;
+    document.getElementById('portion').innerHTML = portion;
+    document.getElementById('price').innerHTML = 'Rp' + formatRupiah(price);
+    document.getElementById('quantity').innerHTML = quantity + ' pcs';
+    document.getElementById('total_price').innerHTML = 'Rp' + formatRupiah(total_price);
+    document.getElementById('note').innerHTML = note;
+}
+
 function cancelOrder(id) {
     var confirmation = window.confirm("Yakin ingin membatalkan pesanan?");
     if (confirmation) {
         $.ajax({
-            url: "/orders/cancelOrder",
+            url: "/orders/cancel-order",
             method: "DELETE",
             data: {
                 _token: $('meta[name="csrf-token"]').attr("content"),
@@ -196,7 +216,7 @@ function receiveOrder(id) {
     var confirmation = window.confirm("Yakin telah menerima pesanan sesuai dengan kondisi yang diinginkan?");
     if (confirmation) {
         $.ajax({
-            url: "/orders/receiveOrder",
+            url: "/orders/receive-order",
             method: "POST",
             data: {
                 _token: $('meta[name="csrf-token"]').attr("content"),
@@ -215,18 +235,18 @@ function receiveOrder(id) {
 
 function addTestimony(id) {
     $.ajax({
-        url: "/orders/receiveOrder",
+        url: "/orders/receive-order",
         method: "POST",
         data: {
             _token: $('meta[name="csrf-token"]').attr("content"),
             id: id
         },
         success: function (response) {
-            toastr.success("Order received");
+            toastr.success("Testimony added");
             fetchDataOrderCustomerItem();
         },
         error: function (xhr, status, error) {
-            toastr.error("Error receiving order:", error);
+            toastr.error("Error adding testimony:", error);
         },
     });
 }

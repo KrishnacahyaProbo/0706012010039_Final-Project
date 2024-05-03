@@ -58,8 +58,9 @@ Route::middleware([
         Route::get('/', 'OrderController@index')->name('index');
         Route::get('/data', 'OrderController@data')->name('data');
         Route::post('/store', 'OrderController@store')->name('store');
-        Route::delete('/cancelOrder', 'OrderController@cancelOrder')->name('cancelOrder');
-        Route::post('/receiveOrder', 'OrderController@receiveOrder')->name('receiveOrder');
+        Route::get('/detail/{id}', 'OrderController@detailOrder');
+        Route::delete('/cancel-order', 'OrderController@cancelOrder')->name('cancelOrder');
+        Route::post('/receive-order', 'OrderController@receiveOrder')->name('receiveOrder');
     });
 
     Route::prefix('testimonies')->name('testimony.')->namespace('App\Http\Controllers')->group(function () {
@@ -86,5 +87,6 @@ Route::middleware([
         Route::get('/', 'BalanceNominalController@index')->name('index');
         Route::post('/top-up', 'BalanceNominalController@topUp')->name('top-up');
         Route::post('/cash-out', 'BalanceNominalController@cashOut')->name('cash-out');
+        Route::get('/{category}', 'BalanceNominalController@balanceCategory');
     });
 });

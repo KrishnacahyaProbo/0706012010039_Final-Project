@@ -120,7 +120,7 @@ select:not(.flatpickr-monthDropdown-months),
     box-shadow: none !important;
     color: $red-700;
 
-    &:is(:focus, :hover) {
+    &:hover {
         background-color: transparent !important;
         border: 1px solid $red-600 !important;
         color: $red-600 !important;
@@ -231,6 +231,13 @@ select:not(.flatpickr-monthDropdown-months),
     color: $red-700 !important;
 }
 
+.toast-success,
+.toast-error {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
 #addressDropdown>.dropdown-item {
     white-space: normal;
 }
@@ -263,6 +270,12 @@ select:not(.flatpickr-monthDropdown-months),
     &>input {
         border: none !important;
     }
+}
+
+#toast-container>div:hover {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
 }
 
 @font-face {

@@ -37,6 +37,11 @@ class OrderController extends Controller
             ->make(true);
     }
 
+    public function detailOrder(string $id)
+    {
+        dd($id);
+    }
+
     public function cancelOrder(Request $request)
     {
         // Ubah status item

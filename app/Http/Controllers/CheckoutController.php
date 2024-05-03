@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BalanceHistory;
 use App\Models\Cart;
 use App\Models\User;
 use App\Models\Delivery;
@@ -112,6 +113,10 @@ class CheckoutController extends Controller
         $transaction->latitude = Auth::user()->latitude;
         $transaction->distance_between = 0;
         $transaction->shipping_costs = $total_shipping_costs;
+
+        // Simpan riwayat belanja sebagai kategori pengeluaran
+        $isiUlang = ['user_id' => Auth::user()->id, 'credit' => $transaction->subtotal + $transaction->shipping_costs, 'category' => 'customer_outcome'];
+        BalanceHistory::create($isiUlang);
         $transaction->save();
 
         foreach ($cart as $key => $value) {
@@ -132,6 +137,8 @@ class CheckoutController extends Controller
 
         // Kurangi credit customer
         $balance = BalanceNominal::where('user_id', Auth::user()->id)->first();
+
+        // Jika melakukan checkout, maka credit customer berkurang
         $balance->credit -= $total + $total_shipping_costs;
         $balance->save();
 

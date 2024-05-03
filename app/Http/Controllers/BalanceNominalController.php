@@ -56,7 +56,7 @@ class BalanceNominalController extends Controller
             BalanceNominal::where('user_id', Auth::user()->id)->update($payload);
 
             // Save the top up history
-            $isiUlang = ['user_id' => Auth::user()->id, 'credit' => $request->credit];
+            $isiUlang = ['user_id' => Auth::user()->id, 'credit' => $request->credit, 'transaction_proof' => $imageName, 'category' => 'customer_income'];
             BalanceHistory::create($isiUlang);
 
             return back();
@@ -89,6 +89,15 @@ class BalanceNominalController extends Controller
             return back();
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to save data: ' . $e->getMessage()], 500);
+        }
+    }
+
+    public function balanceCategory(string $category)
+    {
+        if ($category === 'all_category') {
+            return BalanceHistory::all();
+        } else {
+            return BalanceHistory::where('category', $category)->get();
         }
     }
 }
