@@ -85,9 +85,7 @@ function addMenuItem(value) {
         </div>
     </div>
     `);
-    form.append(`
-    <button type="submit" class="btn btn-primary w-100" id="submitBtn">Save</button>
-    `);
+    form.append(`<button type="submit" class="btn btn-primary w-100" id="submitBtn">Save</button>`);
 
     const formContainer = document.createElement("div");
     formContainer.id = "formContainer";
@@ -130,7 +128,7 @@ function addMenuItem(value) {
                             <label class="form-label">Harga</label>
                             <div class="input-group">
                                 <span class="input-group-text" id="basic-addon1">Rp</span>
-                                <input type="number" class="form-control price-input" name="price[]" id="price_${index + 2}" value="${formatRupiah(detail.price)}">
+                                <input type="number" class="form-control price-input" name="price[]" id="price_${index + 2}" value="Rp${formatRupiah(detail.price)}">
                             </div>
                         </div>
                     </div>
@@ -223,21 +221,10 @@ function fetchDataMenuItem() {
                 processing: true,
                 serverSide: true,
                 layout: {
-                    top: 'buttons',
                     topStart: 'pageLength',
                     topEnd: 'search',
                     bottomStart: 'info',
                     bottomEnd: 'paging',
-                },
-                buttons: {
-                    buttons: [{
-                        extend: 'pdf',
-                        exportOptions: {
-                            columns: [0, 1, 2],
-                        },
-                        className: 'btn btn-outline-primary d-flex ms-auto',
-                        text: 'Download PDF',
-                    }]
                 },
                 ajax: {
                     url: "/menus/data",
@@ -264,7 +251,7 @@ function fetchDataMenuItem() {
                                 let list = '<ul>';
                                 data.forEach(item => {
                                     console.log(item);
-                                    list += '<li>' + item.size + ': ' + formatRupiah(item.price) + '</li>';
+                                    list += '<li>' + item.size + ': Rp' + formatRupiah(item.price) + '</li>';
                                 });
                                 list += '</ul>';
                                 return list;
@@ -327,7 +314,6 @@ function addSchedule(menuId, menuName) {
     $("#mdlForm").modal("show");
 
     $("#mdlFormTitle").html("Tambah Jadwal");
-
     $("#mdlFormContent").html("");
 
     var form = $('<form id="formSchedule"></form>').addClass('form-group');
@@ -359,7 +345,7 @@ function addSchedule(menuId, menuName) {
         },
         messages: {
             scheduleDateTimePicker: {
-                required: "Silakan pilih tanggal",
+                required: "Silakan pilih tanggal.",
             }
         },
         submitHandler: function (form) {
@@ -387,7 +373,7 @@ function addSchedule(menuId, menuName) {
             });
 
             if (!allDatesValid) {
-                alert("Silahkan memilih tanggal yang benar");
+                alert("Silakan memilih tanggal setelah hari ini.");
             } else {
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
                 $.ajax({
@@ -520,11 +506,11 @@ function showDetail(id) {
                                     <ul>
                                         <li>
                                             <strong>Ubah Jadwal: </strong>
-                                            <span>Tekan dan tahan, lalu pindahkan ke tanggal baru.</span>
+                                            <span>Tekan dan tahan kotak daftar menu, lalu pindahkan ke tanggal baru.</span>
                                         </li>
                                         <li>
                                             <strong>Hapus Jadwal: </strong>
-                                            <span>Klik kotak daftar tanggal dan pilih OK.</span>
+                                            <span>Klik kotak daftar menu dan pilih OK.</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -679,21 +665,4 @@ function showDetail(id) {
             console.error(xhr.responseText);
         },
     });
-}
-
-function formatRupiah(angka) {
-    var number_string = angka.toString().replace(/[^,\d]/g, ""),
-        split = number_string.split(","),
-        sisa = split[0].length % 3,
-        rupiah = split[0].substr(0, sisa),
-        ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-
-    // Tambahkan titik jika yang di input sudah menjadi angka ribuan
-    if (ribuan) {
-        separator = sisa ? "." : "";
-        rupiah += separator + ribuan.join(".");
-    }
-
-    rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
-    return rupiah;
 }

@@ -94,10 +94,12 @@ class BalanceNominalController extends Controller
 
     public function balanceCategory(string $category)
     {
+        // Retrieve the balance history based on the category
+        $auth = Auth::user()->id;
         if ($category === 'all_category') {
-            return BalanceHistory::all();
+            return BalanceHistory::where('user_id', $auth)->get();
         } else {
-            return BalanceHistory::where('category', $category)->get();
+            return BalanceHistory::whereIn(['category' =>  $category, 'user_id' => $auth])->get();
         }
     }
 }

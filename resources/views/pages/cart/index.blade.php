@@ -77,13 +77,14 @@
                                     </div>
                                     <div class="collapse" id="collapseCatatanPesanan">
                                         <x-label for="note" value="{{ __('Catatan Pesanan') }}" />
-                                        <textarea id="note" name="note" class="form-control note" ringkasanBelanja="{{ $ringkasanBelanja }}" indexItem="{{ $indexItem }}">{{ $item->note }}</textarea>
+                                        <textarea id="note" name="note" class="form-control note" ringkasanBelanja="{{ $ringkasanBelanja }}"
+                                            indexItem="{{ $indexItem }}">{{ $item->note }}</textarea>
                                     </div>
 
                                     <div>
                                         <div>
                                             <div
-                                                class="d-grid d-md-flex justify-content-between align-items-center row-item">
+                                                class="d-grid d-md-flex justify-content-between align-items-center row-item gap-2">
                                                 <div class="d-grid d-md-flex align-items-center gap-1">
                                                     <div class="row g-3">
                                                         <div class="col-md-3">

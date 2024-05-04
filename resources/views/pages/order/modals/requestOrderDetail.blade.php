@@ -12,23 +12,29 @@
                             class="badge rounded-pill text-secondary-emphasis bg-secondary-subtle border-secondary-subtle border"
                             id="schedule_date"></span>
                     </span>
-                    <span id="name"></span>
-                    <h4 id="menu_name"></h4>
-                    <div class="d-flex gap-2">
+                    <div class="d-grid d-md-flex gap-3">
                         <div>
-                            <span
-                                class="badge rounded-pill text-light-emphasis bg-light-subtle border-light-subtle border"
-                                id="portion"></span>
+                            <img id="image" class="rounded-1" width="196" />
                         </div>
-                        <div class="vr"></div>
-                        <div class="d-flex gap-1">
-                            <span id="price"></span>x<span id="quantity"></span>
+                        <div class="d-grid gap-3">
+                            <h4 id="menu_name"></h4>
+                            <div class="d-flex gap-2">
+                                <div>
+                                    <span
+                                        class="badge rounded-pill text-light-emphasis bg-light-subtle border-light-subtle border"
+                                        id="portion"></span>
+                                </div>
+                                <div class="vr"></div>
+                                <div class="d-flex gap-1">
+                                    <span id="price"></span>x<span id="quantity"></span>
+                                </div>
+                            </div>
+                            <h5 id="total_price"></h5>
+                            <small class="text-secondary">
+                                <pre class="mb-0" id="note"></pre>
+                            </small>
                         </div>
                     </div>
-                    <h5 id="total_price"></h5>
-                    <small class="text-secondary">
-                        <pre class="mb-0" id="note"></pre>
-                    </small>
                 </div>
             </div>
         </div>

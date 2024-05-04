@@ -73,7 +73,7 @@
                                 @php
                                     $indexItem = $loop->iteration - 1;
                                 @endphp
-                                <div class="d-grid row-per-item gap-2">
+                                <div class="d-grid gap-2">
                                     <div>
                                         <div>
                                             <span
@@ -84,7 +84,7 @@
                                     <div>
                                         <div>
                                             <div
-                                                class="d-grid d-md-flex justify-content-between align-items-center row-item">
+                                                class="d-grid d-md-flex justify-content-between align-items-center gap-2">
                                                 <div class="d-grid d-md-flex align-items-center gap-1">
                                                     <div class="row g-3">
                                                         <div class="col-md-3">
@@ -130,7 +130,9 @@
                                             </div>
                                         </div>
                                         <div>
-                                            <small>{{ $item->note }}</small>
+                                            <small>
+                                                <pre class="mb-0">{{ $item->note }}</pre>
+                                            </small>
                                         </div>
                                     </div>
                                 </div>

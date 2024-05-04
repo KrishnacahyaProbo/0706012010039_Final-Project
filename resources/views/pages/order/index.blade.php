@@ -158,6 +158,9 @@
     @endif
 
     <script>
+        const _APP_URL = {!! '"' . env('APP_URL') . '"' !!}
+    </script>
+    <script>
         const stars = document.querySelectorAll('.star');
         const ratingInput = document.getElementById('ratingInput');
 
