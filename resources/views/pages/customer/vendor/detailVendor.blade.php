@@ -29,7 +29,7 @@
                             <a href="/testimonies/{{ $vendor->id }}">
                                 <div class="d-flex gap-2">
                                     <i class="bi bi-star"></i>
-                                    <p class="card-text">{{ $vendor->rating ?? '-' }}/5</p>
+                                    <p class="card-text">{{ $vendor->rating ?? '-' }}/5,0</p>
                                 </div>
                             </a>
 

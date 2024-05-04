@@ -27,45 +27,45 @@ $(document).on("click", '.btn-portion', function () {
     $(this).addClass('portion');
     var ringkasanBelanja = $(this).attr('ringkasanBelanja');
     var indexItem = $(this).attr('indexItem');
-    var cart_menu_id = $(this).closest('.d-grid').find('#cart_menu_id').val();
-    var portion = $(this).closest('.row-item').find('.portion').text();
-    var price = $(this).closest('.d-grid').find('#price').val();
-    var quantity = $(this).closest('.d-grid').find('#quantity').val();
-    var note = $(this).closest('.note').find('#note').val();
-    updateCart(ringkasanBelanja, indexItem, 1, cart_menu_id, portion, price, quantity);
+    var cart_menu_id = $(this).closest('.row-per-item').find('#cart_menu_id').val();
+    var portion = $(this).closest('.row-per-item').find('.portion').text();
+    var price = $(this).closest('.row-per-item').find('#price').val();
+    var quantity = $(this).closest('.row-per-item').find('#quantity').val();
+    var note = $(this).closest('.row-per-item').find('#note').val();
+    updateCart(ringkasanBelanja, indexItem, 1, cart_menu_id, portion, price, quantity, note);
     console.log(cart_menu_id, portion, price, quantity, note);
 })
 
 $(document).on("click", '.btn-increment', function () {
     var ringkasanBelanja = $(this).attr('ringkasanBelanja');
     var indexItem = $(this).attr('indexItem');
-    var cart_menu_id = $(this).closest('.d-grid').find('#cart_menu_id').val();
-    var portion = $(this).closest('.row-item').find('.portion').text();
-    var price = $(this).closest('.d-grid').find('#price').val();
-    var quantity = $(this).closest('.d-grid').find('#quantity').val();
-    var note = $(this).closest('.note').find('#note').val();
+    var cart_menu_id = $(this).closest('.row-per-item').find('#cart_menu_id').val();
+    var portion = $(this).closest('.row-per-item').find('.portion').text();
+    var price = $(this).closest('.row-per-item').find('#price').val();
+    var quantity = $(this).closest('.row-per-item').find('#quantity').val();
+    var note = $(this).closest('.row-per-item').find('#note').val();
     updateCart(null, null, 0, cart_menu_id, portion, price, quantity, note);
 })
 
 $(document).on("click", '.btn-decrement', function () {
     var ringkasanBelanja = $(this).attr('ringkasanBelanja');
     var indexItem = $(this).attr('indexItem');
-    var cart_menu_id = $(this).closest('.d-grid').find('#cart_menu_id').val();
-    var portion = $(this).closest('.row-item').find('.portion').text();
-    var price = $(this).closest('.d-grid').find('#price').val();
-    var quantity = $(this).closest('.d-grid').find('#quantity').val();
-    var note = $(this).closest('.note').find('#note').val();
+    var cart_menu_id = $(this).closest('.row-per-item').find('#cart_menu_id').val();
+    var portion = $(this).closest('.row-per-item').find('.portion').text();
+    var price = $(this).closest('.row-per-item').find('#price').val();
+    var quantity = $(this).closest('.row-per-item').find('#quantity').val();
+    var note = $(this).closest('.row-per-item').find('#note').val();
     updateCart(null, null, 0, cart_menu_id, portion, price, quantity, note);
 })
 
-$(document).on("change", '#note', function () {
+$(document).on("change", '.note', function () {
     var ringkasanBelanja = $(this).attr('ringkasanBelanja');
     var indexItem = $(this).attr('indexItem');
-    var cart_menu_id = $(this).closest('.d-grid').find('#cart_menu_id').val();
-    var portion = $(this).closest('.row-item').find('.portion').text();
-    var price = $(this).closest('.d-grid').find('#price').val();
-    var quantity = $(this).closest('.d-grid').find('#quantity').val();
-    var note = $(this).closest('.note').find('#note').val();
+    var cart_menu_id = $(this).closest('.row-per-item').find('#cart_menu_id').val();
+    var portion = $(this).closest('.row-per-item').find('.portion').text();
+    var price = $(this).closest('.row-per-item').find('#price').val();
+    var quantity = $(this).closest('.row-per-item').find('#quantity').val();
+    var note = $(this).val();
     updateCart(null, null, 0, cart_menu_id, portion, price, quantity, note);
 })
 

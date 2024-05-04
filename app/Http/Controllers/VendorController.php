@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Testimony;
 use Exception;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -30,12 +31,24 @@ class VendorController extends Controller
                 });
             }
 
+            // Get the total count of vendors
             $vendorCount = $vendorQuery->count();
 
             if ($vendorCount > 10) {
                 $vendor_data = $vendorQuery->paginate($perPage, ['*'], 'page', $page);
             } else {
                 $vendor_data = $vendorQuery->get();
+            }
+
+            // Calculate vendor rating
+            foreach ($vendor_data as $vendor) {
+                $rating = Testimony::where('vendor_id', $vendor->id)->avg('rating');
+
+                if ($rating === null) {
+                    $vendor->rating = 0;
+                } else {
+                    $vendor->rating = number_format($rating, 1, ',', '.');
+                }
             }
 
             $successMessage = 'Data retrieved successfully.';
@@ -58,6 +71,17 @@ class VendorController extends Controller
     {
         try {
             $vendor = User::with('Delivery', 'menu', 'menu.menu_schedule', 'UserSetting')->where('name', $nama_vendor)->first();
+
+            // Calculate vendor rating
+            $rating = Testimony::where('vendor_id', $vendor->id)->avg('rating');
+            $vendor->rating = $rating;
+
+            if ($rating === null) {
+                $vendor->rating = 0;
+            } else {
+                $vendor->rating = number_format($rating, 1, ',', '.');
+            }
+
             return view('pages.customer.vendor.detailVendor', compact('vendor'));
         } catch (Exception $e) {
             return response()->json([

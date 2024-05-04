@@ -31,15 +31,18 @@
                             <img src={{ $item->customer?->profile_photo_url }} alt="" width="48">
                             <span>{{ $item?->customer?->name }}</span>
                         </div>
-                        <div class="d-flex gap-2">
-                            <i class="bi bi-star-fill text-warning"></i>
-                            <strong>{{ $item->rating }}/5</strong>
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-star-fill text-warning fs-4"></i>
+                            <h4 class="mb-0">{{ $item->rating }}/5</h4>
                         </div>
                         <span>
                             <pre class="mb-0">{{ $item->description ?? '-' }}</pre>
                         </span>
-                        <img src="/assets/image/testimony_photo/{{ $item->testimony_photo }}" alt=""
-                            class="rounded-1" width="196">
+                        <a href="/assets/image/testimony_photo/{{ $item->testimony_photo }}" target="_blank"
+                            rel="noopener noreferrer">
+                            <img src="/assets/image/testimony_photo/{{ $item->testimony_photo }}" alt=""
+                                class="rounded-1" width="196">
+                        </a>
                     </div>
                 </div>
                 <div class="card-footer">

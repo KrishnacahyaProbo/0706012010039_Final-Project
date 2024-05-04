@@ -82,16 +82,26 @@
                 </div>
             </div>
 
+            <div class="d-flex ms-auto">
+                <select class="form-select" aria-label="Category select" id="vendor_category">
+                    <option selected value="all_category">Semua</option>
+                    <option value="vendor_income">Penjualan</option>
+                    <option value="vendor_outcome">Cash out</option>
+                </select>
+            </div>
+
             <div class="table-responsive">
                 <table class="table-striped table-hover table-borderless table">
                     <thead>
                         <tr>
                             <th class="col-0 text-center">#</th>
-                            <th class="col-6">Nominal</th>
-                            <th class="col-6">Timestamp</th>
+                            <th class="col-4">Nominal</th>
+                            <th class="col-4">Kategori</th>
+                            <th class="col-4">Timestamp</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="vendor_category_value"></tbody>
+                    {{-- <tbody>
                         @if ($balance_history->isEmpty())
                             <tr>
                                 <td colspan="3">Belum ada riwayat.</td>
@@ -105,7 +115,7 @@
                                 </tr>
                             @endforeach
                         @endif
-                    </tbody>
+                    </tbody> --}}
                 </table>
             </div>
         @else
@@ -205,7 +215,8 @@
         <script>
             var balanceNominal = {!! json_encode($balance->credit ?? 0) !!}
         </script>
-        <script src="{{ asset('/js/credit.js') }}"></script>
+        <script src="{{ asset('/js/vendorCredit.js') }}"></script>
+        <script src="{{ asset('/js/customerCredit.js') }}"></script>
         <script src="{{ asset('/js/formatRupiah.js') }}"></script>
     @endsection
 </x-app-layout>

@@ -56,7 +56,10 @@ Route::middleware([
 
     Route::prefix('orders')->name('order.')->namespace('App\Http\Controllers')->group(function () {
         Route::get('/', 'OrderController@index')->name('index');
-        Route::get('/data', 'OrderController@data')->name('data');
+        Route::get('/incomingOrder', 'OrderController@incomingOrder')->name('incomingOrder');
+        Route::post('/process-order', 'OrderController@processOrder')->name('processOrder');
+        Route::post('/deliver-order', 'OrderController@deliverOrder')->name('deliverOrder');
+        Route::get('/requestOrder', 'OrderController@requestOrder')->name('requestOrder');
         Route::post('/store', 'OrderController@store')->name('store');
         Route::get('/detail/{id}', 'OrderController@detailOrder');
         Route::delete('/cancel-order', 'OrderController@cancelOrder')->name('cancelOrder');

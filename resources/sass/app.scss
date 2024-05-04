@@ -54,7 +54,7 @@ img {
 }
 
 select,
-input:is([type="radio"], [type="checkbox"]),
+input:is([type="checkbox"], [type="radio"]),
 .form-check-label,
 .star {
     cursor: pointer;
@@ -63,6 +63,10 @@ input:is([type="radio"], [type="checkbox"]),
 :is(input, select, textarea):focus {
     box-shadow: none !important;
     border: 1px solid $red-700 !important;
+}
+
+input[type="date"] {
+    cursor: text;
 }
 
 input:is([type="radio"], [type="checkbox"]):checked {
@@ -276,6 +280,11 @@ select:not(.flatpickr-monthDropdown-months),
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
     box-shadow: none;
+}
+
+::-webkit-calendar-picker-indicator,
+::-webkit-search-cancel-button {
+    cursor: pointer;
 }
 
 @font-face {

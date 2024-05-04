@@ -76,6 +76,18 @@ function initialize() {
             // Format the date
             var formattedDate = formatDate(clickedDate);
 
+            // Jika tanggal hari ini telah melewati tanggal yang dipilih, maka jangan tampilkan success function $.ajax
+            var today = new Date();
+            if (moment(formattedDate).isBefore(today)) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Tanggal yang dipilih telah lewat",
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
+                return;
+            }
+
             // Show the selected date
             $.ajax({
                 url: "/menus/schedule",

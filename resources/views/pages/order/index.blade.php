@@ -21,42 +21,35 @@
 
             <div class="d-flex ms-auto gap-2">
                 <div>
-                    <select class="form-select" aria-label="Date select">
-                        <option selected>{{ date('j F Y') }}</option>
-                        <option value="">Tanggal jadwal penjualan</option>
+                    <input type="date" name="schedule_date" id="schedule_date" class="form-control">
+                </div>
+                <div>
+                    <select class="form-select" aria-label="Status select" id="vendor_status">
+                        <option selected value="customer_paid">Pesanan</option>
+                        <option value="vendor_packing">Dikemas</option>
+                        <option value="vendor_delivering">Dikirim</option>
+                        <option value="customer_received">Diterima</option>
+                        <option value="customer_problem">Komplain</option>
                     </select>
                 </div>
             </div>
 
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
-                @for ($i = 0; $i < 3; $i++)
-                    <div class="col">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <div class="d-grid gap-3">
-                                    <h3>Total Kuantitas</h3>
-                                    <span class="text-secondary lead">Nama Menu</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endfor
-            </div>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3" id="rekapitulasi"></div>
 
             <div class="table-responsive">
                 <table id="orderVendorTable" class="table-striped table-hover table-borderless table">
                     <thead>
                         <tr>
-                            <th>Pelanggan</th>
                             <th>Nama Menu</th>
                             <th>Ukuran Porsi</th>
                             <th>Kuantitas</th>
+                            <th>Pelanggan</th>
                             <th>Alamat</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
-                    {{-- <tbody></tbody> --}}
-                    <tbody>
+                    <tbody></tbody>
+                    {{-- <tbody>
                         <tr>
                             <td>Pelanggan</td>
                             <td>Nama Menu</td>
@@ -76,10 +69,12 @@
                                 </div>
                             </td>
                         </tr>
-                    </tbody>
+                    </tbody> --}}
                 </table>
             </div>
         </div>
+
+        @include('pages.order.modals.incomingOrderDetail')
     @else
         <div class="d-grid gap-3">
             <div>
@@ -88,8 +83,7 @@
 
             <div class="d-flex ms-auto">
                 <select class="form-select" aria-label="Status select" id="customer_status">
-                    <option selected value="customer_unpaid">Belum Bayar</option>
-                    <option value="customer_paid">Lunas</option>
+                    <option selected value="customer_paid">Lunas</option>
                     <option value="customer_canceled">Dibatalkan</option>
                     <option value="vendor_packing">Dikemas</option>
                     <option value="vendor_delivering">Dikirim</option>
@@ -117,7 +111,7 @@
             </div>
         </div>
 
-        @include('pages.order.modal.detail')
+        @include('pages.order.modals.requestOrderDetail')
 
         <div class="modal fade" id="addTestimony" tabindex="-1" aria-hidden="true" data-bs-backdrop='static'>
             <div class="modal-dialog modal-xl">

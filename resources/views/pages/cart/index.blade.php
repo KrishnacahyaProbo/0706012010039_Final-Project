@@ -63,7 +63,7 @@
                                 @php
                                     $indexItem = $loop->iteration - 1;
                                 @endphp
-                                <div class="d-grid row-per-item note gap-2">
+                                <div class="d-grid row-per-item gap-2">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div>
                                             <span
@@ -77,8 +77,7 @@
                                     </div>
                                     <div class="collapse" id="collapseCatatanPesanan">
                                         <x-label for="note" value="{{ __('Catatan Pesanan') }}" />
-                                        <textarea id="note" name="note" class="form-control" ringkasanBelanja="{{ $ringkasanBelanja }}"
-                                            indexItem="{{ $indexItem }}">{{ $item->note }}</textarea>
+                                        <textarea id="note" name="note" class="form-control note" ringkasanBelanja="{{ $ringkasanBelanja }}" indexItem="{{ $indexItem }}">{{ $item->note }}</textarea>
                                     </div>
 
                                     <div>

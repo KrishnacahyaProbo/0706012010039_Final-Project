@@ -1,12 +1,3 @@
-// Mencegah input Nominal yang melebihi balanceNominal
-document.addEventListener("DOMContentLoaded", function () {
-    // Mendapatkan elemen input Nominal
-    var creditInput = document.getElementById('credit_cash_out');
-
-    // Mengatur nilai maksimum input Nominal berdasarkan nilai balanceNominal
-    creditInput.max = balanceNominal;
-});
-
 var customerCategory = document.getElementById('customer_category')
 var customerCategoryValue = document.getElementById('customer_category_value')
 

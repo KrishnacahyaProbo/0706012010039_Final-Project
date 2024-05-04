@@ -114,7 +114,7 @@ class CheckoutController extends Controller
         $transaction->distance_between = 0;
         $transaction->shipping_costs = $total_shipping_costs;
 
-        // Simpan riwayat belanja sebagai kategori pengeluaran
+        // Simpan riwayat belanja sebagai kategori pengeluaran customer
         $isiUlang = ['user_id' => Auth::user()->id, 'credit' => $transaction->subtotal + $transaction->shipping_costs, 'category' => 'customer_outcome'];
         BalanceHistory::create($isiUlang);
         $transaction->save();
@@ -130,7 +130,7 @@ class CheckoutController extends Controller
             $transactionDetail->quantity = $value->quantity;
             $transactionDetail->price = $value->price;
             $transactionDetail->total_price = $value->price * $value->quantity;
-            $transactionDetail->status = 'customer_unpaid';
+            $transactionDetail->status = 'customer_paid';
             $transactionDetail->refund_reason = null;
             $transactionDetail->save();
         }
@@ -138,9 +138,10 @@ class CheckoutController extends Controller
         // Kurangi credit customer
         $balance = BalanceNominal::where('user_id', Auth::user()->id)->first();
 
-        // Jika melakukan checkout, maka credit customer berkurang
+        // Setelah berhasil checkout, maka credit customer berkurang dan hapus cart item
         $balance->credit -= $total + $total_shipping_costs;
         $balance->save();
+        Cart::where('customer_id', Auth::user()->id)->delete();
 
         return redirect()->route('order.index');
     }

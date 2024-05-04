@@ -83,7 +83,7 @@ class BalanceNominalController extends Controller
             BalanceNominal::where('user_id', Auth::user()->id)->update(['credit' => $cashOut]);
 
             // Save the cash out history
-            $payload = ['user_id' => Auth::user()->id, 'credit' => $request->credit];
+            $payload = ['user_id' => Auth::user()->id, 'credit' => $request->credit, 'category' => 'vendor_outcome'];
             BalanceHistory::create($payload);
 
             return back();
