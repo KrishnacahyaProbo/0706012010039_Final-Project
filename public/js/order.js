@@ -3,6 +3,17 @@ document.addEventListener("DOMContentLoaded", function () {
     fetchDataOrderCustomerItem();
 });
 
+// Menambahkan waktu terkini pada judul file saat export (mengunduh laporan)
+var currentDate = new Date();
+var day = currentDate.getDate();
+var month = currentDate.getMonth() + 1;
+var year = currentDate.getFullYear();
+var hours = currentDate.getHours();
+var minutes = currentDate.getMinutes();
+var seconds = currentDate.getSeconds();
+
+var exportDateTime = day + "-" + month + "-" + year + " " + hours + "." + minutes + "." + seconds;
+
 // * Vendor
 function getCurrentDate() {
     var local = new Date();
@@ -13,7 +24,17 @@ function getCurrentDate() {
 $('#schedule_date').val(getCurrentDate());
 
 function fetchDataOrderVendorItem() {
-    console.log($('#vendor_status').val());
+    // Mengolah status transaksi pada judul file saat export (mengunduh laporan)
+    const vendorStatusMapping = {
+        customer_paid: 'Pesanan',
+        vendor_packing: 'Dikemas',
+        vendor_delivering: 'Dikirim',
+        customer_received: 'Diterima',
+        customer_problem: 'Komplain'
+    };
+
+    const vendorStatusText = vendorStatusMapping[$('#vendor_status').val()];
+
     $.ajax({
         url: "/orders/incomingOrder",
         method: "GET",
@@ -81,6 +102,8 @@ function fetchDataOrderVendorItem() {
                             columns: [0, 1, 2, 3, 4],
                         },
                         className: 'btn btn-outline-primary d-flex ms-auto',
+                        filename: 'Laporan Penjualan ' + vendorStatusText + ' ' + exportDateTime,
+                        title: 'Laporan Penjualan ' + vendorStatusText + ' ' + exportDateTime,
                         text: `<strong>Download Report</strong>`,
                     }]
                 },
@@ -203,11 +226,11 @@ function processOrder(id) {
                 id: id
             },
             success: function (response) {
-                toastr.success("Order processed");
+                toastr.success("Berhasil memproses pesanan.");
                 fetchDataOrderVendorItem();
             },
             error: function (xhr, status, error) {
-                toastr.error("Error processing order:", error);
+                toastr.error("Gagal memproses pesanan. ", error);
             },
         });
     }
@@ -224,11 +247,11 @@ function deliverOrder(id) {
                 id: id
             },
             success: function (response) {
-                toastr.success("Order delivered");
+                toastr.success("Berhasil mengirim pesanan.");
                 fetchDataOrderVendorItem();
             },
             error: function (xhr, status, error) {
-                toastr.error("Error delivering order:", error);
+                toastr.error("Gagal mengirim pesanan. ", error);
             },
         });
     }
@@ -236,7 +259,18 @@ function deliverOrder(id) {
 
 // * Customer
 function fetchDataOrderCustomerItem() {
-    console.log($('#customer_status').val());
+    // Mengolah status transaksi pada judul file saat export (mengunduh laporan)
+    const customerStatusMapping = {
+        customer_paid: "Lunas",
+        customer_canceled: "Dibatalkan",
+        vendor_packing: "Dikemas",
+        vendor_delivering: "Dikirim",
+        customer_received: "Diterima",
+        customer_problem: "Komplain"
+    };
+
+    const customerStatusText = customerStatusMapping[$('#customer_status').val()];
+
     $.ajax({
         url: "/orders/requestOrder",
         method: "GET",
@@ -266,6 +300,8 @@ function fetchDataOrderCustomerItem() {
                             columns: [0, 1, 2, 3, 4, 5, 6],
                         },
                         className: 'btn btn-outline-primary d-flex ms-auto',
+                        filename: 'Laporan Pembelian ' + customerStatusText + ' ' + exportDateTime,
+                        title: 'Laporan Pembelian ' + customerStatusText + ' ' + exportDateTime,
                         text: `<strong>Download Report</strong>`,
                     }]
                 },
@@ -431,11 +467,11 @@ function cancelOrder(id) {
                 id: id
             },
             success: function (response) {
-                toastr.success("Order canceled");
+                toastr.success("Berhasil membatalkan pesanan.");
                 fetchDataOrderCustomerItem();
             },
             error: function (xhr, status, error) {
-                toastr.error("Error canceling order:", error);
+                toastr.error("Gagal membatalkan pesanan. ", error);
             },
         });
     }
@@ -452,11 +488,11 @@ function receiveOrder(id) {
                 id: id
             },
             success: function (response) {
-                toastr.success("Order received");
+                toastr.success("Berhasil menerima pesanan.");
                 fetchDataOrderCustomerItem();
             },
             error: function (xhr, status, error) {
-                toastr.error("Error receiving order:", error);
+                toastr.error("Gagal menerima pesanan. ", error);
             },
         });
     }

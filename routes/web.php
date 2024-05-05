@@ -41,7 +41,7 @@ Route::middleware([
     Route::prefix('vendors')->name('vendor.')->namespace('App\Http\Controllers')->group(function () {
         Route::get('/', 'VendorController@index')->name('index');
         Route::get('/data', 'VendorController@data')->name('data');
-        Route::get('/{vendorName}', 'VendorController@menu')->name('menu');
+        Route::get('/{vendorName}', 'VendorController@detailVendor')->name('detailVendor');
     });
 
     Route::prefix('carts')->name('cart.')->namespace('App\Http\Controllers')->group(function () {

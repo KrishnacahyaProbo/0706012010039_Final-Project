@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Testimony;
 use Exception;
 use App\Models\User;
+use App\Models\Testimony;
 use Illuminate\Http\Request;
 
 class VendorController extends Controller
@@ -67,7 +67,7 @@ class VendorController extends Controller
         }
     }
 
-    public function menu($nama_vendor)
+    public function detailVendor($nama_vendor)
     {
         try {
             $vendor = User::with('Delivery', 'menu', 'menu.menu_schedule', 'UserSetting')->where('name', $nama_vendor)->first();

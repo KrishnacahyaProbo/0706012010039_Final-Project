@@ -74,7 +74,7 @@
             </div>
         </div>
 
-        @include('pages.order.modals.incomingOrderDetail')
+        @include('pages.order.include.incomingOrderDetailModal')
     @else
         <div class="d-grid gap-3">
             <div>
@@ -111,7 +111,7 @@
             </div>
         </div>
 
-        @include('pages.order.modals.requestOrderDetail')
+        @include('pages.order.include.requestOrderDetailModal')
 
         <div class="modal fade" id="addTestimony" tabindex="-1" aria-hidden="true" data-bs-backdrop='static'>
             <div class="modal-dialog modal-xl">

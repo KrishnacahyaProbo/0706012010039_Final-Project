@@ -115,8 +115,8 @@ function addMenuItem(value) {
         $("#formMultiple").html("");
         value.menu_detail.forEach((detail, index) => {
             const newRow = `
-            <div class="card-body">
-                <div class="row classformMultiple" id="row_${index + 1}">
+            <div class="card-body py-2">
+                <div class="row classformMultiple mb-3" id="row_${index + 1}">
                     <div class="col">
                         <div class="form-group">
                             <label class="form-label">Ukuran Porsi</label>
@@ -567,53 +567,8 @@ function showDetail(id) {
                             // Memanggil callback dengan daftar acara
                             successCallback(events);
                         },
-                        eventDidMount: function (arg) {
-                            var clickHandler = function (event) {
-                                event.preventDefault();
-                                var confirmation = window.confirm('Yakin ingin hapus jadwal penjualan?');
-                                if (confirmation) {
-                                    var eventId = arg.event.id; // Get event ID
-                                    var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
-                                    $.ajax({
-                                        url: 'schedules/destroy',
-                                        type: 'DELETE',
-                                        data: {
-                                            id: eventId,
-                                            _token: csrfToken
-                                        },
-                                        success: function (response) {
-                                            if (response.success) {
-                                                var eventToRemove = calendar.getEventById(eventId);
-                                                if (eventToRemove) {
-                                                    eventToRemove.remove();
-                                                }
-
-                                                $("#mdlForm").modal("hide");
-                                                $("#mdlFormContent").html("");
-                                                setTimeout(function () {
-                                                    showDetail(id);
-                                                }, 1000);
-                                            } else {
-                                                alert('Gagal menghapus jadwal. Silakan coba lagi.');
-                                            }
-                                        },
-                                        error: function (xhr, status, error) {
-                                            console.error('Gagal menghapus jadwal: ', xhr.responseJSON.error);
-                                        }
-                                    });
-                                }
-                            };
-
-                            arg.el.addEventListener('click', clickHandler);
-
-                            // Hapus event listener jika event dihapus dari kalender
-                            arg.event.remove = function () {
-                                arg.el.removeEventListener('click', clickHandler);
-                            };
-                        },
-
-                        // Menangani event ketika event di-drop (dragged)
+                        // Menangani event ketika di-drop (dragged) untuk mengubah jadwal penjualan
                         eventDrop: function (arg) {
                             var eventId = arg.event.id; // ID dari event yang di-drop
                             var newStart = arg.event.start; // Tanggal baru setelah di-drop
@@ -622,10 +577,19 @@ function showDetail(id) {
                             // Membuat Date object baru
                             var date = new Date(newStart);
 
+                            // Mendapatkan tanggal hari ini
+                            var today = new Date();
+                            today.setHours(0, 0, 0, 0); // Mengatur jam 00:00:00 untuk mendapatkan tanggal tanpa jam
+
+                            // Memeriksa apakah tanggal baru setelah hari ini
+                            if (date <= today) {
+                                alert('Tidak dapat mengubah jadwal ke tanggal sebelum ataupun hari ini.');
+                                arg.revert(); // Mengembalikan event ke posisi sebelumnya
+                                return;
+                            }
+
                             // Ekstrak komponen year, month, and day
                             var year = date.getFullYear();
-
-                            // Dalam JavaScript, bulan dimulai dari 0 sehingga perlu ditambah 1 agar akurat
                             var month = (date.getMonth() + 1).toString().padStart(2, '0');
                             var day = date.getDate().toString().padStart(2, '0');
 
@@ -654,6 +618,39 @@ function showDetail(id) {
                                     alert('Gagal mengubah jadwal: ', xhr.responseJSON.error);
                                 }
                             });
+                        },
+
+                        // Menangani event ketika diklik untuk menghapus jadwal penjualan
+                        eventClick: function (info) {
+                            var confirmation = window.confirm('Yakin ingin hapus jadwal penjualan?');
+                            if (confirmation) {
+                                var eventId = info.event.id; // Get event ID
+                                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+                                $.ajax({
+                                    url: 'schedules/destroy',
+                                    type: 'DELETE',
+                                    data: {
+                                        id: eventId,
+                                        _token: csrfToken
+                                    },
+                                    success: function (response) {
+                                        if (response.success) {
+                                            info.event.remove();
+                                            $("#mdlForm").modal("hide");
+                                            $("#mdlFormContent").html("");
+                                            setTimeout(function () {
+                                                showDetail(id);
+                                            }, 1000);
+                                        } else {
+                                            alert('Gagal menghapus jadwal. Silakan coba lagi.');
+                                        }
+                                    },
+                                    error: function (xhr, status, error) {
+                                        console.error('Gagal menghapus jadwal: ', xhr.responseJSON.error);
+                                    }
+                                });
+                            }
                         },
                     });
                     calendar.render();

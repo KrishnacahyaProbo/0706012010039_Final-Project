@@ -1,4 +1,4 @@
-@section('title', 'Detail Vendor')
+@section('title', $vendor->name)
 
 <x-app-layout>
     @if (session('success'))
@@ -56,7 +56,14 @@
         </div>
 
         <div class="d-grid gap-2">
-            <h1>Pilih Menu</h1>
+            <div class="d-flex justify-content-between align-items-center">
+                <h1>Pilih Menu</h1>
+                <div>
+                    <x-button class="d-inline" data-bs-toggle="modal" data-bs-target="#katalogForm">Katalog</x-button>
+
+                    @include('pages.customer.vendor.include.katalogModal')
+                </div>
+            </div>
 
             <div class="d-grid d-lg-flex gap-3">
                 <div class="w-100">

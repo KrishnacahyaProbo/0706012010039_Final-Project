@@ -111,7 +111,8 @@ tr:last-child td:last-child {
 }
 
 select:not(.flatpickr-monthDropdown-months),
-.btn-primary {
+.btn-primary,
+.swal2-confirm {
     background-color: $red-700 !important;
     border: 1px solid $red-700 !important;
     box-shadow: none !important;

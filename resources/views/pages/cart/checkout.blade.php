@@ -18,23 +18,6 @@
             @section('page_title', 'Konfirmasi Pembayaran')
         </div>
 
-        {{-- <div>
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start gap-3">
-                        <div class="d-grid">
-                            <span class="text-secondary">Alamat Pengiriman</span>
-                            <strong>{{ Auth::user()->address }}</strong>
-                        </div>
-
-                        <button class="btn text-primary border-0 p-0">
-                            <a href="{{ route('setting.index') }}">Ubah</a>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
-
         <div class="row g-3">
             <div class="col-lg-8 d-grid gap-3">
                 @php

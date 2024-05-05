@@ -80,10 +80,11 @@ function initialize() {
             var today = new Date();
             if (moment(formattedDate).isBefore(today)) {
                 Swal.fire({
+                    allowOutsideClick: false,
                     icon: "warning",
-                    title: "Tanggal yang dipilih telah lewat",
                     showConfirmButton: false,
-                    timer: 2000,
+                    showCloseButton: true,
+                    text: "Tanggal yang dipilih telah melewati ketentuan.",
                 });
                 return;
             }
@@ -242,10 +243,12 @@ function initialize() {
                                 } else {
                                     // Jika tombol belum dipilih dan ada porsi yang dipilih sebelumnya
                                     Swal.fire({
-                                        icon: "question",
-                                        title: "Anda telah memilih porsi pada menu ini. Apakah Anda ingin menambahkan ke keranjang belanja terlebih dahulu sebelum memilih porsi yang lainnya?",
-                                        showCancelButton: true,
+                                        allowOutsideClick: false,
                                         confirmButtonText: `Tambah Porsi Baru`,
+                                        icon: "question",
+                                        text: "Anda telah memilih porsi pada menu ini. Apakah Anda ingin menambahkan ke keranjang belanja terlebih dahulu sebelum memilih porsi yang lainnya?",
+                                        showCancelButton: true,
+                                        showCloseButton: true,
                                     }).then((result) => {
                                         if (result.isConfirmed) {
                                             var currentQuantity = parseInt(spanQuantity.textContent);
@@ -262,10 +265,10 @@ function initialize() {
                                             } else if (currentQuantity == 0) {
                                                 // Tampilkan peringatan jika kuantitas belum dipilih
                                                 Swal.fire({
+                                                    allowOutsideClick: false,
                                                     icon: "warning",
-                                                    title: "Anda harus memilih jumlah pembelian sebelum menambah porsi!",
-                                                    showConfirmButton: false,
-                                                    timer: 2000,
+                                                    showCloseButton: true,
+                                                    text: "Pilih kuantitas terlebih dahulu.",
                                                 });
                                             }
                                         }
@@ -379,26 +382,21 @@ function initialize() {
                             // Jika tidak ada yang dipilih, tampilkan pesan toast
                             if (!selectedPorsi) {
                                 Swal.fire({
-                                    title: "Pilih ukuran porsi terlebih dahulu!",
+                                    allowOutsideClick: false,
                                     icon: "warning",
-                                    showConfirmButton: false,
-                                    timer: 2000,
+                                    showCloseButton: true,
+                                    text: "Pilih ukuran porsi terlebih dahulu.",
                                 });
                             } else if (currentQuantity === 0) {
                                 // Jika nilai quantity nol, tampilkan pesan toast
                                 Swal.fire({
-                                    title: "Silakan input jumlah pembelian untuk menu ini!",
+                                    allowOutsideClick: false,
                                     icon: "warning",
-                                    showConfirmButton: false,
-                                    timer: 2000,
+                                    showCloseButton: true,
+                                    text: "Pilih kuantitas terlebih dahulu.",
                                 });
                             } else {
-                                Swal.fire({
-                                    title: "Item berhasil ditambahkan ke keranjang!",
-                                    icon: "success",
-                                    showConfirmButton: false,
-                                    timer: 1500,
-                                });
+                                toastr.success("Berhasil menambah item di Keranjang Belanja.");
                             }
                         });
                     });
@@ -438,11 +436,12 @@ function initialize() {
 
 function addToCart(menuId, currentQuantity, button, selectedPorsiText) {
     Swal.fire({
+        allowOutsideClick: false,
         title: 'Add to Cart',
-        html: '<textarea id="swal-textarea" placeholder="Please enter additional notes..." style="width: 100%;"></textarea>',
-        showDenyButton: true,
+        html: '<textarea id="swal-textarea" placeholder="Masukkan catatan pesanan" style="width: 100%;"></textarea>',
+        showCancelButton: true,
+        showCloseButton: true,
         confirmButtonText: 'Add',
-        denyButtonText: 'Cancel',
         preConfirm: () => {
             // Retrieve the value from the text area
             return document.getElementById('swal-textarea').value.trim();
@@ -468,16 +467,14 @@ function addToCart(menuId, currentQuantity, button, selectedPorsiText) {
                     notes: notes
                 },
                 success: function (response) {
-                    // Handle success response
-                    toastr.success('Item added to cart successfully');
+                    toastr.success('Berhasil menambah item ke Keranjang Belanja.');
                     button.classList.add("font-weight-bold");
                     button.style.backgroundColor = "#842029";
                     button.style.color = "white";
                     previousSelectedOption = selectedPorsiText;
                 },
                 error: function (xhr, status, error) {
-                    // Handle error
-                    toastr.error('Error adding item to cart');
+                    toastr.error('Gagal menambah item ke Keranjang Belanja. ', error);
                 }
             });
         } else if (result.isDenied) {
@@ -487,14 +484,13 @@ function addToCart(menuId, currentQuantity, button, selectedPorsiText) {
 
             $.ajax({
                 success: function (response) {
-                    console.log('Add to cart canceled', response);
+                    console.log('Berhasil membatalkan pilihan item.', response);
                     button.classList.add("font-weight-bold");
                     button.style.backgroundColor = "#842029";
                     button.style.color = "white";
                 },
                 error: function (xhr, status, error) {
-                    // Handle error
-                    toastr.error('Error adding item to cart');
+                    toastr.error('Gagal membatalkan pilihan item. ', error);
                 }
             });
         }
@@ -513,11 +509,11 @@ function destroy(id) {
             },
             success: function (response) {
                 window.location.reload();
-                toastr.success("Cart item deleted successfully");
+                toastr.success("Berhasil menghapus item dari Keranjang Belanja.");
                 fetchDataMenuItem();
             },
             error: function (xhr, status, error) {
-                toastr.error("Error deleting Cart item:", error);
+                toastr.error("Gagal menghapus item dari Keranjang Belanja. ", error);
             },
         });
     }

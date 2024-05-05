@@ -99,10 +99,10 @@ function updateCart(ringkasanBelanja = null, indexItem = null, editButton = 0, c
                 $(`#newPrice${ringkasanBelanja + indexItem}`).html(
                     `Rp${newPrice.toLocaleString()}/pcs`);
             }
-            // toastr.success('Cart item updated successfully');
+            // toastr.success('Berhasil memperbarui item.');
         },
         error: function (xhr, status, error) {
-            toastr.error('Error updating cart item');
+            toastr.error('Gagal memperbarui item. ', error);
         }
     });
 }

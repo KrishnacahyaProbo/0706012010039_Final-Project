@@ -22,35 +22,11 @@
             @if (!$balance || $balance->credit <= 0)
                 <x-button class="d-flex ms-auto" disabled>Request Cash out</x-button>
             @else
-                <x-button class="d-flex ms-auto" data-bs-toggle="modal" data-bs-target="#modalForm">Request Cash
+                <x-button class="d-flex ms-auto" data-bs-toggle="modal" data-bs-target="#cashOutForm">Request Cash
                     out</x-button>
             @endif
 
-            <div class="modal fade" id="modalForm" tabindex="-1" aria-hidden="true" data-bs-backdrop='static'>
-                <div class="modal-dialog modal-xl">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h3 id="modalFormTitle">Pencairan Kredit</h3>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body" id="modalFormContent">
-                            <form method="POST" action="/credits/cash-out">
-                                @csrf
-
-                                <div class="d-grid gap-3">
-                                    <div>
-                                        <x-label for="credit" value="{{ __('Nominal') }}" />
-                                        <x-input id="credit_cash_out" type="number" name="credit" required />
-                                    </div>
-
-                                    <x-button>{{ __('Save') }}</x-button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @include('pages.credit.include.cashOutModal')
 
             <div class="row row-cols-1 row-cols-sm-2 g-3">
                 <div class="col">
@@ -123,38 +99,9 @@
                 @section('page_title', 'Isi Ulang Kredit')
             </div>
 
-            <x-button class="d-flex ms-auto" data-bs-toggle="modal" data-bs-target="#modalForm">Top up</x-button>
+            <x-button class="d-flex ms-auto" data-bs-toggle="modal" data-bs-target="#topUpForm">Top up</x-button>
 
-            <div class="modal fade" id="modalForm" tabindex="-1" aria-hidden="true" data-bs-backdrop='static'>
-                <div class="modal-dialog modal-xl">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h3 id="modalFormTitle">Isi Ulang Kredit</h3>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body" id="modalFormContent">
-                            <form method="POST" action="/credits/top-up" enctype="multipart/form-data">
-                                @csrf
-
-                                <div class="d-grid gap-3">
-                                    <div>
-                                        <x-label for="credit" value="{{ __('Nominal') }}" />
-                                        <x-input id="credit" type="number" name="credit" required />
-                                    </div>
-                                    <div>
-                                        <x-label for="transaction_proof" value="{{ __('Foto Bukti Top Up') }}" />
-                                        <input type="file" class="form-control" id="transaction_proof"
-                                            name="transaction_proof" required>
-                                    </div>
-
-                                    <x-button>{{ __('Save') }}</x-button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @include('pages.credit.include.topUpModal')
 
             <div class="row row-cols-1 row-cols-sm-2 g-3">
                 <div class="col">
