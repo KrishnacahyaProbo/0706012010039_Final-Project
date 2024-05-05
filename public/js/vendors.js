@@ -4,7 +4,6 @@ var perPage = 12;
 
 document.addEventListener("DOMContentLoaded", function () {
     getCurrentLocation();
-    setVendorToMenu();
 });
 
 function searchVendor() {
@@ -21,6 +20,8 @@ function setVendorToMenu() {
             'page': currentPage,
             'perPage': perPage,
             'search': $("#searchInput").val(),
+            'latitude': userLat,
+            'longitude': userLng
         },
         dataType: 'json',
         success: function (response) {
@@ -145,6 +146,7 @@ function getCurrentLocation() {
                 userLng = position.coords.longitude;
                 console.log("User's latitude:", userLat);
                 console.log("User's longitude:", userLng);
+                setVendorToMenu();
             },
             function (error) {
                 switch (error.code) {

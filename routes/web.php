@@ -22,7 +22,7 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::prefix('menus')->name('menu.')->namespace('App\Http\Controllers')->group(function () {
+    Route::middleware('vendor')->prefix('menus')->name('menu.')->namespace('App\Http\Controllers')->group(function () {
         Route::get('/', 'MenuController@index')->name('index');
         Route::get('/data', 'MenuController@data')->name('data');
         Route::post('/store', 'MenuController@store')->name('store');
@@ -31,7 +31,7 @@ Route::middleware([
         Route::get('/schedule', 'MenuController@schedule')->name('schedule');
     });
 
-    Route::prefix('schedules')->name('schedule.')->namespace('App\Http\Controllers')->group(function () {
+    Route::middleware('vendor')->prefix('schedules')->name('schedule.')->namespace('App\Http\Controllers')->group(function () {
         Route::get('/{vendor_name}', 'ScheduleController@show')->name('vendor');
         Route::post('/store', 'ScheduleController@store')->name('store');
         Route::post('/update', 'ScheduleController@update')->name('update');
@@ -44,7 +44,7 @@ Route::middleware([
         Route::get('/{vendorName}', 'VendorController@detailVendor')->name('detailVendor');
     });
 
-    Route::prefix('carts')->name('cart.')->namespace('App\Http\Controllers')->group(function () {
+    Route::middleware('customer')->prefix('carts')->name('cart.')->namespace('App\Http\Controllers')->group(function () {
         Route::get('/', 'CartController@index')->name('index');
         Route::get('/data', 'CartController@data')->name('data');
         Route::post('/store', 'CartController@store')->name('store');
@@ -77,11 +77,9 @@ Route::middleware([
         Route::post('/order', 'UserSettingController@order')->name('order');
         Route::post('/about', 'UserSettingController@about')->name('about');
     });
-
     Route::prefix('delivery')->name('delivery.')->namespace('App\Http\Controllers')->group(function () {
         Route::post('/settings', 'DeliveryController@deliverySetting')->name('delivery.settings');
     });
-
     Route::prefix('balance')->name('balance.')->namespace('App\Http\Controllers')->group(function () {
         Route::post('/settings', 'BalanceSettingController@settings')->name('balance.settings');
     });

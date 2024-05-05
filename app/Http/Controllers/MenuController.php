@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Schedule;
 use App\Models\MenuDetail;
 use App\Models\MenuSchedule;
+use App\Models\UserSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -61,6 +62,16 @@ class MenuController extends Controller
                 ->first();
 
             if ($dataMenu) {
+                $vendorRule = UserSetting::where('vendor_id', $request->id)->first();
+                $date = strtotime(date("Y-m-d", strtotime("-".$vendorRule->confirmation_days."day", strtotime($dataMenu->schedule))));
+
+                // Jika pada hari-H telah melewati batas waktu (confirmation_days) berdasarkan aturan vendor, maka tidak bisa melakukan pemesanan
+                if (strtotime(now()) <= $date) {
+                    $dataMenu->rule = 1;
+                } else {
+                    $dataMenu->rule = 0;
+                }
+
                 return response()->json([
                     'success' => true,
                     'message' => 'Schedule data found',

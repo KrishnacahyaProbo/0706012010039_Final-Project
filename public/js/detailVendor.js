@@ -99,6 +99,13 @@ function initialize() {
                 },
                 success: function (response) {
                     menuDate = response.data_menu.schedule;
+
+                    if (response.data_menu.rule == 0) {
+                        alert('Maaf, vendor tidak menerima pesanan pada tanggal tersebut.');
+                        return;
+                    }
+
+                    console.log(response.data_menu.rule);
                     var container = document.getElementById("menuCart");
                     container.innerHTML = "";
                     response.data_menu.menus.forEach(function (menu) {
@@ -241,38 +248,11 @@ function initialize() {
                                     var formattedPrice = formatRupiah(originalPrice);
                                     h5.textContent = "Rp" + formattedPrice + "/pcs";
                                 } else {
-                                    // Jika tombol belum dipilih dan ada porsi yang dipilih sebelumnya
-                                    Swal.fire({
-                                        allowOutsideClick: false,
-                                        confirmButtonText: `Tambah Porsi Baru`,
-                                        icon: "question",
-                                        text: "Anda telah memilih porsi pada menu ini. Apakah Anda ingin menambahkan ke keranjang belanja terlebih dahulu sebelum memilih porsi yang lainnya?",
-                                        showCancelButton: true,
-                                        showCloseButton: true,
-                                    }).then((result) => {
-                                        if (result.isConfirmed) {
-                                            var currentQuantity = parseInt(spanQuantity.textContent);
-                                            console.log(currentQuantity);
-                                            if (currentQuantity !== 0) {
-                                                var menuId = menu.id;
-                                                var selectedPorsiText = option;
-                                                console.log(
-                                                    menuId,
-                                                    previousSelectedOption,
-                                                    "menuId, selectedPorsiText"
-                                                );
-                                                addToCart(menuId, currentQuantity, button, selectedPorsiText);
-                                            } else if (currentQuantity == 0) {
-                                                // Tampilkan peringatan jika kuantitas belum dipilih
-                                                Swal.fire({
-                                                    allowOutsideClick: false,
-                                                    icon: "warning",
-                                                    showCloseButton: true,
-                                                    text: "Pilih kuantitas terlebih dahulu.",
-                                                });
-                                            }
-                                        }
-                                    });
+                                    button.classList.add("font-weight-bold");
+                                    button.style.backgroundColor = "#842029";
+                                    button.style.color = "white";
+                                    selectedOption = option;
+                                    previousSelectedOption = option;
                                 }
                             });
 
@@ -396,8 +376,9 @@ function initialize() {
                                     text: "Pilih kuantitas terlebih dahulu.",
                                 });
                             } else {
-                                toastr.success("Berhasil menambah item di Keranjang Belanja.");
                             }
+
+                            addToCart(menu.id, currentQuantity, addToCartButton, selectedPorsi.textContent);
                         });
                     });
                 },

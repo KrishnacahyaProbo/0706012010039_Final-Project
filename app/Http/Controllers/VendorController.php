@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\User;
+use App\Models\Delivery;
 use App\Models\Testimony;
+use App\Models\UserSetting;
 use Illuminate\Http\Request;
 
 class VendorController extends Controller
@@ -20,9 +22,28 @@ class VendorController extends Controller
             // Get pagination parameters from the request
             $page = $request->input('page');
             $perPage = $request->input('perPage');
+            $latitude = $request->input('latitude');
+            $longitude = $request->input('longitude');
 
             // Eager load delivery and user setting relationships
             $vendorQuery = User::role('vendor')->with('Delivery', 'UserSetting');
+
+            $allVendor = User::role('vendor')->get();
+            // Nearby vendor (keseluruhan vendor yang menjangkau jarak pengiriman terhadap customer)
+            $listVendor = [];
+
+            foreach ($allVendor as $vendor) {
+                $user_setting = UserSetting::where('vendor_id', $vendor->id)->first();
+                $delivery = Delivery::where('vendor_id', $vendor->id)->first();
+                $vendorLat = $user_setting ? $user_setting->latitude : $vendor->latitude;
+                $vendorLng = $user_setting ? $user_setting->longitude : $vendor->longitude;
+
+                // Perhitungan jarak antara customer dan vendor
+                $jarak = $this->calculateDistance($latitude, $longitude, $vendorLat, $vendorLng);
+                if ($jarak <= ($delivery ? $delivery->distance_between : 10)) {
+                    array_push($listVendor, $vendor->id);
+                }
+            }
 
             if ($request->has('search') && $request->search !== null) {
                 $searchTerm = $request->search;
@@ -31,6 +52,7 @@ class VendorController extends Controller
                 });
             }
 
+            $vendorQuery = $vendorQuery->whereIn('id', $listVendor);
             // Get the total count of vendors
             $vendorCount = $vendorQuery->count();
 
@@ -90,5 +112,31 @@ class VendorController extends Controller
                 'error' => $e->getMessage(),
             ], 500);
         }
+    }
+
+    public function calculateDistance($userLat, $userLng, $vendorLat, $vendorLng)
+    {
+        try {
+            $earthRadiusKm = 6371; // Earth radius in kilometers
+            $userLatRadians = $this->toRadians($userLat);
+            $vendorLatRadians = $this->toRadians($vendorLat);
+            $latDiff = $this->toRadians($vendorLat - $userLat);
+            $lngDiff = $this->toRadians($vendorLng - $userLng);
+
+            $a = sin($latDiff / 2) * sin($latDiff / 2) +
+                cos($userLatRadians) * cos($vendorLatRadians) *
+                sin($lngDiff / 2) * sin($lngDiff / 2);
+            $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+
+            $distance = $earthRadiusKm * $c; // Distance in kilometers
+            return $distance = number_format($distance, 2);
+        } catch (\Throwable $th) {
+            dd($th, $userLat, $userLng, $vendorLat, $vendorLng);
+        }
+    }
+
+    public function toRadians($degrees)
+    {
+        return $degrees * (pi() / 180);
     }
 }

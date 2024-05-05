@@ -55,7 +55,11 @@ class UserSettingController extends Controller
     {
         try {
             // Retrieve the user setting record or create a new one if it doesn't exist
-            $user_setting = UserSetting::firstOrNew(['vendor_id' => Auth::user()->id]);
+
+            $user_setting = UserSetting::where('vendor_id', Auth::user()->id)->first();
+            if (!$user_setting) {
+                $user_setting = new UserSetting();
+            }
 
             // Update the attributes
             $user_setting->vendor_id = Auth::user()->id;
