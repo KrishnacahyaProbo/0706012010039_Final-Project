@@ -46,7 +46,9 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <small class="text-secondary">{{ $item->created_at ?? '-' }}</small>
+                    <small
+                        class="text-secondary">{{ $item->created_at ? date('l, j F Y H:i:s', strtotime($item->created_at)) : '-' }}
+                    </small>
                 </div>
             </div>
         @endforeach

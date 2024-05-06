@@ -77,21 +77,6 @@
                         </tr>
                     </thead>
                     <tbody id="vendor_category_value"></tbody>
-                    {{-- <tbody>
-                        @if ($balance_history->isEmpty())
-                            <tr>
-                                <td colspan="3">Belum ada riwayat.</td>
-                            </tr>
-                        @else
-                            @foreach ($balance_history as $item)
-                                <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>Rp{{ number_format($item->credit, 0, ',', '.') }}</td>
-                                    <td>{{ $item->created_at }}</td>
-                                </tr>
-                            @endforeach
-                        @endif
-                    </tbody> --}}
                 </table>
             </div>
         @else
@@ -138,6 +123,8 @@
                     <option selected value="all_category">Semua</option>
                     <option value="customer_income">Top up</option>
                     <option value="customer_outcome">Pembelian</option>
+                    <option value="customer_transaction_refund">Pengembalian dana</option>
+                    <option value="customer_transaction_canceled">Pembatalan pembelian</option>
                 </select>
             </div>
 

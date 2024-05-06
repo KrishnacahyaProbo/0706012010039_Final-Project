@@ -211,7 +211,12 @@
                 let total_payment = total + shipping_costs;
 
                 if (credit == 0 || credit < total_payment) {
-                    alert('Maaf, kredit tidak mencukupi untuk pembelian.');
+                    Swal.fire({
+                        allowOutsideClick: false,
+                        icon: "warning",
+                        showCloseButton: true,
+                        text: "Maaf, kredit tidak mencukupi untuk pembelian.",
+                    });
                 }
             }
         </script>

@@ -13,6 +13,19 @@
         </div>
     @endif
 
+    @if (Auth::check())
+        @if (Auth::user()->hasRole('vendor'))
+            @if ($authDeliver === null)
+                @include('pages.users.include.alertSetting')
+            @endif
+
+        @endif
+        @if (Auth::user()->hasRole('customer'))
+            @if ($balanceCustomer === null)
+                @include('pages.users.include.alertSetting')
+            @endif
+        @endif
+    @endif
     <div class="d-grid gap-5">
         @php
             $highlights = [
@@ -117,4 +130,24 @@
             </figure>
         </div>
     </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if ({{ $authDeliver === null }}) {
+                $('#modalSetting').modal('show');
+                $('#backgroundModal').show();
+            } else {
+                $('#modalSetting').modal('hide');
+                $('#backgroundModal').hide();
+            }
+            $('#modalSetting').on('hidden.bs.modal', function() {
+                history.replaceState(null, null, window.location.pathname);
+            });
+        });
+
+        function closeModal() {
+            window.location.href = "/settings";
+        }
+    </script>
 </x-guest-layout>

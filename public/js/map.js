@@ -134,7 +134,7 @@ function getLocation(valueAddress) {
                     // Set initial view
                     map.setView([data[0].lat, data[0].lon], 13);
                 } else {
-                    alert("Address not found");
+                    alert("Alamat tidak ditemukan.");
                 }
             })
             .catch(error => {
@@ -261,7 +261,7 @@ function searchAddress() {
                 // Update search input field with selected address
                 document.getElementById("searchInput").value = formattedAddress;
             } else {
-                alert("Address not found");
+                alert("Alamat tidak ditemukan.");
             }
         }
     );

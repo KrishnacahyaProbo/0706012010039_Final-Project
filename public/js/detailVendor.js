@@ -84,7 +84,7 @@ function initialize() {
                     icon: "warning",
                     showConfirmButton: false,
                     showCloseButton: true,
-                    text: "Tanggal yang dipilih telah melewati ketentuan.",
+                    text: "Tidak dapat memilih tanggal yang telah lampau.",
                 });
                 return;
             }
@@ -101,11 +101,15 @@ function initialize() {
                     menuDate = response.data_menu.schedule;
 
                     if (response.data_menu.rule == 0) {
-                        alert('Maaf, vendor tidak menerima pesanan pada tanggal tersebut.');
+                        Swal.fire({
+                            allowOutsideClick: false,
+                            icon: "warning",
+                            showCloseButton: true,
+                            text: "Maaf, tanggal yang dipilih telah melewati ketentuan pemesanan.",
+                        });
                         return;
                     }
 
-                    console.log(response.data_menu.rule);
                     var container = document.getElementById("menuCart");
                     container.innerHTML = "";
                     response.data_menu.menus.forEach(function (menu) {

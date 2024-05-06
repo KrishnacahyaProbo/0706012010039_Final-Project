@@ -30,7 +30,7 @@ function fetchDataOrderVendorItem() {
         vendor_packing: 'Dikemas',
         vendor_delivering: 'Dikirim',
         customer_received: 'Diterima',
-        customer_problem: 'Komplain'
+        customer_complain: 'Komplain'
     };
 
     const vendorStatusText = vendorStatusMapping[$('#vendor_status').val()];
@@ -179,16 +179,16 @@ function fetchDataOrderVendorItem() {
                             let buttons = '';
 
                             if (row.status === 'customer_paid') {
-                                buttons += `<button class="btn btn-info" data-id="${row.detail_id}" title="Detail Order" onclick="detailOrder('${row.detail_id}', '${row.menu_name}', '${row.portion}', '${row.quantity}', '${row.name}', '${row.address}', '${row.note}')"><i class="bi bi-info-circle"></i></button>`;
+                                buttons += `<button class="btn btn-info" data-id="${row.detail_id}" title="Detail Order" onclick="detailOrderVendor('${row.detail_id}', '${row.menu_name}', '${row.portion}', '${row.quantity}', '${row.name}', '${row.address}', '${row.note}')"><i class="bi bi-info-circle"></i></button>`;
                                 buttons += `<button class="btn btn-success incoming_order_customer_paid" data-id="${row.detail_id}" title="Process Order"><i class="bi bi-check-circle"></i></button>`;
                             } else if (row.status === 'vendor_packing') {
-                                buttons += `<button class="btn btn-info" data-id="${row.detail_id}" title="Detail Order" onclick="detailOrder('${row.detail_id}', '${row.menu_name}', '${row.portion}', '${row.quantity}', '${row.name}', '${row.address}', '${row.note}')"><i class="bi bi-info-circle"></i></button>`;
+                                buttons += `<button class="btn btn-info" data-id="${row.detail_id}" title="Detail Order" onclick="detailOrderVendor('${row.detail_id}', '${row.menu_name}', '${row.portion}', '${row.quantity}', '${row.name}', '${row.address}', '${row.note}')"><i class="bi bi-info-circle"></i></button>`;
                                 buttons += `<button class="btn btn-success incoming_order_vendor_packing" data-id="${row.detail_id}" title="Deliver Order"><i class="bi bi-truck"></i></button>`;
-                            } else if (row.status === 'customer_received' && row.testimony === 1) {
-                                buttons += `<button class="btn btn-info" data-id="${row.detail_id}" title="Detail Order" onclick="detailOrder('${row.detail_id}', '${row.menu_name}', '${row.portion}', '${row.quantity}', '${row.name}', '${row.address}', '${row.note}')"><i class="bi bi-info-circle"></i></button>`;
-                                buttons += `<button class="btn btn-success incoming_order_vendor_packing" data-id="${row.detail_id}" title="Deliver Order"><i class="bi bi-truck"></i></button>`;
+                            } else if (row.status === 'customer_received') {
+                                buttons += `<button class="btn btn-info" data-id="${row.detail_id}" title="Detail Order" onclick="detailOrderVendor('${row.detail_id}', '${row.menu_name}', '${row.portion}', '${row.quantity}', '${row.name}', '${row.address}', '${row.note}')"><i class="bi bi-info-circle"></i></button>`;
+                                buttons += `<button class="btn btn-success incoming_order_view_testimony" title="View Testimony" onclick="viewTestimony()"><i class="bi bi-eye"></i></button>`;
                             } else if (row.status === 'customer_canceled') {
-                                buttons += `<button class="btn btn-info" data-id="${row.detail_id}" title="Detail Order" onclick="detailOrder('${row.detail_id}', '${row.menu_name}', '${row.portion}', '${row.quantity}', '${row.name}', '${row.address}', '${row.note}')"><i class="bi bi-info-circle"></i></button>`;
+                                buttons += `<button class="btn btn-info" data-id="${row.detail_id}" title="Detail Order" onclick="detailOrderVendor('${row.detail_id}', '${row.menu_name}', '${row.portion}', '${row.quantity}', '${row.name}', '${row.address}', '${row.note}')"><i class="bi bi-info-circle"></i></button>`;
                             } else {
                                 return '-';
                             }
@@ -214,6 +214,17 @@ $(document).on("click", '.incoming_order_vendor_packing', function () {
 $(document).on("change", '#vendor_status, #schedule_date', function () {
     fetchDataOrderVendorItem();
 })
+
+function detailOrderVendor(id, menu_name, portion, quantity, name, address, note) {
+    $('#detailOrderVendor').modal('show');
+
+    document.getElementById('menu_name').innerHTML = menu_name;
+    document.getElementById('portion').innerHTML = portion;
+    document.getElementById('quantity').innerHTML = quantity + ' pcs';
+    document.getElementById('name').innerHTML = name;
+    document.getElementById('address').innerHTML = address;
+    document.getElementById('note').innerHTML = note;
+}
 
 function processOrder(id) {
     var confirmation = window.confirm("Yakin ingin memproses pesanan?");
@@ -257,6 +268,12 @@ function deliverOrder(id) {
     }
 }
 
+function viewTestimony(id) {
+    $('#viewTestimonyModal').modal('show');
+
+
+}
+
 // * Customer
 function fetchDataOrderCustomerItem() {
     // Mengolah status transaksi pada judul file saat export (mengunduh laporan)
@@ -266,7 +283,7 @@ function fetchDataOrderCustomerItem() {
         vendor_packing: "Dikemas",
         vendor_delivering: "Dikirim",
         customer_received: "Diterima",
-        customer_problem: "Komplain"
+        customer_complain: "Komplain"
     };
 
     const customerStatusText = customerStatusMapping[$('#customer_status').val()];
@@ -397,21 +414,21 @@ function fetchDataOrderCustomerItem() {
                             let buttons = '';
 
                             if (row.status === 'customer_paid') {
-                                buttons += `<button class="btn btn-info" data-id="${row.detail_id}" title="Detail Order" onclick="detailOrder('${row.detail_id}', '${row.schedule_date}', '${row.menu_name}', '${row.portion}', '${row.price}', '${row.quantity}', '${row.total_price}', '${row.note}')"><i class="bi bi-info-circle"></i></button>`;
+                                buttons += `<button class="btn btn-info" data-id="${row.detail_id}" title="Detail Order" onclick="detailOrderCustomer('${row.detail_id}', '${row.schedule_date}', '${row.menu_name}', '${row.portion}', '${row.price}', '${row.quantity}', '${row.total_price}', '${row.note}')"><i class="bi bi-info-circle"></i></button>`;
                                 if (row.rule === 1) {
-                                    buttons += `<button class="btn btn-outline-danger request_order_customer_unpaid" data-id="${row.detail_id}" title="Cancel Order"><i class="bi bi-x-circle"></i></button>`;
+                                    buttons += `<button class="btn btn-outline-danger request_order_customer_paid" data-id="${row.detail_id}" title="Cancel Order"><i class="bi bi-x-circle"></i></button>`;
                                 }
                             } else if (row.status === 'customer_canceled' || row.status === 'vendor_packing') {
-                                buttons += `<button class="btn btn-info" data-id="${row.detail_id}" title="Detail Order" onclick="detailOrder('${row.detail_id}', '${row.schedule_date}', '${row.menu_name}', '${row.portion}', '${row.price}', '${row.quantity}', '${row.total_price}', '${row.note}')"><i class="bi bi-info-circle"></i></button>`;
+                                buttons += `<button class="btn btn-info" data-id="${row.detail_id}" title="Detail Order" onclick="detailOrderCustomer('${row.detail_id}', '${row.schedule_date}', '${row.menu_name}', '${row.portion}', '${row.price}', '${row.quantity}', '${row.total_price}', '${row.note}')"><i class="bi bi-info-circle"></i></button>`;
                             } else if (row.status === 'vendor_delivering') {
-                                buttons += `<button class="btn btn-info" data-id="${row.detail_id}" title="Detail Order" onclick="detailOrder('${row.detail_id}', '${row.schedule_date}', '${row.menu_name}', '${row.portion}', '${row.price}', '${row.quantity}', '${row.total_price}', '${row.note}')"><i class="bi bi-info-circle"></i></button>`;
+                                buttons += `<button class="btn btn-info" data-id="${row.detail_id}" title="Detail Order" onclick="detailOrderCustomer('${row.detail_id}', '${row.schedule_date}', '${row.menu_name}', '${row.portion}', '${row.price}', '${row.quantity}', '${row.total_price}', '${row.note}')"><i class="bi bi-info-circle"></i></button>`;
                                 buttons += `<button class="btn btn-success request_order_customer_received" data-id="${row.detail_id}" title="Receive Order"><i class="bi bi-check-circle"></i></button>`;
                             } else if (row.status === 'customer_received' && row.testimony === 0) {
-                                buttons += `<button class="btn btn-info" data-id="${row.detail_id}" title="Detail Order" onclick="detailOrder('${row.detail_id}', '${row.schedule_date}', '${row.menu_name}', '${row.portion}', '${row.price}', '${row.quantity}', '${row.total_price}', '${row.note}')"><i class="bi bi-info-circle"></i></button>`;
+                                buttons += `<button class="btn btn-info" data-id="${row.detail_id}" title="Detail Order" onclick="detailOrderCustomer('${row.detail_id}', '${row.schedule_date}', '${row.menu_name}', '${row.portion}', '${row.price}', '${row.quantity}', '${row.total_price}', '${row.note}')"><i class="bi bi-info-circle"></i></button>`;
                                 buttons += `<button class="btn btn-success request_order_add_testimony" data-id="${row.detail_id}" vendor-id="${row.vendor_id}" title="Add Testimony"><i class="bi bi-chat-left-text"></i></button>`;
-                            } else if (row.status === 'customer_problem') {
-                                buttons += `<button class="btn btn-info" data-id="${row.detail_id}" title="Detail Order" onclick="detailOrder('${row.detail_id}', '${row.schedule_date}', '${row.menu_name}', '${row.portion}', '${row.price}', '${row.quantity}', '${row.total_price}', '${row.note}')"><i class="bi bi-info-circle"></i></button>`;
-                                buttons += `<button class="btn btn-danger request_order_customer_problem" data-id="${row.detail_id}" title="Order Problem"><i class="bi bi-exclamation-circle"></i></button>`;
+                            } else if (row.status === 'customer_complain') {
+                                buttons += `<button class="btn btn-info" data-id="${row.detail_id}" title="Detail Order" onclick="detailOrderCustomer('${row.detail_id}', '${row.schedule_date}', '${row.menu_name}', '${row.portion}', '${row.price}', '${row.quantity}', '${row.total_price}', '${row.note}')"><i class="bi bi-info-circle"></i></button>`;
+                                buttons += `<button class="btn btn-danger request_order_customer_complain" data-id="${row.detail_id}" title="Order Problem"><i class="bi bi-exclamation-circle"></i></button>`;
                             } else {
                                 return '-';
                             }
@@ -444,8 +461,8 @@ $(document).on("change", '#customer_status', function () {
     fetchDataOrderCustomerItem();
 })
 
-function detailOrder(id, schedule_date, menu_name, portion, price, quantity, total_price, note) {
-    $('#detailOrder').modal('show');
+function detailOrderCustomer(id, schedule_date, menu_name, portion, price, quantity, total_price, note) {
+    $('#detailOrderCustomer').modal('show');
 
     document.getElementById('schedule_date').innerHTML = moment(schedule_date).format('dddd, D MMMM YYYY');
     document.getElementById('menu_name').innerHTML = menu_name;
@@ -453,7 +470,7 @@ function detailOrder(id, schedule_date, menu_name, portion, price, quantity, tot
     document.getElementById('price').innerHTML = 'Rp' + formatRupiah(price);
     document.getElementById('quantity').innerHTML = quantity + ' pcs';
     document.getElementById('total_price').innerHTML = 'Rp' + formatRupiah(total_price);
-    document.getElementById('note').innerHTML = note;
+    document.getElementById('note').innerHTML = note !== null ? note : '';
 }
 
 function cancelOrder(id) {

@@ -28,15 +28,18 @@ class OrderController extends Controller
     {
         // Ambil data order untuk customer
         $transaction = Transaction::where('customer_id', Auth::user()->id)
-            ->join('transactions_detail', 'transactions.id', '=', 'transactions_detail.transaction_id')
-            ->join('menu', 'transactions_detail.menu_id', '=', 'menu.id')
-            ->join('users', 'transactions_detail.vendor_id', '=', 'users.id')
-            ->where('transactions_detail.status', '=', $request->status)
-            ->select('transactions.*', 'menu.*', 'users.name', 'transactions_detail.*', 'transactions_detail.id as detail_id', 'users.id as vendor_id')
+            // ->join('transactions_detail', 'transactions.id', '=', 'transactions_detail.transaction_id')
+            // ->join('menu', 'transactions_detail.menu_id', '=', 'menu.id')
+            // ->join('users', 'transactions_detail.vendor_id', '=', 'users.id')
+            // ->where('transactions_detail.status', '=', $request->status)
+            // ->select('transactions.*', 'menu.*', 'users.name', 'transactions_detail.*', 'transactions_detail.id as detail_id', 'users.id as vendor_id')
+            // ->get();
+            ->with(['transactionDetail', 'customer'])
             ->get();
+            dd($transaction);
 
-        // Hanya bisa 1x testimoni per order
         foreach ($transaction as $key => $value) {
+            // Hanya bisa 1x testimoni per order
             $value->testimony = Testimony::where('transactions_detail_id', $value->detail_id)->count();
             $vendorRule = UserSetting::where('vendor_id', $value->vendor_id)->first();
 
@@ -84,7 +87,7 @@ class OrderController extends Controller
 
         $ship = BalanceNominal::where('user_id', $transaction->vendor_id)->first();
 
-        $isiUlang = ['user_id' => Auth::user()->id, 'credit' => $transaction->total_price + $ship->shipping_costs, 'category' => 'customer_income'];
+        $isiUlang = ['user_id' => Auth::user()->id, 'credit' => $transaction->total_price + $ship->shipping_costs, 'category' => 'customer_transaction_canceled'];
         BalanceHistory::create($isiUlang);
 
         return response()->json([

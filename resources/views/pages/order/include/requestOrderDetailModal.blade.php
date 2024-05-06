@@ -1,11 +1,11 @@
-<div class="modal fade" id="detailOrder" tabindex="-1" aria-hidden="true" data-bs-backdrop='static'>
+<div class="modal fade" id="detailOrderCustomer" tabindex="-1" aria-hidden="true" data-bs-backdrop='static'>
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="detailOrderTitle">Detail Order</h3>
+                <h3 id="detailOrderCustomerTitle">Detail Order</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body" id="detailOrderContent">
+            <div class="modal-body" id="detailOrderCustomerContent">
                 <div class="d-grid gap-3">
                     <span>
                         <span
@@ -13,9 +13,6 @@
                             id="schedule_date"></span>
                     </span>
                     <div class="d-grid d-md-flex gap-3">
-                        <div>
-                            <img id="image" class="rounded-1" width="196" />
-                        </div>
                         <div class="d-grid gap-3">
                             <h4 id="menu_name"></h4>
                             <div class="d-flex gap-2">

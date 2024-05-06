@@ -1,16 +1,21 @@
-<div class="modal fade" id="katalogForm" tabindex="-1" aria-hidden="true" data-bs-backdrop='static'>
+<div class="modal fade" id="katalog" tabindex="-1" aria-hidden="true" data-bs-backdrop='static'>
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="katalogFormTitle">Katalog {{ $vendor->name }}</h3>
+                <h3 id="katalogTitle">Katalog {{ $vendor->name }}</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body" id="katalogFormContent">
+            <div class="modal-body" id="katalogContent">
+                <div class="alert alert-info" role="alert">
+                    Pemesanan dan Pembatalan H-{{ $vendor->UserSetting->confirmation_days }}.
+                </div>
+
                 <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
                     @foreach ($vendor->menu as $item)
                         <div class="col">
                             <div class="card h-100">
-                                <img src="{{ $item->image }}" alt="" class="card-img-top" loading="lazy">
+                                <img src="{{ Str::startsWith($item->image, 'http') ? $item->image : asset('menu/' . $item->image) }}"
+                                    alt="" class="card-img-top" loading="lazy">
 
                                 <div class="card-body">
                                     <div class="d-grid gap-2">

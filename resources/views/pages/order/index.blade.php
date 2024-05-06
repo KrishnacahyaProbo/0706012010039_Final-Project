@@ -29,7 +29,7 @@
                         <option value="vendor_packing">Dikemas</option>
                         <option value="vendor_delivering">Dikirim</option>
                         <option value="customer_received">Diterima</option>
-                        <option value="customer_problem">Komplain</option>
+                        <option value="customer_complain">Komplain</option>
                     </select>
                 </div>
             </div>
@@ -49,32 +49,12 @@
                         </tr>
                     </thead>
                     <tbody></tbody>
-                    {{-- <tbody>
-                        <tr>
-                            <td>Pelanggan</td>
-                            <td>Nama Menu</td>
-                            <td>Ukuran Porsi</td>
-                            <td>Harga</td>
-                            <td>Alamat</td>
-                            <td>
-                                <div class="d-flex gap-2">
-                                    <button class="btn btn-success" title="Process Order"
-                                        onclick="alert('Yakin ingin memproses pesanan?')">
-                                        <i class="bi bi-check-circle"></i>
-                                    </button>
-                                    <button class="btn btn-outline-danger" title="Reject Order"
-                                        onclick="alert('Yakin ingin menolak pesanan?')">
-                                        <i class="bi bi-x-circle"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody> --}}
                 </table>
             </div>
         </div>
 
         @include('pages.order.include.incomingOrderDetailModal')
+        @include('pages.order.include.viewTestimonyModal')
     @else
         <div class="d-grid gap-3">
             <div>
@@ -88,7 +68,7 @@
                     <option value="vendor_packing">Dikemas</option>
                     <option value="vendor_delivering">Dikirim</option>
                     <option value="customer_received">Diterima</option>
-                    <option value="customer_problem">Komplain</option>
+                    <option value="customer_complain">Komplain</option>
                 </select>
             </div>
 

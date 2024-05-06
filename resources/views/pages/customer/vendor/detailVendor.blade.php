@@ -26,20 +26,20 @@
                         <h3 class="card-title">{{ $vendor->name }}</h3>
 
                         <div class="d-grid text-secondary gap-1">
-                            <a href="/testimonies/{{ $vendor->id }}">
-                                <div class="d-flex gap-2">
-                                    <i class="bi bi-star"></i>
+                            <div>
+                                <a href="/testimonies/{{ $vendor->id }}" class="d-inline-flex gap-2">
+                                    <i class="bi bi-star" title="Testimoni"></i>
                                     <p class="card-text">{{ $vendor->rating ?? '-' }}/5,0</p>
-                                </div>
-                            </a>
+                                </a>
+                            </div>
 
                             <div class="d-flex gap-2">
-                                <i class="bi bi-geo-alt"></i>
+                                <i class="bi bi-geo-alt" title="Alamat - Jarak vendor terhadap Anda"></i>
                                 <p class="card-text" id="distance-info"></p>
                             </div>
 
                             <div class="d-flex gap-2">
-                                <i class="bi bi-truck"></i>
+                                <i class="bi bi-truck" title="Ongkos Kirim"></i>
                                 <p class="card-text">
                                     Rp{{ number_format($vendor->Delivery->shipping_cost ?? '0', 0, ',', '.') }}</p>
                             </div>
@@ -59,7 +59,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h1>Pilih Menu</h1>
                 <div>
-                    <x-button data-bs-toggle="modal" data-bs-target="#katalogForm">Katalog</x-button>
+                    <x-button data-bs-toggle="modal" data-bs-target="#katalog">Katalog</x-button>
 
                     @include('pages.customer.vendor.include.katalogModal')
                 </div>

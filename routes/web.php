@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\BalanceNominal;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,7 +17,21 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('pages.home');
+    $authDeliver = null;
+    $balanceCustomer = null;
+
+    if (Auth::check()) {
+        $auth = User::where('id', Auth::user()->id)->with('Delivery')->first();
+        $balanceCustomer = BalanceNominal::where('user_id', Auth::user()->id)->first();
+        $authDeliver = $auth->Delivery;
+    }
+
+    $data = [
+        'authDeliver' => $authDeliver,
+        'balanceCustomer' => $balanceCustomer,
+    ];
+
+    return view('pages.home', $data);
 })->name('home');
 
 Route::middleware([
@@ -22,7 +39,7 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::middleware('vendor')->prefix('menus')->name('menu.')->namespace('App\Http\Controllers')->group(function () {
+    Route::prefix('menus')->name('menu.')->namespace('App\Http\Controllers')->group(function () {
         Route::get('/', 'MenuController@index')->name('index');
         Route::get('/data', 'MenuController@data')->name('data');
         Route::post('/store', 'MenuController@store')->name('store');
@@ -31,7 +48,7 @@ Route::middleware([
         Route::get('/schedule', 'MenuController@schedule')->name('schedule');
     });
 
-    Route::middleware('vendor')->prefix('schedules')->name('schedule.')->namespace('App\Http\Controllers')->group(function () {
+    Route::prefix('schedules')->name('schedule.')->namespace('App\Http\Controllers')->group(function () {
         Route::get('/{vendor_name}', 'ScheduleController@show')->name('vendor');
         Route::post('/store', 'ScheduleController@store')->name('store');
         Route::post('/update', 'ScheduleController@update')->name('update');
