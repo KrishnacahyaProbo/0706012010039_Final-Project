@@ -45,6 +45,7 @@ class VendorController extends Controller
                 }
             }
 
+            // Search vendors by name
             if ($request->has('search') && $request->search !== null) {
                 $searchTerm = $request->search;
                 $vendorQuery->where(function ($query) use ($searchTerm) {
@@ -52,10 +53,13 @@ class VendorController extends Controller
                 });
             }
 
+            // Filter vendors by list of vendor IDs
             $vendorQuery = $vendorQuery->whereIn('id', $listVendor);
+
             // Get the total count of vendors
             $vendorCount = $vendorQuery->count();
 
+            // Paginate the vendors
             if ($vendorCount > 10) {
                 $vendor_data = $vendorQuery->paginate($perPage, ['*'], 'page', $page);
             } else {
@@ -66,6 +70,7 @@ class VendorController extends Controller
             foreach ($vendor_data as $vendor) {
                 $rating = Testimony::where('vendor_id', $vendor->id)->avg('rating');
 
+                // If vendor has no rating, set it to 0
                 if ($rating === null) {
                     $vendor->rating = 0;
                 } else {
@@ -98,6 +103,7 @@ class VendorController extends Controller
             $rating = Testimony::where('vendor_id', $vendor->id)->avg('rating');
             $vendor->rating = $rating;
 
+            // If vendor has no rating, set it to 0
             if ($rating === null) {
                 $vendor->rating = 0;
             } else {
@@ -137,6 +143,7 @@ class VendorController extends Controller
 
     public function toRadians($degrees)
     {
+        // Convert degrees to radians
         return $degrees * (pi() / 180);
     }
 }

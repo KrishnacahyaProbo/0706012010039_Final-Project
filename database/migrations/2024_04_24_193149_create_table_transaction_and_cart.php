@@ -11,11 +11,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reasons', function (Blueprint $table) {
-            $table->id();
-            $table->string('reason');
-        });
-
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('customer_id');
@@ -42,13 +37,13 @@ return new class extends Migration
             $table->bigInteger('price');
             $table->bigInteger('total_price');
             $table->enum('status', ['customer_unpaid', 'customer_paid', 'customer_canceled', 'vendor_packing', 'vendor_delivering', 'customer_received', 'customer_problem']);
-            $table->unsignedBigInteger('refund_reason')->nullable();
+            $table->text('refund_reason')->nullable();
+            $table->string('reason_proof')->nullable();
             $table->timestamps();
 
             $table->foreign('transaction_id')->references('id')->on('transactions');
             $table->foreign('vendor_id')->references('id')->on('users');
             $table->foreign('menu_id')->references('id')->on('menu');
-            $table->foreign('refund_reason')->references('id')->on('reasons');
         });
 
         Schema::create('carts', function (Blueprint $table) {

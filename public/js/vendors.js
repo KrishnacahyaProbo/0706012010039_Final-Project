@@ -151,22 +151,24 @@ function getCurrentLocation() {
             function (error) {
                 switch (error.code) {
                     case error.PERMISSION_DENIED:
-                        console.error("User denied the request for Geolocation.");
+                        console.error("Tidak dapat mendeteksi lokasi, mohon memberikan izin akses lokasi untuk mencari vendor di area sekitar Anda.");
+                        $('#permissionDenied').html('<div class="alert alert-warning" role="alert">Tidak dapat mendeteksi lokasi, mohon memberikan izin akses lokasi untuk mencari vendor di area sekitar Anda.</div>');
                         break;
                     case error.POSITION_UNAVAILABLE:
-                        console.error("Location information is unavailable.");
+                        console.error("Maaf, informasi lokasi tidak tersedia.");
                         break;
                     case error.TIMEOUT:
-                        console.error("The request to get user location timed out.");
+                        console.error("Permintaan untuk mendapatkan lokasi pengguna telah habis masa berlakunya.");
                         break;
                     case error.UNKNOWN_ERROR:
-                        console.error("An unknown error occurred.");
+                        console.error("Maaf, terjadi kesalahan. Mohon mencoba beberapa saat lagi.");
                         break;
                 }
             }
         );
     } else {
-        console.error("Geolocation is not supported by this browser.");
+        alert("Peramban tidak dapat memfasilitasi pengambilan geolokasi.");
+        console.error("Peramban tidak dapat memfasilitasi pengambilan geolokasi.");
     }
 }
 
@@ -188,5 +190,6 @@ function calculateDistance(userLat, userLng, vendorLat, vendorLng) {
 }
 
 function toRadians(degrees) {
+    // Converts degrees to radians
     return degrees * (Math.PI / 180);
 }

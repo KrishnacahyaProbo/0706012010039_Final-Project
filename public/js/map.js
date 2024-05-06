@@ -1,4 +1,7 @@
 function getLocation(valueAddress) {
+    document.getElementById("permissionDenied").innerHTML = "";
+    document.getElementById("map").style.display = "block";
+
     if (valueAddress == null) {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -40,8 +43,12 @@ function getLocation(valueAddress) {
 
                         // Update latitude and longitude input fields
                         document.getElementById("latitude").value = newLatitude;
-                        document.getElementById("longitude").value =
-                            newLongitude;
+                        document.getElementById("longitude").value = newLongitude;
+
+                        // Update popup content with new latitude and longitude
+                        marker.getPopup().setContent(
+                            "Latitude: " + newLatitude + "<br>Longitude: " + newLongitude
+                        );
 
                         // Get address for the new marker position
                         getAddress(newLatitude, newLongitude);
@@ -53,23 +60,25 @@ function getLocation(valueAddress) {
                 function (error) {
                     switch (error.code) {
                         case error.PERMISSION_DENIED:
-                            console.error("User denied the request for Geolocation.");
+                            console.error("Tidak dapat mendeteksi lokasi, mohon memberikan izin akses lokasi untuk pencarian posisi Anda saat ini.");
+                            $('#permissionDenied').html('<div class="alert alert-warning" role="alert">Tidak dapat mendeteksi lokasi, mohon memberikan izin akses lokasi untuk pencarian posisi Anda saat ini.</div>');
+                            document.getElementById("map").style.display = "none";
                             break;
                         case error.POSITION_UNAVAILABLE:
-                            console.error("Location information is unavailable.");
+                            console.error("Maaf, informasi lokasi tidak tersedia.");
                             break;
                         case error.TIMEOUT:
-                            console.error("The request to get user location timed out.");
+                            console.error("Permintaan untuk mendapatkan lokasi pengguna telah habis masa berlakunya.");
                             break;
                         case error.UNKNOWN_ERROR:
-                            console.error("An unknown error occurred.");
+                            console.error("Maaf, terjadi kesalahan. Mohon mencoba beberapa saat lagi.");
                             break;
                     }
                 }
             );
         } else {
-            console.log("Geolocation is not supported by this browser.");
-            alert("Geolocation is not supported by this browser.");
+            alert("Peramban tidak dapat memfasilitasi pengambilan geolokasi.");
+            console.log("Peramban tidak dapat memfasilitasi pengambilan geolokasi.");
         }
     } else {
         fetch("https://nominatim.openstreetmap.org/search?format=json&q=" + valueAddress)

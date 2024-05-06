@@ -41,7 +41,7 @@ Route::middleware([
     Route::prefix('vendors')->name('vendor.')->namespace('App\Http\Controllers')->group(function () {
         Route::get('/', 'VendorController@index')->name('index');
         Route::get('/data', 'VendorController@data')->name('data');
-        Route::get('/{vendorName}', 'VendorController@detailVendor')->name('detailVendor');
+        Route::get('/{vendorName}', 'VendorController@detailVendor')->name('detail-vendor');
     });
 
     Route::middleware('customer')->prefix('carts')->name('cart.')->namespace('App\Http\Controllers')->group(function () {
@@ -56,14 +56,14 @@ Route::middleware([
 
     Route::prefix('orders')->name('order.')->namespace('App\Http\Controllers')->group(function () {
         Route::get('/', 'OrderController@index')->name('index');
-        Route::get('/incomingOrder', 'OrderController@incomingOrder')->name('incomingOrder');
-        Route::post('/process-order', 'OrderController@processOrder')->name('processOrder');
-        Route::post('/deliver-order', 'OrderController@deliverOrder')->name('deliverOrder');
-        Route::get('/requestOrder', 'OrderController@requestOrder')->name('requestOrder');
-        Route::post('/store', 'OrderController@store')->name('store');
-        Route::get('/detail/{id}', 'OrderController@detailOrder');
-        Route::delete('/cancel-order', 'OrderController@cancelOrder')->name('cancelOrder');
-        Route::post('/receive-order', 'OrderController@receiveOrder')->name('receiveOrder');
+        Route::get('/detail/{id}', 'OrderController@detailOrder')->name('detail');
+        Route::get('/request-order', 'OrderController@requestOrder')->name('request-order');
+        Route::get('/incoming-order', 'OrderController@incomingOrder')->name('incoming-order');
+        Route::delete('/cancel-order', 'OrderController@cancelOrder')->name('cancel-order');
+        Route::post('/process-order', 'OrderController@processOrder')->name('process-order');
+        Route::post('/deliver-order', 'OrderController@deliverOrder')->name('deliver-order');
+        Route::post('/receive-order', 'OrderController@receiveOrder')->name('receive-order');
+        Route::post('/refund-reason', 'OrderController@refundReason')->name('refund-reason');
     });
 
     Route::prefix('testimonies')->name('testimony.')->namespace('App\Http\Controllers')->group(function () {
@@ -88,6 +88,6 @@ Route::middleware([
         Route::get('/', 'BalanceNominalController@index')->name('index');
         Route::post('/top-up', 'BalanceNominalController@topUp')->name('top-up');
         Route::post('/cash-out', 'BalanceNominalController@cashOut')->name('cash-out');
-        Route::get('/{category}', 'BalanceNominalController@balanceCategory');
+        Route::get('/{category}', 'BalanceNominalController@balanceCategory')->name('category');
     });
 });

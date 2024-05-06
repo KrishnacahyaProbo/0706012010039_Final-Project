@@ -23,6 +23,7 @@
 
     {{-- Library --}}
     <link rel="stylesheet" href="{{ asset('libraries/css/leaflet.css') }}">
+    <script src="{{ asset('libraries/js/jquery-3.7.1.min.js') }}"></script>
 </head>
 
 <body>

@@ -19,46 +19,9 @@ class OrderController extends Controller
         return view('pages.order.index');
     }
 
-    public function incomingOrder(Request $request)
+    public function detailOrder(string $id)
     {
-        // Ambil data order untuk vendor
-        $transaction = TransactionDetail::where('transactions_detail.vendor_id', Auth::user()->id)
-            ->join('transactions', 'transactions.id', '=', 'transactions_detail.transaction_id')
-            ->join('menu', 'transactions_detail.menu_id', '=', 'menu.id')
-            ->join('users', 'transactions.customer_id', '=', 'users.id')
-            ->where('transactions_detail.status', '=', $request->status);
-
-        if (isset($request->schedule_date)) $transaction->where('transactions_detail.schedule_date', $request->schedule_date);
-
-        $transaction = $transaction->select('transactions.*', 'menu.*', 'users.name', 'transactions_detail.*', 'transactions_detail.id as detail_id', 'users.id as customer_id')
-            ->get();
-
-        return DataTables::of($transaction)
-            ->make(true);
-    }
-
-    public function processOrder(Request $request)
-    {
-        // Ubah status item
-        $transaction = TransactionDetail::find($request->id);
-        $transaction->status = 'vendor_packing';
-        $transaction->save();
-
-        return response()->json([
-            'message' => 'Order has been packed'
-        ]);
-    }
-
-    public function deliverOrder(Request $request)
-    {
-        // Ubah status item
-        $transaction = TransactionDetail::find($request->id);
-        $transaction->status = 'vendor_delivering';
-        $transaction->save();
-
-        return response()->json([
-            'message' => 'Order has been delivered'
-        ]);
+        dd($id);
     }
 
     public function requestOrder(Request $request)
@@ -89,9 +52,22 @@ class OrderController extends Controller
             ->make(true);
     }
 
-    public function detailOrder(string $id)
+    public function incomingOrder(Request $request)
     {
-        dd($id);
+        // Ambil data order untuk vendor
+        $transaction = TransactionDetail::where('transactions_detail.vendor_id', Auth::user()->id)
+            ->join('transactions', 'transactions.id', '=', 'transactions_detail.transaction_id')
+            ->join('menu', 'transactions_detail.menu_id', '=', 'menu.id')
+            ->join('users', 'transactions.customer_id', '=', 'users.id')
+            ->where('transactions_detail.status', '=', $request->status);
+
+        if (isset($request->schedule_date)) $transaction->where('transactions_detail.schedule_date', $request->schedule_date);
+
+        $transaction = $transaction->select('transactions.*', 'menu.*', 'users.name', 'transactions_detail.*', 'transactions_detail.id as detail_id', 'users.id as customer_id')
+            ->get();
+
+        return DataTables::of($transaction)
+            ->make(true);
     }
 
     public function cancelOrder(Request $request)
@@ -116,6 +92,30 @@ class OrderController extends Controller
         ]);
     }
 
+    public function processOrder(Request $request)
+    {
+        // Ubah status item
+        $transaction = TransactionDetail::find($request->id);
+        $transaction->status = 'vendor_packing';
+        $transaction->save();
+
+        return response()->json([
+            'message' => 'Order has been packed'
+        ]);
+    }
+
+    public function deliverOrder(Request $request)
+    {
+        // Ubah status item
+        $transaction = TransactionDetail::find($request->id);
+        $transaction->status = 'vendor_delivering';
+        $transaction->save();
+
+        return response()->json([
+            'message' => 'Order has been delivered'
+        ]);
+    }
+
     public function receiveOrder(Request $request)
     {
         // Ubah status item
@@ -137,5 +137,39 @@ class OrderController extends Controller
         return response()->json([
             'message' => 'Order has been received'
         ]);
+    }
+
+    public function refundReason(Request $request)
+    {
+        // Ubah status item
+        $transaction = TransactionDetail::find($request->id);
+        $transaction->status = 'customer_refund';
+        $transaction->save();
+
+        return response()->json([
+            'message' => 'Order has been refunded'
+        ]);
+        // try {
+        //     $testimony = [
+        //         'transactions_detail_id' => $request->addTestimonyId,
+        //         'vendor_id' => $request->vendorId,
+        //         'customer_id' => Auth::user()->id,
+        //         'rating' => $request->rating,
+        //         'description' => $request->description,
+        //     ];
+
+        //     if ($request->hasFile('testimony_photo')) {
+        //         $image = $request->file('testimony_photo');
+        //         $imageName = Str::random(40) . '.' . $image->getClientOriginalExtension();
+        //         Storage::disk('public_uploads_testimony_photo')->put($imageName, file_get_contents($image));
+        //         $testimony['testimony_photo'] = $imageName;
+        //     }
+
+        //     Testimony::create($testimony);
+
+        //     return back();
+        // } catch (\Exception $e) {
+        //     return response()->json(['error' => 'Failed to save data: ' . $e->getMessage()], 500);
+        // }
     }
 }

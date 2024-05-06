@@ -36,7 +36,7 @@ function fetchDataOrderVendorItem() {
     const vendorStatusText = vendorStatusMapping[$('#vendor_status').val()];
 
     $.ajax({
-        url: "/orders/incomingOrder",
+        url: "/orders/incoming-order",
         method: "GET",
         data: {
             status: $('#vendor_status').val(),
@@ -108,7 +108,7 @@ function fetchDataOrderVendorItem() {
                     }]
                 },
                 ajax: {
-                    url: "/orders/incomingOrder",
+                    url: "/orders/incoming-order",
                     type: "GET",
                     data: {
                         status: $('#vendor_status').val(),
@@ -272,7 +272,7 @@ function fetchDataOrderCustomerItem() {
     const customerStatusText = customerStatusMapping[$('#customer_status').val()];
 
     $.ajax({
-        url: "/orders/requestOrder",
+        url: "/orders/request-order",
         method: "GET",
         data: {
             status: $('#customer_status').val(),
@@ -306,7 +306,7 @@ function fetchDataOrderCustomerItem() {
                     }]
                 },
                 ajax: {
-                    url: "/orders/requestOrder",
+                    url: "/orders/request-order",
                     type: "GET",
                     data: {
                         status: $('#customer_status').val(),

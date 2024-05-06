@@ -23,6 +23,7 @@
                 aria-label="Cari vendor katering" aria-describedby="button-addon2">
             <button class="btn btn-primary" type="submit" id="button-addon2" onclick="searchVendor()">Search</button>
         </div>
+        <div id="permissionDenied"></div>
         <div id="vendorContainer" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3"></div>
     </div>
 

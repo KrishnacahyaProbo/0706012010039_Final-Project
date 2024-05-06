@@ -10,7 +10,7 @@ function initialize() {
             navigator.geolocation.getCurrentPosition(showDistance);
         } else {
             document.getElementById("distance-info").innerHTML =
-                "Geolocation is not supported by this browser.";
+                "Peramban tidak dapat memfasilitasi pengambilan geolokasi.";
         }
     }
 

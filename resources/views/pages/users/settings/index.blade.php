@@ -159,6 +159,7 @@
                         <x-input type="text" id="selectedAddress" value="" class="d-none" readonly />
 
                         <div>
+                            <div id="permissionDenied"></div>
                             <div id="map" class="rounded-1"></div>
                         </div>
 

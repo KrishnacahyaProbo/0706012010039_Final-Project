@@ -7,7 +7,7 @@
     $isVendor = Str::startsWith($routeName, 'vendor');
     $isCart = Str::startsWith($routeName, 'cart');
     $isProfile = Str::startsWith($routeName, 'profile');
-    $isSettings = Str::startsWith($routeName, 'users.settings');
+    $isSetting = Str::startsWith($routeName, 'setting');
     $isCredit = Str::startsWith($routeName, 'credit');
 @endphp
 
@@ -58,7 +58,7 @@
                         <li>
                             <a class="dropdown-item {{ $isProfile ? 'active' : '' }}"
                                 href="{{ route('profile.show') }}">{{ __('Profile') }}</a>
-                            <a class="dropdown-item {{ $isSettings ? 'active' : '' }}"
+                            <a class="dropdown-item {{ $isSetting ? 'active' : '' }}"
                                 href="{{ route('setting.index') }}">{{ __('Setting') }}</a>
                             <a class="dropdown-item {{ $isCredit ? 'active' : '' }}"
                                 href="{{ route('credit.index') }}">{{ __('Credit') }}</a>
