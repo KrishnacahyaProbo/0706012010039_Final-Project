@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Testimony;
 use App\Models\Transaction;
 use App\Models\UserSetting;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\BalanceHistory;
 use App\Models\BalanceNominal;
 use App\Models\TransactionDetail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
 class OrderController extends Controller
@@ -28,15 +30,12 @@ class OrderController extends Controller
     {
         // Ambil data order untuk customer
         $transaction = Transaction::where('customer_id', Auth::user()->id)
-            // ->join('transactions_detail', 'transactions.id', '=', 'transactions_detail.transaction_id')
-            // ->join('menu', 'transactions_detail.menu_id', '=', 'menu.id')
-            // ->join('users', 'transactions_detail.vendor_id', '=', 'users.id')
-            // ->where('transactions_detail.status', '=', $request->status)
-            // ->select('transactions.*', 'menu.*', 'users.name', 'transactions_detail.*', 'transactions_detail.id as detail_id', 'users.id as vendor_id')
-            // ->get();
-            ->with(['transactionDetail', 'customer'])
+            ->join('transactions_detail', 'transactions.id', '=', 'transactions_detail.transaction_id')
+            ->join('menu', 'transactions_detail.menu_id', '=', 'menu.id')
+            ->join('users', 'transactions_detail.vendor_id', '=', 'users.id')
+            ->where('transactions_detail.status', '=', $request->status)
+            ->select('transactions.*', 'menu.*', 'users.name', 'transactions_detail.*', 'transactions_detail.id as detail_id', 'users.id as vendor_id')
             ->get();
-            dd($transaction);
 
         foreach ($transaction as $key => $value) {
             // Hanya bisa 1x testimoni per order
@@ -64,6 +63,7 @@ class OrderController extends Controller
             ->join('users', 'transactions.customer_id', '=', 'users.id')
             ->where('transactions_detail.status', '=', $request->status);
 
+        // Filter berdasarkan tanggal pemesanan
         if (isset($request->schedule_date)) $transaction->where('transactions_detail.schedule_date', $request->schedule_date);
 
         $transaction = $transaction->select('transactions.*', 'menu.*', 'users.name', 'transactions_detail.*', 'transactions_detail.id as detail_id', 'users.id as customer_id')
@@ -142,37 +142,45 @@ class OrderController extends Controller
         ]);
     }
 
+    public function viewTestimony(Request $request)
+    {
+        $transactions = TransactionDetail::where('transactions_detail.vendor_id', Auth::user()->id)
+            ->where('transactions_detail.status', $request->status)
+            ->where('transactions_detail.schedule_date', $request->schedule_date)
+            ->with(['transaction', 'menu', 'customer', 'testimonies'])
+            ->get();
+
+        return response()->json($transactions);
+    }
+
     public function refundReason(Request $request)
     {
-        // Ubah status item
-        $transaction = TransactionDetail::find($request->id);
-        $transaction->status = 'customer_refund';
-        $transaction->save();
+        try {
+            $complain = [
+                'transactions_detail_id' => $request->refundReasonId,
+                'vendor_id' => $request->vendorId,
+                'customer_id' => Auth::user()->id,
+                'refund_reason' => $request->refund_reason,
+                'reason_proof' => $request->reason_proof,
+            ];
 
-        return response()->json([
-            'message' => 'Order has been refunded'
-        ]);
-        // try {
-        //     $testimony = [
-        //         'transactions_detail_id' => $request->addTestimonyId,
-        //         'vendor_id' => $request->vendorId,
-        //         'customer_id' => Auth::user()->id,
-        //         'rating' => $request->rating,
-        //         'description' => $request->description,
-        //     ];
+            if ($request->hasFile('reason_proof')) {
+                $image = $request->file('reason_proof');
+                $imageName = Str::random(40) . '.' . $image->getClientOriginalExtension();
+                Storage::disk('public_uploads_reason_proof')->put($imageName, file_get_contents($image));
+                $complain['reason_proof'] = $imageName;
+            }
 
-        //     if ($request->hasFile('testimony_photo')) {
-        //         $image = $request->file('testimony_photo');
-        //         $imageName = Str::random(40) . '.' . $image->getClientOriginalExtension();
-        //         Storage::disk('public_uploads_testimony_photo')->put($imageName, file_get_contents($image));
-        //         $testimony['testimony_photo'] = $imageName;
-        //     }
+            // Simpan alasan refund dan bukti alasan pada TransactionDetail
+            $transaction = TransactionDetail::find($request->id);
+            $transaction->status = 'customer_complain';
+            $transaction->refund_reason = $request->refund_reason;
+            $transaction->reason_proof = $complain['reason_proof'];
+            $transaction->save();
 
-        //     Testimony::create($testimony);
-
-        //     return back();
-        // } catch (\Exception $e) {
-        //     return response()->json(['error' => 'Failed to save data: ' . $e->getMessage()], 500);
-        // }
+            return back();
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to save data: ' . $e->getMessage()], 500);
+        }
     }
 }

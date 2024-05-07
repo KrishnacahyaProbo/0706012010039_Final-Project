@@ -26,4 +26,14 @@ class TransactionDetail extends Model
     {
         return $this->belongsTo(User::class, 'vendor_id', 'id');
     }
+
+    public function testimonies()
+    {
+        return $this->hasMany(Testimony::class, 'transactions_detail_id', 'id');
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(User::class, 'customer_id', 'id');
+    }
 }

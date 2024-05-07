@@ -12,7 +12,8 @@ class TestimonyController extends Controller
 {
     public function show(string $vendor_id)
     {
-        $testimony = Testimony::where('vendor_id', $vendor_id)->get();
+        $testimony = Testimony::where('vendor_id', $vendor_id)
+            ->orderBy('created_at', 'desc')->paginate(10);
 
         $data = [
             'testimony' => $testimony,

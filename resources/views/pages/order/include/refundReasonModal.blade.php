@@ -13,19 +13,20 @@
                     <input type="hidden" name="vendorId" id="vendorId">
                     <div class="d-grid gap-3">
                         <div>
-                            <select class="form-select" aria-label="Reason select" id="customer_refund_reason"
+                            <x-label for="refund_reason" value="{{ __('Keluhan Pesanan') }}" />
+                            <select class="form-select" aria-label="Reason select" id="refund_reason"
                                 onchange="showTextarea(this)">
                                 <option value="kemasan_rusak">Kemasan rusak</option>
                                 <option value="kesalahan_item_menu">Kesalahan item menu</option>
                                 <option value="kesalahan_porsi">Kesalahan porsi</option>
                                 <option value="kesalahan_kuantitas">Kesalahan kuantitas</option>
-                                <option value="ketidaksesuaian_deskripsi">Ketidaksesuaian dengan deskripsi</option>
+                                <option value="ketidaksesuaian_dengan_katalog">Ketidaksesuaian dengan katalog</option>
                                 <option value="lainnya">Lainnya</option>
                             </select>
                         </div>
                         <div id="otherReason" style="display: none;">
-                            <x-label for="refund_reason" value="{{ __('Keluhan Pesanan') }}" />
-                            <textarea class="form-control" id="refund_reason" name="refund_reason" required></textarea>
+                            <x-label for="other_reason" value="{{ __('Keterangan Lainnya') }}" />
+                            <textarea class="form-control" id="other_reason" name="other_reason" required></textarea>
                         </div>
                         <div>
                             <x-label for="reason_proof" value="{{ __('Foto Bukti') }}" />

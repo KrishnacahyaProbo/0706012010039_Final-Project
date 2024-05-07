@@ -17,17 +17,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $authDeliver = null;
+    $authDelivery = null;
     $balanceCustomer = null;
 
     if (Auth::check()) {
         $auth = User::where('id', Auth::user()->id)->with('Delivery')->first();
         $balanceCustomer = BalanceNominal::where('user_id', Auth::user()->id)->first();
-        $authDeliver = $auth->Delivery;
+        $authDelivery = $auth->Delivery;
     }
 
     $data = [
-        'authDeliver' => $authDeliver,
+        'authDelivery' => $authDelivery,
         'balanceCustomer' => $balanceCustomer,
     ];
 
@@ -80,6 +80,7 @@ Route::middleware([
         Route::post('/process-order', 'OrderController@processOrder')->name('process-order');
         Route::post('/deliver-order', 'OrderController@deliverOrder')->name('deliver-order');
         Route::post('/receive-order', 'OrderController@receiveOrder')->name('receive-order');
+        Route::get('/view-testimony', 'OrderController@viewTestimony')->name('view-testimony');
         Route::post('/refund-reason', 'OrderController@refundReason')->name('refund-reason');
     });
 

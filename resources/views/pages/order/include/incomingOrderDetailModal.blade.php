@@ -21,9 +21,10 @@
                     </div>
                     <span id="name"></span>
                     <span id="address"></span>
-                    <small class="text-secondary">
+                    <span>
                         <pre class="mb-0" id="note"></pre>
-                    </small>
+                    </span>
+                    <small class="text-secondary" id="updated_at"></small>
                 </div>
             </div>
         </div>

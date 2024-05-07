@@ -13,6 +13,7 @@ function searchVendor() {
 function setVendorToMenu() {
     var vendorContainer = $('#vendorContainer');
     vendorContainer.empty();
+
     $.ajax({
         url: '/vendors/data',
         type: 'GET',

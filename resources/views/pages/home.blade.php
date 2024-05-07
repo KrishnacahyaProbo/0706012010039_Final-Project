@@ -15,7 +15,7 @@
 
     @if (Auth::check())
         @if (Auth::user()->hasRole('vendor'))
-            @if ($authDeliver === null)
+            @if ($authDelivery === null)
                 @include('pages.users.include.alertSetting')
             @endif
 
@@ -134,7 +134,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            if ({{ $authDeliver === null }}) {
+            if ({{ $authDelivery === null }}) {
                 $('#modalSetting').modal('show');
                 $('#backgroundModal').show();
             } else {

@@ -1,9 +1,7 @@
 var menuDate = null;
 
 function initialize() {
-    var status = 'success';
     var previousSelectedOption = null;
-    var choosing = 0;
 
     function getLocation() {
         if (navigator.geolocation) {
@@ -24,7 +22,7 @@ function initialize() {
             vendorData.longitude
         );
         document.getElementById("distance-info").innerHTML =
-            vendorData.address + " - " + distance + "km";
+            vendorData.address + " (" + distance + " km" + ")";
     }
 
     function calculateDistance(lat1, lon1, lat2, lon2) {
