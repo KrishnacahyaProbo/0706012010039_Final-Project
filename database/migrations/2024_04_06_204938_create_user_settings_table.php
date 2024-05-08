@@ -17,9 +17,9 @@ return new class extends Migration
             $table->foreign('vendor_id')->references('id')->on('users')->onDelete('cascade');
             $table->text('about_us')->nullable();
             $table->integer('confirmation_days')->nullable();
-            $table->text('address');
-            $table->double('latitude');
-            $table->double('longitude');
+            $table->text('address')->nullable();
+            $table->double('latitude')->nullable();
+            $table->double('longitude')->nullable();
             $table->timestamps();
         });
     }
