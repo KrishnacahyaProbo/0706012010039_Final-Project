@@ -15,13 +15,13 @@
 
     @if (Auth::check())
         @if (Auth::user()->hasRole('vendor'))
-            @if ($authDelivery === null)
+            @if ($authDelivery === null || $confirmationDays->confirmation_days === null || $balance === null)
                 @include('pages.users.include.alertSetting')
             @endif
 
         @endif
         @if (Auth::user()->hasRole('customer'))
-            @if ($balanceCustomer === null)
+            @if ($balance === null)
                 @include('pages.users.include.alertSetting')
             @endif
         @endif
@@ -131,16 +131,10 @@
         </div>
     </div>
 
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            if ({{ $authDelivery === null }}) {
-                $('#modalSetting').modal('show');
-                $('#backgroundModal').show();
-            } else {
-                $('#modalSetting').modal('hide');
-                $('#backgroundModal').hide();
-            }
+            $('#modalSetting').modal('show');
+            $('#backgroundModal').show();
             $('#modalSetting').on('hidden.bs.modal', function() {
                 history.replaceState(null, null, window.location.pathname);
             });

@@ -22,8 +22,8 @@ customerCategory.addEventListener('change', function () {
                             item.category === 'customer_outcome' ?
                                 `<span class="badge rounded-pill text-danger-emphasis bg-danger-subtle border border-danger-subtle">Pembelian</span>` :
                                 item.category === 'customer_transaction_refund' ?
-                                    `<span class="badge rounded-pill text-success-emphasis bg-success-subtle border border-success-subtle">Pengembalian dana</span>` :
-                                    `<span class="badge rounded-pill text-success-emphasis bg-success-subtle border border-success-subtle">Pembatalan pembelian</span>`}
+                                    `<span class="badge rounded-pill text-warning-emphasis bg-warning-subtle border border-warning-subtle">Pengembalian dana</span>` :
+                                    `<span class="badge rounded-pill text-warning-emphasis bg-warning-subtle border border-warning-subtle">Pembatalan pembelian</span>`}
                         </td>
                         <td>${moment(item.created_at).format('dddd, D MMMM YYYY H:mm:ss')}</td>
                         <td>
@@ -60,8 +60,8 @@ fetch(`/credits/${customerCategory.value}`)
                         item.category === 'customer_outcome' ?
                             `<span class="badge rounded-pill text-danger-emphasis bg-danger-subtle border border-danger-subtle">Pembelian</span>` :
                             item.category === 'customer_transaction_refund' ?
-                                `<span class="badge rounded-pill text-success-emphasis bg-success-subtle border border-success-subtle">Pengembalian dana</span>` :
-                                `<span class="badge rounded-pill text-success-emphasis bg-success-subtle border border-success-subtle">Pembatalan pembelian</span>`}
+                                `<span class="badge rounded-pill text-warning-emphasis bg-warning-subtle border border-warning-subtle">Pengembalian dana</span>` :
+                                `<span class="badge rounded-pill text-warning-emphasis bg-warning-subtle border border-warning-subtle">Pembatalan pembelian</span>`}
                     </td>
                     <td>${moment(item.created_at).format('dddd, D MMMM YYYY H:mm:ss')}</td>
                     <td>

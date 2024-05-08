@@ -29,7 +29,8 @@
                         <option value="vendor_packing">Dikemas</option>
                         <option value="vendor_delivering">Dikirim</option>
                         <option value="customer_received">Diterima</option>
-                        <option value="customer_complain">Komplain</option>
+                        <option value="customer_complain">Pengajuan Komplain</option>
+                        <option value="vendor_approved_complain">Komplain Disetujui</option>
                     </select>
                 </div>
             </div>
@@ -55,6 +56,7 @@
 
         @include('pages.order.include.incomingOrderDetailModal')
         @include('pages.order.include.viewTestimonyModal')
+        @include('pages.order.include.approveRejectComplainModal')
     @else
         <div class="d-grid gap-3">
             <div>
@@ -68,7 +70,8 @@
                     <option value="vendor_packing">Dikemas</option>
                     <option value="vendor_delivering">Dikirim</option>
                     <option value="customer_received">Diterima</option>
-                    <option value="customer_complain">Komplain</option>
+                    <option value="customer_complain">Pengajuan Komplain</option>
+                    <option value="vendor_approved_complain">Komplain Disetujui</option>
                 </select>
             </div>
 
@@ -94,8 +97,8 @@
         @include('pages.order.include.requestOrderDetailModal')
         @include('pages.testimony.include.addTestimonyModal')
         @include('pages.order.include.refundReasonModal')
+        @include('pages.order.include.approveRejectComplainModal')
     @endif
-
     <script>
         const _APP_URL = {!! '"' . env('APP_URL') . '"' !!}
     </script>

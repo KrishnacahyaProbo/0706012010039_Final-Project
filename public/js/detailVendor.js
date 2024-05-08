@@ -13,11 +13,11 @@ function initialize() {
     }
 
     function showDistance(position) {
-        var userLatitude = position.coords.latitude;
-        var userLongitude = position.coords.longitude;
+        var customerLatitude = position.coords.latitude;
+        var customerLongitude = position.coords.longitude;
         var distance = calculateDistance(
-            userLatitude,
-            userLongitude,
+            customerLatitude,
+            customerLongitude,
             vendorData.latitude,
             vendorData.longitude
         );
@@ -25,23 +25,34 @@ function initialize() {
             vendorData.address + " (" + distance + " km" + ")";
     }
 
-    function calculateDistance(lat1, lon1, lat2, lon2) {
-        var earthRadius = 6371; // Radius of the Earth in kilometers
-        var dLat = toRadians(lat2 - lat1);
-        var dLon = toRadians(lon2 - lon1);
-        var a =
-            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(toRadians(lat1)) *
-            Math.cos(toRadians(lat2)) *
-            Math.sin(dLon / 2) *
-            Math.sin(dLon / 2);
-        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        var distance = earthRadius * c; // Distance in kilometers
-        return distance.toFixed(2);
+    function calculateDistance(vendorLatitude, vendorLongitude, customerLatitude, customerLongitude) {
+        // Jari-jari (radius) bumi dalam kilometer
+        var earthRadiusKilometer = 6371;
+        // Konversi latitude pada vendor dari derajat ke radian
+        var vendorLatitudeRadians = toRadians(vendorLatitude);
+        // Konversi latitude pada customer dari derajat ke radian
+        var customerLatitudeRadians = toRadians(customerLatitude);
+        // Selisih jarak antara latitude vendor terhadap customer (dalam radian)
+        var latitudeDifference = toRadians(vendorLatitude - customerLatitude);
+        // Selisih jarak antara longitude vendor terhadap customer (dalam radian)
+        var longitudeDifference = toRadians(vendorLongitude - customerLongitude);
+
+        // Perhitungan jarak sudut antara titik lokasi vendor terhadap customer pada permukaan bola (seperti Bumi)
+        var angularDistance = Math.sin(latitudeDifference / 2) * Math.sin(latitudeDifference / 2) +
+            Math.cos(customerLatitudeRadians) * Math.cos(vendorLatitudeRadians) *
+            Math.sin(longitudeDifference / 2) * Math.sin(longitudeDifference / 2);
+        // Perhitungan sudut pusat (sudut antara dua titik pada permukaan bola yang diukur dari pusat bola) di mana atan2 mengembalikan nilai dalam radian dari dua variabel
+        var centralAngle = 2 * Math.atan2(Math.sqrt(angularDistance), Math.sqrt(1 - angularDistance));
+
+        // Jarak antara dua titik pada permukaan bola diukur dari jari-jari bumi dikali dengan sudut pusat
+        var distance = earthRadiusKilometer * centralAngle;
+        // Hasil jarak antar dua titik lokasi dalam kilometer dengan nilai hingga 2 desimal di belakang koma
+        return distance = distance.toFixed(2);
     }
 
     function toRadians(degrees) {
-        return (degrees * Math.PI) / 180;
+        // Konversi derajat ke radian
+        return degrees * (Math.PI / 180);
     }
 
     getLocation();

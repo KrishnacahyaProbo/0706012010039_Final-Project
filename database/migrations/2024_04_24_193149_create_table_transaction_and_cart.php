@@ -36,7 +36,7 @@ return new class extends Migration
             $table->integer('quantity');
             $table->bigInteger('price');
             $table->bigInteger('total_price');
-            $table->enum('status', ['customer_unpaid', 'customer_paid', 'customer_canceled', 'vendor_packing', 'vendor_delivering', 'customer_received', 'customer_complain']);
+            $table->enum('status', ['customer_unpaid', 'customer_paid', 'customer_canceled', 'vendor_packing', 'vendor_delivering', 'customer_received', 'customer_complain', 'vendor_approved_complain', 'vendor_rejected_complain']);
             $table->text('refund_reason')->nullable();
             $table->string('reason_proof')->nullable();
             $table->timestamps();

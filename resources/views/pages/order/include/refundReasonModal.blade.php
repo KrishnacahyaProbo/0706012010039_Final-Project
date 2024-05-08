@@ -6,8 +6,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="refundReasonContent">
-                <form method="POST" action="/orders/refund-reason" id="refundReasonForm" enctype="multipart/form-data">
+                <form method="POST" id="refundReasonForm" enctype="multipart/form-data">
                     @csrf
+                    @method('put')
 
                     <input type="hidden" name="refundReasonId" id="refundReasonId">
                     <input type="hidden" name="vendorId" id="vendorId">
@@ -15,7 +16,7 @@
                         <div>
                             <x-label for="refund_reason" value="{{ __('Keluhan Pesanan') }}" />
                             <select class="form-select" aria-label="Reason select" id="refund_reason"
-                                onchange="showTextarea(this)">
+                                name="refund_reason" onchange="showTextarea(this)">
                                 <option value="kemasan_rusak">Kemasan rusak</option>
                                 <option value="kesalahan_item_menu">Kesalahan item menu</option>
                                 <option value="kesalahan_porsi">Kesalahan porsi</option>
@@ -26,13 +27,12 @@
                         </div>
                         <div id="otherReason" style="display: none;">
                             <x-label for="other_reason" value="{{ __('Keterangan Lainnya') }}" />
-                            <textarea class="form-control" id="other_reason" name="other_reason" required></textarea>
+                            <textarea class="form-control" id="other_reason" name="refund_orther_reason"></textarea>
                         </div>
                         <div>
                             <x-label for="reason_proof" value="{{ __('Foto Bukti') }}" />
                             <input type="file" class="form-control" id="reason_proof" name="reason_proof" required>
                         </div>
-
                         <x-button>{{ __('Save') }}</x-button>
                     </div>
                 </form>

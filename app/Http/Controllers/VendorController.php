@@ -35,11 +35,11 @@ class VendorController extends Controller
             foreach ($allVendor as $vendor) {
                 $user_setting = UserSetting::where('vendor_id', $vendor->id)->first();
                 $delivery = Delivery::where('vendor_id', $vendor->id)->first();
-                $vendorLat = $user_setting ? $user_setting->latitude : $vendor->latitude;
-                $vendorLng = $user_setting ? $user_setting->longitude : $vendor->longitude;
+                $vendorLatitude = $user_setting ? $user_setting->latitude : $vendor->latitude;
+                $vendorLongitude = $user_setting ? $user_setting->longitude : $vendor->longitude;
 
                 // Perhitungan jarak antara customer dan vendor
-                $jarak = $this->calculateDistance($latitude, $longitude, $vendorLat, $vendorLng);
+                $jarak = $this->calculateDistance($latitude, $longitude, $vendorLatitude, $vendorLongitude);
                 if ($jarak <= ($delivery ? $delivery->distance_between : 10)) {
                     array_push($listVendor, $vendor->id);
                 }
@@ -120,30 +120,40 @@ class VendorController extends Controller
         }
     }
 
-    public function calculateDistance($userLat, $userLng, $vendorLat, $vendorLng)
+    public function calculateDistance($vendorLatitude, $vendorLongitude, $customerLatitude, $customerLongitude)
     {
         try {
-            $earthRadiusKm = 6371; // Earth radius in kilometers
-            $userLatRadians = $this->toRadians($userLat);
-            $vendorLatRadians = $this->toRadians($vendorLat);
-            $latDiff = $this->toRadians($vendorLat - $userLat);
-            $lngDiff = $this->toRadians($vendorLng - $userLng);
+            // Jari-jari (radius) bumi dalam kilometer
+            $earthRadiusKilometer = 6371;
+            // Perhitungan trigonometri dalam PHP menggunakan radian (bukan derajat) sehingga diperlukan konversi pada latitude
+            // Konversi latitude pada vendor dari derajat ke radian
+            $vendorLatitudeRadians = $this->toRadians($vendorLatitude);
+            // Konversi latitude pada customer dari derajat ke radian
+            $customerLatitudeRadians = $this->toRadians($customerLatitude);
+            // Selisih jarak antara latitude vendor terhadap customer (dalam radian)
+            $latitudeDifference = $this->toRadians($vendorLatitude - $customerLatitude);
+            // Selisih jarak antara longitude vendor terhadap customer (dalam radian)
+            $longitudeDifference = $this->toRadians($vendorLongitude - $customerLongitude);
 
-            $a = sin($latDiff / 2) * sin($latDiff / 2) +
-                cos($userLatRadians) * cos($vendorLatRadians) *
-                sin($lngDiff / 2) * sin($lngDiff / 2);
-            $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+            // Perhitungan jarak sudut antara titik lokasi vendor terhadap customer pada permukaan bola (seperti Bumi)
+            $angularDistance = sin($latitudeDifference / 2) * sin($latitudeDifference / 2) +
+                cos($vendorLatitudeRadians) * cos($customerLatitudeRadians) *
+                sin($longitudeDifference / 2) * sin($longitudeDifference / 2);
+            // Perhitungan sudut pusat (sudut antara dua titik pada permukaan bola yang diukur dari pusat bola) di mana atan2 mengembalikan nilai dalam radian dari dua variabel
+            $centralAngle = 2 * atan2(sqrt($angularDistance), sqrt(1 - $angularDistance));
 
-            $distance = $earthRadiusKm * $c; // Distance in kilometers
+            // Jarak antara dua titik pada permukaan bola diukur dari jari-jari bumi dikali dengan sudut pusat
+            $distance = $earthRadiusKilometer * $centralAngle;
+            // Hasil jarak antar dua titik lokasi dalam kilometer dengan nilai hingga 2 desimal di belakang koma
             return $distance = number_format($distance, 2);
         } catch (\Throwable $th) {
-            dd($th, $userLat, $userLng, $vendorLat, $vendorLng);
+            dd($th, $customerLatitude, $customerLongitude, $vendorLatitude, $vendorLongitude);
         }
     }
 
     public function toRadians($degrees)
     {
-        // Convert degrees to radians
+        // Konversi derajat ke radian
         return $degrees * (pi() / 180);
     }
 }

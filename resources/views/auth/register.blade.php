@@ -3,7 +3,7 @@
 <x-guest-layout>
     <div class="d-grid gap-3">
         <div>
-            @section('page_title', 'Hai, Buat Akun dan Bergabung Sekarang')
+            @section('page_title', 'Halo, Buat Akun dan Bergabung Sekarang')
         </div>
 
         <div class="d-grid gap-2">

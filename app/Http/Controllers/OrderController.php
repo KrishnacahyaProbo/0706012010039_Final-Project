@@ -61,7 +61,7 @@ class OrderController extends Controller
             ->join('transactions', 'transactions.id', '=', 'transactions_detail.transaction_id')
             ->join('menu', 'transactions_detail.menu_id', '=', 'menu.id')
             ->join('users', 'transactions.customer_id', '=', 'users.id')
-            ->where('transactions_detail.status', '=', $request->status);
+            ->where('transactions_detail.status', '=', $request->status)->with('testimonies');
 
         // Filter berdasarkan tanggal pemesanan
         if (isset($request->schedule_date)) $transaction->where('transactions_detail.schedule_date', $request->schedule_date);
@@ -153,31 +153,65 @@ class OrderController extends Controller
         return response()->json($transactions);
     }
 
-    public function refundReason(Request $request)
+    public function refundReason(Request $request, string $transaction_uid)
     {
         try {
             $complain = [
-                'transactions_detail_id' => $request->refundReasonId,
-                'vendor_id' => $request->vendorId,
-                'customer_id' => Auth::user()->id,
-                'refund_reason' => $request->refund_reason,
-                'reason_proof' => $request->reason_proof,
+                'refund_reason' => $request->refund_reason === "lainnya" ?  $request->refund_orther_reason : $request->refund_reason,
+                'status' => 'customer_complain'
             ];
-
-            if ($request->hasFile('reason_proof')) {
-                $image = $request->file('reason_proof');
-                $imageName = Str::random(40) . '.' . $image->getClientOriginalExtension();
-                Storage::disk('public_uploads_reason_proof')->put($imageName, file_get_contents($image));
-                $complain['reason_proof'] = $imageName;
-            }
+            $image = $request->file('reason_proof');
+            $imageName = Str::random(40) . '.' . $image->getClientOriginalExtension();
+            Storage::disk('public_uploads_reason_proof')->put($imageName, file_get_contents($image));
+            $complain['reason_proof'] = $imageName;
 
             // Simpan alasan refund dan bukti alasan pada TransactionDetail
-            $transaction = TransactionDetail::find($request->id);
-            $transaction->status = 'customer_complain';
-            $transaction->refund_reason = $request->refund_reason;
-            $transaction->reason_proof = $complain['reason_proof'];
-            $transaction->save();
+            $transaction = TransactionDetail::find($transaction_uid);
+            $transaction->update($complain);
+            return back();
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to save data: ' . $e->getMessage()], 500);
+        }
+    }
 
+    public function complainRefund(string $transaction_id)
+    {
+        $dataRequest = request()->all();
+        try {
+            if ($dataRequest['action'] === "reject") {
+                $payload = ['status' => 'customer_received'];
+                TransactionDetail::where('transaction_id', $transaction_id)->update($payload);
+            } else {
+                $payload = ['status' => 'vendor_approved_complain'];
+                $temp = TransactionDetail::where('transaction_id', $transaction_id)->with('transaction.customer')->first();
+
+                TransactionDetail::where('transaction_id', $transaction_id)->update($payload);
+
+                // vendor
+                $balanceVendor = BalanceNominal::where('user_id', $temp->vendor_id)->first();
+                $resultCreditVendor = $balanceVendor->credit - ($temp->transaction->subtotal + $temp->transaction->shipping_costs);
+                $balanceVendor->update(['credit' => $resultCreditVendor]);
+
+                $dataVendor = [
+                    'credit' => $temp->transaction->subtotal + $temp->transaction->shipping_costs,
+                    'category' => 'customer_transaction_canceled',
+                    'user_id' => $temp->vendor_id
+                ];
+                BalanceHistory::create($dataVendor);
+
+                // customer
+                $balanceCustomer = BalanceNominal::where('user_id', $temp?->transaction?->customer_id)->first();
+
+                $resultCredit = $temp->transaction->subtotal + $temp->transaction->shipping_costs + $balanceCustomer->credit;
+
+                $balanceCustomer->update(['credit' => $resultCredit]);
+                $data = [
+                    'credit' => $temp->transaction->subtotal + $temp->transaction->shipping_costs,
+                    'category' => 'customer_transaction_refund',
+                    'user_id' => $temp->transaction->customer_id
+                ];
+                BalanceHistory::create($data);
+            }
             return back();
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to save data: ' . $e->getMessage()], 500);

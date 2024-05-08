@@ -29,7 +29,7 @@ class TransactionDetail extends Model
 
     public function testimonies()
     {
-        return $this->hasMany(Testimony::class, 'transactions_detail_id', 'id');
+        return $this->hasOne(Testimony::class, 'transactions_detail_id', 'id');
     }
 
     public function customer()

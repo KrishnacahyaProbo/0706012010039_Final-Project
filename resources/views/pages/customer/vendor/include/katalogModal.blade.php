@@ -7,7 +7,13 @@
             </div>
             <div class="modal-body" id="katalogContent">
                 <div class="alert alert-info" role="alert">
-                    Pemesanan dan Pembatalan H-{{ $vendor->UserSetting->confirmation_days }}.
+                    <ul class="mb-0">
+                        <li>Pemesanan dan Pembatalan paling lambat
+                            <strong>H-{{ $vendor->UserSetting->confirmation_days }}</strong>.
+                        </li>
+                        <li>Melayani pengiriman hingga <strong>{{ $vendor->Delivery->distance_between }} km</strong>.
+                        </li>
+                    </ul>
                 </div>
 
                 <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">

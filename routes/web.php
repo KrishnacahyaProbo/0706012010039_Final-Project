@@ -2,6 +2,7 @@
 
 use App\Models\BalanceNominal;
 use App\Models\User;
+use App\Models\UserSetting;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -18,20 +19,23 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     $authDelivery = null;
-    $balanceCustomer = null;
+    $balance = null;
 
     if (Auth::check()) {
         $auth = User::where('id', Auth::user()->id)->with('Delivery')->first();
-        $balanceCustomer = BalanceNominal::where('user_id', Auth::user()->id)->first();
+        $confimationDays = UserSetting::where('vendor_id',  Auth::user()->id)->first();
+
+        $balance = BalanceNominal::where('user_id', Auth::user()->id)->first();
         $authDelivery = $auth->Delivery;
+        $data = [
+            'authDelivery' => $authDelivery,
+            'balance' => $balance,
+            'confirmationDays' => $confimationDays
+        ];
+        return view('pages.home', $data);
+    } else {
+        return view('pages.home');
     }
-
-    $data = [
-        'authDelivery' => $authDelivery,
-        'balanceCustomer' => $balanceCustomer,
-    ];
-
-    return view('pages.home', $data);
 })->name('home');
 
 Route::middleware([
@@ -73,7 +77,7 @@ Route::middleware([
 
     Route::prefix('orders')->name('order.')->namespace('App\Http\Controllers')->group(function () {
         Route::get('/', 'OrderController@index')->name('index');
-        Route::get('/detail/{id}', 'OrderController@detailOrder')->name('detail');
+        Route::get('/detail/{id}', 'OrderController@detailOrder')->name('detail-order');
         Route::get('/request-order', 'OrderController@requestOrder')->name('request-order');
         Route::get('/incoming-order', 'OrderController@incomingOrder')->name('incoming-order');
         Route::delete('/cancel-order', 'OrderController@cancelOrder')->name('cancel-order');
@@ -81,7 +85,8 @@ Route::middleware([
         Route::post('/deliver-order', 'OrderController@deliverOrder')->name('deliver-order');
         Route::post('/receive-order', 'OrderController@receiveOrder')->name('receive-order');
         Route::get('/view-testimony', 'OrderController@viewTestimony')->name('view-testimony');
-        Route::post('/refund-reason', 'OrderController@refundReason')->name('refund-reason');
+        Route::put('/refund-reason/{transaction_uid}', 'OrderController@refundReason')->name('refund-reason');
+        Route::put('/complain-reason/{transaction_uid}', 'OrderController@complainRefund')->name('complain-reason');
     });
 
     Route::prefix('testimonies')->name('testimony.')->namespace('App\Http\Controllers')->group(function () {

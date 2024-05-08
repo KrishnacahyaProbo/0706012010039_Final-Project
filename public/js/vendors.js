@@ -1,4 +1,4 @@
-var userLat, userLng;
+var customerLatitude, customerLongitude;
 var currentPage = 1;
 var perPage = 12;
 
@@ -21,8 +21,8 @@ function setVendorToMenu() {
             'page': currentPage,
             'perPage': perPage,
             'search': $("#searchInput").val(),
-            'latitude': userLat,
-            'longitude': userLng
+            'latitude': customerLatitude,
+            'longitude': customerLongitude
         },
         dataType: 'json',
         success: function (response) {
@@ -35,7 +35,7 @@ function setVendorToMenu() {
                     var title = $('<h3 class="card-title"><a href="#" class="stretched-link">' + vendor.name + '</a></h3>');
                     var ratingText = (vendor.rating !== undefined) ? vendor.rating + '/5,0' : '0/5,0';
                     var rating = $('<div class="d-grid gap-1"><div class="d-flex gap-2"><i class="bi bi-star"></i><span class="card-text">' + ratingText + '</span></div></div>');
-                    var address = $('<div class="d-flex gap-2"><i class="bi bi-geo-alt"></i><p class="card-text">' + vendor.address + ' (' + calculateDistance(userLat, userLng, vendor.latitude, vendor.longitude) + ' km)</p></div>');
+                    var address = $('<div class="d-flex gap-2"><i class="bi bi-geo-alt"></i><p class="card-text">' + vendor.address + ' (' + calculateDistance(customerLatitude, customerLongitude, vendor.latitude, vendor.longitude) + ' km)</p></div>');
                     var shipping = $('<div class="d-flex gap-2"><i class="bi bi-truck"></i><p class="card-text">Rp' + (vendor.delivery !== null ? formatRupiah(vendor.delivery.shipping_cost) : '-') + '</p></div>');
 
                     cardBody.append(title).append(rating).append(address).append(shipping);
@@ -71,7 +71,7 @@ function setVendorToMenu() {
                     var title = $('<h3 class="card-title"><a href="#" class="stretched-link">' + vendor.name + '</a></h3>');
                     var ratingText = (vendor.rating !== undefined) ? vendor.rating + '/5,0' : '0/5,0';
                     var rating = $('<div class="d-grid gap-1"><div class="d-flex gap-2"><i class="bi bi-star"></i><span class="card-text">' + ratingText + '</span></div></div>');
-                    var address = $('<div class="d-flex gap-2"><i class="bi bi-geo-alt"></i><p class="card-text">' + vendor.address + ' (' + calculateDistance(userLat, userLng, vendor.latitude, vendor.longitude) + ' km)</p></div>');
+                    var address = $('<div class="d-flex gap-2"><i class="bi bi-geo-alt"></i><p class="card-text">' + vendor.address + ' (' + calculateDistance(customerLatitude, customerLongitude, vendor.latitude, vendor.longitude) + ' km)</p></div>');
                     var shipping = $('<div class="d-flex gap-2"><i class="bi bi-truck"></i><p class="card-text">Rp' + (vendor.delivery !== null ? formatRupiah(vendor.delivery.shipping_cost) : '0') + '</p></div>');
                     cardCol.data('vendor_id', vendor.id);
 
@@ -148,10 +148,9 @@ function getCurrentLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
             function (position) {
-                userLat = position.coords.latitude;
-                userLng = position.coords.longitude;
-                console.log("User's latitude:", userLat);
-                console.log("User's longitude:", userLng);
+                customerLatitude = position.coords.latitude;
+                customerLongitude = position.coords.longitude;
+                console.log(customerLatitude, customerLongitude);
                 setVendorToMenu();
             },
             function (error) {
@@ -178,24 +177,32 @@ function getCurrentLocation() {
     }
 }
 
-function calculateDistance(userLat, userLng, vendorLat, vendorLng) {
-    console.log("Calculating distance", userLat, userLng, vendorLat, vendorLng);
-    var earthRadiusKm = 6371; // Earth radius in kilometers
-    var userLatRadians = toRadians(userLat);
-    var vendorLatRadians = toRadians(vendorLat);
-    var latDiff = toRadians(vendorLat - userLat);
-    var lngDiff = toRadians(vendorLng - userLng);
+function calculateDistance(vendorLatitude, vendorLongitude, customerLatitude, customerLongitude) {
+    // Jari-jari (radius) bumi dalam kilometer
+    var earthRadiusKilometer = 6371;
+    // Konversi latitude pada vendor dari derajat ke radian
+    var vendorLatitudeRadians = toRadians(vendorLatitude);
+    // Konversi latitude pada customer dari derajat ke radian
+    var customerLatitudeRadians = toRadians(customerLatitude);
+    // Selisih jarak antara latitude vendor terhadap customer (dalam radian)
+    var latitudeDifference = toRadians(vendorLatitude - customerLatitude);
+    // Selisih jarak antara longitude vendor terhadap customer (dalam radian)
+    var longitudeDifference = toRadians(vendorLongitude - customerLongitude);
 
-    var a = Math.sin(latDiff / 2) * Math.sin(latDiff / 2) +
-        Math.cos(userLatRadians) * Math.cos(vendorLatRadians) *
-        Math.sin(lngDiff / 2) * Math.sin(lngDiff / 2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    // Perhitungan jarak sudut antara titik lokasi vendor terhadap customer pada permukaan bola (seperti Bumi)
+    var angularDistance = Math.sin(latitudeDifference / 2) * Math.sin(latitudeDifference / 2) +
+        Math.cos(customerLatitudeRadians) * Math.cos(vendorLatitudeRadians) *
+        Math.sin(longitudeDifference / 2) * Math.sin(longitudeDifference / 2);
+    // Perhitungan sudut pusat (sudut antara dua titik pada permukaan bola yang diukur dari pusat bola) di mana atan2 mengembalikan nilai dalam radian dari dua variabel
+    var centralAngle = 2 * Math.atan2(Math.sqrt(angularDistance), Math.sqrt(1 - angularDistance));
 
-    var distance = earthRadiusKm * c; // Distance in kilometers
+    // Jarak antara dua titik pada permukaan bola diukur dari jari-jari bumi dikali dengan sudut pusat
+    var distance = earthRadiusKilometer * centralAngle;
+    // Hasil jarak antar dua titik lokasi dalam kilometer dengan nilai hingga 2 desimal di belakang koma
     return distance = distance.toFixed(2);
 }
 
 function toRadians(degrees) {
-    // Converts degrees to radians
+    // Konversi derajat ke radian
     return degrees * (Math.PI / 180);
 }
