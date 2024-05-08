@@ -69,7 +69,10 @@ class VendorController extends Controller
             // Calculate vendor rating
             foreach ($vendor_data as $vendor) {
                 $rating = Testimony::where('vendor_id', $vendor->id)->avg('rating');
-
+                $user_setting = UserSetting::where('vendor_id', $vendor->id)->first();
+                $vendor->latitude = $user_setting ? $user_setting->latitude : $vendor->latitude;
+                $vendor->longitude = $user_setting ? $user_setting->longitude : $vendor->longitude;
+                $vendor->vendorAddress = $user_setting ? $user_setting->address : $vendor->address;
                 // If vendor has no rating, set it to 0
                 if ($rating === null) {
                     $vendor->rating = 0;
@@ -102,6 +105,10 @@ class VendorController extends Controller
             // Calculate vendor rating
             $rating = Testimony::where('vendor_id', $vendor->id)->avg('rating');
             $vendor->rating = $rating;
+            $user_setting = UserSetting::where('vendor_id', $vendor->id)->first();
+            $vendor->address = $user_setting ? $user_setting->address : $vendor->address;
+            $vendor->latitude = $user_setting ? $user_setting->latitude : $vendor->latitude;
+            $vendor->longitude = $user_setting ? $user_setting->longitude : $vendor->longitude;
 
             // If vendor has no rating, set it to 0
             if ($rating === null) {

@@ -186,10 +186,12 @@ function fetchDataOrderVendorItem() {
                                 buttons += `<button class="btn btn-success incoming_order_vendor_packing" data-id="${row.detail_id}" title="Deliver Order"><i class="bi bi-truck"></i></button>`;
                             } else if (row.status === 'customer_received') {
                                 buttons += `<button class="btn btn-info" data-id="${row.detail_id}" title="Detail Order" onclick="detailOrderVendor('${row.detail_id}', '${row.menu_name}', '${row.portion}', '${row.quantity}', '${row.name}', '${row.address}', '${row.note}', '${row.updated_at}')"><i class="bi bi-info-circle"></i></button>`;
-                                buttons += `<button class="btn btn-success" title="View Testimony" onclick="testimonyData('${row.name}', '${row?.testimonies?.rating}', '${row?.testimonies?.description}', '${row?.testimonies?.testimony_photo}')"><i class="bi bi-eye"></i></button>`;
+                                if (row.testimony === 1) {
+                                    buttons += `<button class="btn btn-success" title="View Testimony" onclick="testimonyData('${row.name}', '${row?.testimonies?.rating}', '${row?.testimonies?.description}', '${row?.testimonies?.testimony_photo}')"><i class="bi bi-eye"></i></button>`;
+                                }
                             } else if (row.status === 'customer_complain') {
                                 buttons += `<button class="btn btn-info" data-id="${row.detail_id}" title="Detail Order" onclick="detailOrderVendor('${row.detail_id}', '${row.menu_name}', '${row.portion}', '${row.quantity}', '${row.name}', '${row.address}', '${row.note}', '${row.updated_at}')"><i class="bi bi-info-circle"></i></button>`;
-                                buttons += `<button class="btn btn-warning" data-id="${row.detail_id}" title="Approve Complain" onclick="approveComplain('${row.name}','${row.refund_reason}', '${row.reason_proof}', '${row.schedule_date}', '${row.menu_name}', '${row.quantity}', '${row.transaction_id}')"><i class="bi bi-check-circle"></i></button>`;
+                                buttons += `<button class="btn btn-warning" data-id="${row.detail_id}" title="Handle Complain" onclick="handleComplain('${row.name}','${row.refund_reason}', '${row.reason_proof}', '${row.schedule_date}', '${row.menu_name}', '${row.portion}', '${row.quantity}', '${row.detail_id}')"><i class="bi bi-eye"></i></button>`;
                             } else {
                                 buttons += `<button class="btn btn-info" data-id="${row.detail_id}" title="Detail Order" onclick="detailOrderVendor('${row.detail_id}', '${row.menu_name}', '${row.portion}', '${row.quantity}', '${row.name}', '${row.address}', '${row.note}', '${row.updated_at}')"><i class="bi bi-info-circle"></i></button>`;
                             }
@@ -217,29 +219,40 @@ $(document).on("click", '.incoming_order_view_testimony', function () {
     viewTestimony(id);
 })
 
+$(document).on("change", '#include_shipping_costs', function () {
+    if ($(this).is(":checked")) {
+        $('#refund_value').val(1);
+    } else {
+        $('#refund_value').val(0);
+    }
+})
+
 $(document).on("change", '#vendor_status, #schedule_date', function () {
     fetchDataOrderVendorItem();
 })
 
-function testimonyData(name, rating, description, photo){
+function testimonyData(name, rating, description, photo) {
     $('#detailTestimonyOrderNew').modal('show');
+
     document.getElementById("customer_name_testimony").innerHTML = name
     document.getElementById('rating_testimony').innerHTML = rating
     document.getElementById('deskripsi_testimony').innerHTML = description
     document.getElementById('image_testimony').src = `/assets/image/testimony_photo/${photo}`
-    document.getElementById('href_testimony').href =`/assets/image/testimony_photo/${photo}`
+    document.getElementById('href_testimony').href = `/assets/image/testimony_photo/${photo}`
 }
 
-function approveComplain(name,  refund_reason, reason_proof, schedule_date, menu_name, quantity, transaction_id){
+function handleComplain(name, refund_reason, reason_proof, schedule_date, menu_name, portion, quantity, transaction_id) {
     $("#approveRejectComplainModal").modal('show');
-    document.getElementById('customer_name_testimony_complain').innerHTML = name
-    document.getElementById('deskripsi_testimony_complain').innerHTML = refund_reason
-    document.getElementById('deskripsi_testimony_complain').innerHTML = refund_reason
-    document.getElementById('image_complain_customer').src = `/assets/image/reason_proof/${reason_proof}`
-    document.getElementById('href_complain_image').href = `/assets/image/reason_proof/${reason_proof}`
-    document.getElementById('name_menu_complain').textContent  = menu_name;
-    document.getElementById('quantity_complain').textContent  = quantity
-    document.getElementById('schedule_date_complain').textContent  = schedule_date
+
+    document.getElementById('customer_name_testimony_complain').innerHTML = name;
+    document.getElementById('deskripsi_testimony_complain').innerHTML = refund_reason;
+    document.getElementById('deskripsi_testimony_complain').innerHTML = refund_reason;
+    document.getElementById('image_complain_customer').src = `/assets/image/reason_proof/${reason_proof}`;
+    document.getElementById('href_complain_image').href = `/assets/image/reason_proof/${reason_proof}`;
+    document.getElementById('name_menu_complain').textContent = menu_name;
+    document.getElementById('portion_complain').textContent = portion;
+    document.getElementById('quantity_complain').textContent = quantity + " pcs";
+    document.getElementById('schedule_date_complain').textContent = moment(schedule_date).format('dddd, D MMMM YYYY');
 
     $("#confirm_update_complain_customer").attr('action', `/orders/complain-reason/${transaction_id}`)
 }
@@ -495,10 +508,9 @@ function fetchDataOrderCustomerItem() {
                                 buttons += `<button class="btn btn-success request_order_customer_received" data-id="${row.detail_id}" title="Receive Order"><i class="bi bi-check-circle"></i></button>`;
                             } else if (row.status === 'customer_received' && row.testimony === 0) {
                                 buttons += `<button class="btn btn-info" data-id="${row.detail_id}" title="Detail Order" onclick="detailOrderCustomer('${row.detail_id}', '${row.schedule_date}', '${row.menu_name}', '${row.portion}', '${row.price}', '${row.quantity}', '${row.total_price}', '${row.note}', '${row.updated_at}')"><i class="bi bi-info-circle"></i></button>`;
-
                                 buttons += `<button class="btn btn-success request_order_add_testimony" data-id="${row.detail_id}" vendor-id="${row.vendor_id}" title="Add Testimony"><i class="bi bi-chat-left-text"></i></button>`;
-                                if( row.status === 'customer_received' && row.testimony === 0 && row.reason_proof === null && row.refund_reason === null){
-                                buttons += `<button class="btn btn-danger" data-id="${row.detail_id}" vendor-id="${row.vendor_id}" onclick="addRequestRefund('${row.transaction_id}')" title="Request Refund"><i class="bi bi-exclamation-circle"></i></button>`;
+                                if (row.status === 'customer_received' && row.testimony === 0 && row.reason_proof === null && row.refund_reason === null) {
+                                    buttons += `<button class="btn btn-danger" data-id="${row.detail_id}" vendor-id="${row.vendor_id}" onclick="addRequestRefund('${row.detail_id}')" title="Request Refund"><i class="bi bi-exclamation-circle"></i></button>`;
                                 }
                             } else if (row.status === 'customer_complain') {
                                 buttons += `<button class="btn btn-info" data-id="${row.detail_id}" title="Detail Order" onclick="detailOrderCustomer('${row.detail_id}', '${row.schedule_date}', '${row.menu_name}', '${row.portion}', '${row.price}', '${row.quantity}', '${row.total_price}', '${row.note}', '${row.updated_at}')"><i class="bi bi-info-circle"></i></button>`;
@@ -516,9 +528,9 @@ function fetchDataOrderCustomerItem() {
     });
 }
 
-function addRequestRefund(transaction_id){
+function addRequestRefund(transaction_detail_id) {
     $("#refundReason").modal('show')
-    $("#refundReasonForm").attr('action', `/orders/refund-reason/${transaction_id}`)
+    $("#refundReasonForm").attr('action', `/orders/refund-reason/${transaction_detail_id}`)
 }
 
 $(document).on("click", '.request_order_customer_paid', function () {

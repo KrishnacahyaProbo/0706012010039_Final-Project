@@ -35,7 +35,7 @@ function setVendorToMenu() {
                     var title = $('<h3 class="card-title"><a href="#" class="stretched-link">' + vendor.name + '</a></h3>');
                     var ratingText = (vendor.rating !== undefined) ? vendor.rating + '/5,0' : '0/5,0';
                     var rating = $('<div class="d-grid gap-1"><div class="d-flex gap-2"><i class="bi bi-star"></i><span class="card-text">' + ratingText + '</span></div></div>');
-                    var address = $('<div class="d-flex gap-2"><i class="bi bi-geo-alt"></i><p class="card-text">' + vendor.address + ' (' + calculateDistance(customerLatitude, customerLongitude, vendor.latitude, vendor.longitude) + ' km)</p></div>');
+                    var address = $('<div class="d-flex gap-2"><i class="bi bi-geo-alt"></i><p class="card-text">' + (vendor.vendorAddress) + ' (' + calculateDistance(customerLatitude, customerLongitude, vendor.latitude, vendor.longitude) + ' km)</p></div>');
                     var shipping = $('<div class="d-flex gap-2"><i class="bi bi-truck"></i><p class="card-text">Rp' + (vendor.delivery !== null ? formatRupiah(vendor.delivery.shipping_cost) : '-') + '</p></div>');
 
                     cardBody.append(title).append(rating).append(address).append(shipping);
@@ -71,7 +71,7 @@ function setVendorToMenu() {
                     var title = $('<h3 class="card-title"><a href="#" class="stretched-link">' + vendor.name + '</a></h3>');
                     var ratingText = (vendor.rating !== undefined) ? vendor.rating + '/5,0' : '0/5,0';
                     var rating = $('<div class="d-grid gap-1"><div class="d-flex gap-2"><i class="bi bi-star"></i><span class="card-text">' + ratingText + '</span></div></div>');
-                    var address = $('<div class="d-flex gap-2"><i class="bi bi-geo-alt"></i><p class="card-text">' + vendor.address + ' (' + calculateDistance(customerLatitude, customerLongitude, vendor.latitude, vendor.longitude) + ' km)</p></div>');
+                    var address = $('<div class="d-flex gap-2"><i class="bi bi-geo-alt"></i><p class="card-text">' + (vendor.vendorAddress) + ' (' + calculateDistance(customerLatitude, customerLongitude, vendor.latitude, vendor.longitude) + ' km)</p></div>');
                     var shipping = $('<div class="d-flex gap-2"><i class="bi bi-truck"></i><p class="card-text">Rp' + (vendor.delivery !== null ? formatRupiah(vendor.delivery.shipping_cost) : '0') + '</p></div>');
                     cardCol.data('vendor_id', vendor.id);
 
@@ -206,3 +206,4 @@ function toRadians(degrees) {
     // Konversi derajat ke radian
     return degrees * (Math.PI / 180);
 }
+

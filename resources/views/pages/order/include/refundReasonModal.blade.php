@@ -17,12 +17,12 @@
                             <x-label for="refund_reason" value="{{ __('Keluhan Pesanan') }}" />
                             <select class="form-select" aria-label="Reason select" id="refund_reason"
                                 name="refund_reason" onchange="showTextarea(this)">
-                                <option value="kemasan_rusak">Kemasan rusak</option>
-                                <option value="kesalahan_item_menu">Kesalahan item menu</option>
-                                <option value="kesalahan_porsi">Kesalahan porsi</option>
-                                <option value="kesalahan_kuantitas">Kesalahan kuantitas</option>
-                                <option value="ketidaksesuaian_dengan_katalog">Ketidaksesuaian dengan katalog</option>
-                                <option value="lainnya">Lainnya</option>
+                                <option value="Kemasan Rusak">Kemasan rusak</option>
+                                <option value="Kesalahan item menu">Kesalahan item menu</option>
+                                <option value="Kesalahan porsi">Kesalahan porsi</option>
+                                <option value="Kesalahan kuantitas">Kesalahan kuantitas</option>
+                                <option value="Ketidaksesuaian dengan katalog">Ketidaksesuaian dengan katalog</option>
+                                <option value="Lainnya">Lainnya</option>
                             </select>
                         </div>
                         <div id="otherReason" style="display: none;">
@@ -44,7 +44,7 @@
 <script>
     function showTextarea(select) {
         var selectedOption = select.options[select.selectedIndex].value;
-        if (selectedOption === 'lainnya') {
+        if (selectedOption === 'Lainnya') {
             document.getElementById('otherReason').style.display = 'block';
         } else {
             document.getElementById('otherReason').style.display = 'none';

@@ -6,37 +6,54 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <h6 id="customer_name_testimony_complain"></h6>
-                <div class="d-flex gap-2">
+                <div class="d-grid gap-3">
+                    <h4 id="customer_name_testimony_complain"></h4>
                     <div>
                         <span
-                            class="badge rounded-pill text-light-emphasis bg-light-subtle border-light-subtle border"
-                            id="name_menu_complain"></span>
+                            class="badge rounded-pill text-secondary-emphasis bg-secondary-subtle border-secondary-subtle border"
+                            id="schedule_date_complain"></span>
                     </div>
-                    <div class="vr"></div>
+                    <p id="name_menu_complain"></p>
+                    <div class="d-flex align-items-center gap-2">
+                        <div>
+                            <span
+                                class="badge rounded-pill text-light-emphasis bg-light-subtle border-light-subtle border"
+                                id="portion_complain"></span>
+                        </div>
+                        <div class="vr"></div>
+                        <div>
+                            <span id="quantity_complain"></span>
+                        </div>
+                    </div>
+                    <small class="text-secondary">
+                        <pre class="mb-0" id="deskripsi_testimony_complain"></pre>
+                    </small>
                     <div>
-                        <p id="quantity_complain"></p>
+                        <a id="href_complain_image" target="_blank" rel="noopener noreferrer">
+                            <img id="image_complain_customer" class="rounded-1" width="196" loading="lazy">
+                        </a>
                     </div>
-                    <p id="schedule_date_complain"></p>
-                </div>
-                <small class="text-secondary">
-                    <pre class="mb-0" id="deskripsi_testimony_complain"></pre>
-                </small>
-                <div>
-                    <a id="href_complain_image" target="_blank" rel="noopener noreferrer">
-                        <img  id="image_complain_customer" class="rounded-1" width="196" loading="lazy">
-                    </a>
-                </div>
 
-            Apakah kamu yakin untuk menyetujui complain? <strong class="text-indigo"
-                        id="name_menu_complain"></strong>
+                    <div class="d-grid gap-1">
+                        <span>Apakah Anda yakin untuk <strong>menyetujui</strong> pengajuan komplain pesanan
+                            tersebut?</span>
+                        <div class="d-flex gap-2">
+                            <x-checkbox id="include_shipping_costs" name="include_shipping_costs" />
+                            <label class="form-check-label" for="include_shipping_costs">
+                                {{ __('Termasuk pengembalian ongkos kirim') }}
+                            </label>
+                        </div>
                     </div>
+                </div>
+            </div>
             <div class="modal-footer">
                 <form action="" method="post" id="confirm_update_complain_customer">
                     @csrf
                     @method('put')
+
+                    <input type="hidden" name="refund_value" id="refund_value">
                     <button type="submit" class="btn btn-primary" value="approve" name="action">Approve</button>
-                    <button class="btn btn-outline-primary" type="submit"  value="reject" name="action">Reject</button>
+                    <button type="submit" class="btn btn-outline-primary" value="reject" name="action">Reject</button>
                 </form>
             </div>
         </div>

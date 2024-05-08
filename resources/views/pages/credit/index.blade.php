@@ -63,7 +63,7 @@
                     <option selected value="all_category">Semua</option>
                     <option value="vendor_income">Penjualan</option>
                     <option value="vendor_outcome">Cash out</option>
-                    <option value="vendor_approved_complain">Pengembalian dana</option>
+                    <option value="customer_transaction_canceled">Pengembalian dana</option>
                 </select>
             </div>
 

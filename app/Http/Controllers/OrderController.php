@@ -69,6 +69,11 @@ class OrderController extends Controller
         $transaction = $transaction->select('transactions.*', 'menu.*', 'users.name', 'transactions_detail.*', 'transactions_detail.id as detail_id', 'users.id as customer_id')
             ->get();
 
+        foreach ($transaction as $key => $value) {
+            // Jika terdapat testimoni pada order
+            $value->testimony = Testimony::where('transactions_detail_id', $value->detail_id)->count();
+        }
+
         return DataTables::of($transaction)
             ->make(true);
     }
@@ -157,7 +162,7 @@ class OrderController extends Controller
     {
         try {
             $complain = [
-                'refund_reason' => $request->refund_reason === "lainnya" ?  $request->refund_orther_reason : $request->refund_reason,
+                'refund_reason' => $request->refund_reason === "Lainnya" ?  $request->refund_orther_reason : $request->refund_reason,
                 'status' => 'customer_complain'
             ];
             $image = $request->file('reason_proof');
@@ -177,40 +182,40 @@ class OrderController extends Controller
     public function complainRefund(string $transaction_id)
     {
         $dataRequest = request()->all();
+
         try {
             if ($dataRequest['action'] === "reject") {
                 $payload = ['status' => 'customer_received'];
-                TransactionDetail::where('transaction_id', $transaction_id)->update($payload);
+                TransactionDetail::where('id', $transaction_id)->update($payload);
             } else {
                 $payload = ['status' => 'vendor_approved_complain'];
-                $temp = TransactionDetail::where('transaction_id', $transaction_id)->with('transaction.customer')->first();
+                $temp = TransactionDetail::where('id', $transaction_id)->with('transaction.customer')->first();
+                TransactionDetail::where('id', $transaction_id)->update($payload);
 
-                TransactionDetail::where('transaction_id', $transaction_id)->update($payload);
+                $includeShippingCost = $temp->total_price;
+                if ($dataRequest['refund_value'] == 1) {
+                    $includeShippingCost += $temp->transaction->shipping_costs;
+                }
 
-                // vendor
                 $balanceVendor = BalanceNominal::where('user_id', $temp->vendor_id)->first();
-                $resultCreditVendor = $balanceVendor->credit - ($temp->transaction->subtotal + $temp->transaction->shipping_costs);
+                $resultCreditVendor = $balanceVendor->credit - $includeShippingCost;
                 $balanceVendor->update(['credit' => $resultCreditVendor]);
-
                 $dataVendor = [
-                    'credit' => $temp->transaction->subtotal + $temp->transaction->shipping_costs,
+                    'credit' => $includeShippingCost,
                     'category' => 'customer_transaction_canceled',
                     'user_id' => $temp->vendor_id
                 ];
                 BalanceHistory::create($dataVendor);
 
-                // customer
                 $balanceCustomer = BalanceNominal::where('user_id', $temp?->transaction?->customer_id)->first();
-
-                $resultCredit = $temp->transaction->subtotal + $temp->transaction->shipping_costs + $balanceCustomer->credit;
-
+                $resultCredit = $includeShippingCost + $balanceCustomer->credit;
                 $balanceCustomer->update(['credit' => $resultCredit]);
-                $data = [
-                    'credit' => $temp->transaction->subtotal + $temp->transaction->shipping_costs,
+                $dataCustomer = [
+                    'credit' => $includeShippingCost,
                     'category' => 'customer_transaction_refund',
                     'user_id' => $temp->transaction->customer_id
                 ];
-                BalanceHistory::create($data);
+                BalanceHistory::create($dataCustomer);
             }
             return back();
         } catch (\Exception $e) {

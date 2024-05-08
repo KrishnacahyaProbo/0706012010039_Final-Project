@@ -73,12 +73,12 @@ function setPesanan() {
     var formDataPemesanan = $('#pesanan').serialize();
 
     // Merge both form data into one object
-    var combinedFormData = formDataAlamat + '&' + formDataPemesanan;
+    //var combinedFormData = formDataAlamat + '&' + formDataPemesanan;
 
     $.ajax({
         url: '/settings/order',
         type: 'POST',
-        data: combinedFormData,
+        data: formDataPemesanan,
         success: function (response) {
             window.location.href = '/settings';
         },

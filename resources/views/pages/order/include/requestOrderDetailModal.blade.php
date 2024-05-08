@@ -7,11 +7,11 @@
             </div>
             <div class="modal-body" id="detailOrderCustomerContent">
                 <div class="d-grid gap-3">
-                    <span>
+                    <div>
                         <span
                             class="badge rounded-pill text-secondary-emphasis bg-secondary-subtle border-secondary-subtle border"
                             id="schedule_date"></span>
-                    </span>
+                    </div>
                     <div class="d-grid d-md-flex gap-3">
                         <div class="d-grid gap-3">
                             <h4 id="menu_name"></h4>
