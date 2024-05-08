@@ -68,12 +68,7 @@ function deliverySetting() {
 }
 
 function setPesanan() {
-    // Serialize both form data
-    var formDataAlamat = $('#alamat').serialize();
     var formDataPemesanan = $('#pesanan').serialize();
-
-    // Merge both form data into one object
-    //var combinedFormData = formDataAlamat + '&' + formDataPemesanan;
 
     $.ajax({
         url: '/settings/order',

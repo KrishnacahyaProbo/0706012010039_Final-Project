@@ -143,8 +143,11 @@
                         <h3>Alamat Pengiriman</h3>
 
                         <div>
-                            <strong>{{ Auth::user()->hasRole('vendor') ? 'Lokasi Asal Pengiriman: ' : 'Lokasi Tujuan Pengiriman: ' }}</strong>
-                            <span>{{ $user_setting != null ? $user_setting->address : Auth::user()->address }}</span>
+                            <strong>{{ Auth::user()->hasRole('vendor') ? 'Lokasi lama asal pengiriman: ' : 'Lokasi lama tujuan pengiriman: ' }}</strong>
+                            <span>{{ Auth::user()->address }}</span>
+                            <br>
+                            <strong>{{ Auth::user()->hasRole('vendor') ? 'Lokasi baru asal pengiriman: ' : 'Lokasi baru tujuan pengiriman: ' }}</strong>
+                            <span>{{ $user_setting != null ? $user_setting->address : '-' }}</span>
                         </div>
 
                         <hr>

@@ -63,9 +63,9 @@ class UserSettingController extends Controller
             // Update the attributes
             $user_setting->vendor_id = Auth::user()->id;
             $user_setting->confirmation_days = $request->confirmation_days;
-            if (isset($user_setting->latitude)) $user_setting->latitude = $request->latitude;
-            if (isset($user_setting->longitude)) $user_setting->longitude = $request->longitude;
-            if (isset($user_setting->address)) $user_setting->address = $request->address;
+            if (isset($request->latitude)) $user_setting->latitude = $request->latitude;
+            if (isset($request->longitude)) $user_setting->longitude = $request->longitude;
+            if (isset($request->address)) $user_setting->address = $request->address;
 
             // Save the record
             $user_setting->save();

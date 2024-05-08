@@ -22,8 +22,8 @@ class DatabaseSeeder extends Seeder
 
         // Create a user
         $vendorUser = User::factory()->create([
-            'name' => 'Jessi Jon\'s Kitchen',
-            'email' => 'jessijonskitchen@example.com',
+            'name' => 'Happy Catering',
+            'email' => 'happycatering@example.com',
             'password' => bcrypt('password'),
         ]);
 
@@ -36,15 +36,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $customerUser->assignRole($customerRole);
-
-        // Create a permission
-        $manageMenuPermissionVendor = Permission::create(['name' => 'manage menu']);
-        $manageSchedulePermissionVendor = Permission::create(['name' => 'manage schedule']);
-        $manageMenuPermissionCustomer = Permission::create(['name' => 'show menu']);
-
-        // Assign the manage-menu permission to the vendor role
-        $vendorRole->givePermissionTo([$manageMenuPermissionVendor, $manageSchedulePermissionVendor]);
-        $customerRole->givePermissionTo($manageMenuPermissionCustomer);
 
         // Create users
         User::factory()->count(30)->create()->each(function ($user) use ($vendorRole) {
