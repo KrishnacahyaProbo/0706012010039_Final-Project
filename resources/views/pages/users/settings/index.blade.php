@@ -147,7 +147,7 @@
                             <span>{{ Auth::user()->address }}</span>
                             <br>
                             <strong>{{ Auth::user()->hasRole('vendor') ? 'Lokasi baru asal pengiriman: ' : 'Lokasi baru tujuan pengiriman: ' }}</strong>
-                            <span>{{ $user_setting != null ? $user_setting->address : Auth::user()->address }}</span>
+                            <span>{{ $user_setting != null ? $user_setting->address : '-' }}</span>
                         </div>
 
                         <hr>
