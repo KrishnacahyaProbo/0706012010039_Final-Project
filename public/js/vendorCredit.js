@@ -18,7 +18,7 @@ vendorCategory.addEventListener('change', function () {
             var number = 1;
 
             if (data.length === 0) {
-                vendorCategoryValue.innerHTML = '<tr><td colspan="4">Belum ada riwayat.</td></tr>';
+                vendorCategoryValue.innerHTML = '<tr><td colspan="4" class="text-center">No data available in table.</td></tr>';
             } else {
                 data.forEach((item) => {
                     vendorCategoryValue.innerHTML += `
@@ -45,7 +45,7 @@ fetch(`/credits/${vendorCategory.value}`)
         var number = 1;
 
         if (data.length === 0) {
-            vendorCategoryValue.innerHTML = '<tr><td colspan="4">Belum ada riwayat.</td></tr>';
+            vendorCategoryValue.innerHTML = '<tr><td colspan="4" class="text-center">No data available in table.</td></tr>';
         } else {
             data.forEach((item) => {
                 vendorCategoryValue.innerHTML += `

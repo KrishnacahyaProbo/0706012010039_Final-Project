@@ -19,8 +19,9 @@
         </div>
 
         @if ($testimony->isEmpty())
-            <div class="alert alert-info">
-                Belum terdapat testimoni pada vendor.
+            <div class="alert alert-secondary d-grid gap-3 text-center" role="alert">
+                <i class="bi bi-chat-left-text-fill display-1"></i>
+                <span>Belum terdapat testimoni pada vendor.</span>
             </div>
         @endif
 

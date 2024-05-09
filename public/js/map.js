@@ -61,7 +61,7 @@ function getLocation(valueAddress) {
                     switch (error.code) {
                         case error.PERMISSION_DENIED:
                             console.error("Tidak dapat mendeteksi lokasi, mohon memberikan izin akses lokasi untuk pencarian posisi Anda saat ini.");
-                            $('#permissionDenied').html('<div class="alert alert-warning" role="alert">Tidak dapat mendeteksi lokasi, mohon memberikan izin akses lokasi untuk pencarian posisi Anda saat ini.</div>');
+                            $('#permissionDenied').html('<div class="alert alert-warning d-grid gap-3 text-center" role="alert"><i class="bi bi-geo-alt-fill display-1"></i><span>Tidak dapat mendeteksi lokasi, mohon memberikan izin akses lokasi untuk pencarian posisi Anda saat ini.</span></div>');
                             document.getElementById("map").style.display = "none";
                             break;
                         case error.POSITION_UNAVAILABLE:

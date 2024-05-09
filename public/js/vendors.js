@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function searchVendor() {
+    document.getElementById("permissionDenied").innerHTML = "";
     setVendorToMenu();
 }
 
@@ -58,7 +59,7 @@ function setVendorToMenu() {
                 });
 
                 if (response.data.length == 0) {
-                    var alertInfo = $('<div class="w-100"><div class="alert alert-info" role="alert">Vendor tidak ditemukan. Silakan coba kata kunci lain.</div></div>');
+                    var alertInfo = $('<div class="w-100"><div class="alert alert-secondary d-grid gap-3 text-center" role="alert"><i class="bi bi-search display-1"></i><span>Vendor tidak ditemukan. Silakan coba kata kunci lain.</span></div></div>');
                     vendorContainer.append(alertInfo);
                 }
             } else {
@@ -157,7 +158,7 @@ function getCurrentLocation() {
                 switch (error.code) {
                     case error.PERMISSION_DENIED:
                         console.error("Tidak dapat mendeteksi lokasi, mohon memberikan izin akses lokasi untuk mencari vendor di area sekitar Anda.");
-                        $('#permissionDenied').html('<div class="alert alert-warning" role="alert">Tidak dapat mendeteksi lokasi, mohon memberikan izin akses lokasi untuk mencari vendor di area sekitar Anda.</div>');
+                        $('#permissionDenied').html('<div class="alert alert-warning d-grid gap-3 text-center" role="alert"><i class="bi bi-geo-alt-fill display-1"></i><span>Tidak dapat mendeteksi lokasi, mohon memberikan izin akses lokasi untuk mencari vendor di sekitar Anda.</span></div>');
                         break;
                     case error.POSITION_UNAVAILABLE:
                         console.error("Maaf, informasi lokasi tidak tersedia.");
@@ -206,4 +207,3 @@ function toRadians(degrees) {
     // Konversi derajat ke radian
     return degrees * (Math.PI / 180);
 }
-

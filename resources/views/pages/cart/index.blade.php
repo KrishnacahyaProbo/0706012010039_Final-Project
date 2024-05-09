@@ -19,9 +19,12 @@
         </div>
 
         @if (count($cart) == 0)
-            <div class="alert alert-info">
-                <p>Keranjang Belanja masih kosong. Silakan pilih menu yang ingin dimasukkan Keranjang Belanja.</p>
-                <a href="{{ route('vendor.index') }}" class="btn btn-primary">Eksplor Vendor</a>
+            <div class="alert alert-secondary d-grid gap-3 text-center" role="alert">
+                <i class="bi bi-cart3 display-1"></i>
+                <span>Keranjang Belanja masih kosong. Silakan pilih menu yang ingin dimasukkan Keranjang Belanja.</span>
+                <div>
+                    <a href="{{ route('vendor.index') }}" class="btn btn-primary">Eksplor Vendor</a>
+                </div>
             </div>
         @endif
 

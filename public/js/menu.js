@@ -497,7 +497,7 @@ function showDetail(id) {
                                 </div>
 
                                 <div>
-                                    <i class="bi bi-question-circle text-primary" role="button" data-bs-toggle="collapse" data-bs-target="#collapseInstruksiJadwalPenjualan" aria-expanded="false" aria-controls="collapseInstruksiJadwalPenjualan"></i>
+                                    <i class="bi bi-question-circle-fill text-primary" role="button" data-bs-toggle="collapse" data-bs-target="#collapseInstruksiJadwalPenjualan" aria-expanded="false" aria-controls="collapseInstruksiJadwalPenjualan"></i>
                                 </div>
                             </div>
 
@@ -516,7 +516,7 @@ function showDetail(id) {
                                 </div>
                             </div>
                         </div>
-                        ${response.data.menu_schedule && response.data.menu_schedule.length > 0 ? '<div id="calendar" class="vh-100"></div>' : '<div class="alert alert-info" role="alert">Belum terdapat Jadwal Penjualan.</div>'}
+                        ${response.data.menu_schedule && response.data.menu_schedule.length > 0 ? '<div id="calendar" class="vh-100"></div>' : '<div class="alert alert-secondary d-grid gap-3 text-center" role="alert"><i class="bi bi-calendar2-week display-1"></i><span>Belum terdapat Jadwal Penjualan.</span></div>'}
                         </div>
                     </div>
                 `;
