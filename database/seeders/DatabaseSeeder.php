@@ -22,8 +22,8 @@ class DatabaseSeeder extends Seeder
 
         // Create a user
         $vendorUser = User::factory()->create([
-            'name' => 'Happy Catering',
-            'email' => 'happycatering@example.com',
+            'name' => 'Cahya Catering',
+            'email' => 'cahyacatering@example.com',
             'password' => bcrypt('password'),
         ]);
 

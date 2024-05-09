@@ -18,7 +18,6 @@ return new class extends Migration
             $table->text('address');
             $table->double('longitude');
             $table->double('latitude');
-            $table->double('distance_between');
             $table->integer('shipping_costs');
             $table->timestamps();
 

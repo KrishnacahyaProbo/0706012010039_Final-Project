@@ -114,7 +114,7 @@
                                         </div>
                                         <div>
                                             <small>
-                                                <pre class="mb-0">{{ $item->note }}</pre>
+                                                <pre class="mt-1 mb-0">{{ $item->note }}</pre>
                                             </small>
                                         </div>
                                     </div>

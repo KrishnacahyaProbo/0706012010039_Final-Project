@@ -111,7 +111,6 @@ class CheckoutController extends Controller
         $transaction->address = Auth::user()->address;
         $transaction->longitude = Auth::user()->longitude;
         $transaction->latitude = Auth::user()->latitude;
-        $transaction->distance_between = 0;
         $transaction->shipping_costs = $total_shipping_costs;
 
         // Simpan riwayat belanja sebagai kategori pengeluaran customer

@@ -12,16 +12,31 @@ class CartController extends Controller
 {
     public function index()
     {
+        // Retrieve all cart items for the authenticated user
         $cart = Cart::where('customer_id', Auth::user()->id)
             ->with('menu', 'menu.menuDetail')
             ->orderBy('schedule_date', 'asc')
             ->get();
 
+        // Check and delete cart items if their schedule_date has passed
         foreach ($cart as $key => $value) {
-            $user = User::find($value->menu->vendor_id);
-            $value->menu->vendor_name = $user->name;
+            // Convert schedule_date to a DateTime object for comparison
+            $scheduleDate = new \DateTime($value->schedule_date);
+            // Get current date
+            $currentDate = new \DateTime();
+
+            // If schedule_date has passed, delete the cart item
+            if ($scheduleDate < $currentDate) {
+                $value->delete();
+                unset($cart[$key]); // Remove the item from the collection
+            } else {
+                // If schedule_date has not passed, update vendor_name
+                $user = User::find($value->menu->vendor_id);
+                $value->menu->vendor_name = $user->name;
+            }
         }
 
+        // Return the view with the updated cart
         return view('pages.cart.index', ['cart' => $cart]);
     }
 

@@ -194,7 +194,6 @@ function initialize() {
 
                         // Variable untuk menyimpan porsi yang dipilih
                         var selectedOption = null;
-                        var firstIteration = true;
 
                         // Loop melalui setiap tombol porsi
                         previousSelectedOption = null;
@@ -278,8 +277,7 @@ function initialize() {
                         divPorsiContainer.appendChild(spanPorsi);
                         divPorsiContainer.appendChild(divPorsiButtons);
 
-                        var divKuantitasContainer =
-                            document.createElement("div");
+                        var divKuantitasContainer = document.createElement("div");
                         divKuantitasContainer.classList.add(
                             "d-flex",
                             "align-items-center",
@@ -287,8 +285,7 @@ function initialize() {
                         );
                         var spanKuantitas = document.createElement("span");
                         spanKuantitas.textContent = "Kuantitas";
-                        var divKuantitasControls =
-                            document.createElement("div");
+                        var divKuantitasControls = document.createElement("div");
                         divKuantitasControls.classList.add(
                             "d-flex",
                             "align-items-center",

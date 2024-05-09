@@ -63,7 +63,7 @@ class MenuController extends Controller
 
             if ($dataMenu) {
                 $vendorRule = UserSetting::where('vendor_id', $request->id)->first();
-                $date = strtotime(date("Y-m-d", strtotime("-".$vendorRule->confirmation_days."day", strtotime($dataMenu->schedule))));
+                $date = strtotime(date("Y-m-d", strtotime("-" . $vendorRule->confirmation_days - 1 . "day", strtotime($dataMenu->schedule))));
 
                 // Jika pada hari-H telah melewati batas waktu (confirmation_days) berdasarkan aturan vendor, maka tidak bisa melakukan pemesanan
                 if (strtotime(now()) <= $date) {
