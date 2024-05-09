@@ -38,9 +38,9 @@ class CreateNewUser implements CreatesNewUsers
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
-            'address' => ['required', 'string'],
-            'latitude' => ['required', 'numeric'],
-            'longitude' => ['required', 'numeric'],
+            // 'address' => ['required', 'string'],
+            // 'latitude' => ['required', 'numeric'],
+            // 'longitude' => ['required', 'numeric'],
         ])->validate();
 
         return DB::transaction(function () use ($input) {
@@ -48,9 +48,9 @@ class CreateNewUser implements CreatesNewUsers
                 'name' => $input['name'],
                 'email' => $input['email'],
                 'password' => Hash::make($input['password']),
-                'address' => $input['address'],
-                'latitude' => $input['latitude'],
-                'longitude' => $input['longitude'],
+                // 'address' => $input['address'],
+                // 'latitude' => $input['latitude'],
+                // 'longitude' => $input['longitude'],
             ]), function (User $user) {
                 $this->createRole($user);
             });
