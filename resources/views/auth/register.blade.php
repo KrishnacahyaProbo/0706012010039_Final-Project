@@ -56,7 +56,7 @@
                                     required autocomplete="new-password" />
                             </div>
 
-                            <div class="d-grid gap-2">
+                            {{-- <div class="d-grid gap-2">
                                 <div>
                                     <x-label for="address" value="{{ __('Alamat') }}" />
                                     <x-input type="search" id="searchInput" class="form-control"
@@ -94,7 +94,7 @@
                                 <div>
                                     <span id="address_text" class="text-secondary"></span>
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <x-button>{{ __('Register') }}</x-button>
                         </div>
