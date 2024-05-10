@@ -18,7 +18,6 @@
             @if ($authDelivery === null || $confirmationDays->confirmation_days === null || $balance === null)
                 @include('pages.users.include.alertSetting')
             @endif
-
         @endif
         @if (Auth::user()->hasRole('customer'))
             @if ($balance === null)

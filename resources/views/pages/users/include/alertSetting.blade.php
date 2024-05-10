@@ -7,7 +7,7 @@
                 <button class="btn-close" type="button" data-bs-dismiss="modal" onclick="closeModal()"></button>
             </div>
             <div class="modal-body">
-                <p>Mohon mengisi pengaturan akun Anda terlebih dahulu.</p>
+                <p>Mohon mengisi seluruh pengaturan akun Anda terlebih dahulu.</p>
                 <a href="/settings" class="btn btn-primary w-100">Lanjut</a>
             </div>
         </div>
