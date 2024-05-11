@@ -151,16 +151,6 @@
                         <h3>Alamat Pengiriman</h3>
 
                         <div>
-                            {{-- <strong>{{ Auth::user()->hasRole('vendor') ? 'Lokasi lama asal pengiriman: ' : 'Lokasi lama tujuan pengiriman: ' }}</strong>
-                            <span>{{ Auth::user()->address }}</span>
-                            <br> --}}
-                            <strong>{{ Auth::user()->hasRole('vendor') ? 'Lokasi asal pengiriman: ' : 'Lokasi tujuan pengiriman: ' }}</strong>
-                            <span>{{ $user_setting != null ? $user_setting->address : '-' }}</span>
-                        </div>
-
-                        <hr>
-
-                        <div>
                             <x-label for="address" value="{{ __('Alamat') }}" />
                             <x-input type="search" id="searchInput" class="form-control"
                                 placeholder="Cari Alamat" />
@@ -196,6 +186,16 @@
 
                         <div>
                             <span id="address_text" class="text-secondary"></span>
+                        </div>
+
+                        <hr class="my-0">
+
+                        <div>
+                            {{-- <strong>{{ Auth::user()->hasRole('vendor') ? 'Lokasi lama asal pengiriman: ' : 'Lokasi lama tujuan pengiriman: ' }}</strong>
+                            <span>{{ Auth::user()->address }}</span>
+                            <br> --}}
+                            <strong>{{ Auth::user()->hasRole('vendor') ? 'Lokasi asal pengiriman: ' : 'Lokasi tujuan pengiriman: ' }}</strong>
+                            <span>{{ $user_setting != null ? $user_setting->address : '-' }}</span>
                         </div>
 
                         <button class="btn btn-primary w-100" type="button"

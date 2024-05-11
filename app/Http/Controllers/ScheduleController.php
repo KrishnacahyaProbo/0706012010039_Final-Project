@@ -17,7 +17,7 @@ class ScheduleController extends Controller
         $data = User::with('menu', 'menu.menu_schedule')
             ->where('name', $name)
             ->first();
-        return view('pages.schedules.vendor', compact('data'));
+        return view('pages.schedules.index', compact('data'));
     }
 
     public function store(Request $request)

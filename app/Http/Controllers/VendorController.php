@@ -31,7 +31,7 @@ class VendorController extends Controller
             $longitude = $request->input('longitude');
 
             // Mengambil data vendor
-            $vendorQuery = User::role('vendor')->with('Delivery', 'UserSetting');
+            $vendorQuery = User::role('vendor')->with('Delivery', 'UserSetting')->orderBy('created_at', 'desc');
             $allVendor = User::role('vendor')->get();
             // Menampung nearby vendor (keseluruhan vendor yang menjangkau jarak pengiriman terhadap customer)
             $listVendor = [];

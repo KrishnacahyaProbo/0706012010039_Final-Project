@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function searchVendor() {
-    document.getElementById("permissionDenied").innerHTML = "";
     setVendorToMenu();
 }
 

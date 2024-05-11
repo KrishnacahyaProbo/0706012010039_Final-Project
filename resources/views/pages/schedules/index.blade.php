@@ -20,6 +20,19 @@
 
         <div class="card">
             <div class="card-body">
+                <div class="d-grid gap-3">
+                    <div class="d-flex ms-auto gap-2">
+                        <input type="month" id="monthFilter" class="form-control">
+                    </div>
+                    <div>
+                        <canvas id="scheduleChart" aria-label="Jadwal Penjualan"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
                 <div id="calendar" class="vh-100"></div>
             </div>
         </div>
@@ -28,7 +41,6 @@
             <script src="{{ asset('js/schedule.js') }}"></script>
             <script>
                 var dataSchedule = <?php echo $data; ?>;
-                console.log(dataSchedule);
             </script>
         @endsection
     </div>
