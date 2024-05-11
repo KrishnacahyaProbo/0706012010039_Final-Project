@@ -18,11 +18,20 @@
             @section('page_title', 'Pengaturan')
         </div>
 
-        @if ($delivery == null || $user_setting == null || $balance == null)
-            <div class="alert alert-warning d-grid gap-3 text-center" role="alert">
-                <i class="bi bi-gear display-1"></i>
-                <span>Mohon mengisi seluruh pengaturan akun Anda terlebih dahulu.</span>
-            </div>
+        @if (Auth::user()->hasRole('vendor'))
+            @if ($delivery == null || $user_setting == null || $balance == null)
+                <div class="alert alert-warning d-grid gap-3 text-center" role="alert">
+                    <i class="bi bi-gear display-1"></i>
+                    <span>Mohon mengisi seluruh pengaturan akun Anda terlebih dahulu.</span>
+                </div>
+            @endif
+        @else
+            @if ($user_setting == null || $balance == null)
+                <div class="alert alert-warning d-grid gap-3 text-center" role="alert">
+                    <i class="bi bi-gear display-1"></i>
+                    <span>Mohon mengisi seluruh pengaturan akun Anda terlebih dahulu.</span>
+                </div>
+            @endif
         @endif
 
         @if (Auth::user()->hasRole('vendor'))
