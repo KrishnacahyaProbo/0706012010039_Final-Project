@@ -247,8 +247,13 @@ function handleComplain(name, refund_reason, reason_proof, schedule_date, menu_n
     document.getElementById('customer_name_testimony_complain').innerHTML = name;
     document.getElementById('deskripsi_testimony_complain').innerHTML = refund_reason;
     document.getElementById('deskripsi_testimony_complain').innerHTML = refund_reason;
-    document.getElementById('image_complain_customer').src = `/assets/image/reason_proof/${reason_proof}`;
-    document.getElementById('href_complain_image').href = `/assets/image/reason_proof/${reason_proof}`;
+    if (reason_proof != 'null') {
+        $('#href_complain_image').show();
+        document.getElementById('image_complain_customer').src = `/assets/image/reason_proof/${reason_proof}`;
+        document.getElementById('href_complain_image').href = `/assets/image/reason_proof/${reason_proof}`;
+    } else {
+        $('#href_complain_image').hide();
+    }
     document.getElementById('name_menu_complain').textContent = menu_name;
     document.getElementById('portion_complain').textContent = portion;
     document.getElementById('quantity_complain').textContent = quantity + " pcs";

@@ -18,6 +18,13 @@
             @section('page_title', 'Pengaturan')
         </div>
 
+        @if ($delivery == null || $user_setting == null || $balance == null)
+            <div class="alert alert-warning d-grid gap-3 text-center" role="alert">
+                <i class="bi bi-gear display-1"></i>
+                <span>Mohon mengisi seluruh pengaturan akun Anda terlebih dahulu.</span>
+            </div>
+        @endif
+
         @if (Auth::user()->hasRole('vendor'))
             <div class="card">
                 <div class="card-body">
@@ -33,7 +40,7 @@
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1">km</span>
                                     <input id="distance_between" type="number" name="distance_between"
-                                        class="form-control"
+                                        class="form-control" min="1"
                                         value="{{ $delivery != null ? $delivery->distance_between : '' }}" required>
                                 </div>
                             </div>
@@ -43,7 +50,8 @@
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1">Rp</span>
                                     <input id="shipping_cost" type="number" name="shipping_cost" class="form-control"
-                                        value = "{{ $delivery != null ? $delivery->shipping_cost : '' }}" required>
+                                        min="1" value = "{{ $delivery != null ? $delivery->shipping_cost : '' }}"
+                                        required>
                                 </div>
                             </div>
 
@@ -66,7 +74,7 @@
                                 <label for="confirmation_days"
                                     class="form-label">{{ __('Batas Hari Terakhir Sebelum Tanggal Permintaan dan Pembatalan') }}</label>
                                 <input id="confirmation_days" type="number" name="confirmation_days"
-                                    class="form-control"
+                                    class="form-control" min="1"
                                     value="{{ $user_setting != null ? $user_setting->confirmation_days : '' }}"
                                     required>
                             </div>
@@ -116,7 +124,7 @@
                         <div>
                             <label for="account_number" class="form-label">{{ __('Nomor Rekening') }}</label>
                             <input id="account_number" type="number" name="account_number" class="form-control"
-                                value=  "{{ $balance != null ? $balance->account_number : '' }}" required>
+                                value="{{ $balance != null ? $balance->account_number : '' }}" required>
                         </div>
 
                         <div>
@@ -154,7 +162,8 @@
 
                         <div>
                             <x-label for="address" value="{{ __('Alamat') }}" />
-                            <x-input type="search" id="searchInput" class="form-control" placeholder="Cari Alamat" />
+                            <x-input type="search" id="searchInput" class="form-control"
+                                placeholder="Cari Alamat" />
 
                             <div id="addressDropdown"></div>
                         </div>

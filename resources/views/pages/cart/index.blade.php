@@ -109,8 +109,10 @@
                                                                         $temp[$ringkasanBelanja]['price'] +=
                                                                             $detail->price * $item->quantity;
                                                                     @endphp
-                                                                    <h5
-                                                                        id="newPrice{{ $ringkasanBelanja . $indexItem }}">
+                                                                    <h5 id="newPrice{{ $ringkasanBelanja . $indexItem }}"
+                                                                        class="price_per_item"
+                                                                        price="{{ $detail->price }}"
+                                                                        vendor="{{ $vendor['name'] }}">
                                                                         Rp{{ number_format($detail->price, 0, ',', '.') }}/pcs
                                                                     </h5>
                                                                     <input type="hidden" name="cart_menu_id"
@@ -121,7 +123,8 @@
                                                                         value="{{ $detail->note }}">
                                                                 @endif
                                                             @endforeach
-                                                            <div class="d-flex align-items-center gap-2">
+                                                            <div
+                                                                class="d-flex align-items-center row-button-porsion gap-2">
                                                                 <span>Porsi</span>
                                                                 @foreach ($item->menu->menuDetail as $detail)
                                                                     @php
@@ -148,7 +151,7 @@
                                                                         </button>
                                                                         <input type="text" name="quantity"
                                                                             value="{{ $item->quantity }}"
-                                                                            class="qty-input form-control text-center"
+                                                                            class="qty-input total_cart_per_input form-control text-center"
                                                                             id="quantity" readonly>
                                                                         <button
                                                                             class="input-group-text btn btn-increment border-0">
@@ -201,7 +204,8 @@
                                                     <tr>
                                                         <td>{{ $item['name'] }}</td>
                                                         <td>
-                                                            <strong>Rp{{ number_format($item['price'], 0, ',', '.') }}</strong>
+                                                            <strong class="total_cart_per_vendor"
+                                                                vendor="{{ $item['name'] }}">Rp{{ number_format($item['price'], 0, ',', '.') }}</strong>
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -221,7 +225,8 @@
                                                         $total += $collection['price'];
                                                     @endphp
                                                 @endforeach
-                                                <strong>Rp{{ number_format($total, 0, ',', '.') }}</strong>
+                                                <strong
+                                                    id="total_cart_ringkasan_belanja">Rp{{ number_format($total, 0, ',', '.') }}</strong>
                                             </span>
                                         </div>
                                     </div>

@@ -1,9 +1,8 @@
-var customerLatitude, customerLongitude;
 var currentPage = 1;
 var perPage = 12;
 
 document.addEventListener("DOMContentLoaded", function () {
-    getCurrentLocation();
+    setVendorToMenu();
 });
 
 function searchVendor() {
@@ -30,7 +29,7 @@ function setVendorToMenu() {
             if ($("#searchInput").val() != '') {
                 $.each(response.data, function (index, vendor) {
                     var cardCol = $('<div class="col d-flex"></div>');
-                    var card = $('<div class="card h-100"></div>');
+                    var card = $('<div class="card w-100 h-100"></div>');
                     var img = $('<img src="' + (vendor.profile_photo_url != null ? vendor.profile_photo_url : "") + '" alt="" class="card-img-top" loading="lazy">');
                     var cardBody = $('<div class="card-body"></div>');
                     var title = $('<h3 class="card-title"><a href="#" class="stretched-link">' + vendor.name + '</a></h3>');
@@ -66,7 +65,7 @@ function setVendorToMenu() {
                 $.each(response.data.data, function (index, vendor) {
                     console.log(vendor);
                     var cardCol = $('<div class="col d-flex"></div>');
-                    var card = $('<div class="card h-100"></div>');
+                    var card = $('<div class="card w-100 h-100"></div>');
                     var img = $('<img src="' + (vendor.profile_photo_url != null ? vendor.profile_photo_url : "") + '" alt="" class="card-img-top" loading="lazy">');
                     var cardBody = $('<div class="card-body"></div>');
                     var title = $('<h3 class="card-title"><a href="#" class="stretched-link">' + vendor.name + '</a></h3>');
@@ -145,20 +144,25 @@ function previousPage() {
     setVendorToMenu();
 }
 
-function getCurrentLocation() {
+function chooseCustomerLocation() {
     if (navigator.geolocation) {
+        document.getElementById("customer_address").innerHTML =
+            `<span class="placeholder-glow">
+                <span class="placeholder col-12"></span>
+            </span>`;
+
         navigator.geolocation.getCurrentPosition(
             function (position) {
                 customerLatitude = position.coords.latitude;
                 customerLongitude = position.coords.longitude;
                 console.log(customerLatitude, customerLongitude);
+                convertCustomerAddress(customerLatitude, customerLongitude);
                 setVendorToMenu();
             },
             function (error) {
                 switch (error.code) {
                     case error.PERMISSION_DENIED:
                         console.error("Tidak dapat mendeteksi lokasi, mohon memberikan izin akses lokasi untuk mencari vendor di area sekitar Anda.");
-                        $('#permissionDenied').html('<div class="alert alert-warning d-grid gap-3 text-center" role="alert"><i class="bi bi-geo-alt-fill display-1"></i><span>Tidak dapat mendeteksi lokasi, mohon memberikan izin akses lokasi untuk mencari vendor di sekitar Anda.</span></div>');
                         break;
                     case error.POSITION_UNAVAILABLE:
                         console.error("Maaf, informasi lokasi tidak tersedia.");
@@ -173,9 +177,49 @@ function getCurrentLocation() {
             }
         );
     } else {
-        alert("Peramban tidak dapat memfasilitasi pengambilan geolokasi.");
-        console.error("Peramban tidak dapat memfasilitasi pengambilan geolokasi.");
+        navigator.permissions.query({ name: 'geolocation' }).then(function (result) {
+            if (result.state == 'granted') {
+                chooseCustomerLocation();
+            } else if (result.state == 'denied') {
+                alert("Tidak dapat mendeteksi lokasi, mohon memberikan izin akses lokasi untuk mencari vendor di sekitar Anda.");
+            }
+        });
     }
+}
+
+function convertCustomerAddress(latitude, longitude) {
+    fetch("https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=" + latitude + "&lon=" + longitude)
+        .then(response => response.json())
+        .then(data => {
+            var address = "";
+
+            if (data.address) {
+                console.log(data.address, "address");
+                if (data.address.road) {
+                    address += data.address.road + ", ";
+                }
+                if (data.address.state) {
+                    address += data.address.state + ", ";
+                }
+                if (data.address.municipality) {
+                    address += data.address.municipality + ", ";
+                }
+                if (data.address.city) {
+                    address += data.address.city + ", ";
+                }
+                if (data.address.village) {
+                    address += data.address.village + ", ";
+                }
+                if (data.address.postcode) {
+                    address += data.address.postcode + ".";
+                }
+            }
+
+            document.getElementById("customer_address").innerHTML = address;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }
 
 function calculateDistance(vendorLatitude, vendorLongitude, customerLatitude, customerLongitude) {

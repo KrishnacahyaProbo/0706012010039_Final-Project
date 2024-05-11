@@ -17,19 +17,20 @@
                             <x-label for="refund_reason" value="{{ __('Keluhan Pesanan') }}" />
                             <select class="form-select" aria-label="Reason select" id="refund_reason"
                                 name="refund_reason" onchange="showTextarea(this)">
-                                <option value="Kemasan Rusak">Kemasan rusak</option>
+                                <option value="Kemasan rusak">Kemasan rusak</option>
                                 <option value="Kesalahan item menu">Kesalahan item menu</option>
                                 <option value="Kesalahan porsi">Kesalahan porsi</option>
                                 <option value="Kesalahan kuantitas">Kesalahan kuantitas</option>
                                 <option value="Ketidaksesuaian dengan katalog">Ketidaksesuaian dengan katalog</option>
+                                <option value="Pesanan tidak dikirim">Pesanan tidak dikirim</option>
                                 <option value="Lainnya">Lainnya</option>
                             </select>
                         </div>
                         <div id="otherReason" style="display: none;">
                             <x-label for="other_reason" value="{{ __('Keterangan Lainnya') }}" />
-                            <textarea class="form-control" id="other_reason" name="refund_orther_reason"></textarea>
+                            <textarea class="form-control" id="other_reason" name="refund_other_reason"></textarea>
                         </div>
-                        <div>
+                        <div id="reason_proof_div">
                             <x-label for="reason_proof" value="{{ __('Foto Bukti') }}" />
                             <input type="file" class="form-control" id="reason_proof" name="reason_proof" required>
                         </div>
@@ -44,6 +45,12 @@
 <script>
     function showTextarea(select) {
         var selectedOption = select.options[select.selectedIndex].value;
+        if (selectedOption === 'Pesanan tidak dikirim') {
+            document.getElementById('reason_proof_div').style.display = 'none';
+            document.getElementById('reason_proof').removeAttribute('required');
+        } else {
+            document.getElementById('reason_proof_div').style.display = 'block';
+        }
         if (selectedOption === 'Lainnya') {
             document.getElementById('otherReason').style.display = 'block';
         } else {

@@ -16,9 +16,7 @@ class BalanceNominalController extends Controller
     {
         $user_setting = UserSetting::where('vendor_id', Auth::user()->id)->first();
         $balance = BalanceNominal::where('user_id', Auth::user()->id)->first();
-        $balance_history = BalanceHistory::where('user_id', Auth::user()->id)
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $balance_history = BalanceHistory::where('user_id', Auth::user()->id)->get();
 
         $data = [
             'user_setting' => $user_setting,
@@ -97,9 +95,9 @@ class BalanceNominalController extends Controller
         // Retrieve the balance history based on the category
         $auth = Auth::user()->id;
         if ($category === 'all_category') {
-            return BalanceHistory::where('user_id', $auth)->get();
+            return BalanceHistory::where('user_id', $auth)->orderBy('created_at', 'desc')->get();
         } else {
-            return BalanceHistory::where(['category' =>  $category, 'user_id' => $auth])->get();
+            return BalanceHistory::where(['category' =>  $category, 'user_id' => $auth])->orderBy('created_at', 'desc')->get();
         }
     }
 }

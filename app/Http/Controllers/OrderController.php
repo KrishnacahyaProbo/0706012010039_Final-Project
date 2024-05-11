@@ -162,13 +162,16 @@ class OrderController extends Controller
     {
         try {
             $complain = [
-                'refund_reason' => $request->refund_reason === "Lainnya" ?  $request->refund_orther_reason : $request->refund_reason,
+                'refund_reason' => $request->refund_reason === "Lainnya" ?  $request->refund_other_reason : $request->refund_reason,
                 'status' => 'customer_complain'
             ];
-            $image = $request->file('reason_proof');
-            $imageName = Str::random(40) . '.' . $image->getClientOriginalExtension();
-            Storage::disk('public_uploads_reason_proof')->put($imageName, file_get_contents($image));
-            $complain['reason_proof'] = $imageName;
+
+            if ($request->file('reason_proof') != null) {
+                $image = $request->file('reason_proof');
+                $imageName = Str::random(40) . '.' . $image->getClientOriginalExtension();
+                Storage::disk('public_uploads_reason_proof')->put($imageName, file_get_contents($image));
+                $complain['reason_proof'] = $imageName;
+            }
 
             // Simpan alasan refund dan bukti alasan pada TransactionDetail
             $transaction = TransactionDetail::find($transaction_uid);

@@ -74,7 +74,7 @@ function addMenuItem(value) {
                         <label class="form-label">Harga</label>
                         <div class="input-group">
                             <span class="input-group-text" id="basic-addon1">Rp</span>
-                            <input type="number" class="form-control price-input" name="price[]" id="price_1">
+                            <input type="number" class="form-control price-input" name="price[]" id="price_1" min="1">
                         </div>
                     </div>
                 </div>
@@ -128,7 +128,7 @@ function addMenuItem(value) {
                             <label class="form-label">Harga</label>
                             <div class="input-group">
                                 <span class="input-group-text" id="basic-addon1">Rp</span>
-                                <input type="number" class="form-control price-input" name="price[]" id="price_${index + 2}" value="Rp${formatRupiah(detail.price)}">
+                                <input type="number" class="form-control price-input" name="price[]" id="price_${index + 2}" min="1" value="Rp${formatRupiah(detail.price)}">
                             </div>
                         </div>
                     </div>

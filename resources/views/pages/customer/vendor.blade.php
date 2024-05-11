@@ -18,6 +18,30 @@
             @section('page_title', 'Jelajahi Vendor Katering')
         </div>
 
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between gap-3">
+                    <div class="d-grid">
+                        <span class="text-secondary">Alamat Pengiriman</span>
+                        <strong id="customer_address">{{ $user_setting != null ? $user_setting->address : '-' }}
+                            <a href="{{ route('setting.index') }}">
+                                <i class="bi bi-pencil-square text-primary"></i>
+                            </a>
+                        </strong>
+                    </div>
+
+                    <div>
+                        <x-secondary-button class="d-none d-md-block" id="detect_geolocation"
+                            onclick="chooseCustomerLocation()">Gunakan Geolokasi</x-secondary-button>
+                        <x-secondary-button class="d-block d-md-none" id="detect_geolocation" title="Gunakan Geolokasi"
+                            onclick="chooseCustomerLocation()">
+                            <i class="bi bi-crosshair"></i>
+                        </x-secondary-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="d-flex gap-2">
             <input type="search" class="form-control" id="searchInput" placeholder="Cari Vendor"
                 aria-label="Cari vendor katering" aria-describedby="button-addon2">
@@ -28,6 +52,10 @@
     </div>
 
     @section('js')
+        <script>
+            var customerLatitude = "{{ $user_setting->latitude }}";
+            var customerLongitude = "{{ $user_setting->longitude }}";
+        </script>
         <script src="{{ asset('js/vendors.js') }}"></script>
     @endsection
 </x-app-layout>

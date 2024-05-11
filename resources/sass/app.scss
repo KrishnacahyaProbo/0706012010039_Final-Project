@@ -106,17 +106,8 @@ tr:last-child td:last-child {
     border-bottom-right-radius: 4px;
 }
 
-.btn-primary,
-.swal2-confirm {
-    background-color: $red-700 !important;
-    border: 1px solid $red-700 !important;
-    box-shadow: none !important;
-    color: $white !important;
-
-    &:is(:focus, :hover) {
-        background-color: $red-600 !important;
-        border: 1px solid $red-600 !important;
-    }
+.btn-outline-danger {
+    border: none;
 }
 
 .btn-outline-primary {
@@ -128,6 +119,19 @@ tr:last-child td:last-child {
         background-color: transparent !important;
         border: 1px solid $red-600 !important;
         color: $red-600 !important;
+    }
+}
+
+.btn-primary,
+.swal2-confirm {
+    background-color: $red-700 !important;
+    border: 1px solid $red-700 !important;
+    box-shadow: none !important;
+    color: $white !important;
+
+    &:is(:focus, :hover) {
+        background-color: $red-600 !important;
+        border: 1px solid $red-600 !important;
     }
 }
 

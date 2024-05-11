@@ -8,12 +8,14 @@ use App\Models\Delivery;
 use App\Models\Testimony;
 use App\Models\UserSetting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VendorController extends Controller
 {
     public function index()
     {
-        return view('pages.customer.vendor');
+        $param['user_setting'] = UserSetting::where('vendor_id', Auth::user()->id)->first();
+        return view('pages.customer.vendor')->with($param);
     }
 
     public function data(Request $request)

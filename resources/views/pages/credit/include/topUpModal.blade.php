@@ -12,7 +12,7 @@
                     <div class="d-grid gap-3">
                         <div>
                             <x-label for="credit" value="{{ __('Nominal') }}" />
-                            <x-input id="credit" type="number" name="credit" required />
+                            <x-input id="credit" type="number" name="credit" min="1" required />
                         </div>
                         <div>
                             <x-label for="transaction_proof" value="{{ __('Foto Bukti Top Up') }}" />

@@ -23,7 +23,7 @@ $(document).ready(function () {
 });
 
 $(document).on("click", '.btn-portion', function () {
-    $('.portion').removeClass('portion');
+    $(this).closest('.row-button-porsion').find('.portion').removeClass('portion');
     $(this).addClass('portion');
     var ringkasanBelanja = $(this).attr('ringkasanBelanja');
     var indexItem = $(this).attr('indexItem');
@@ -96,13 +96,40 @@ function updateCart(ringkasanBelanja = null, indexItem = null, editButton = 0, c
                     }
                 });
                 console.log(newPrice);
-                $(`#newPrice${ringkasanBelanja + indexItem}`).html(
-                    `Rp${newPrice.toLocaleString()}/pcs`);
+                $(`#newPrice${ringkasanBelanja + indexItem}`).attr(`price`, `${newPrice}`);
+                $(`#newPrice${ringkasanBelanja + indexItem}`).html(`Rp${newPrice.toLocaleString()}/pcs`);
             }
+            calculateCart();
             // toastr.success('Berhasil memperbarui item.');
         },
         error: function (xhr, status, error) {
             toastr.error('Gagal memperbarui item. ', error);
         }
     });
+}
+
+// Auto refresh Ringkasan Belanja jika terjadi perubahan porsi ataupun kuantitas
+function calculateCart() {
+    var totalCartRingkasanBelanja = 0;
+
+    data.forEach(element => {
+        var total = 0;
+
+        $('.price_per_item').each(function (index) {
+            if ($(this).attr('vendor') == element.name) {
+                var cartQuantity = $('.total_cart_per_input').eq(index).val();
+                total += parseInt($(this).attr('price')) * cartQuantity;
+            }
+        });
+
+        element.price = total;
+        $('.total_cart_per_vendor').each(function (index) {
+            if ($(this).attr('vendor') == element.name) {
+                $(this).html(`Rp${total.toLocaleString()}`);
+            }
+        });
+
+        totalCartRingkasanBelanja += total;
+    });
+    $('#total_cart_ringkasan_belanja').text(`Rp${totalCartRingkasanBelanja.toLocaleString()}`);
 }

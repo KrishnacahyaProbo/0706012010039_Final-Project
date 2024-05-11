@@ -12,7 +12,7 @@
                     <div class="d-grid gap-3">
                         <div>
                             <x-label for="credit" value="{{ __('Nominal') }}" />
-                            <x-input id="credit_cash_out" type="number" name="credit" required />
+                            <x-input id="credit_cash_out" type="number" name="credit" min="1" required />
                         </div>
 
                         <x-button>{{ __('Save') }}</x-button>
