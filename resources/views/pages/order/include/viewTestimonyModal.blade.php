@@ -14,9 +14,9 @@
                             <span id="rating_testimony"></span>/5
                         </div>
                     </div>
-                    <small class="text-secondary">
+                    <span class="text-secondary">
                         <pre class="mb-0" id="deskripsi_testimony"></pre>
-                    </small>
+                    </span>
                     <div>
                         <a id="href_testimony" target="_blank" rel="noopener noreferrer">
                             <img id="image_testimony" class="rounded-1" width="196" loading="lazy">

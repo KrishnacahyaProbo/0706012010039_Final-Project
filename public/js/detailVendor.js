@@ -7,8 +7,7 @@ function initialize() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showDistance);
         } else {
-            document.getElementById("distance-info").innerHTML =
-                "Peramban tidak dapat memfasilitasi pengambilan geolokasi.";
+            document.getElementById("distance-info").innerHTML = "Peramban tidak dapat memfasilitasi pengambilan geolokasi.";
         }
     }
 
@@ -21,8 +20,7 @@ function initialize() {
             vendorData.latitude,
             vendorData.longitude
         );
-        document.getElementById("distance-info").innerHTML =
-            vendorData.address + " (" + distance + " km" + ")";
+        document.getElementById("distance-info").innerHTML = vendorData.address + " (" + distance + " km" + ")";
     }
 
     function calculateDistance(vendorLatitude, vendorLongitude, customerLatitude, customerLongitude) {
@@ -63,9 +61,6 @@ function initialize() {
         headerToolbar: {
             left: "title",
             right: "today prev,next",
-        },
-        footerToolbar: {
-            center: "dayGridMonth,dayGridWeek,dayGridDay,listWeek",
         },
         buttonText: {
             today: "Today",
@@ -126,18 +121,23 @@ function initialize() {
                         divCard.classList.add("card");
 
                         var divCardBody = document.createElement("div");
-                        divCardBody.classList.add(
-                            "card-body",
-                            "d-grid",
-                            "gap-3"
-                        );
+                        divCardBody.classList.add("card-body", "d-grid", "gap-3");
 
+                        var divCardItemLayout = document.createElement("div");
+                        divCardItemLayout.classList.add("d-flex", "gap-3");
+
+                        var divImageContainer = document.createElement("div");
+                        divImageContainer.classList.add("w-25");
                         var img = document.createElement("img");
                         img.src = menu.image.includes('http') ? menu.image : public + 'menu/' + menu.image;
                         img.alt = "";
-                        img.classList.add("rounded-1", "w-50");
+                        img.classList.add("rounded-1");
                         img.setAttribute("loading", "lazy");
 
+                        divImageContainer.appendChild(img);
+
+                        var divTextContainer = document.createElement("div");
+                        divTextContainer.classList.add("w-100");
                         var h3 = document.createElement("h3");
                         h3.classList.add("card-title");
                         h3.textContent = menu.menu_name;
@@ -157,9 +157,11 @@ function initialize() {
                             type.appendChild(span);
                         }
 
-                        var small = document.createElement("small");
-                        small.classList.add("card-text", "text-secondary");
-                        small.textContent = menu.description;
+                        divTextContainer.appendChild(h3);
+                        divTextContainer.appendChild(type);
+                        divCardItemLayout.appendChild(divImageContainer);
+                        divCardItemLayout.appendChild(divTextContainer);
+                        divCardBody.appendChild(divCardItemLayout);
 
                         // Ambil semua harga dari menu_detail
                         var prices = menu.menu_detail.map(function (menuDetail) {
@@ -173,11 +175,7 @@ function initialize() {
                         h5.textContent = "Rp" + formatRupiah(minPrice) + "/pcs";
 
                         var divPorsiContainer = document.createElement("div");
-                        divPorsiContainer.classList.add(
-                            "d-flex",
-                            "align-items-center",
-                            "gap-3"
-                        );
+                        divPorsiContainer.classList.add("d-flex", "align-items-center", "gap-3");
                         var spanPorsi = document.createElement("span");
                         spanPorsi.textContent = "Porsi";
                         var divPorsiButtons = document.createElement("div");
@@ -199,13 +197,7 @@ function initialize() {
                         previousSelectedOption = null;
                         porsiOptions.forEach(function (option) {
                             var button = document.createElement("button");
-                            button.classList.add(
-                                "btn",
-                                "btn-outline-primary",
-                                "rounded-pill",
-                                "mx-1",
-                                "px-3"
-                            );
+                            button.classList.add("btn", "btn-outline-primary", "rounded-pill", "mx-1", "px-3");
                             button.type = "button";
                             button.textContent = option;
 
@@ -278,29 +270,15 @@ function initialize() {
                         divPorsiContainer.appendChild(divPorsiButtons);
 
                         var divKuantitasContainer = document.createElement("div");
-                        divKuantitasContainer.classList.add(
-                            "d-flex",
-                            "align-items-center",
-                            "gap-3"
-                        );
+                        divKuantitasContainer.classList.add("d-flex", "align-items-center", "gap-3");
                         var spanKuantitas = document.createElement("span");
                         spanKuantitas.textContent = "Kuantitas";
                         var divKuantitasControls = document.createElement("div");
-                        divKuantitasControls.classList.add(
-                            "d-flex",
-                            "align-items-center",
-                            "border-secondary",
-                            "rounded",
-                            "border"
-                        );
+                        divKuantitasControls.classList.add("d-flex", "align-items-center", "border-secondary", "rounded", "border");
                         var buttonMinus = document.createElement("button");
                         buttonMinus.classList.add("btn", "border-0");
                         var iMinus = document.createElement("i");
-                        iMinus.classList.add(
-                            "bi",
-                            "bi-dash-lg",
-                            "text-primary"
-                        );
+                        iMinus.classList.add("bi", "bi-dash-lg", "text-primary");
                         buttonMinus.appendChild(iMinus);
 
                         var spanQuantity = document.createElement("span");
@@ -318,17 +296,9 @@ function initialize() {
                         divKuantitasContainer.appendChild(divKuantitasControls);
 
                         var addToCartButton = document.createElement("button");
-                        addToCartButton.classList.add(
-                            "w-100",
-                            "btn",
-                            "btn-primary"
-                        );
+                        addToCartButton.classList.add("w-100", "btn", "btn-primary");
                         addToCartButton.textContent = "Add to Cart";
 
-                        divCardBody.appendChild(img);
-                        divCardBody.appendChild(h3);
-                        divCardBody.appendChild(type);
-                        divCardBody.appendChild(small);
                         divCardBody.appendChild(h5);
                         divCardBody.appendChild(divPorsiContainer);
                         divCardBody.appendChild(divKuantitasContainer);
@@ -488,6 +458,7 @@ function addToCart(menuId, currentQuantity, button, selectedPorsiText) {
     });
 }
 
+// Delete Cart item
 function destroy(id) {
     var confirmation = window.confirm("Yakin ingin hapus item keranjang belanja?");
     if (confirmation) {

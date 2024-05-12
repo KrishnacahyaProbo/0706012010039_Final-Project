@@ -25,9 +25,9 @@
                             <span id="quantity_complain"></span>
                         </div>
                     </div>
-                    <small class="text-secondary">
+                    <span class="text-secondary">
                         <pre class="mb-0" id="deskripsi_testimony_complain"></pre>
-                    </small>
+                    </span>
                     <div>
                         <a id="href_complain_image" target="_blank" rel="noopener noreferrer">
                             <img id="image_complain_customer" class="rounded-1" width="196" loading="lazy">

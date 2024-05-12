@@ -341,7 +341,7 @@ function viewTestimony(id) {
                         content += '<i class="bi bi-star-fill text-warning"></i>';
                         content += '<span>' + testimony.rating + '/5</span>';
                         content += '</div>';
-                        content += '<small class="text-secondary"><pre class="mb-0">' + testimony.description + '</pre></small>';
+                        content += '<span class="text-secondary"><pre class="mb-0">' + testimony.description + '</pre></span>';
                         content += '<div>';
                         content += '<a href="/assets/image/testimony_photo/' + testimony.testimony_photo + '" target="_blank" rel="noopener noreferrer">';
                         content += '<img src="/assets/image/testimony_photo/' + testimony.testimony_photo + '" alt="" class="rounded-1" width="196" loading="lazy">';

@@ -458,7 +458,7 @@ function showDetail(id) {
                 );
                 $("#mdlFormContent").empty().html(`
                     <div class="d-grid d-lg-flex gap-lg-3">
-                        <img src="${response.data.image.includes('http') ? response.data.image : `/menu/${response.data.image}`}" class="rounded-1 w-50 d-block mx-auto mx-lg-0 mb-3" loading="lazy">
+                        <img src="${response.data.image.includes('http') ? response.data.image : `/menu/${response.data.image}`}" class="rounded-1 w-25 d-block mx-auto mx-lg-0 mb-3" loading="lazy">
                         <div>
                             <div>${response.data.type === 'no_spicy' ? '<span class="badge rounded-pill text-primary-emphasis bg-primary-subtle border border-primary-subtle">Tidak Pedas</span>' : '<span class="badge rounded-pill text-danger-emphasis bg-danger-subtle border border-danger-subtle">Pedas</span>'}</div>
                             <p class="text-secondary my-3">

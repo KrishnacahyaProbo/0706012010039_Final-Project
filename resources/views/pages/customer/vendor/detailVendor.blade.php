@@ -67,16 +67,24 @@
 
             <div class="d-grid d-lg-flex gap-3">
                 <div class="w-100">
-                    <div class="d-grid gap-2">
-                        <div class="card">
-                            <div id="calendar_menu" class="card-body"></div>
-                        </div>
+                    <div class="sticky-md-top">
+                        <div class="d-grid gap-2">
+                            <div class="card">
+                                <div class="card-header text-center">
+                                    <span>Klik tanggal <strong>H-{{ $vendor->UserSetting->confirmation_days }}</strong>
+                                        dari jadwal pemesanan</span>
+                                </div>
+                                <div id="calendar_menu" class="card-body"></div>
+                            </div>
 
-                        <a href="{{ route('cart.index') }}" class="btn btn-primary">View Cart</a>
+                            <a href="{{ route('cart.index') }}" class="btn btn-primary">View Cart</a>
+                        </div>
                     </div>
                 </div>
 
-                <div class="w-100 d-grid gap-2" id="menuCart"></div>
+                <div class="w-100">
+                    <div class="w-100 d-grid gap-2" id="menuCart"></div>
+                </div>
             </div>
         </div>
     </div>
