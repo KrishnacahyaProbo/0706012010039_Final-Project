@@ -36,14 +36,14 @@ function initialize() {
         var longitudeDifference = toRadians(vendorLongitude - customerLongitude);
 
         // Perhitungan jarak sudut antara titik lokasi vendor terhadap customer pada permukaan bola (seperti Bumi)
-        var angularDistance = Math.sin(latitudeDifference / 2) * Math.sin(latitudeDifference / 2) +
+        var a = Math.sin(latitudeDifference / 2) * Math.sin(latitudeDifference / 2) +
             Math.cos(customerLatitudeRadians) * Math.cos(vendorLatitudeRadians) *
             Math.sin(longitudeDifference / 2) * Math.sin(longitudeDifference / 2);
         // Perhitungan sudut pusat (sudut antara dua titik pada permukaan bola yang diukur dari pusat bola) di mana atan2 mengembalikan nilai dalam radian dari dua variabel
-        var centralAngle = 2 * Math.atan2(Math.sqrt(angularDistance), Math.sqrt(1 - angularDistance));
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
         // Jarak antara dua titik pada permukaan bola diukur dari jari-jari bumi dikali dengan sudut pusat
-        var distance = earthRadiusKilometer * centralAngle;
+        var distance = earthRadiusKilometer * c;
         // Hasil jarak antar dua titik lokasi dalam kilometer dengan nilai hingga 2 desimal di belakang koma
         return distance = distance.toFixed(2);
     }

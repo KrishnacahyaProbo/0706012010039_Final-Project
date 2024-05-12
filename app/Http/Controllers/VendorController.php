@@ -154,14 +154,14 @@ class VendorController extends Controller
             $longitudeDifference = $this->toRadians($vendorLongitude - $customerLongitude);
 
             // Perhitungan jarak sudut antara titik lokasi vendor terhadap customer pada permukaan bola (seperti Bumi)
-            $angularDistance = sin($latitudeDifference / 2) * sin($latitudeDifference / 2) +
+            $a = sin($latitudeDifference / 2) * sin($latitudeDifference / 2) +
                 cos($vendorLatitudeRadians) * cos($customerLatitudeRadians) *
                 sin($longitudeDifference / 2) * sin($longitudeDifference / 2);
             // Perhitungan sudut pusat (sudut antara dua titik pada permukaan bola yang diukur dari pusat bola) di mana atan2 mengembalikan nilai dalam radian dari dua variabel
-            $centralAngle = 2 * atan2(sqrt($angularDistance), sqrt(1 - $angularDistance));
+            $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
 
             // Jarak antara dua titik pada permukaan bola diukur dari jari-jari bumi dikali dengan sudut pusat
-            $distance = $earthRadiusKilometer * $centralAngle;
+            $distance = $earthRadiusKilometer * $c;
             // Hasil jarak antar dua titik lokasi dalam kilometer dengan nilai hingga 2 desimal di belakang koma
             return $distance = number_format($distance, 2);
         } catch (\Throwable $th) {
