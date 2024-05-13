@@ -237,8 +237,13 @@ function testimonyData(name, rating, description, photo) {
     document.getElementById("customer_name_testimony").innerHTML = name
     document.getElementById('rating_testimony').innerHTML = rating
     document.getElementById('deskripsi_testimony').innerHTML = description
-    document.getElementById('image_testimony').src = `/assets/image/testimony_photo/${photo}`
-    document.getElementById('href_testimony').href = `/assets/image/testimony_photo/${photo}`
+    if (photo != 'null') {
+        $('#href_testimony').show();
+        document.getElementById('image_testimony').src = `/assets/image/testimony_photo/${photo}`;
+        document.getElementById('href_testimony').href = `/assets/image/testimony_photo/${photo}`;
+    } else {
+        $('#href_testimony').hide();
+    }
 }
 
 function handleComplain(name, refund_reason, reason_proof, schedule_date, menu_name, portion, quantity, transaction_id) {

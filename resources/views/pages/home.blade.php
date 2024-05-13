@@ -14,17 +14,15 @@
     @endif
 
     @if (Auth::check())
-        @if (Auth::user()->hasRole('vendor'))
-            @if ($authDelivery === null || $confirmationDays->confirmation_days === null || $balance === null)
-                @include('pages.users.include.alertSetting')
-            @endif
+        @if (Auth::user()->hasRole('vendor') &&
+                ($authDelivery === null || $confirmationDays->confirmation_days === null || $balance === null))
+            @include('pages.users.include.settingModal')
         @endif
-        @if (Auth::user()->hasRole('customer'))
-            @if ($balance === null)
-                @include('pages.users.include.alertSetting')
-            @endif
+        @if (Auth::user()->hasRole('customer') && $balance === null)
+            @include('pages.users.include.settingModal')
         @endif
     @endif
+
     <div class="d-grid gap-5">
         @php
             $highlights = [
@@ -130,17 +128,7 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            $('#modalSetting').modal('show');
-            $('#backgroundModal').show();
-            $('#modalSetting').on('hidden.bs.modal', function() {
-                history.replaceState(null, null, window.location.pathname);
-            });
-        });
-
-        function closeModal() {
-            window.location.href = "/settings";
-        }
-    </script>
+    @section('js')
+        <script src="{{ asset('js/setting.js') }}"></script>
+    @endsection
 </x-guest-layout>

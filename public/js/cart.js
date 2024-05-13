@@ -23,7 +23,7 @@ $(document).ready(function () {
 });
 
 $(document).on("click", '.btn-portion', function () {
-    $(this).closest('.row-button-porsion').find('.portion').removeClass('portion');
+    $(this).closest('.row-button-portion').find('.portion').removeClass('portion');
     $(this).addClass('portion');
     var ringkasanBelanja = $(this).attr('ringkasanBelanja');
     var indexItem = $(this).attr('indexItem');

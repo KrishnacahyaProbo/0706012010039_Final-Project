@@ -124,20 +124,23 @@
                                                                 @endif
                                                             @endforeach
                                                             <div
-                                                                class="d-flex align-items-center row-button-porsion gap-2">
+                                                                class="d-flex align-items-center row-button-portion gap-2">
                                                                 <span>Porsi</span>
-                                                                @foreach ($item->menu->menuDetail as $detail)
-                                                                    @php
-                                                                        $active =
-                                                                            $detail->size == $item->portion
-                                                                                ? 'portion'
-                                                                                : '';
-                                                                    @endphp
-                                                                    <button
-                                                                        class="btn btn-outline-primary rounded-pill {{ $active }} btn-portion px-3"
-                                                                        ringkasanBelanja="{{ $ringkasanBelanja }}"
-                                                                        indexItem="{{ $indexItem }}">{{ $detail->size }}</button>
-                                                                @endforeach
+                                                                <div class="d-flex flex-wrap gap-2">
+                                                                    @foreach ($item->menu->menuDetail as $detail)
+                                                                        @php
+                                                                            $active =
+                                                                                $detail->size == $item->portion
+                                                                                    ? 'portion'
+                                                                                    : '';
+                                                                        @endphp
+
+                                                                        <button
+                                                                            class="btn btn-outline-primary rounded-pill {{ $active }} btn-portion px-3"
+                                                                            ringkasanBelanja="{{ $ringkasanBelanja }}"
+                                                                            indexItem="{{ $indexItem }}">{{ $detail->size }}</button>
+                                                                    @endforeach
+                                                                </div>
                                                             </div>
                                                             <div class="d-flex align-items-center gap-2">
                                                                 <span>Kuantitas</span>

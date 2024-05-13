@@ -104,6 +104,7 @@ function initialize() {
                 success: function (response) {
                     menuDate = response.data_menu.schedule;
 
+                    // Jika tanggal yang dipilih telah melewati ketentuan pemesanan
                     if (response.data_menu.rule == 0) {
                         Swal.fire({
                             allowOutsideClick: false,
@@ -116,6 +117,7 @@ function initialize() {
 
                     var container = document.getElementById("menuCart");
                     container.innerHTML = "";
+
                     response.data_menu.menus.forEach(function (menu) {
                         var divCard = document.createElement("div");
                         divCard.classList.add("card");
@@ -175,11 +177,11 @@ function initialize() {
                         h5.textContent = "Rp" + formatRupiah(minPrice) + "/pcs";
 
                         var divPorsiContainer = document.createElement("div");
-                        divPorsiContainer.classList.add("d-flex", "align-items-center", "gap-3");
+                        divPorsiContainer.classList.add("d-flex", "align-items-center", "gap-2");
                         var spanPorsi = document.createElement("span");
                         spanPorsi.textContent = "Porsi";
                         var divPorsiButtons = document.createElement("div");
-                        divPorsiButtons.classList.add("d-flex");
+                        divPorsiButtons.classList.add("d-flex", "flex-wrap", "gap-1");
                         // Ambil semua ukuran yang tersedia dari menu_detail
                         var porsiOptions = menu.menu_detail.map(function (menuDetail) {
                             return menuDetail.size;
@@ -323,8 +325,7 @@ function initialize() {
                             // Mendapatkan nilai quantity saat ini
                             var currentQuantity = parseInt(spanQuantity.textContent);
 
-                            // Pastikan nilai quantity tidak kurang dari 0
-                            if (currentQuantity > 0) {
+                            if (currentQuantity > 1) {
                                 // Mengurangi 1 dari nilai quantity
                                 var newQuantity = currentQuantity - 1;
 
@@ -339,7 +340,7 @@ function initialize() {
                             var selectedPorsi = divPorsiButtons.querySelector(".font-weight-bold");
                             var currentQuantity = parseInt(spanQuantity.textContent);
 
-                            // Jika tidak ada yang dipilih, tampilkan pesan toast
+                            // Jika tidak ada yang dipilih, tampilkan Modal
                             if (!selectedPorsi) {
                                 Swal.fire({
                                     allowOutsideClick: false,
@@ -348,7 +349,7 @@ function initialize() {
                                     text: "Pilih ukuran porsi terlebih dahulu.",
                                 });
                             } else if (currentQuantity === 0) {
-                                // Jika nilai quantity nol, tampilkan pesan toast
+                                // Jika quantity nol, tampilkan Modal
                                 Swal.fire({
                                     allowOutsideClick: false,
                                     icon: "warning",
@@ -356,9 +357,8 @@ function initialize() {
                                     text: "Pilih kuantitas terlebih dahulu.",
                                 });
                             } else {
+                                addToCart(menu.id, currentQuantity, addToCartButton, selectedPorsi.textContent);
                             }
-
-                            addToCart(menu.id, currentQuantity, addToCartButton, selectedPorsi.textContent);
                         });
                     });
                 },

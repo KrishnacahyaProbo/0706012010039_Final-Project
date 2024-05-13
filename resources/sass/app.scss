@@ -108,6 +108,10 @@ tr:last-child td:last-child {
 
 .btn-outline-danger {
     border: none;
+
+    &:hover {
+        border: 1px solid $red-500;
+    }
 }
 
 .btn-outline-primary {
