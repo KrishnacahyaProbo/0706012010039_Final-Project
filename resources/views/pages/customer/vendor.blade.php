@@ -22,7 +22,7 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between gap-3">
                     <div class="d-grid">
-                        <span class="text-secondary">Pilih lokasi Anda</span>
+                        <span class="text-secondary">Alamat Pengiriman</span>
                         <strong id="customer_address">{{ $user_setting != null ? $user_setting->address : '-' }}
                             <a href="{{ route('setting.index') }}">
                                 <i class="bi bi-pencil-square text-primary"></i>
@@ -30,14 +30,14 @@
                         </strong>
                     </div>
 
-                    <div>
+                    {{-- <div>
                         <x-secondary-button class="d-none d-md-block" id="detect_geolocation"
                             onclick="chooseCustomerLocation()">Use Geolocation</x-secondary-button>
                         <x-secondary-button class="d-block d-md-none" id="detect_geolocation" title="Use Geolocation"
                             onclick="chooseCustomerLocation()">
                             <i class="bi bi-crosshair"></i>
                         </x-secondary-button>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
