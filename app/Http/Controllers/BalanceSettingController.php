@@ -11,16 +11,16 @@ class BalanceSettingController extends Controller
     public function settings(Request $request)
     {
         try {
-            // Retrieve the user setting record or create a new one if it doesn't exist
+            // Mendapatkan entri BalanceNominal ataupun membuat entri baru jika belum ada
             $balance = BalanceNominal::firstOrNew(['user_id' => Auth::user()->id]);
 
-            // Update the attributes
+            // Memperbarui entity
             $balance->user_id = Auth::user()->id;
             $balance->bank_name = $request->bank_name;
             $balance->account_number = $request->account_number;
             $balance->account_holder_name = $request->account_holder_name;
 
-            // Save the record
+            // Menyimpan entri
             $balance->save();
 
             return response()->json(['message' => 'Data saved successfully'], 200);

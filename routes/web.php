@@ -101,7 +101,7 @@ Route::middleware([
         Route::post('/about', 'UserSettingController@about')->name('about');
     });
     Route::prefix('delivery')->name('delivery.')->namespace('App\Http\Controllers')->group(function () {
-        Route::post('/settings', 'DeliveryController@deliverySetting')->name('delivery.settings');
+        Route::post('/settings', 'DeliveryController@settings')->name('delivery.settings');
     });
     Route::prefix('balance')->name('balance.')->namespace('App\Http\Controllers')->group(function () {
         Route::post('/settings', 'BalanceSettingController@settings')->name('balance.settings');

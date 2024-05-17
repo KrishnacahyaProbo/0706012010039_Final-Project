@@ -14,95 +14,95 @@ class ScheduleController extends Controller
 {
     public function show($name)
     {
-        $data = User::with('menu', 'menu.menu_schedule')
-            ->where('name', $name)
-            ->first();
+        // Menampilkan halaman jadwal dengan relasi Menu dan MenuSchedule
+        $data = User::with('menu', 'menu.menu_schedule')->where('name', $name)->first();
+
         return view('pages.schedules.index', compact('data'));
     }
 
     public function store(Request $request)
     {
         try {
+            // Memulai transaksi database
             DB::beginTransaction();
 
             foreach ($request->scheduleDates as $date) {
-                // Check if schedule exists for the given date
+                // Cek ketersediaan Schedule
                 $scheduleData = Schedule::where('schedule', date('Y-m-d', strtotime($date)))->first();
                 $schedule_id = null;
 
                 if ($scheduleData == null) {
-                    // Insert new schedule if it doesn't exist
+                    // Membuat entri baru pada Schedule
                     $newSchedule = new Schedule();
                     $newSchedule->schedule = date('Y-m-d', strtotime($date));
                     $newSchedule->save();
 
-                    // Retrieve the newly inserted schedule ID
                     $schedule_id = $newSchedule->id;
                 } else {
+                    // Jika jadwal sudah ada, maka gunakan id yang sudah ada
                     $schedule_id = $scheduleData->id;
                 }
 
-                // Check if a MenuSchedule already exists for the given menu_id and schedule_id
-                $existingMenuSchedule = MenuSchedule::where('menu_id', $request->menuId)
-                    ->where('schedule_id', $schedule_id)
-                    ->first();
+                // Cek ketersediaan MenuSchedule
+                $existingMenuSchedule = MenuSchedule::where('menu_id', $request->menuId)->where('schedule_id', $schedule_id)->first();
 
                 if ($existingMenuSchedule) {
                     return response()->json(['error' => 'Menu schedule already exists.'], 400);
                 }
 
-                // Create a new MenuSchedule record
+                // Membuat entri baru pada MenuSchedule
                 $menuSchedule = new MenuSchedule();
-                $menuSchedule->schedule_id = $schedule_id; // Assign the schedule ID
-                $menuSchedule->menu_id = $request->menuId; // Assign the menu ID
+                $menuSchedule->schedule_id = $schedule_id;
+                $menuSchedule->menu_id = $request->menuId;
                 $menuSchedule->save();
             }
 
-            // Commit the transaction
+            // Commit operasi database
             DB::commit();
 
             return response()->json(['message' => 'Schedules added successfully'], 200);
         } catch (\Exception $e) {
-            // Rollback the transaction if an exception occurs
+            // Rollback operasi database jika terjadi exception
             DB::rollBack();
 
-            // Handle any exceptions that occur
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
     public function update(Request $request)
     {
-        DB::beginTransaction();
         try {
+            // Memulai transaksi database
+            DB::beginTransaction();
+
+            // Mengubah tanggal berdasarkan request
             $requestData = $request->only(['id', 'new_start']);
             $formattedDate = Carbon::parse($requestData['new_start'])->format('Y-m-d');
 
-            // Check if schedule exists
+            // Cek ketersediaan Schedule
             $existingSchedule = Schedule::where('schedule', $formattedDate)->first();
 
-            // Find the MenuSchedule
+            // Cek ketersediaan MenuSchedule
             $menuSchedule = MenuSchedule::where('id', $request->id)->first();
             $menu = Menu::where('id', $menuSchedule->menu_id)->first();
 
-            // Sync the schedule with the menu
             if ($existingSchedule) {
-                // Update the existing MenuSchedule record
+                // Jika telah terdapat schedule, maka gunakan id yang sudah ada
                 if ($menuSchedule) {
                     $menuSchedule->schedule_id = $existingSchedule->id;
                     $menuSchedule->save();
                 } else {
-                    // Create a new MenuSchedule record
+                    // Jika belum terdapat jadwal, maka buat jadwal baru
                     $menu->menu_schedule()->attach($existingSchedule->id);
                 }
             } else {
-                // Create a new schedule
+                // Membuat entri baru pada Schedule dan hubungkan ke MenuSchedule
                 $newSchedule = Schedule::create(['schedule' => $formattedDate]);
-                // Sync the new schedule with the menu
                 $menuSchedule->schedule_id = $newSchedule->id;
                 $menuSchedule->save();
             }
 
+            // Commit operasi database
             DB::commit();
 
             return response()->json(
@@ -113,7 +113,9 @@ class ScheduleController extends Controller
                 200
             );
         } catch (\Exception $e) {
+            // Rollback operasi database jika terjadi exception
             DB::rollBack();
+
             return response()->json(['message' => $e->getMessage()], 404);
         }
     }
@@ -121,6 +123,7 @@ class ScheduleController extends Controller
     public function destroy(Request $request)
     {
         try {
+            // Menghapus MenuSchedule berdasarkan id
             $id = $request->input('id');
             MenuSchedule::where('id', $id)->delete();
 

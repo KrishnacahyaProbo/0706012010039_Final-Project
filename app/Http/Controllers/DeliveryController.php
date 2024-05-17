@@ -8,18 +8,18 @@ use Illuminate\Support\Facades\Auth;
 
 class DeliveryController extends Controller
 {
-    public function deliverySetting(Request $request)
+    public function settings(Request $request)
     {
         try {
-            // Attempt to find the delivery record
+            // Mendapatkan entri Delivery ataupun membuat entri baru jika belum ada
             $delivery = Delivery::firstOrNew(['vendor_id' => Auth::user()->id]);
 
-            // Update the attributes
+            // Memperbarui entity
             $delivery->vendor_id = Auth::user()->id;
             $delivery->distance_between = $request->distance_between;
             $delivery->shipping_cost = $request->shipping_cost;
 
-            // Save the record
+            // Menyimpan entri
             $delivery->save();
 
             return response()->json(['message' => 'Data inserted/updated successfully'], 200);

@@ -12,9 +12,10 @@ class TestimonyController extends Controller
 {
     public function show(string $vendor_id)
     {
-        $testimony = Testimony::where('vendor_id', $vendor_id)
-            ->orderBy('created_at', 'desc')->paginate(10);
+        // Mendapatkan Testimony pada vendor yang dipilih
+        $testimony = Testimony::where('vendor_id', $vendor_id)->orderBy('created_at', 'desc')->paginate(10);
 
+        // Mengumpulkan data ke array asosiatif
         $data = [
             'testimony' => $testimony,
         ];
@@ -25,6 +26,7 @@ class TestimonyController extends Controller
     public function store(Request $request)
     {
         try {
+            // Membuat array data
             $testimony = [
                 'transactions_detail_id' => $request->addTestimonyId,
                 'vendor_id' => $request->vendorId,
@@ -40,6 +42,7 @@ class TestimonyController extends Controller
                 $testimony['testimony_photo'] = $imageName;
             }
 
+            // Membuat entri baru pada Testimony
             Testimony::create($testimony);
 
             return back();

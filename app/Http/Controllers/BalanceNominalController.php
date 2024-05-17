@@ -14,10 +14,12 @@ class BalanceNominalController extends Controller
 {
     public function index()
     {
+        // Mendapatkan UserSetting, BalanceNominal, dan BalanceHistory dari user yang sedang Log In
         $user_setting = UserSetting::where('vendor_id', Auth::user()->id)->first();
         $balance = BalanceNominal::where('user_id', Auth::user()->id)->first();
         $balance_history = BalanceHistory::where('user_id', Auth::user()->id)->get();
 
+        // Mengumpulkan data ke array asosiatif
         $data = [
             'user_setting' => $user_setting,
             'balance' => $balance,
@@ -30,14 +32,14 @@ class BalanceNominalController extends Controller
     public function topUp(Request $request)
     {
         try {
-            // Retrieve the balance record or create a new one if it doesn't exist
+            // Mendapatkan entri BalanceNominal atau membuat entri baru jika belum ada
             $balance = BalanceNominal::where('user_id', Auth::user()->id)->first();
 
-            // Jika sudah pernah top up sebelumnya
             if ($balance->credit) {
+                // Jika sudah pernah Top up, maka akumulasi dengan nominal baru
                 $topUp = $request->credit + $balance->credit;
             } else {
-                // Jika belum top up
+                // Jika belum pernah Top up, maka masukkan nominal pertama kali
                 $topUp = $request->credit;
             }
 
@@ -49,11 +51,11 @@ class BalanceNominalController extends Controller
                 Storage::disk('public_uploads_transaction_proof')->put($imageName, file_get_contents($image));
             }
 
-            // Update the balance record
+            // Memperbarui entri BalanceNominal
             $payload = ['credit' => $topUp, 'transaction_proof' => $imageName];
             BalanceNominal::where('user_id', Auth::user()->id)->update($payload);
 
-            // Save the top up history
+            // Menyimpan riwayat Top up
             $isiUlang = ['user_id' => Auth::user()->id, 'credit' => $request->credit, 'transaction_proof' => $imageName, 'category' => 'customer_income'];
             BalanceHistory::create($isiUlang);
 
@@ -66,21 +68,21 @@ class BalanceNominalController extends Controller
     public function cashOut(Request $request)
     {
         try {
-            // Retrieve the balance record or create a new one if it doesn't exist
+            // Mendapatkan entri BalanceNominal atau membuat entri baru jika belum ada
             $balance = BalanceNominal::where('user_id', Auth::user()->id)->first();
 
-            // Jika sudah pernah cash out sebelumnya
             if ($balance->credit) {
+                // Jika sudah pernah Cash out, maka kurangi dengan nominal baru
                 $cashOut = $balance->credit - $request->credit;
             } else {
-                // Jika belum cash out
+                // Jika belum pernah Cash out, maka masukkan nominal pertama kali
                 $cashOut = $request->credit;
             }
 
-            // Update the balance record
+            // Memperbarui entri BalanceNominal
             BalanceNominal::where('user_id', Auth::user()->id)->update(['credit' => $cashOut]);
 
-            // Save the cash out history
+            // Menyimpan riwayat Cash out
             $payload = ['user_id' => Auth::user()->id, 'credit' => $request->credit, 'category' => 'vendor_outcome'];
             BalanceHistory::create($payload);
 
@@ -92,8 +94,9 @@ class BalanceNominalController extends Controller
 
     public function balanceCategory(string $category)
     {
-        // Retrieve the balance history based on the category
+        // Mendapatkan data BalanceHistory berdasarkan kategori yang dipilih
         $auth = Auth::user()->id;
+
         if ($category === 'all_category') {
             return BalanceHistory::where('user_id', $auth)->orderBy('created_at', 'desc')->get();
         } else {

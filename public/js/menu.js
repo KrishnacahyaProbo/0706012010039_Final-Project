@@ -581,12 +581,19 @@ function showDetail(id) {
                             var today = new Date();
                             today.setHours(0, 0, 0, 0); // Mengatur jam 00:00:00 untuk mendapatkan tanggal tanpa jam
 
-                            // Memeriksa apakah tanggal baru setelah hari ini
+                            // Memeriksa apakah tanggal baru sebelum hari ini
                             if (date <= today) {
                                 alert('Tidak dapat mengubah jadwal ke tanggal sebelum ataupun hari ini.');
                                 arg.revert(); // Mengembalikan event ke posisi sebelumnya
                                 return;
                             }
+
+                            // Memeriksa apakah tanggal baru pada bulan depan
+                            // if (date.getMonth() !== today.getMonth()) {
+                            //     alert('Tidak dapat mengubah jadwal ke bulan depan.');
+                            //     arg.revert(); // Mengembalikan event ke posisi sebelumnya
+                            //     return;
+                            // }
 
                             // Ekstrak komponen year, month, and day
                             var year = date.getFullYear();

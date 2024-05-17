@@ -154,14 +154,14 @@ function getAddress(latitude, longitude) {
                 if (data.address.road) {
                     address += data.address.road + ", ";
                 }
-                if (data.address.city) {
-                    address += data.address.city + ", ";
-                }
                 if (data.address.village) {
                     address += data.address.village + ", ";
                 }
                 if (data.address.municipality) {
                     address += data.address.municipality + ", ";
+                }
+                if (data.address.city) {
+                    address += data.address.city + ", ";
                 }
                 if (data.address.state) {
                     address += data.address.state + ", ";

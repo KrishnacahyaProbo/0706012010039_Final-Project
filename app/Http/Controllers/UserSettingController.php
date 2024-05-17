@@ -12,18 +12,20 @@ class UserSettingController extends Controller
 {
     public function index()
     {
-        $delivery = Delivery::where('vendor_id', Auth::user()->id)->first();
+        // Mendapatkan UserSetting, Delivery, BalanceNominal dari user yang sedang Log In
         $user_setting = UserSetting::where('vendor_id', Auth::user()->id)->first();
+        $delivery = Delivery::where('vendor_id', Auth::user()->id)->first();
         $balance = BalanceNominal::where('user_id', Auth::user()->id)->first();
+
         return view('pages.users.settings.index', compact('user_setting', 'delivery', 'balance'));
     }
 
     public function data()
     {
         try {
-            // Retrieve data
-            $delivery = Delivery::where('vendor_id', Auth::user()->id)->first();
+            // Mendapatkan UserSetting, Delivery, dan BalanceNominal dari user yang sedang Log In
             $user_setting = UserSetting::where('vendor_id', Auth::user()->id)->first();
+            $delivery = Delivery::where('vendor_id', Auth::user()->id)->first();
             $balance = BalanceNominal::where('user_id', Auth::user()->id)->first();
 
             return response()->json(['delivery' => $delivery, 'user_setting' => $user_setting, 'balance' => $balance], 200);
@@ -35,14 +37,14 @@ class UserSettingController extends Controller
     public function about(Request $request)
     {
         try {
-            // Retrieve the user setting record or create a new one if it doesn't exist
+            // Mendapatkan entri UserSetting ataupun membuat entri baru jika belum ada
             $user_setting = UserSetting::firstOrNew(['vendor_id' => Auth::user()->id]);
 
-            // Update the attributes
+            // Memperbarui entity
             $user_setting->vendor_id = Auth::user()->id;
             $user_setting->about_us = $request->about_us;
 
-            // Save the record
+            // Menyimpan entri
             $user_setting->save();
 
             return response()->json(['message' => 'Data saved successfully'], 200);
@@ -54,20 +56,20 @@ class UserSettingController extends Controller
     public function order(Request $request)
     {
         try {
-            // Retrieve the user setting record or create a new one if it doesn't exist
+            // Mendapatkan entri UserSetting ataupun membuat entri baru jika belum ada
             $user_setting = UserSetting::where('vendor_id', Auth::user()->id)->first();
             if (!$user_setting) {
                 $user_setting = new UserSetting();
             }
 
-            // Update the attributes
+            // Memperbarui entity
             $user_setting->vendor_id = Auth::user()->id;
             $user_setting->confirmation_days = $request->confirmation_days;
             if (isset($request->latitude)) $user_setting->latitude = $request->latitude;
             if (isset($request->longitude)) $user_setting->longitude = $request->longitude;
             if (isset($request->address)) $user_setting->address = $request->address;
 
-            // Save the record
+            // Menyimpan entri
             $user_setting->save();
 
             return response()->json(['message' => 'Data saved successfully'], 200);

@@ -14,6 +14,7 @@ class VendorController extends Controller
 {
     public function index()
     {
+        // Mendapatkan UserSetting dari vendor
         $param['user_setting'] = UserSetting::where('vendor_id', Auth::user()->id)->first();
         return view('pages.customer.vendor')->with($param);
     }
@@ -63,11 +64,11 @@ class VendorController extends Controller
                 });
             }
 
-            // Filter vendor lists berdasarkan vendor ID dan dapatkan total vendor
+            // Filter vendor lists berdasarkan id dan dapatkan total vendor
             $vendorQuery = $vendorQuery->whereIn('id', $listVendor);
             $vendorCount = $vendorQuery->count();
 
-            // Paginate vendor
+            // Pagination vendor
             if ($vendorCount > 10) {
                 $vendor_data = $vendorQuery->paginate($perPage, ['*'], 'page', $page);
             } else {
@@ -109,6 +110,7 @@ class VendorController extends Controller
     public function detailVendor($nama_vendor)
     {
         try {
+            // Mendapatkan data vendor berdasarkan nama vendor dengan relasi Delivery, Menu, MenuSchedule, dan UserSetting
             $vendor = User::with('Delivery', 'menu', 'menu.menu_schedule', 'UserSetting')->where('name', $nama_vendor)->first();
 
             // Kalkulasi rata-rata rating vendor dengan total testimoni

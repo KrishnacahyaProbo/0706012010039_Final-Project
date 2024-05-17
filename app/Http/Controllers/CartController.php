@@ -6,47 +6,40 @@ use App\Models\Cart;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Exception; // Import the Exception class
+use Exception;
 
 class CartController extends Controller
 {
     public function index()
     {
-        // Retrieve all cart items for the authenticated user
-        $cart = Cart::where('customer_id', Auth::user()->id)
-            ->with('menu', 'menu.menuDetail')
-            ->orderBy('schedule_date', 'asc')
-            ->get();
+        // Mendapatkan Cart dari user yang sedang Log In dengan relasi Menu dan MenuDetail
+        $cart = Cart::where('customer_id', Auth::user()->id)->with('menu', 'menu.menuDetail')->orderBy('schedule_date', 'asc')->get();
 
-        // Check and delete cart items if their schedule_date has passed
         foreach ($cart as $key => $value) {
-            // Convert schedule_date to a DateTime object for comparison
+            // Konversi schedule_date ke DateTime object untuk dibandingkan dengan tanggal saat ini
             $scheduleDate = new \DateTime($value->schedule_date);
-            // Get current date
+            // Mendapatkan tanggal saat ini
             $currentDate = new \DateTime();
 
-            // If schedule_date has passed, delete the cart item
+            // Jika schedule_date telah berlalu, maka hapus Cart item
             if ($scheduleDate < $currentDate) {
                 $value->delete();
-                unset($cart[$key]); // Remove the item from the collection
+                unset($cart[$key]);
             } else {
-                // If schedule_date has not passed, update vendor_name
+                // Jika schedule_date belum berlalu, maka tambahkan ke Cart item
                 $user = User::find($value->menu->vendor_id);
                 $value->menu->vendor_name = $user->name;
             }
         }
 
-        // Return the view with the updated cart
         return view('pages.cart.index', ['cart' => $cart]);
     }
 
     public function data()
     {
         try {
-            // Retrieve data
-            $cart = Cart::where('customer_id', Auth::user()->id)
-                ->with('menu', 'menu.menuDetail')
-                ->get();
+            // Mendapatkan Cart dari user yang sedang Log In dengan relasi Menu dan MenuDetail
+            $cart = Cart::where('customer_id', Auth::user()->id)->with('menu', 'menu.menuDetail')->get();
 
             foreach ($cart as $key => $value) {
                 $user = User::find($value->menu->vendor_id);
@@ -62,7 +55,7 @@ class CartController extends Controller
     public function store(Request $request)
     {
         try {
-            // Validate and sanitize the input data
+            // Validasi input data
             $validatedData = $request->validate([
                 'menuId' => 'required|numeric',
                 'menuDate' => 'required',
@@ -71,19 +64,16 @@ class CartController extends Controller
                 'notes' => 'nullable|string'
             ]);
 
-            // Find if the item already exists in the cart for the authenticated user
-            $cartItem = Cart::where('customer_id', Auth::user()->id)
-                ->where('menu_id', $validatedData['menuId'])
-                ->where('portion', $validatedData['previousSelectedOption'])
-                ->first();
+            // Mencari Cart item berdasarkan customer_id, menu_id, dan portion
+            $cartItem = Cart::where('customer_id', Auth::user()->id)->where('menu_id', $validatedData['menuId'])->where('portion', $validatedData['previousSelectedOption'])->first();
 
             if ($cartItem) {
-                // If the item exists, update its details
+                // Jika item sudah ada, akumulasi kuantitasnya
                 $cartItem->portion = $validatedData['previousSelectedOption'];
                 $cartItem->quantity += $validatedData['currentQuantity'];
                 $cartItem->note = $validatedData['notes'];
             } else {
-                // If the item doesn't exist, create a new entry in the cart
+                // Jika item belum ada, buat entri baru
                 $cartItem = new Cart();
                 $cartItem->customer_id = Auth::user()->id;
                 $cartItem->menu_id = $validatedData['menuId'];
@@ -93,13 +83,11 @@ class CartController extends Controller
                 $cartItem->note = $validatedData['notes'];
             }
 
-            // Save the cart item
+            // Menyimpan entri
             $cartItem->save();
 
-            // Return a response indicating success
             return response()->json(['message' => 'Item added to cart successfully'], 200);
         } catch (Exception $e) {
-            // Handle any exceptions that occur during the database operation
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
@@ -107,31 +95,27 @@ class CartController extends Controller
     public function update(Request $request)
     {
         try {
-            // Validate and sanitize the input data
+            // Validasi input data
             $validatedData = $request->validate([
                 'portion' => 'nullable|string',
                 'quantity' => 'nullable|numeric',
                 'note' => 'nullable|string'
             ]);
 
-            // Find the cart item
+            // Mencari Cart item berdasarkan cart_menu_id dan memperbarui entri
             $cartItem = Cart::find($request->input('cart_menu_id'));
-
-            // Update the cart item details
             $cartItem->portion = $validatedData['portion'];
             $cartItem->quantity = $validatedData['quantity'];
             $cartItem->note = $validatedData['note'];
 
-            // Save the updated cart item
+            // Menyimpan entri
             $cartItem->save();
 
-            // Return a response indicating success
             return response()->json([
                 'message' => 'Cart item updated successfully',
                 'success' => true
             ], 200);
         } catch (\Exception $e) {
-            // Handle any exceptions that occur during the database operation
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
@@ -139,6 +123,7 @@ class CartController extends Controller
     public function destroy(Request $request)
     {
         try {
+            // Menghapus Cart item berdasarkan id
             $id = $request->input('id');
             Cart::where('id', $id)->delete();
 

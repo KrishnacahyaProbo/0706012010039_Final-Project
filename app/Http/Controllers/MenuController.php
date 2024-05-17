@@ -6,7 +6,6 @@ use App\Models\Menu;
 use App\Models\User;
 use App\Models\Schedule;
 use App\Models\MenuDetail;
-use App\Models\MenuSchedule;
 use App\Models\UserSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,16 +17,31 @@ class MenuController extends Controller
     public function index()
     {
         $vendor_name = User::where('id', Auth::user()->id)->first()->name;
+
         return view('pages.menu.index', compact('vendor_name'));
+    }
+
+    public function data()
+    {
+        try {
+            // Mendapatkan Menu berdasarkan vendor_id dengan relasi MenuDetail
+            $vendorId = auth()->user()->id;
+            $menuItems = Menu::with('menuDetail')->where('vendor_id', $vendorId)->get();
+
+            return DataTables::of($menuItems)->make(true);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     public function show(Request $request)
     {
         try {
-            // Retrieve detail menu dari database
+            // Mendapatkan Menu dengan relasi MenuDetail dan MenuSchedule
             $dataDetail = Menu::with('menuDetail', 'menu_schedule')->where('id', $request->id)->first();
 
-            // Jika data detail menu ditemukan, maka tampilkan dengan JSON response
             if ($dataDetail) {
                 return response()->json([
                     'message' => 'Detail Menu data found',
@@ -35,19 +49,17 @@ class MenuController extends Controller
                     'data' => $dataDetail,
                 ]);
             } else {
-                // Jika data detail menu tidak ditemukan, maka tampilkan error response
                 return response()->json([
                     'message' => 'Detail Menu data not found',
                     'success' => false,
-                ], 404); // HTTP status code 404 "Not Found"
+                ], 404);
             }
         } catch (\Exception $e) {
-            // Jika terjadi exception saat operasi database, maka tampilkan error response
             return response()->json([
                 'message' => 'Error occured while fetching detail menu data',
                 'success' => false,
                 'error' => $e->getMessage(),
-            ], 500); // HTTP status code 500 "Internal Server Error"
+            ], 500);
         }
     }
 
@@ -55,17 +67,18 @@ class MenuController extends Controller
     {
         try {
             $dataMenu = Schedule::with(['menus' => function ($query) use ($request) {
-                // Menambahkan kondisi whereHas untuk memfilter berdasarkan relasi menus
+                // Menambahkan kondisi whereHas untuk memfilter berdasarkan relasi Menu
                 $query->where('vendor_id', $request->id);
             }, 'menus.menuDetail'])
                 ->where('schedule', '=', $request->date)
                 ->first();
 
             if ($dataMenu) {
+                // Cek aturan vendor berdasarkan confirmation_days
                 $vendorRule = UserSetting::where('vendor_id', $request->id)->first();
                 $date = strtotime(date("Y-m-d", strtotime("-" . $vendorRule->confirmation_days - 1 . "day", strtotime($dataMenu->schedule))));
 
-                // Jika pada hari-H telah melewati batas waktu (confirmation_days) berdasarkan aturan vendor, maka tidak bisa melakukan pemesanan
+                // Jika pada hari-H telah melewati batas waktu berdasarkan aturan vendor, maka tidak bisa melakukan pemesanan
                 if (strtotime(now()) <= $date) {
                     $dataMenu->rule = 1;
                 } else {
@@ -93,61 +106,21 @@ class MenuController extends Controller
         }
     }
 
-    public function dataMenuVendor(Request $request)
-    {
-        try {
-            $vendorId = $request->input('vendor_id');
-
-            // Define an empty array to store menu items
-            $menu = [];
-
-            // Fetching the menu for the specified vendor in chunks
-            Menu::where('vendor_id', $vendorId)->chunk(100, function ($chunk) use (&$menu) {
-                // Process each chunk of menu items
-                foreach ($chunk as $menuItem) {
-                    // Add the menu item to the menu array
-                    $menu[] = $menuItem;
-                }
-            });
-            return response()->json(['menu' => $menu], 200);
-        } catch (\Exception $e) {
-            // Handle any exceptions that occur during the process
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
-    }
-
-    public function data()
-    {
-        try {
-            // Fetch menu items dari database berdasarkan vendor_id
-            // Jika user yang sedang login adalah vendor, maka ambil menu items berdasarkan vendor_id
-            $vendorId = auth()->user()->id;
-            $menuItems = Menu::with('menuDetail')->where('vendor_id', $vendorId)->get();
-
-            return DataTables::of($menuItems)
-                ->make(true);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ], 500); // HTTP status code 500 "Internal Server Error"
-        }
-    }
-
     public function store(Request $request)
     {
         try {
-            // Operasi database yang dijalankan sebagai satu kesatuan logis, baik yang semuanya berhasil dilakukan (committed) atau semuanya dibatalkan (rolled back) jika terdapat kesalahan
+            // Memulai transaksi database
             DB::beginTransaction();
 
             if ($request->id != null) {
-                // Jika menu_id tersedia, maka ubah data menu yang sudah ada
+                // Jika menu_id tersedia, maka ubah entri yang sudah ada
                 $menu = Menu::findOrFail($request->input('id'));
             } else {
-                // Jika menu_id tidak tersedia, maka buat data menu baru
+                // Jika menu_id tidak tersedia, maka buat entri baru
                 $menu = new Menu();
             }
 
-            // Isi atribut menu dengan request data
+            // Memperbarui entity
             $menu->vendor_id = Auth::user()->id;
             $menu->menu_name = $request->input('menu_name');
             $menu->description = $request->input('description');
@@ -159,19 +132,17 @@ class MenuController extends Controller
                 $menu->type = 'no_spicy';
             }
 
-            // Cek jika request memiliki file gambar
             if ($request->hasFile('image')) {
-                // Simpan file gambar ke storage
                 $image = $request->file('image');
                 $imageName = $image->getClientOriginalName();
                 $image->move(public_path('menu'), $imageName);
                 $menu->image = $imageName;
             }
 
-            // Simpan data menu ke database
+            // Menyimpan entri
             $menu->save();
 
-            // Simpan detail menu ke database
+            // Hapus detail menu yang sudah ada
             MenuDetail::where('menu_id', $menu->id)->delete();
 
             $menuDetails = [];
@@ -202,7 +173,7 @@ class MenuController extends Controller
             return response()->json([
                 'message' => 'Menu added successfully',
                 'success' => true,
-            ], 200); // HTTP status code 200 "OK"
+            ], 200);
         } catch (\Exception $e) {
             dd($e->getMessage());
             // Rollback operasi database jika terjadi exception
@@ -212,22 +183,23 @@ class MenuController extends Controller
                 'message' => 'Error occured while adding menu',
                 'success' => false,
                 'error' => $e->getMessage(),
-            ], 500); // HTTP status code 500 "Internal Server Error"
+            ], 500);
         }
     }
 
     public function destroy(Request $request)
     {
-        DB::beginTransaction();
-
         try {
-            // Ambil menu berdasarkan menu_id
+            // Memulai transaksi database
+            DB::beginTransaction();
+
+            // Mendapatkan Menu berdasarkan menu_id
             $menu = Menu::findOrFail($request->id);
 
-            // Hapus menu dan detail menu yang berkaitan dengan menu
+            // Hapus menu dan detail menu terkait
             $menu->menuDetail()->delete();
 
-            // Hapus menu dari database
+            // Menghapus entri
             $menu->delete();
 
             // Commit operasi database
@@ -236,7 +208,7 @@ class MenuController extends Controller
             return response()->json([
                 'message' => 'Menu and its details deleted successfully',
                 'success' => true,
-            ], 200); // HTTP status code 200 "OK"
+            ], 200);
         } catch (\Exception $e) {
             // Rollback operasi database jika terjadi exception
             DB::rollBack();
@@ -245,58 +217,7 @@ class MenuController extends Controller
                 'message' => 'Error occured while deleting menu',
                 'success' => false,
                 'error' => $e->getMessage(),
-            ], 500); // HTTP status code 500 "Internal Server Error"
-        }
-    }
-
-    public function addSchedule(Request $request)
-    {
-        try {
-            DB::beginTransaction();
-
-            foreach ($request->scheduleDates as $date) {
-                // Check if schedule exists for the given date
-                $scheduleData = Schedule::where('schedule', date('Y-m-d', strtotime($date)))->first();
-                $schedule_id = null;
-
-                if ($scheduleData == null) {
-                    // Insert new schedule if it doesn't exist
-                    $newSchedule = new Schedule();
-                    $newSchedule->schedule = date('Y-m-d', strtotime($date));
-                    $newSchedule->save();
-
-                    // Retrieve the newly inserted schedule ID
-                    $schedule_id = $newSchedule->id;
-                } else {
-                    $schedule_id = $scheduleData->id;
-                }
-
-                // Check if a MenuSchedule already exists for the given menu_id and schedule_id
-                $existingMenuSchedule = MenuSchedule::where('menu_id', $request->menuId)
-                    ->where('schedule_id', $schedule_id)
-                    ->first();
-
-                if ($existingMenuSchedule) {
-                    return response()->json(['error' => 'Menu schedule already exists.'], 400);
-                }
-
-                // Create a new MenuSchedule record
-                $menuSchedule = new MenuSchedule();
-                $menuSchedule->schedule_id = $schedule_id;
-                $menuSchedule->menu_id = $request->menuId;
-                $menuSchedule->save();
-            }
-
-            // Commit the transaction
-            DB::commit();
-
-            return response()->json(['message' => 'Schedules added successfully'], 200);
-        } catch (\Exception $e) {
-            // Rollback the transaction if an exception occurs
-            DB::rollBack();
-
-            // Handle any exceptions that occur
-            return response()->json(['error' => $e->getMessage()], 500);
+            ], 500);
         }
     }
 }

@@ -28,7 +28,7 @@ class OrderController extends Controller
 
     public function requestOrder(Request $request)
     {
-        // Ambil data order untuk customer
+        // Mendapatkan data order untuk customer
         $transaction = Transaction::where('customer_id', Auth::user()->id)
             ->join('transactions_detail', 'transactions.id', '=', 'transactions_detail.transaction_id')
             ->join('menu', 'transactions_detail.menu_id', '=', 'menu.id')
@@ -38,7 +38,7 @@ class OrderController extends Controller
             ->get();
 
         foreach ($transaction as $key => $value) {
-            // Hanya bisa 1x testimoni per order
+            // Hanya bisa 1x testimoni per order item
             $value->testimony = Testimony::where('transactions_detail_id', $value->detail_id)->count();
             $vendorRule = UserSetting::where('vendor_id', $value->vendor_id)->first();
 
@@ -50,13 +50,12 @@ class OrderController extends Controller
             }
         }
 
-        return DataTables::of($transaction)
-            ->make(true);
+        return DataTables::of($transaction)->make(true);
     }
 
     public function incomingOrder(Request $request)
     {
-        // Ambil data order untuk vendor
+        // Mendapatkan data order untuk vendor
         $transaction = TransactionDetail::where('transactions_detail.vendor_id', Auth::user()->id)
             ->join('transactions', 'transactions.id', '=', 'transactions_detail.transaction_id')
             ->join('menu', 'transactions_detail.menu_id', '=', 'menu.id')
@@ -66,21 +65,20 @@ class OrderController extends Controller
         // Filter berdasarkan tanggal pemesanan
         if (isset($request->schedule_date)) $transaction->where('transactions_detail.schedule_date', $request->schedule_date);
 
-        $transaction = $transaction->select('transactions.*', 'menu.*', 'users.name', 'transactions_detail.*', 'transactions_detail.id as detail_id', 'users.id as customer_id')
-            ->get();
+        // Tampilkan data order
+        $transaction = $transaction->select('transactions.*', 'menu.*', 'users.name', 'transactions_detail.*', 'transactions_detail.id as detail_id', 'users.id as customer_id')->get();
 
+        // Cek ketersediaan testimoni pada order
         foreach ($transaction as $key => $value) {
-            // Jika terdapat testimoni pada order
             $value->testimony = Testimony::where('transactions_detail_id', $value->detail_id)->count();
         }
 
-        return DataTables::of($transaction)
-            ->make(true);
+        return DataTables::of($transaction)->make(true);
     }
 
     public function cancelOrder(Request $request)
     {
-        // Ubah status item
+        // Ubah status item menjadi customer_canceled
         $transaction = TransactionDetail::find($request->id);
         $transaction->status = 'customer_canceled';
         $transaction->save();
@@ -102,7 +100,7 @@ class OrderController extends Controller
 
     public function processOrder(Request $request)
     {
-        // Ubah status item
+        // Ubah status item menjadi vendor_packing
         $transaction = TransactionDetail::find($request->id);
         $transaction->status = 'vendor_packing';
         $transaction->save();
@@ -114,7 +112,7 @@ class OrderController extends Controller
 
     public function deliverOrder(Request $request)
     {
-        // Ubah status item
+        // Ubah status item menjadi vendor_delivering
         $transaction = TransactionDetail::find($request->id);
         $transaction->status = 'vendor_delivering';
         $transaction->save();
@@ -126,7 +124,7 @@ class OrderController extends Controller
 
     public function receiveOrder(Request $request)
     {
-        // Ubah status item
+        // Ubah status item menjadi customer_received
         $transaction = TransactionDetail::find($request->id);
         $transaction->status = 'customer_received';
         $transaction->save();
@@ -138,7 +136,7 @@ class OrderController extends Controller
 
         $ship = BalanceNominal::where('user_id', $transaction->vendor_id)->first();
 
-        // Simpan riwayat penjualan sebagai kategori pemasukan vendor
+        // Simpan riwayat penjualan sebagai vendor_income
         $penjualan = ['user_id' => $transaction->vendor_id, 'credit' => $transaction->total_price + $ship->shipping_costs, 'category' => 'vendor_income'];
         BalanceHistory::create($penjualan);
 
@@ -149,6 +147,7 @@ class OrderController extends Controller
 
     public function viewTestimony(Request $request)
     {
+        // Mendapatkan data testimoni
         $transactions = TransactionDetail::where('transactions_detail.vendor_id', Auth::user()->id)
             ->where('transactions_detail.status', $request->status)
             ->where('transactions_detail.schedule_date', $request->schedule_date)
@@ -161,6 +160,7 @@ class OrderController extends Controller
     public function refundReason(Request $request, string $transaction_uid)
     {
         try {
+            // Keluhan pada pengajuan komplain
             $complain = [
                 'refund_reason' => $request->refund_reason === "Lainnya" ?  $request->refund_other_reason : $request->refund_reason,
                 'status' => 'customer_complain'
@@ -176,6 +176,7 @@ class OrderController extends Controller
             // Simpan alasan refund dan bukti alasan pada TransactionDetail
             $transaction = TransactionDetail::find($transaction_uid);
             $transaction->update($complain);
+
             return back();
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to save data: ' . $e->getMessage()], 500);
@@ -188,9 +189,11 @@ class OrderController extends Controller
 
         try {
             if ($dataRequest['action'] === "reject") {
+                // Jika vendor menolak pengajuan komplain, maka status order menjadi customer_received
                 $payload = ['status' => 'customer_received'];
                 TransactionDetail::where('id', $transaction_id)->update($payload);
             } else {
+                // Jika vendor menerima pengajuan komplain, maka status order menjadi vendor_approved_complain
                 $payload = ['status' => 'vendor_approved_complain'];
                 $temp = TransactionDetail::where('id', $transaction_id)->with('transaction.customer')->first();
                 TransactionDetail::where('id', $transaction_id)->update($payload);
@@ -200,6 +203,7 @@ class OrderController extends Controller
                     $includeShippingCost += $temp->transaction->shipping_costs;
                 }
 
+                // Kurangi credit vendor
                 $balanceVendor = BalanceNominal::where('user_id', $temp->vendor_id)->first();
                 $resultCreditVendor = $balanceVendor->credit - $includeShippingCost;
                 $balanceVendor->update(['credit' => $resultCreditVendor]);
@@ -210,6 +214,7 @@ class OrderController extends Controller
                 ];
                 BalanceHistory::create($dataVendor);
 
+                // Tambah credit customer
                 $balanceCustomer = BalanceNominal::where('user_id', $temp?->transaction?->customer_id)->first();
                 $resultCredit = $includeShippingCost + $balanceCustomer->credit;
                 $balanceCustomer->update(['credit' => $resultCredit]);
@@ -220,6 +225,7 @@ class OrderController extends Controller
                 ];
                 BalanceHistory::create($dataCustomer);
             }
+
             return back();
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to save data: ' . $e->getMessage()], 500);

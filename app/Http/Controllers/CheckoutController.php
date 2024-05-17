@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BalanceHistory;
 use App\Models\Cart;
 use App\Models\User;
 use App\Models\Delivery;
 use App\Models\Transaction;
 use App\Models\UserSetting;
+use App\Models\BalanceHistory;
 use App\Models\BalanceNominal;
 use App\Models\TransactionDetail;
 use Illuminate\Support\Facades\Auth;
@@ -16,30 +16,33 @@ class CheckoutController extends Controller
 {
     public function checkout()
     {
-        $cart = Cart::where('customer_id', Auth::user()->id)
-            ->with('menu', 'menu.menuDetail')
-            ->orderBy('schedule_date', 'asc')
-            ->get();
+        // Mendapatkan Cart dari pelanggan yang sedang Log In dengan relasi Menu dan MenuDetail
+        $cart = Cart::where('customer_id', Auth::user()->id)->with('menu', 'menu.menuDetail')->orderBy('schedule_date', 'asc')->get();
 
         $total = 0;
         $shipping_costs = [];
 
         foreach ($cart as $key => $value) {
+            // Mendapatkan vendor yang menjual menu tersebut beserta ongkos kirimnya
             $user = User::find($value->menu->vendor_id);
             $delivery = Delivery::where('vendor_id', $value->menu->vendor_id)->first();
 
-            $menu_total_price = 0; // Total price for this menu item
+            $menu_total_price = 0;
 
             foreach ($value->menu->menuDetail as $key => $menuDetail) {
                 if ($menuDetail->size == $value->portion) {
-                    $menu_total_price = $menuDetail->price * $value->quantity; // Calculate total price for this menu item
-                    $value->price = $menuDetail->price; // Store the price for display purposes
-                    break; // Exit the loop once the correct menuDetail is found
+                    // Kalkulasi total harga untuk menu tersebut
+                    $menu_total_price = $menuDetail->price * $value->quantity;
+                    $value->price = $menuDetail->price;
+                    // Berhentikan looping setelah menemukan menuDetail
+                    break;
                 }
             }
 
-            $total += $menu_total_price; // Add the total price for this menu item to the overall total
+            // Menambahkan total harga menu tersebut ke total keseluruhan
+            $total += $menu_total_price;
 
+            // Menambahkan ongkos kirim ke total ongkos kirim
             $vendor_id = $value->menu->vendor_id;
             if (!isset($shipping_costs[$vendor_id])) {
                 $shipping_costs[$vendor_id] = $delivery->shipping_cost;
@@ -47,10 +50,13 @@ class CheckoutController extends Controller
             $value->menu->vendor = $user;
         }
 
+        // Menghitung total ongkos kirim
         $total_shipping_costs = array_sum($shipping_costs);
 
+        // Mendapatkan BalanceNominal dari pelanggan yang sedang Log In
         $balance = BalanceNominal::where('user_id', Auth::user()->id)->first();
 
+        // Mengumpulkan data ke array asosiatif
         $data = [
             'cart' => $cart,
             'shipping_costs' => $total_shipping_costs,
@@ -62,30 +68,34 @@ class CheckoutController extends Controller
 
     public function pay()
     {
-        $cart = Cart::where('customer_id', Auth::user()->id)
-            ->with('menu', 'menu.menuDetail')
-            ->orderBy('schedule_date', 'asc')
-            ->get();
+        // Mendapatkan Cart dari pelanggan yang sedang Log In dengan relasi Menu dan MenuDetail
+        $cart = Cart::where('customer_id', Auth::user()->id)->with('menu', 'menu.menuDetail')->orderBy('schedule_date', 'asc')->get();
 
         $total = 0;
         $shipping_costs = [];
 
         foreach ($cart as $key => $value) {
+            // Mendapatkan vendor yang menjual menu tersebut beserta ongkos kirimnya
             $user = User::find($value->menu->vendor_id);
             $delivery = Delivery::where('vendor_id', $value->menu->vendor_id)->first();
 
-            $menu_total_price = 0; // Total price for this menu item
+            // Kalkulasi total harga untuk menu tersebut
+            $menu_total_price = 0;
 
             foreach ($value->menu->menuDetail as $key => $menuDetail) {
                 if ($menuDetail->size == $value->portion) {
-                    $menu_total_price = $menuDetail->price * $value->quantity; // Calculate total price for this menu item
-                    $value->price = $menuDetail->price; // Store the price for display purposes
-                    break; // Exit the loop once the correct menuDetail is found
+                    // Kalkulasi total harga untuk menu tersebut
+                    $menu_total_price = $menuDetail->price * $value->quantity;
+                    $value->price = $menuDetail->price;
+                    // Berhentikan looping setelah menemukan menuDetail
+                    break;
                 }
             }
 
-            $total += $menu_total_price; // Add the total price for this menu item to the overall total
+            // Menambahkan total harga menu tersebut ke total keseluruhan
+            $total += $menu_total_price;
 
+            // Menambahkan ongkos kirim ke total ongkos kirim
             $vendor_id = $value->menu->vendor_id;
             if (!isset($shipping_costs[$vendor_id])) {
                 $shipping_costs[$vendor_id] = $delivery->shipping_cost;
@@ -93,11 +103,11 @@ class CheckoutController extends Controller
             $value->menu->vendor = $user;
         }
 
+        // Menghitung total ongkos kirim
         $total_shipping_costs = array_sum($shipping_costs);
 
-        $user_setting = UserSetting::where('vendor_id', Auth::user()->id)
-            ->orderBy('created_at', 'desc')
-            ->first();
+        // Mendapatkan UserSetting dari pelanggan yang sedang Log In
+        $user_setting = UserSetting::where('vendor_id', Auth::user()->id)->orderBy('created_at', 'desc')->first();
 
         if ($user_setting) {
             Auth::user()->address = $user_setting->address;
@@ -105,6 +115,7 @@ class CheckoutController extends Controller
             Auth::user()->latitude = $user_setting->latitude;
         }
 
+        // Membuat entri baru pada Transaction
         $transaction = new Transaction();
         $transaction->customer_id = Auth::user()->id;
         $transaction->subtotal = $total;
@@ -113,11 +124,12 @@ class CheckoutController extends Controller
         $transaction->latitude = Auth::user()->latitude;
         $transaction->shipping_costs = $total_shipping_costs;
 
-        // Simpan riwayat belanja sebagai kategori pengeluaran customer
+        // Menyimpan riwayat belanja sebagai customer_outcome
         $isiUlang = ['user_id' => Auth::user()->id, 'credit' => $transaction->subtotal + $transaction->shipping_costs, 'category' => 'customer_outcome'];
         BalanceHistory::create($isiUlang);
         $transaction->save();
 
+        // Membuat entri baru pada TransactionDetail
         foreach ($cart as $key => $value) {
             $transactionDetail = new TransactionDetail();
             $transactionDetail->transaction_id = $transaction->id;
