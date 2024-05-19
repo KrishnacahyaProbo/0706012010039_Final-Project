@@ -13,6 +13,16 @@
         </div>
     @endif
 
+    @if (Auth::user()->hasRole('vendor') &&
+            ($authDelivery === null || $confirmationDays->confirmation_days === null || $balance === null))
+        @include('pages.users.include.settingModal')
+    @endif
+    @if (Auth::user()->hasRole('customer'))
+        <script>
+            window.location.href = "/"
+        </script>
+    @endif
+
     <div class="d-grid gap-3">
         <div>
             @section('page_title', 'Kelola Menu')
@@ -37,6 +47,7 @@
         @include('pages.modals.modal')
 
         @section('js')
+            <script src="{{ asset('js/setting.js') }}"></script>
             <script src="{{ asset('js/menu.js') }}"></script>
         @endsection
     </div>

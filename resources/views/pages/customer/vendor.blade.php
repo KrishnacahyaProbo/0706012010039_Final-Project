@@ -13,6 +13,14 @@
         </div>
     @endif
 
+    @if (Auth::user()->hasRole('vendor') &&
+            ($authDelivery === null || $confirmationDays->confirmation_days === null || $balance === null))
+        @include('pages.users.include.settingModal')
+    @endif
+    @if (Auth::user()->hasRole('customer') && $balance === null)
+        @include('pages.users.include.settingModal')
+    @endif
+
     <div class="d-grid gap-3">
         <div>
             @section('page_title', 'Jelajahi Vendor Katering')
@@ -55,6 +63,7 @@
             var customerLatitude = "{{ $user_setting->latitude }}";
             var customerLongitude = "{{ $user_setting->longitude }}";
         </script>
+        <script src="{{ asset('js/setting.js') }}"></script>
         <script src="{{ asset('js/vendors.js') }}"></script>
     @endsection
 </x-app-layout>

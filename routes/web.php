@@ -18,24 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $authDelivery = null;
-    $balance = null;
-
-    if (Auth::check()) {
-        $auth = User::where('id', Auth::user()->id)->with('Delivery')->first();
-        $confimationDays = UserSetting::where('vendor_id',  Auth::user()->id)->first();
-
-        $balance = BalanceNominal::where('user_id', Auth::user()->id)->first();
-        $authDelivery = $auth->Delivery;
-        $data = [
-            'authDelivery' => $authDelivery,
-            'balance' => $balance,
-            'confirmationDays' => $confimationDays
-        ];
-        return view('pages.home', $data);
-    } else {
-        return view('pages.home');
-    }
+    return view('pages.home');
 })->name('home');
 
 Route::middleware([

@@ -19,14 +19,26 @@
         </div>
 
         @if (Auth::user()->hasRole('vendor'))
-            @if ($delivery == null || $user_setting == null || $balance == null)
+            @if (
+                $delivery->distance_between == null ||
+                    $delivery->shipping_cost == null ||
+                    $user_setting->confirmation_days == null ||
+                    $user_setting->about_us == null ||
+                    $balance->bank_name == null ||
+                    $balance->account_number == null ||
+                    $balance->account_holder_name == null ||
+                    $user_setting->address == null)
                 <div class="alert alert-warning d-grid gap-3 text-center" role="alert">
                     <i class="bi bi-gear display-1"></i>
                     <span>Mohon mengisi seluruh pengaturan akun Anda terlebih dahulu.</span>
                 </div>
             @endif
         @else
-            @if ($user_setting == null || $balance == null)
+            @if (
+                $user_setting->address == null ||
+                    $balance->bank_name == null ||
+                    $balance->account_number == null ||
+                    $balance->account_holder_name == null)
                 <div class="alert alert-warning d-grid gap-3 text-center" role="alert">
                     <i class="bi bi-gear display-1"></i>
                     <span>Mohon mengisi seluruh pengaturan akun Anda terlebih dahulu.</span>

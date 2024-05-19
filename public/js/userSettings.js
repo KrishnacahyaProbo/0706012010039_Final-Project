@@ -14,7 +14,7 @@ function fetchDataAddress() {
             }
         },
         error: function (xhr, status, error) {
-            console.error('Error retrieving data:', error);
+            console.error('Error: ', error);
         }
     });
 }
@@ -27,10 +27,10 @@ function aboutSetting() {
         type: 'POST',
         data: formData,
         success: function (response) {
-            window.location.href = '/settings';
+            window.location.reload();
         },
         error: function (xhr, status, error) {
-            console.error('Error submitting data:', error);
+            console.error('Error: ', error);
         }
     });
 }
@@ -43,10 +43,10 @@ function balanceSetting() {
         type: 'POST',
         data: formData,
         success: function (response) {
-            window.location.href = '/settings';
+            window.location.reload();
         },
         error: function (xhr, status, error) {
-            console.error('Error submitting data:', error);
+            console.error('Error: ', error);
         }
     });
 }
@@ -59,10 +59,10 @@ function deliverySetting() {
         type: 'POST',
         data: formData,
         success: function (response) {
-            window.location.href = '/settings';
+            window.location.reload();
         },
         error: function (xhr, status, error) {
-            console.error('Error submitting data:', error);
+            console.error('Error: ', error);
         }
     });
 }
@@ -75,10 +75,10 @@ function setPesanan() {
         type: 'POST',
         data: formDataPemesanan,
         success: function (response) {
-            window.location.href = '/settings';
+            window.location.reload();
         },
         error: function (xhr, status, error) {
-            console.error('Error submitting data:', error);
+            console.error('Error: ', error);
         }
     });
 }
@@ -96,10 +96,10 @@ function setAlamat() {
         type: 'POST',
         data: combinedFormData,
         success: function (response) {
-            window.location.href = '/settings';
+            window.location.reload();
         },
         error: function (xhr, status, error) {
-            console.error('Error submitting data:', error);
+            console.error('Error: ', error);
         }
     });
 }
