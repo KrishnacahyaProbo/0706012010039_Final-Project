@@ -28,7 +28,9 @@
 
 <body>
     <div>
-        <x-header />
+        @if (!request()->is('404'))
+            <x-header />
+        @endif
 
         <main>
             <div class="container my-5">

@@ -1,10 +1,10 @@
 <x-form-section submit="updateProfileInformation">
     <x-slot name="title">
-        {{ __('Profile Information') }}
+        {{ __('Informasi Profil') }}
     </x-slot>
 
     <x-slot name="description">
-        {{ __('Update your account\'s profile information and email address.') }}
+        {{ __('Perbarui informasi profil dan alamat email akun Anda.') }}
     </x-slot>
 
     <x-slot name="form">
@@ -15,12 +15,12 @@
                     <!-- Profile Photo File Input -->
                     <input type="file" id="photo" class="d-none" wire:model.live="photo" x-ref="photo"
                         x-on:change="
-                                photoName = $refs.photo.files[0].name;
-                                const reader = new FileReader();
-                                reader.onload = (e) => {
-                                    photoPreview = e.target.result;
-                                };
-                                reader.readAsDataURL($refs.photo.files[0]);
+                            photoName = $refs.photo.files[0].name;
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                                photoPreview = e.target.result;
+                            };
+                            reader.readAsDataURL($refs.photo.files[0]);
                         " />
 
                     <x-label for="photo" value="{{ __('Foto Profil') }}" />

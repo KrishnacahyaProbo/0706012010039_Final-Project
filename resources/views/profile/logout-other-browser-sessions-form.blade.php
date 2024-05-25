@@ -1,14 +1,14 @@
 <x-action-section>
     <x-slot name="title">
-        {{ __('Browser Sessions') }}
+        {{ __('Sesi Peramban') }}
     </x-slot>
 
     <x-slot name="description">
-        {{ __('Manage and log out your active sessions on other browsers and devices.') }}
+        {{ __('Kelola dan keluar dari sesi aktif Anda di peramban dan perangkat lain.') }}
     </x-slot>
 
     <x-slot name="content">
-        <p>{{ __('If necessary, you may log out of all of your other browser sessions across all of your devices. Some of your recent sessions are listed below; however, this list may not be exhaustive. If you feel your account has been compromised, you should also update your password.') }}
+        <p>{{ __('Jika perlu, Anda dapat keluar dari semua sesi peramban lainnya di semua perangkat Anda. Beberapa sesi terbaru Anda tercantum di bawah; namun, daftar ini mungkin tidak lengkap. Jika Anda merasa akun Anda telah disusupi, Anda juga harus memperbarui kata sandi Anda.') }}
         </p>
 
         @if (count($this->sessions) > 0)

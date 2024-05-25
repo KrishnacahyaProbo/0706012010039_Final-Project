@@ -1,5 +1,5 @@
 @php
-    $routeName = request()->route()->getName();
+    $routeName = request()->route() ? request()->route()->getName() : '';
 
     $isMenu = Str::startsWith($routeName, 'menu');
     $isSchedule = Str::startsWith($routeName, 'schedule');

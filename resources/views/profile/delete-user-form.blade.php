@@ -1,14 +1,14 @@
 <x-action-section>
     <x-slot name="title">
-        {{ __('Delete Account') }}
+        {{ __('Hapus akun') }}
     </x-slot>
 
     <x-slot name="description">
-        {{ __('Permanently delete your account.') }}
+        {{ __('Hapus akun Anda secara permanen.') }}
     </x-slot>
 
     <x-slot name="content">
-        <p>{{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.') }}
+        <p>{{ __('Setelah akun Anda dihapus, semua sumber daya dan datanya akan dihapus secara permanen. Sebelum menghapus akun Anda, harap unduh data atau informasi apa pun yang ingin Anda simpan.') }}
         </p>
 
         <div>

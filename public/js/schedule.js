@@ -98,6 +98,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Membuat chart baru dengan plugin emptyDoughnut
         var ctx = document.getElementById('scheduleChart').getContext('2d');
+
+        const noData = {
+            id: 'noData',
+            afterDatasetsDraw: ((chart, args, plugins) => {
+                const { ctx, data, chartArea: { left, top, right, bottom, width, height } } = chart;
+                ctx.save();
+
+                if (data.datasets.length === 0 || data.datasets[0].data.length === 0) {
+                    ctx.fillStyle = 'white';
+                    ctx.fillRect(left, top, width, height);
+
+                    ctx.font = 'bold 20px sans-serif';
+                    ctx.fillStyle = 'black';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('Belum terdapat jadwal penjualan.', left + width / 2, top + height / 2);
+                }
+            })
+        };
+
         var scheduleChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
@@ -113,7 +132,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         return events.length;
                     }),
                     backgroundColor: ['#f8d7da', '#f1aeb5', '#ea868f', '#e35d6a', '#dc3545', '#b02a37', '#842029', '#58151c', '#2c0b0e', '#000000'],
-                    borderWidth: 1
+                    borderWidth: 1,
+                    borderRadius: 4
                 }]
             },
             options: {
@@ -128,8 +148,10 @@ document.addEventListener('DOMContentLoaded', function () {
                         display: true,
                         text: 'Jadwal Penjualan Per Hari' + (Object.keys(eventsPerMonth).length > 0 ? ' (' + new Date(selectedMonth).toLocaleString('en-us', { month: 'long', year: 'numeric' }) + ')' : '')
                     },
+                    noData: noData
                 }
             },
+            plugins: [noData],
         });
     }
 

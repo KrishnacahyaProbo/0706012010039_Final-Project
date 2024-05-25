@@ -1,6 +1,6 @@
 @props([
     'title' => __('Confirm Password'),
-    'content' => __('For your security, please confirm your password to continue.'),
+    'content' => __('Demi keamanan Anda, harap konfirmasi kata sandi Anda untuk melanjutkan.'),
     'button' => __('Confirm'),
 ])
 

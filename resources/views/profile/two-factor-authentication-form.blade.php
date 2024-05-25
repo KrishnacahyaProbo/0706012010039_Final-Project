@@ -1,10 +1,10 @@
 <x-action-section>
     <x-slot name="title">
-        {{ __('Two Factor Authentication') }}
+        {{ __('Autentikasi Dua Faktor') }}
     </x-slot>
 
     <x-slot name="description">
-        {{ __('Add additional security to your account using two factor authentication.') }}
+        {{ __('Tambahkan keamanan tambahan ke akun Anda menggunakan autentikasi dua faktor.') }}
     </x-slot>
 
     <x-slot name="content">
@@ -19,7 +19,7 @@
             <strong class="text-danger">{{ __('You have not enabled two factor authentication.') }}</strong>
         @endif
 
-        <p>{{ __('When two factor authentication is enabled, you will be prompted for a secure, random token during authentication. You may retrieve this token from your phone\'s Google Authenticator application.') }}
+        <p>{{ __('Jika autentikasi dua faktor diaktifkan, Anda akan dimintai token acak yang aman selama autentikasi. Anda dapat mengambil token ini dari aplikasi Google Authenticator ponsel Anda.') }}
         </p>
 
         @if ($this->enabled)
