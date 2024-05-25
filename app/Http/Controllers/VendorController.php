@@ -118,6 +118,7 @@ class VendorController extends Controller
             $vendor->rating = $rating;
 
             $user_setting = UserSetting::where('vendor_id', $vendor->id)->first();
+            $customer_setting = UserSetting::where('vendor_id', Auth::user()->id)->first();
             $vendor->address = $user_setting ? $user_setting->address : $vendor->address;
             $vendor->latitude = $user_setting ? $user_setting->latitude : $vendor->latitude;
             $vendor->longitude = $user_setting ? $user_setting->longitude : $vendor->longitude;
@@ -130,7 +131,7 @@ class VendorController extends Controller
                 $vendor->rating = number_format($rating, 1, ',', '.');
             }
 
-            return view('pages.customer.vendor.detailVendor', compact('vendor'));
+            return view('pages.customer.vendor.detailVendor', compact('vendor', 'customer_setting'));
         } catch (Exception $e) {
             return response()->json([
                 'message' => 'Error occured while fetching detail menu data',

@@ -97,6 +97,8 @@
             'address' => $vendor->address,
             'menu' => $vendor->menu,
         ]); ?>;
+        var customerLatitude = {!! json_encode($customer_setting->latitude) !!};
+        var customerLongitude = {!! json_encode($customer_setting->longitude) !!};
 
         var public = "{{ asset('') }}";
     </script>

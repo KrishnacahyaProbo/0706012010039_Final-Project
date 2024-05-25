@@ -1,27 +1,17 @@
 var menuDate = null;
+var customerLatitude = customerLatitude;
+var customerLongitude = customerLongitude;
 
 function initialize() {
     var previousSelectedOption = null;
 
-    function getLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showDistance);
-        } else {
-            document.getElementById("distance-info").innerHTML = "Peramban tidak dapat memfasilitasi pengambilan geolokasi.";
-        }
-    }
-
-    function showDistance(position) {
-        var customerLatitude = position.coords.latitude;
-        var customerLongitude = position.coords.longitude;
-        var distance = calculateDistance(
-            customerLatitude,
-            customerLongitude,
-            vendorData.latitude,
-            vendorData.longitude
-        );
-        document.getElementById("distance-info").innerHTML = vendorData.address + " (" + distance + " km" + ")";
-    }
+    var distance = calculateDistance(
+        customerLatitude,
+        customerLongitude,
+        vendorData.latitude,
+        vendorData.longitude
+    );
+    document.getElementById("distance-info").innerHTML = vendorData.address + " (" + distance + " km" + ")";
 
     function calculateDistance(vendorLatitude, vendorLongitude, customerLatitude, customerLongitude) {
         // Jari-jari (radius) bumi dalam kilometer
@@ -52,8 +42,6 @@ function initialize() {
         // Konversi derajat ke radian
         return degrees * (Math.PI / 180);
     }
-
-    getLocation();
 
     var calendarEl = document.getElementById("calendar_menu");
     var calendar = new FullCalendar.Calendar(calendarEl, {
