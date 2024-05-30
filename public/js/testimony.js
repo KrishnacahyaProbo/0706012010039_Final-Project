@@ -8,7 +8,6 @@ stars.forEach(star => {
         ratingInput.value = rating;
     });
 });
-console.log(ratingInput);
 
 function highlightStars(selectedRating) {
     stars.forEach((star, index) => {

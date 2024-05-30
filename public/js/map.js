@@ -78,7 +78,6 @@ function getLocation(valueAddress) {
             );
         } else {
             alert("Peramban tidak dapat memfasilitasi pengambilan geolokasi.");
-            console.log("Peramban tidak dapat memfasilitasi pengambilan geolokasi.");
         }
     } else {
         fetch("https://nominatim.openstreetmap.org/search?format=json&q=" + valueAddress)

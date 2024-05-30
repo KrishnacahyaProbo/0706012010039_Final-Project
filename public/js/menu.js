@@ -36,7 +36,7 @@ function addMenuItem(value) {
     form.append(`
         <div class="form-group mb-3">
             <label class="form-label" for="formMenuVendor">Foto</label>
-            <img id="imagePreview" src="" alt="Preview" class="rounded-1 w-25 mb-2" style="display: none;">
+            <img id="imagePreview" src="" alt="" class="rounded-1 w-25 mb-2" style="display: none;">
             <input type="file" class="form-control" id="image" name="image">
         </div>
     `);
@@ -74,7 +74,7 @@ function addMenuItem(value) {
                         <label class="form-label">Harga</label>
                         <div class="input-group">
                             <span class="input-group-text" id="basic-addon1">Rp</span>
-                            <input type="number" class="form-control price-input" name="price[]" id="price_1" min="1">
+                            <input type="text" class="form-control price-input" name="price[]" id="price_1" min="1">
                         </div>
                     </div>
                 </div>
@@ -99,7 +99,7 @@ function addMenuItem(value) {
     const imagePreview = document.getElementById('imagePreview');
 
     if (value != null && value.image != null) {
-        imagePreview.src = '/menu/' + value.image ? value.image : '';
+        imagePreview.src = '/menu/' + (value.image ? encodeURIComponent(value.image) : '');
         imagePreview.style.display = 'block';
     }
 
@@ -128,7 +128,7 @@ function addMenuItem(value) {
                             <label class="form-label">Harga</label>
                             <div class="input-group">
                                 <span class="input-group-text" id="basic-addon1">Rp</span>
-                                <input type="number" class="form-control price-input" name="price[]" id="price_${index + 2}" min="1" value="Rp${formatRupiah(detail.price)}">
+                                <input type="text" class="form-control price-input" name="price[]" id="price_${index + 2}" min="1" value="${formatRupiah(detail.price)}">
                             </div>
                         </div>
                     </div>
@@ -148,7 +148,6 @@ function addMenuItem(value) {
     $("#formMultiple")
         .on("click", ".addButton", function () {
             const counter = $(".classformMultiple").length + 1;
-            console.log("counter", counter);
             const newInputSet = $("#row_1").clone();
             newInputSet.attr("id", `row_${counter}`);
             newInputSet
@@ -434,7 +433,7 @@ function destroy(menuId) {
                 id: menuId
             },
             success: function (response) {
-                console.log("Menu deleted successfully");
+                toastr.success("Berhasil menghapus menu.");
                 fetchDataMenuItem();
             },
             error: function (xhr, status, error) {

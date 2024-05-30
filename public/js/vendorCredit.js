@@ -31,7 +31,6 @@ vendorCategory.addEventListener('change', function () {
                         <td>${moment(item.created_at).format('dddd, D MMMM YYYY H:mm:ss')}</td>
                     </tr>`;
                     number++;
-                    console.log(item);
                 });
             }
         })

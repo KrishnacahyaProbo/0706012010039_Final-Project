@@ -97,7 +97,7 @@ function updateCart(ringkasanBelanja = null, indexItem = null, editButton = 0, c
                 });
                 console.log(newPrice);
                 $(`#newPrice${ringkasanBelanja + indexItem}`).attr(`price`, `${newPrice}`);
-                $(`#newPrice${ringkasanBelanja + indexItem}`).html(`Rp${newPrice.toLocaleString()}/pcs`);
+                $(`#newPrice${ringkasanBelanja + indexItem}`).html(`Rp${formatRupiah(newPrice)}/pcs`);
             }
             calculateCart();
             // toastr.success('Berhasil memperbarui item.');
@@ -125,11 +125,11 @@ function calculateCart() {
         element.price = total;
         $('.total_cart_per_vendor').each(function (index) {
             if ($(this).attr('vendor') == element.name) {
-                $(this).html(`Rp${total.toLocaleString()}`);
+                $(this).html(`Rp${formatRupiah(total)}`);
             }
         });
 
         totalCartRingkasanBelanja += total;
     });
-    $('#total_cart_ringkasan_belanja').text(`Rp${totalCartRingkasanBelanja.toLocaleString()}`);
+    $('#total_cart_ringkasan_belanja').text(`Rp${formatRupiah(totalCartRingkasanBelanja)}`);
 }
