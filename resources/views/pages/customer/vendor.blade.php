@@ -37,15 +37,6 @@
                             </a>
                         </strong>
                     </div>
-
-                    {{-- <div>
-                        <x-secondary-button class="d-none d-md-block" id="detect_geolocation"
-                            onclick="chooseCustomerLocation()">Use Geolocation</x-secondary-button>
-                        <x-secondary-button class="d-block d-md-none" id="detect_geolocation" title="Use Geolocation"
-                            onclick="chooseCustomerLocation()">
-                            <i class="bi bi-crosshair"></i>
-                        </x-secondary-button>
-                    </div> --}}
                 </div>
             </div>
         </div>

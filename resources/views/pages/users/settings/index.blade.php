@@ -200,9 +200,6 @@
                         <hr class="my-0">
 
                         <div>
-                            {{-- <strong>{{ Auth::user()->hasRole('vendor') ? 'Lokasi lama asal pengiriman: ' : 'Lokasi lama tujuan pengiriman: ' }}</strong>
-                            <span>{{ Auth::user()->address }}</span>
-                            <br> --}}
                             <strong>{{ Auth::user()->hasRole('vendor') ? 'Lokasi asal pengiriman: ' : 'Lokasi tujuan pengiriman: ' }}</strong>
                             <span>{{ $user_setting != null ? $user_setting->address : '-' }}</span>
                         </div>

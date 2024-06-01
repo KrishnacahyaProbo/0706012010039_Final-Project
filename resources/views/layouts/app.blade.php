@@ -23,6 +23,8 @@
 
     {{-- Libraries --}}
     <link rel="stylesheet" href="{{ asset('libraries/css/leaflet.css') }}">
+    <link rel="stylesheet" href="{{ asset('libraries/css/L.Control.Locate.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('libraries/css/Control.FullScreen.css') }}">
     <link rel="stylesheet" href="{{ asset('libraries/css/datatables.min-bs5-2.0.3.css') }}">
     <link rel="stylesheet" href="{{ asset('libraries/css/material_red.css') }}">
     <link rel="stylesheet" href="{{ asset('libraries/css/jquery-ui-1.12.1.css') }}">
@@ -52,6 +54,8 @@
     {{-- Libraries --}}
     <script src="{{ asset('libraries/js/jquery.validate-1.20.0.min.js') }}"></script>
     <script src="{{ asset('libraries/js/leaflet.js') }}"></script>
+    <script src="{{ asset('libraries/js/L.Control.Locate.min.js') }}"></script>
+    <script src="{{ asset('libraries/js/Control.FullScreen.js') }}"></script>
     <script src="{{ asset('libraries/js/datatables.min-bs5-dt-2.0.3-r-3.0.0.js') }}"></script>
     <script src="{{ asset('libraries/js/flatpickr.js') }}"></script>
     <script src="{{ asset('libraries/js/jquery-ui-1.12.1.js') }}"></script>

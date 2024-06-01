@@ -12,26 +12,39 @@ function getLocation(valueAddress) {
                     document.getElementById("longitude").value = longitude;
 
                     // Initialize Leaflet map
-                    map = L.map("map").setView([latitude, longitude], 13);
+                    map = L.map("map", {
+                        fullscreenControl: true,
+                        fullscreenControlOptions: {
+                            position: 'topleft',
+                        }
+                    }).setView([latitude, longitude], 16);
 
                     // Add OpenStreetMap tile layer
                     L.tileLayer(
                         "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
                         attribution: "© OpenStreetMap contributors",
+                        detectRetina: true,
                     }
                     ).addTo(map);
+
+                    var options = {
+                        position: 'topleft',
+                        locateOptions: {
+                            enableHighAccuracy: true,
+                        },
+                        strings: {
+                            title: "Gunakan lokasi terkini",
+                            popup: "",
+                        },
+                    }
+                    L.control.locate(options).addTo(map);
 
                     // Add marker at user's location
                     var marker = L.marker([latitude, longitude], {
                         draggable: true,
                     })
                         .addTo(map)
-                        .bindPopup(
-                            "Latitude: " +
-                            latitude +
-                            "<br>Longitude: " +
-                            longitude
-                        )
+                        .bindPopup("Latitude: " + latitude + "<br>Longitude: " + longitude)
                         .openPopup();
 
                     // Event listener for marker drag end
@@ -89,26 +102,40 @@ function getLocation(valueAddress) {
                     if (typeof map !== "undefined") {
                         map.remove();
                     }
-                    map = L.map("map");
+
+                    map = L.map("map", {
+                        fullscreenControl: true,
+                        fullscreenControlOptions: {
+                            position: 'topleft',
+                        }
+                    });
 
                     // Add OpenStreetMap tile layer
                     L.tileLayer(
                         "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
                         attribution: "© OpenStreetMap contributors",
+                        detectRetina: true,
                     }
                     ).addTo(map);
+
+                    var options = {
+                        position: 'topleft',
+                        locateOptions: {
+                            enableHighAccuracy: true,
+                        },
+                        showPopup: true,
+                        strings: {
+                            title: "Gunakan lokasi terkini",
+                        },
+                    }
+                    L.control.locate(options).addTo(map);
 
                     // Add marker at user's location
                     var marker = L.marker([data[0].lat, data[0].lon], {
                         draggable: true,
                     })
                         .addTo(map)
-                        .bindPopup(
-                            "Latitude: " +
-                            data[0].lat +
-                            "<br>Longitude: " +
-                            data[0].lon
-                        )
+                        .bindPopup("Latitude: " + data[0].lat + "<br>Longitude: " + data[0].lon)
                         .openPopup();
 
                     document.getElementById("latitude").value = data[0].lat;
@@ -131,7 +158,7 @@ function getLocation(valueAddress) {
                     });
 
                     // Set initial view
-                    map.setView([data[0].lat, data[0].lon], 13);
+                    map.setView([data[0].lat, data[0].lon], 16);
                 } else {
                     alert("Alamat tidak ditemukan.");
                 }
@@ -235,7 +262,6 @@ document.addEventListener("click", function (event) {
         if (selectedAddress) {
             var address = selectedAddress.textContent;
             getLocation(address);
-            // Fetch the coordinates of the selected address
         } else {
             console.log("No active dropdown item selected");
         }

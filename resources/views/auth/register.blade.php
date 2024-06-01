@@ -58,46 +58,6 @@
                                             required autocomplete="new-password" />
                                     </div>
 
-                                    {{-- <div class="d-grid gap-2">
-                                <div>
-                                    <x-label for="address" value="{{ __('Alamat') }}" />
-                                    <x-input type="search" id="searchInput" class="form-control"
-                                        placeholder="Cari Alamat" />
-
-                                    <div id="addressDropdown"></div>
-                                </div>
-
-                                <x-input type="text" id="selectedAddress" value="" class="d-none" readonly />
-
-                                <div>
-                                    <div id="permissionDenied"></div>
-                                    <div id="map" class="rounded-1"></div>
-                                </div>
-
-                                <div class="d-none">
-                                    <div>
-                                        <x-label for="latitude" value="{{ __('Latitude') }}"></x-label>
-                                        <x-input name="latitude" id="latitude" type="text" autocomplete="off"
-                                            class="form-control" readonly />
-                                    </div>
-
-                                    <div>
-                                        <x-label for="longitude" value="{{ __('Longitude') }}"></x-label>
-                                        <x-input name="longitude" id="longitude" type="text" autocomplete="off"
-                                            class="form-control" readonly />
-                                    </div>
-
-                                    <div>
-                                        <x-label for="address" value="{{ __('Alamat') }}" />
-                                        <textarea placeholder="Address" name="address" id="address" rows="4" class="form-control" readonly></textarea>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <span id="address_text" class="text-secondary"></span>
-                                </div>
-                            </div> --}}
-
                                     <x-button>{{ __('Register') }}</x-button>
                                 </div>
                             </form>
