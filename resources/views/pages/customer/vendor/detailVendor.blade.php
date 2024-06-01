@@ -77,7 +77,9 @@
                                 <div id="calendar_menu" class="card-body"></div>
                             </div>
 
-                            <a href="{{ route('cart.index') }}" class="btn btn-primary">View Cart</a>
+                            @if (Auth::user()->hasRole('customer'))
+                                <a href="{{ route('cart.index') }}" class="btn btn-primary">View Cart</a>
+                            @endif
                         </div>
                     </div>
                 </div>
