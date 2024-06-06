@@ -44,37 +44,35 @@ function fetchDataOrderVendorItem() {
         },
         success: function (response) {
             var table = $("#orderVendorTable");
-            var rekapitulasi_menu_name = [];
+            var rekapitulasi_pesanan = {};
 
             response.data.forEach(element => {
-                var ada = -1;
-
-                // Check if menu_name already exists in rekapitulasi_menu_name
-                rekapitulasi_menu_name.forEach(item => {
-                    if (element.menu_name === item.menu_name) {
-                        item.quantity += element.quantity;
-                        ada = 1;
-                    }
-                });
-
-                // If menu_name doesn't exist in rekapitulasi_menu_name, add it
-                if (ada === -1) {
-                    rekapitulasi_menu_name.push({
-                        menu_name: element.menu_name,
-                        quantity: element.quantity,
-                    });
+                var key = element.menu_name;
+                if (!rekapitulasi_pesanan[key]) {
+                    rekapitulasi_pesanan[key] = {};
                 }
+
+                if (!rekapitulasi_pesanan[key][element.portion]) {
+                    rekapitulasi_pesanan[key][element.portion] = 0;
+                }
+
+                rekapitulasi_pesanan[key][element.portion] += element.quantity;
             });
+
             $('#rekapitulasi').html('');
 
-            rekapitulasi_menu_name.forEach(element => {
+            Object.keys(rekapitulasi_pesanan).forEach(menu_name => {
                 var item = '';
                 item += `<div class="col">
                             <div class="card h-100">
                                 <div class="card-body">
-                                    <div class="d-grid gap-3">
-                                        <h3>${element.quantity} pcs</h3>
-                                        <span class="text-secondary lead">${element.menu_name}</span>
+                                    <div class="d-grid gap-1">
+                                        <h3>${menu_name}</h3>
+                                        <ul class="text-secondary fs-5 mb-0">`;
+                Object.keys(rekapitulasi_pesanan[menu_name]).forEach(portion => {
+                    item += `<li>${portion}: <strong>${rekapitulasi_pesanan[menu_name][portion]}</strong></li>`;
+                });
+                item += `</ul>
                                     </div>
                                 </div>
                             </div>
