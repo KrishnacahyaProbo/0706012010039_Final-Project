@@ -85,7 +85,7 @@
                 @section('page_title', 'Isi Ulang Kredit')
             </div>
 
-            <x-button class="d-flex ms-auto" data-bs-toggle="modal" data-bs-target="#topUpForm">Top up</x-button>
+            <x-button class="d-flex ms-auto" data-bs-toggle="modal" data-bs-target="#topUpForm">Isi Ulang Kredit</x-button>
 
             @include('pages.credit.include.topUpModal')
 

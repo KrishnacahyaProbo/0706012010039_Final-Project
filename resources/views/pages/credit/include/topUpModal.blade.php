@@ -15,7 +15,7 @@
                             <x-input id="credit" type="number" name="credit" min="1" required />
                         </div>
                         <div>
-                            <x-label for="transaction_proof" value="{{ __('Foto Bukti Top Up') }}" />
+                            <x-label for="transaction_proof" value="{{ __('Foto Bukti Isi Ulang') }}" />
                             <input type="file" class="form-control" id="transaction_proof" name="transaction_proof"
                                 required>
                         </div>

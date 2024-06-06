@@ -28,7 +28,7 @@ vendorCategory.addEventListener('change', function () {
                         <td>
                             ${item.category === 'vendor_outcome' ? '<span class="badge rounded-pill text-danger-emphasis bg-danger-subtle border border-danger-subtle">Cash out</span>' : item.category === 'customer_transaction_canceled' ? '<span class="badge rounded-pill text-warning-emphasis bg-warning-subtle border border-warning-subtle">Pengembalian dana</span>' : '<span class="badge rounded-pill text-success-emphasis bg-success-subtle border border-success-subtle">Penjualan</span>'}
                         </td>
-                        <td>${moment(item.created_at).format('dddd, D MMMM YYYY H:mm:ss')}</td>
+                        <td>${moment(item.created_at).format('dddd, D MMMM YYYY HH:mm:ss')}</td>
                     </tr>`;
                     number++;
                 });
@@ -53,7 +53,7 @@ fetch(`/credits/${vendorCategory.value}`)
                     <td>Rp${formatRupiah(item.credit)}</td>
                     <td> ${item.category === 'vendor_outcome' ? '<span class="badge rounded-pill text-danger-emphasis bg-danger-subtle border border-danger-subtle">Cash out</span>' : item.category === 'customer_transaction_canceled' ? '<span class="badge rounded-pill text-warning-emphasis bg-warning-subtle border border-warning-subtle">Pengembalian dana</span>' : '<span class="badge rounded-pill text-success-emphasis bg-success-subtle border border-success-subtle">Penjualan</span>'}
                     </td>
-                    <td>${moment(item.created_at).format('dddd, D MMMM YYYY H:mm:ss')}</td>
+                    <td>${moment(item.created_at).format('dddd, D MMMM YYYY HH:mm:ss')}</td>
                 </tr>`;
                 number++;
             });

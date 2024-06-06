@@ -25,7 +25,7 @@ customerCategory.addEventListener('change', function () {
                                     `<span class="badge rounded-pill text-warning-emphasis bg-warning-subtle border border-warning-subtle">Pengembalian dana</span>` :
                                     `<span class="badge rounded-pill text-warning-emphasis bg-warning-subtle border border-warning-subtle">Pembatalan pembelian</span>`}
                         </td>
-                        <td>${moment(item.created_at).format('dddd, D MMMM YYYY H:mm:ss')}</td>
+                        <td>${moment(item.created_at).format('dddd, D MMMM YYYY HH:mm:ss')}</td>
                         <td>
                             ${item.category === 'customer_outcome' ||
                             item.category === 'customer_transaction_refund' ||
@@ -63,7 +63,7 @@ fetch(`/credits/${customerCategory.value}`)
                                 `<span class="badge rounded-pill text-warning-emphasis bg-warning-subtle border border-warning-subtle">Pengembalian dana</span>` :
                                 `<span class="badge rounded-pill text-warning-emphasis bg-warning-subtle border border-warning-subtle">Pembatalan pembelian</span>`}
                     </td>
-                    <td>${moment(item.created_at).format('dddd, D MMMM YYYY H:mm:ss')}</td>
+                    <td>${moment(item.created_at).format('dddd, D MMMM YYYY HH:mm:ss')}</td>
                     <td>
                         ${item.category === 'customer_outcome' ||
                         item.category === 'customer_transaction_refund' ||
