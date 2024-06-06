@@ -65,7 +65,7 @@
                             </div>
 
                             <button class="btn btn-primary w-100" id="pengirimanBtn" type="button"
-                                onclick="deliverySetting()">{{ __('Save') }}</button>
+                                onclick="deliverySetting()">{{ __('Kirim') }}</button>
                         </div>
                     </form>
                 </div>
@@ -89,7 +89,7 @@
                             </div>
 
                             <button class="btn btn-primary w-100" type="button"
-                                onclick="setPesanan()">{{ __('Save') }}</button>
+                                onclick="setPesanan()">{{ __('Kirim') }}</button>
                         </div>
                     </form>
                 </div>
@@ -109,7 +109,7 @@
                             </div>
 
                             <button class="btn btn-primary w-100" type="button"
-                                onclick="aboutSetting()">{{ __('Save') }}</button>
+                                onclick="aboutSetting()">{{ __('Kirim') }}</button>
                         </div>
                     </form>
                 </div>
@@ -145,7 +145,7 @@
                         </div>
 
                         <button class="btn btn-primary w-100" type="button"
-                            onclick="balanceSetting()">{{ __('Save') }}</button>
+                            onclick="balanceSetting()">{{ __('Kirim') }}</button>
                     </div>
                 </form>
             </div>
@@ -205,7 +205,7 @@
                         </div>
 
                         <button class="btn btn-primary w-100" type="button"
-                            onclick="setAlamat()">{{ __('Save') }}</button>
+                            onclick="setAlamat()">{{ __('Kirim') }}</button>
                     </div>
                 </form>
             </div>

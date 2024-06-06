@@ -9,7 +9,7 @@ customerCategory.addEventListener('change', function () {
             var number = 1;
 
             if (data.length === 0) {
-                customerCategoryValue.innerHTML = '<tr><td colspan="5" class="text-center">No data available in table</td></tr>';
+                customerCategoryValue.innerHTML = '<tr><td colspan="5" class="text-center">Tidak ada data yang tersedia.</td></tr>';
             } else {
                 data.forEach((item) => {
                     customerCategoryValue.innerHTML += `
@@ -47,7 +47,7 @@ fetch(`/credits/${customerCategory.value}`)
         var number = 1;
 
         if (data.length === 0) {
-            customerCategoryValue.innerHTML = '<tr><td colspan="5" class="text-center">No data available in table</td></tr>';
+            customerCategoryValue.innerHTML = '<tr><td colspan="5" class="text-center">Tidak ada data yang tersedia.</td></tr>';
         } else {
             data.forEach((item) => {
                 customerCategoryValue.innerHTML += `

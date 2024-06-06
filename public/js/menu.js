@@ -85,7 +85,7 @@ function addMenuItem(value) {
         </div>
     </div>
     `);
-    form.append(`<button type="submit" class="btn btn-primary w-100" id="submitBtn">Save</button>`);
+    form.append(`<button type="submit" class="btn btn-primary w-100" id="submitBtn">Kirim</button>`);
 
     const formContainer = document.createElement("div");
     formContainer.id = "formContainer";
@@ -397,7 +397,7 @@ function addSchedule(menuId, menuName) {
         }
     });
 
-    var submitButton = $('<button type="submit" class="btn btn-primary w-100">Save</button>').addClass('form-group');
+    var submitButton = $('<button type="submit" class="btn btn-primary w-100">Kirim</button>').addClass('form-group');
     form.append(submitButton);
 
     submitButton.on("click", function (event) {

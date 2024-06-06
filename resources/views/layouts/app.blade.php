@@ -32,7 +32,7 @@
     <script src="{{ asset('libraries/js/fullcalendar-6.1.11_index.global.min.js') }}"></script>
     <script src="{{ asset('libraries/js/fullcalendar-bootstrap5-6.1.11_index.global.min.js') }}"></script>
     <script src="{{ asset('libraries/js/jquery-3.7.1.min.js') }}"></script>
-    <script src="{{ asset('libraries/js/moment-2.30.1.js') }}"></script>
+    <script src="{{ asset('libraries/js/moment-with-locales.js') }}"></script>
     <script src="{{ asset('libraries/js/chart-4.4.2.js') }}"></script>
 </head>
 
@@ -74,6 +74,8 @@
         document.addEventListener("DOMContentLoaded", function() {
             getLocation(null);
         });
+
+        moment.locale('id');
     </script>
 </body>
 

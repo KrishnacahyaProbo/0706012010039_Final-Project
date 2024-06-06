@@ -60,7 +60,13 @@
                                     <div>
                                         <div>
                                             <span
-                                                class="badge rounded-pill text-secondary-emphasis bg-secondary-subtle border-secondary-subtle border">{{ date('l, j F Y', strtotime($item->schedule_date)) }}</span>
+                                                class="badge rounded-pill text-secondary-emphasis bg-secondary-subtle border-secondary-subtle border">
+                                                @php
+                                                    setlocale(LC_TIME, 'id_ID');
+                                                @endphp
+
+                                                {{ \Carbon\Carbon::parse($item->schedule_date)->locale('id_ID')->isoFormat('dddd, D MMMM YYYY') }}
+                                            </span>
                                         </div>
                                     </div>
 
@@ -114,7 +120,7 @@
                                         </div>
                                         <div>
                                             <small>
-                                                <pre class="mt-1 mb-0">{{ $item->note }}</pre>
+                                                <pre class="mb-0 mt-1">{{ $item->note }}</pre>
                                             </small>
                                         </div>
                                     </div>
@@ -187,11 +193,11 @@
                                 </div>
 
                                 @if ($balance->credit == 0 || $balance->credit < $total + $shipping_costs)
-                                    <button class="btn btn-primary" onclick="pay()">Pay</button>
+                                    <button class="btn btn-primary" onclick="pay()">Bayar</button>
                                 @else
                                     <form action="{{ route('cart.pay') }}" method="post">
                                         @csrf
-                                        <button type="submit" class="btn btn-primary w-100">Pay</button>
+                                        <button type="submit" class="btn btn-primary w-100">Bayar</button>
                                     </form>
                                 @endif
                             </div>

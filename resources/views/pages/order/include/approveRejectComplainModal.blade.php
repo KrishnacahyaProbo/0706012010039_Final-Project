@@ -52,8 +52,8 @@
                     @method('put')
 
                     <input type="hidden" name="refund_value" id="refund_value">
-                    <button type="submit" class="btn btn-primary" value="approve" name="action">Approve</button>
-                    <button type="submit" class="btn btn-outline-primary" value="reject" name="action">Reject</button>
+                    <button type="submit" class="btn btn-primary" value="approve" name="action">Terima</button>
+                    <button type="submit" class="btn btn-outline-primary" value="reject" name="action">Tolak</button>
                 </form>
             </div>
         </div>

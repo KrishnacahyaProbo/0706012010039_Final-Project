@@ -13,10 +13,10 @@
             @if ($showingConfirmation)
                 <strong>{{ __('Finish enabling two factor authentication.') }}</strong>
             @else
-                <strong class="text-success">{{ __('You have enabled two factor authentication.') }}</strong>
+                <strong class="text-success">{{ __('Autentikasi dua faktor telah aktif.') }}</strong>
             @endif
         @else
-            <strong class="text-danger">{{ __('You have not enabled two factor authentication.') }}</strong>
+            <strong class="text-danger">{{ __('Autentikasi dua faktor belum aktif.') }}</strong>
         @endif
 
         <p>{{ __('Jika autentikasi dua faktor diaktifkan, Anda akan dimintai token acak yang aman selama autentikasi. Anda dapat mengambil token ini dari aplikasi Google Authenticator ponsel Anda.') }}
@@ -77,26 +77,26 @@
             @if (!$this->enabled)
                 <x-confirms-password wire:then="enableTwoFactorAuthentication">
                     <x-button class="w-100" type="button" wire:loading.attr="disabled">
-                        {{ __('Enable') }}
+                        {{ __('Aktifkan') }}
                     </x-button>
                 </x-confirms-password>
             @else
                 @if ($showingRecoveryCodes)
                     <x-confirms-password wire:then="regenerateRecoveryCodes">
                         <x-secondary-button>
-                            {{ __('Regenerate Recovery Codes') }}
+                            {{ __('Buat Ulang Recovery Codes') }}
                         </x-secondary-button>
                     </x-confirms-password>
                 @elseif ($showingConfirmation)
                     <x-confirms-password wire:then="confirmTwoFactorAuthentication">
                         <x-button type="button" wire:loading.attr="disabled">
-                            {{ __('Confirm') }}
+                            {{ __('Konfirmasi') }}
                         </x-button>
                     </x-confirms-password>
                 @else
                     <x-confirms-password wire:then="showRecoveryCodes">
                         <x-secondary-button>
-                            {{ __('Show Recovery Codes') }}
+                            {{ __('Tampilkan Recovery Codes') }}
                         </x-secondary-button>
                     </x-confirms-password>
                 @endif
@@ -104,13 +104,13 @@
                 @if ($showingConfirmation)
                     <x-confirms-password wire:then="disableTwoFactorAuthentication">
                         <x-secondary-button wire:loading.attr="disabled">
-                            {{ __('Cancel') }}
+                            {{ __('Batal') }}
                         </x-secondary-button>
                     </x-confirms-password>
                 @else
                     <x-confirms-password wire:then="disableTwoFactorAuthentication">
                         <x-danger-button wire:loading.attr="disabled">
-                            {{ __('Disable') }}
+                            {{ __('Nonaktifkan') }}
                         </x-danger-button>
                     </x-confirms-password>
                 @endif

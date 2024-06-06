@@ -59,7 +59,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h1>Pilih Menu</h1>
                 <div>
-                    <x-button data-bs-toggle="modal" data-bs-target="#katalog">View Catalogue</x-button>
+                    <x-button data-bs-toggle="modal" data-bs-target="#katalog">Lihat Katalog</x-button>
 
                     @include('pages.customer.vendor.include.katalogModal')
                 </div>
@@ -78,7 +78,7 @@
                             </div>
 
                             @if (Auth::user()->hasRole('customer'))
-                                <a href="{{ route('cart.index') }}" class="btn btn-primary">View Cart</a>
+                                <a href="{{ route('cart.index') }}" class="btn btn-primary">Lihat Keranjang Belanja</a>
                             @endif
                         </div>
                     </div>

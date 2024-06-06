@@ -13,23 +13,23 @@
 
         <div>
             <x-danger-button class="w-100" wire:click="confirmUserDeletion" wire:loading.attr="disabled">
-                {{ __('Delete Account') }}
+                {{ __('Hapus Akun') }}
             </x-danger-button>
         </div>
 
         <!-- Delete User Confirmation Modal -->
         <x-dialog-modal wire:model.live="confirmingUserDeletion">
             <x-slot name="title">
-                {{ __('Delete Account') }}
+                {{ __('Hapus Akun') }}
             </x-slot>
 
             <x-slot name="content">
-                {{ __('Are you sure you want to delete your account? Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.') }}
+                {{ __('Apakah Anda yakin ingin menghapus akun Anda? Setelah akun Anda dihapus, semua sumber daya dan datanya akan dihapus secara permanen. Silakan masukkan kata sandi Anda untuk mengonfirmasi bahwa Anda ingin menghapus akun Anda secara permanen.') }}
 
                 <div class="mt-4" x-data="{}"
                     x-on:confirming-delete-user.window="setTimeout(() => $refs.password.focus(), 250)">
-                    <x-label for="password" value="{{ __('Password') }}" />
-                    <x-input type="password" autocomplete="current-password" placeholder="{{ __('Password') }}"
+                    <x-label for="password" value="{{ __('Kata Sandi') }}" />
+                    <x-input type="password" autocomplete="current-password" placeholder="{{ __('Kata Sandi') }}"
                         x-ref="password" wire:model="password" wire:keydown.enter="deleteUser" />
 
                     <x-input-error for="password" class="mt-2" />
@@ -39,11 +39,11 @@
             <x-slot name="footer">
                 <x-secondary-button class="w-100" wire:click="$toggle('confirmingUserDeletion')"
                     wire:loading.attr="disabled">
-                    {{ __('Cancel') }}
+                    {{ __('Batal') }}
                 </x-secondary-button>
 
                 <x-danger-button class="w-100" wire:click="deleteUser" wire:loading.attr="disabled">
-                    {{ __('Delete Account') }}
+                    {{ __('Hapus Akun') }}
                 </x-danger-button>
             </x-slot>
         </x-dialog-modal>

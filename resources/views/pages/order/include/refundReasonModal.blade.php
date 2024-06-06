@@ -34,7 +34,7 @@
                             <x-label for="reason_proof" value="{{ __('Foto Bukti') }}" />
                             <input type="file" class="form-control" id="reason_proof" name="reason_proof" required>
                         </div>
-                        <x-button>{{ __('Save') }}</x-button>
+                        <x-button>{{ __('Kirim') }}</x-button>
                     </div>
                 </form>
             </div>

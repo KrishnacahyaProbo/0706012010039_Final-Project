@@ -31,7 +31,7 @@
                             <input type="file" class="form-control" id="testimony_photo" name="testimony_photo">
                         </div>
 
-                        <x-button>{{ __('Save') }}</x-button>
+                        <x-button>{{ __('Kirim') }}</x-button>
                     </div>
                 </form>
             </div>

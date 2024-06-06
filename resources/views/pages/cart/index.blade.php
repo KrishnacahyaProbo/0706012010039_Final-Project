@@ -70,7 +70,13 @@
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div>
                                             <span
-                                                class="badge rounded-pill text-secondary-emphasis bg-secondary-subtle border-secondary-subtle border">{{ date('l, j F Y', strtotime($item->schedule_date)) }}</span>
+                                                class="badge rounded-pill text-secondary-emphasis bg-secondary-subtle border-secondary-subtle border">
+                                                @php
+                                                    setlocale(LC_TIME, 'id_ID');
+                                                @endphp
+
+                                                {{ \Carbon\Carbon::parse($item->schedule_date)->locale('id_ID')->isoFormat('dddd, D MMMM YYYY') }}
+                                            </span>
                                         </div>
                                         <div>
                                             <x-secondary-button data-bs-toggle="collapse"
@@ -167,10 +173,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="my-md-1 my-2 text-center">
-                                                    <button class="btn border-0 p-0" title="Remove from Cart"
+                                                    <button class="btn border-0 p-0"
+                                                        title="Hapus dari Keranjang Belanja"
                                                         onclick="destroy({{ $item->id }})">
                                                         <i class="bi bi-trash3 text-danger d-none d-md-block"></i>
-                                                        <strong class="text-danger d-md-none">Remove from Cart</strong>
+                                                        <strong class="text-danger d-md-none">Hapus dari Keranjang
+                                                            Belanja</strong>
                                                     </button>
                                                 </div>
                                             </div>

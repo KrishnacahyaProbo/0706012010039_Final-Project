@@ -37,11 +37,11 @@
                     </div>
 
                     <x-secondary-button class="mt-2" type="button"
-                        x-on:click.prevent="$refs.photo.click()">{{ __('Select A New Photo') }}</x-secondary-button>
+                        x-on:click.prevent="$refs.photo.click()">{{ __('Pilih Foto Baru') }}</x-secondary-button>
 
                     @if ($this->user->profile_photo_path)
                         <x-danger-button type="button" class="mt-2"
-                            wire:click="deleteProfilePhoto">{{ __('Remove Photo') }}</x-danger-button>
+                            wire:click="deleteProfilePhoto">{{ __('Hapus Foto') }}</x-danger-button>
                     @endif
 
                     <x-input-error for="photo" class="mt-2" />
@@ -67,6 +67,6 @@
     <x-slot name="actions">
         <x-action-message class="my-3" on="saved">{{ __('Saved.') }}</x-action-message>
 
-        <x-button class="w-100" wire:loading.attr="disabled" wire:target="photo">{{ __('Save') }}</x-button>
+        <x-button class="w-100" wire:loading.attr="disabled" wire:target="photo">{{ __('Kirim') }}</x-button>
     </x-slot>
 </x-form-section>

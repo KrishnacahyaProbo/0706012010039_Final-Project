@@ -37,7 +37,7 @@
 
         <div>
             <x-button class="w-100" wire:click="confirmLogout" wire:loading.attr="disabled">
-                {{ __('Log Out Other Browser Sessions') }}
+                {{ __('Keluarkan Sesi Peramban Lainnya') }}
             </x-button>
 
             <x-action-message class="my-3" on="loggedOut">
@@ -67,7 +67,7 @@
                 </x-secondary-button>
 
                 <x-button class="w-100" wire:click="logoutOtherBrowserSessions" wire:loading.attr="disabled">
-                    {{ __('Log Out Other Browser Sessions') }}
+                    {{ __('Keluarkan Sesi Peramban Lainnya') }}
                 </x-button>
             </x-slot>
         </x-dialog-modal>

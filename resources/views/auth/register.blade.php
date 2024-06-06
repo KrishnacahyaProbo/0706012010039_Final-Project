@@ -1,4 +1,4 @@
-@section('title', 'Register')
+@section('title', 'Daftar')
 
 <x-guest-layout>
     <div class="d-grid gap-3">
@@ -29,7 +29,7 @@
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input" type="radio" name="role"
                                                     id="customer" value="customer">
-                                                <label class="form-check-label" for="customer">Customer</label>
+                                                <label class="form-check-label" for="customer">Pelanggan</label>
                                             </div>
                                         </div>
                                     </div>
@@ -41,24 +41,24 @@
                                     </div>
 
                                     <div>
-                                        <x-label for="email" value="{{ __('Email') }}" />
+                                        <x-label for="email" value="{{ __('Surel') }}" />
                                         <x-input id="email" type="email" name="email" :value="old('email')" required
                                             autocomplete="username" />
                                     </div>
 
                                     <div>
-                                        <x-label for="password" value="{{ __('Password') }}" />
+                                        <x-label for="password" value="{{ __('Kata Sandi') }}" />
                                         <x-input id="password" type="password" name="password" required
                                             autocomplete="new-password" />
                                     </div>
 
                                     <div>
-                                        <x-label for="password_confirmation" value="{{ __('Konfirmasi Password') }}" />
+                                        <x-label for="password_confirmation" value="{{ __('Konfirmasi Kata Sandi') }}" />
                                         <x-input id="password_confirmation" type="password" name="password_confirmation"
                                             required autocomplete="new-password" />
                                     </div>
 
-                                    <x-button>{{ __('Register') }}</x-button>
+                                    <x-button>{{ __('Daftar') }}</x-button>
                                 </div>
                             </form>
                         </x-authentication-card>
@@ -67,7 +67,7 @@
                     <div>
                         <div class="d-flex gap-1">
                             <span>Sudah punya akun?</span>
-                            <a href="{{ route('login') }}">Log In</a>
+                            <a href="{{ route('login') }}">Masuk</a>
                         </div>
                     </div>
                 </div>

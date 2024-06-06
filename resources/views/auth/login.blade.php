@@ -1,4 +1,4 @@
-@section('title', 'Log In')
+@section('title', 'Masuk')
 
 <x-guest-layout>
     <div class="d-grid gap-3">
@@ -24,14 +24,14 @@
 
                                 <div class="d-grid gap-3">
                                     <div>
-                                        <x-label for="email" value="{{ __('Email') }}" />
+                                        <x-label for="email" value="{{ __('Surel') }}" />
                                         <x-input id="email" type="email" name="email" :value="old('email')" required
                                             autofocus autocomplete="username" />
                                     </div>
 
                                     <div class="d-grid gap-1">
                                         <div>
-                                            <x-label for="password" value="{{ __('Password') }}" />
+                                            <x-label for="password" value="{{ __('Kata Sandi') }}" />
                                             <x-input id="password" type="password" name="password" required
                                                 autocomplete="current-password" />
                                         </div>
@@ -40,20 +40,20 @@
                                             <div class="d-flex gap-2">
                                                 <x-checkbox id="remember_me" name="remember" />
                                                 <label class="form-check-label" for="remember_me">
-                                                    {{ __('Remember Me') }}
+                                                    {{ __('Ingat Saya') }}
                                                 </label>
                                             </div>
 
                                             <div>
                                                 @if (Route::has('password.request'))
                                                     <a
-                                                        href="{{ route('password.request') }}">{{ __('Forgot Password?') }}</a>
+                                                        href="{{ route('password.request') }}">{{ __('Lupa Kata Sandi?') }}</a>
                                                 @endif
                                             </div>
                                         </div>
                                     </div>
 
-                                    <x-button>{{ __('Log In') }}</x-button>
+                                    <x-button>{{ __('Masuk') }}</x-button>
                                 </div>
                             </form>
                         </x-authentication-card>
@@ -62,7 +62,7 @@
                     <div>
                         <div class="d-flex gap-1">
                             <span>Belum punya akun?</span>
-                            <a href="{{ route('register') }}">Register</a>
+                            <a href="{{ route('register') }}">Daftar</a>
                         </div>
                     </div>
                 </div>

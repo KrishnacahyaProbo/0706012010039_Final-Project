@@ -20,7 +20,7 @@
             </div>
 
             @if (!$balance || $balance->credit <= 0)
-                <x-button class="d-flex ms-auto" disabled>Request Cash out</x-button>
+                <x-button class="d-flex ms-auto" disabled>Cairkan Kredit</x-button>
             @else
                 <x-button class="d-flex ms-auto" data-bs-toggle="modal" data-bs-target="#cashOutForm">Request Cash
                     out</x-button>

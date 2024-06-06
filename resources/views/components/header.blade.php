@@ -26,12 +26,12 @@
                     @if (Auth::user()->hasRole('vendor'))
                         <a class="nav-link {{ $isMenu ? 'active' : '' }}" href="{{ route('menu.index') }}">Menu</a>
                         <a class="nav-link {{ $isSchedule ? 'active' : '' }}"
-                            href="{{ route('schedule.vendor', ['vendor_name' => Auth::user()->name]) }}">Schedule</a>
-                        <a class="nav-link {{ $isOrder ? 'active' : '' }}" href="{{ route('order.index') }}">Order</a>
+                            href="{{ route('schedule.vendor', ['vendor_name' => Auth::user()->name]) }}">Jadwal</a>
+                        <a class="nav-link {{ $isOrder ? 'active' : '' }}" href="{{ route('order.index') }}">Pesanan</a>
                     @else
                         <a class="nav-link {{ $isVendor ? 'active' : '' }}" href="{{ route('vendor.index') }}">Vendor</a>
-                        <a class="nav-link {{ $isCart ? 'active' : '' }}" href="{{ route('cart.index') }}">Cart</a>
-                        <a class="nav-link {{ $isOrder ? 'active' : '' }}" href="{{ route('order.index') }}">Order</a>
+                        <a class="nav-link {{ $isCart ? 'active' : '' }}" href="{{ route('cart.index') }}">Keranjang</a>
+                        <a class="nav-link {{ $isOrder ? 'active' : '' }}" href="{{ route('order.index') }}">Pesanan</a>
                     @endif
                 </div>
 
@@ -57,11 +57,11 @@
                     <ul class="dropdown-menu dropdown-menu-lg-end mt-2" aria-labelledby="dropdownMenuButton">
                         <li>
                             <a class="dropdown-item {{ $isProfile ? 'active' : '' }}"
-                                href="{{ route('profile.show') }}">{{ __('Profile') }}</a>
+                                href="{{ route('profile.show') }}">{{ __('Profil') }}</a>
                             <a class="dropdown-item {{ $isSetting ? 'active' : '' }}"
-                                href="{{ route('setting.index') }}">{{ __('Setting') }}</a>
+                                href="{{ route('setting.index') }}">{{ __('Pengaturan') }}</a>
                             <a class="dropdown-item {{ $isCredit ? 'active' : '' }}"
-                                href="{{ route('credit.index') }}">{{ __('Credit') }}</a>
+                                href="{{ route('credit.index') }}">{{ __('Kredit') }}</a>
                         </li>
                         <li>
                             <hr class="dropdown-divider">
@@ -69,7 +69,7 @@
                         <li>
                             <form method="POST" action="{{ route('logout') }}" x-data>
                                 @csrf
-                                <button class="dropdown-item text-danger" type="submit">{{ __('Log Out') }}</button>
+                                <button class="dropdown-item text-danger" type="submit">{{ __('Keluar') }}</button>
                             </form>
                         </li>
                     </ul>
@@ -77,8 +77,8 @@
             @endauth
             @guest
                 <div class="d-grid d-lg-flex my-lg-0 mb-1 ms-auto mt-3 gap-2">
-                    <a href="{{ route('register') }}" class="btn btn-outline-primary">Register</a>
-                    <a href="{{ route('login') }}" class="btn btn-primary">Log In</a>
+                    <a href="{{ route('register') }}" class="btn btn-outline-primary">Daftar</a>
+                    <a href="{{ route('login') }}" class="btn btn-primary">Masuk</a>
                 </div>
             @endguest
         </div>

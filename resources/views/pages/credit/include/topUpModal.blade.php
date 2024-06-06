@@ -20,7 +20,7 @@
                                 required>
                         </div>
 
-                        <x-button>{{ __('Save') }}</x-button>
+                        <x-button>{{ __('Kirim') }}</x-button>
                     </div>
                 </form>
             </div>

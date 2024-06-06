@@ -102,7 +102,7 @@ function fetchDataOrderVendorItem() {
                         className: 'btn btn-primary d-flex ms-auto',
                         filename: 'Laporan Penjualan ' + vendorStatusText + ' ' + exportDateTime,
                         title: 'Laporan Penjualan ' + vendorStatusText + ' ' + exportDateTime,
-                        text: `<strong>Download Report</strong>`,
+                        text: `<strong>Unduh Riwayat</strong>`,
                     }]
                 },
                 ajax: {
@@ -409,7 +409,7 @@ function fetchDataOrderCustomerItem() {
                         className: 'btn btn-primary d-flex ms-auto',
                         filename: 'Laporan Pembelian ' + customerStatusText + ' ' + exportDateTime,
                         title: 'Laporan Pembelian ' + customerStatusText + ' ' + exportDateTime,
-                        text: `<strong>Download Report</strong>`,
+                        text: `<strong>Unduh Riwayat</strong>`,
                     }]
                 },
                 ajax: {
