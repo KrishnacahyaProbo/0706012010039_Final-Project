@@ -1,4 +1,4 @@
-@section('title', 'Credit')
+@section('title', 'Kredit')
 
 <x-app-layout>
     @if (session('success'))

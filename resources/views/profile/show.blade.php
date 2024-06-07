@@ -1,4 +1,4 @@
-@section('title', 'Profile')
+@section('title', 'Profil')
 
 <x-app-layout>
     <div class="d-grid gap-3">

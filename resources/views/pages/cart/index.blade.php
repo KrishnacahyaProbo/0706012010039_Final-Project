@@ -1,4 +1,4 @@
-@section('title', 'Cart')
+@section('title', 'Keranjang Belanja')
 
 <x-app-layout>
     @if (session('success'))
