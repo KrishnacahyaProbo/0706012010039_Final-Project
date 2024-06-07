@@ -24,7 +24,7 @@
 
                                 <div class="d-grid gap-3">
                                     <div>
-                                        <x-label for="email" value="{{ __('Surel') }}" />
+                                        <x-label for="email" value="{{ __('Alamat Surel') }}" />
                                         <x-input id="email" type="email" name="email" :value="old('email')" required
                                             autofocus autocomplete="username" />
                                     </div>

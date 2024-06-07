@@ -126,8 +126,92 @@
 
                         <div>
                             <label for="bank_name" class="form-label">{{ __('Nama Bank') }}</label>
-                            <input id="bank_name" type="text" name="bank_name" class="form-control"
-                                value= "{{ $balance != null ? $balance->bank_name : '' }}" required>
+                            <select class="form-select" name="bank_name" id="bank_name" required>
+                                @foreach ([
+        'BANK UMUM PERSERO' => ['PT BANK RAKYAT INDONESIA (PERSERO) Tbk', 'PT BANK MANDIRI (PERSERO) Tbk', 'PT BANK NEGARA INDONESIA (PERSERO) Tbk', 'PT BANK TABUNGAN NEGARA (PERSERO) Tbk'],
+        'BANK UMUM SWASTA NASIONAL' => [
+            'PT BANK DANAMON INDONESIA Tbk',
+            'PT BANK PERMATA Tbk',
+            'PT BANK CENTRAL ASIA Tbk',
+            'PT BANK MAYBANK INDONESIA Tbk',
+            'PT BANK PAN INDONESIA Tbk',
+            'PT BANK CIMB NIAGA Tbk',
+            'PT BANK UOB INDONESIA',
+            'PT BANK OCBC NISP Tbk',
+            'PT BANK ARTHA GRAHA INTERNASIONAL Tbk',
+            'PT BANK BUMI ARTA Tbk',
+            'PT BANK HSBC INDONESIA',
+            'PT BANK JTRUST INDONESIA Tbk',
+            'PT BANK MAYAPADA INTERNATIONAL Tbk',
+            'PT BANK OF INDIA INDONESIA Tbk',
+            'PT BANK MUAMALAT INDONESIA Tbk',
+            'PT BANK MESTIKA DHARMA Tbk',
+            'PT BANK SHINHAN INDONESIA',
+            'PT BANK SINARMAS Tbk',
+            'PT BANK MASPION INDONESIA Tbk',
+            'PT BANK GANESHA Tbk',
+            'PT BANK ICBC INDONESIA',
+            'PT BANK QNB INDONESIA Tbk',
+            'PT BANK WOORI SAUDARA INDONESIA 1906 Tbk',
+            'PT BANK MEGA Tbk',
+            'PT BANK SYARIAH INDONESIA Tbk',
+            'PT BANK KB BUKOPIN Tbk',
+            'PT BANK KEB HANA INDONESIA',
+            'PT BANK MNC INTERNASIONAL Tbk',
+            'PT BANK RAYA INDONESIA Tbk',
+            'PT BANK SBI INDONESIA',
+            'PT BANK MEGA SYARIAH',
+            'PT BANK INDEX SELINDO',
+            'PT BANK HIBANK INDONESIA',
+            'PT BANK CHINA CONSTRUCTION BANK INDONESIA Tbk',
+            'PT BANK DBS INDONESIA',
+            'PT BANK RESONA PERDANIA',
+            'PT BANK MIZUHO INDONESIA',
+            'PT BANK CAPITAL INDONESIA Tbk',
+            'PT BANK BNP PARIBAS INDONESIA',
+            'PT BANK ANZ INDONESIA',
+            'PT BANK IBK INDONESIA Tbk',
+            'PT BANK ALADIN SYARIAH Tbk',
+            'PT BANK CTBC INDONESIA',
+            'PT BANK COMMONWEALTH',
+            'PT BANK TABUNGAN PENSIUNAN NASIONAL, Tbk',
+            'PT BANK VICTORIA SYARIAH',
+            'PT BANK JABAR BANTEN SYARIAH',
+            'PT KROM BANK INDONESIA Tbk',
+            'PT BANK JASA JAKARTA',
+            'PT BANK NEO COMMERCE Tbk',
+            'PT BANK DIGITAL BCA',
+            'PT BANK NATIONALNOBU Tbk',
+            'PT BANK INA PERDANA Tbk',
+            'PT BANK PANIN DUBAI SYARIAH Tbk',
+            'PT BANK KB BUKOPIN SYARIAH',
+            'PT BANK SAHABAT SAMPOERNA',
+            'PT BANK OKE INDONESIA Tbk',
+            'PT BANK AMAR INDONESIA',
+            'PT BANK SEABANK INDONESIA',
+            'PT BANK BCA SYARIAH',
+            'PT BANK JAGO TBK',
+            'PT BANK TABUNGAN PENSIUNAN NASIONAL SYARIAH Tbk',
+            'PT BANK MULTIARTA SENTOSA',
+            'PT SUPER BANK INDONESIA',
+            'PT BANK MANDIRI TASPEN',
+            'PT BANK VICTORIA INTERNATIONAL Tbk',
+            'PT ALLO BANK INDONESIA Tbk',
+            'PT BANK NANO SYARIAH',
+        ],
+        'BANK PEMBANGUNAN DAERAH' => ['PT BPD JAWA BARAT DAN BANTEN Tbk', 'PT BPD DKI', 'PT BPD DAERAH ISTIMEWA YOGYAKARTA', 'PT BPD JAWA TENGAH', 'PT BPD JAWA TIMUR Tbk', 'PT BPD JAMBI', 'PT BANK ACEH SYARIAH', 'PT BPD SUMATERA UTARA', 'PT BANK NAGARI', 'PT BPD RIAU KEPRI SYARIAH', 'PT BPD SUMATERA SELATAN DAN BANGKA BELITUNG', 'PT BPD LAMPUNG', 'PT BPD KALIMANTAN SELATAN', 'PT BPD KALIMANTAN BARAT', 'PT BPD KALIMANTAN TIMUR DAN KALIMANTAN UTARA', 'PT BPD KALIMANTAN TENGAH', 'PT BPD SULAWESI SELATAN DAN SULAWESI BARAT', 'PT BPD SULAWESI UTARA DAN GORONTALO', 'PT BANK NTB SYARIAH', 'PT BPD BALI', 'PT BPD NUSA TENGGARA TIMUR', 'PT BPD MALUKU DAN MALUKU UTARA', 'PT BPD PAPUA', 'PT BPD BENGKULU', 'PT BPD SULAWESI TENGAH', 'PT BPD SULAWESI TENGGARA', 'PT BPD BANTEN Tbk'],
+        'KANTOR CABANG BANK YANG BERKEDUDUKAN DI LUAR NEGERI' => ['CITIBANK, N.A.', 'JP MORGAN CHASE BANK, NA', 'BANK OF AMERICA, N.A', 'MUFG BANK, LTD', 'STANDARD CHARTERED BANK', 'DEUTSCHE BANK AG', 'BANK OF CHINA (HONG KONG) LIMITED'],
+    ] as $optgroupLabel => $banks)
+                                    <optgroup label="{{ $optgroupLabel }}">
+                                        @foreach ($banks as $bank)
+                                            <option value="{{ $bank }}"
+                                                {{ $balance != null && $balance->bank_name == $bank ? 'selected' : '' }}>
+                                                {{ $bank }}
+                                            </option>
+                                        @endforeach
+                                    </optgroup>
+                                @endforeach
+                            </select>
                         </div>
 
                         <div>

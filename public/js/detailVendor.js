@@ -287,7 +287,7 @@ function initialize() {
 
                         var addToCartButton = document.createElement("button");
                         addToCartButton.classList.add("w-100", "btn", "btn-primary");
-                        addToCartButton.textContent = "Add to Cart";
+                        addToCartButton.textContent = "Tambah ke Keranjang";
 
                         divCardBody.appendChild(h5);
                         divCardBody.appendChild(divPorsiContainer);
@@ -386,7 +386,7 @@ function initialize() {
 function addToCart(menuId, currentQuantity, button, selectedPorsiText) {
     Swal.fire({
         allowOutsideClick: false,
-        title: 'Add to Cart',
+        title: 'Tambah ke Keranjang',
         html: '<textarea id="swal-textarea" placeholder="Masukkan catatan pesanan" style="width: 100%;"></textarea>',
         showCancelButton: true,
         showCloseButton: true,

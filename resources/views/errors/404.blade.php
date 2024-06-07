@@ -16,7 +16,7 @@
                 <hr class="my-1">
                 <span>Halaman yang Anda cari tidak ditemukan. Silakan coba kata kunci lain.</span>
                 <div class="my-3">
-                    <a href="{{ route('home') }}" class="btn btn-primary d-inline">Back to Home</a>
+                    <a href="{{ route('home') }}" class="btn btn-primary d-inline">Kembali ke Beranda</a>
                 </div>
             </div>
         </div>

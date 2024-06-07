@@ -10,7 +10,7 @@
             <div class="col-md-8">
                 <x-authentication-card>
                     <div class="text-secondary mb-4">
-                        <p>{{ __('Cukup beri tahu kami alamat email Anda dan kami akan mengirimkan email berisi tautan pengaturan ulang kata sandi yang memungkinkan Anda memilih yang baru.') }}
+                        <p>{{ __('Cukup beri tahu kami alamat surel Anda dan kami akan mengirimkan surel berisi tautan pengaturan ulang kata sandi yang memungkinkan Anda memilih yang baru.') }}
                         </p>
                     </div>
 
@@ -27,7 +27,7 @@
 
                         <div class="d-grid gap-3">
                             <div>
-                                <x-label for="email" value="{{ __('Surel') }}" />
+                                <x-label for="email" value="{{ __('Alamat Surel') }}" />
                                 <x-input id="email" type="email" name="email" :value="old('email')" required
                                     autofocus autocomplete="username" />
                             </div>
