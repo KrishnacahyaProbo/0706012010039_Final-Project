@@ -97,7 +97,7 @@ function updateCart(ringkasanBelanja = null, indexItem = null, editButton = 0, c
                 });
                 console.log(newPrice);
                 $(`#newPrice${ringkasanBelanja + indexItem}`).attr(`price`, `${newPrice}`);
-                $(`#newPrice${ringkasanBelanja + indexItem}`).html(`Rp${formatRupiah(newPrice)}/pcs`);
+                $(`#newPrice${ringkasanBelanja + indexItem}`).html(`Rp${formatRupiah(newPrice)}/pax`);
             }
             calculateCart();
             // toastr.success('Berhasil memperbarui item.');

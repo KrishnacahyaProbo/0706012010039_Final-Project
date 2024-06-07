@@ -162,7 +162,7 @@ function initialize() {
                         var minPrice = Math.min(...prices);
 
                         var h5 = document.createElement("h5");
-                        h5.textContent = "Rp" + formatRupiah(minPrice) + "/pcs";
+                        h5.textContent = "Rp" + formatRupiah(minPrice) + "/pax";
 
                         var divPorsiContainer = document.createElement("div");
                         divPorsiContainer.classList.add("d-flex", "align-items-center", "gap-2");
@@ -229,7 +229,7 @@ function initialize() {
                                         // Mengubah harga sesuai dengan harga dari menu_detail yang dipilih
                                         var price = selectedMenuDetail.price;
                                         var formattedPrice = formatRupiah(price);
-                                        h5.textContent = "Rp" + formattedPrice + "/pcs";
+                                        h5.textContent = "Rp" + formattedPrice + "/pax";
                                     }
                                 } else if (isSelected) {
                                     button.classList.remove("font-weight-bold");
@@ -240,7 +240,7 @@ function initialize() {
                                     // Mengembalikan harga ke harga asal jika porsi dibatalkan
                                     var originalPrice = minPrice;
                                     var formattedPrice = formatRupiah(originalPrice);
-                                    h5.textContent = "Rp" + formattedPrice + "/pcs";
+                                    h5.textContent = "Rp" + formattedPrice + "/pax";
                                 } else {
                                     button.classList.add("font-weight-bold");
                                     button.style.backgroundColor = "#842029";

@@ -105,7 +105,7 @@
                                                                     <h5
                                                                         id="newPrice{{ $ringkasanBelanja . $indexItem }}">
                                                                         Rp{{ number_format($detail->price, 0, ',', '.') }}
-                                                                        x {{ $item->quantity }} pcs
+                                                                        x {{ $item->quantity }} pax
                                                                     </h5>
                                                                     <input type="hidden" name="cart_menu_id"
                                                                         id="cart_menu_id" value="{{ $item->id }}">

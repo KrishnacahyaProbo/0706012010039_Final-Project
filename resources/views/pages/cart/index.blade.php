@@ -119,7 +119,7 @@
                                                                         class="price_per_item"
                                                                         price="{{ $detail->price }}"
                                                                         vendor="{{ $vendor['name'] }}">
-                                                                        Rp{{ number_format($detail->price, 0, ',', '.') }}/pcs
+                                                                        Rp{{ number_format($detail->price, 0, ',', '.') }}/pax
                                                                     </h5>
                                                                     <input type="hidden" name="cart_menu_id"
                                                                         id="cart_menu_id" value="{{ $item->id }}">

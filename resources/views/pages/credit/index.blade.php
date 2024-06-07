@@ -22,8 +22,7 @@
             @if (!$balance || $balance->credit <= 0)
                 <x-button class="d-flex ms-auto" disabled>Cairkan Kredit</x-button>
             @else
-                <x-button class="d-flex ms-auto" data-bs-toggle="modal" data-bs-target="#cashOutForm">Request Cash
-                    out</x-button>
+                <x-button class="d-flex ms-auto" data-bs-toggle="modal" data-bs-target="#cashOutForm">Cairkan Kredit</x-button>
             @endif
 
             @include('pages.credit.include.cashOutModal')
@@ -62,8 +61,8 @@
                 <select class="form-select" aria-label="Category select" id="vendor_category">
                     <option selected value="all_category">Semua</option>
                     <option value="vendor_income">Penjualan</option>
-                    <option value="vendor_outcome">Cash out</option>
-                    <option value="customer_transaction_canceled">Pengembalian dana</option>
+                    <option value="vendor_outcome">Pencairan Kredit</option>
+                    <option value="customer_transaction_canceled">Pengembalian Kredit</option>
                 </select>
             </div>
 
@@ -122,10 +121,10 @@
             <div class="d-flex ms-auto">
                 <select class="form-select" aria-label="Category select" id="customer_category">
                     <option selected value="all_category">Semua</option>
-                    <option value="customer_income">Top up</option>
+                    <option value="customer_income">Pengisian Kredit</option>
                     <option value="customer_outcome">Pembelian</option>
-                    <option value="customer_transaction_refund">Pengembalian dana</option>
-                    <option value="customer_transaction_canceled">Pembatalan pembelian</option>
+                    <option value="customer_transaction_refund">Pengembalian Kredit</option>
+                    <option value="customer_transaction_canceled">Pembatalan Pembelian</option>
                 </select>
             </div>
 

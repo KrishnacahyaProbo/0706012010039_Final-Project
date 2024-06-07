@@ -143,7 +143,7 @@ function fetchDataOrderVendorItem() {
                             if (data === null) {
                                 return '<p>-</p>';
                             } else {
-                                return data + ' pcs';
+                                return data + ' pax';
                             }
                         },
                     },
@@ -259,7 +259,7 @@ function handleComplain(name, refund_reason, reason_proof, schedule_date, menu_n
     }
     document.getElementById('name_menu_complain').textContent = menu_name;
     document.getElementById('portion_complain').textContent = portion;
-    document.getElementById('quantity_complain').textContent = quantity + " pcs";
+    document.getElementById('quantity_complain').textContent = quantity + " pax";
     document.getElementById('schedule_date_complain').textContent = moment(schedule_date).format('dddd, D MMMM YYYY');
 
     $("#confirm_update_complain_customer").attr('action', `/orders/complain-reason/${transaction_id}`)
@@ -270,7 +270,7 @@ function detailOrderVendor(id, menu_name, portion, quantity, name, address, note
 
     document.getElementById('menu_name').innerHTML = menu_name;
     document.getElementById('portion').innerHTML = portion;
-    document.getElementById('quantity').innerHTML = quantity + ' pcs';
+    document.getElementById('quantity').innerHTML = quantity + ' pax';
     document.getElementById('name').innerHTML = name;
     document.getElementById('address').innerHTML = address;
     document.getElementById('note').innerHTML = note !== 'null' ? note : '';
@@ -482,7 +482,7 @@ function fetchDataOrderCustomerItem() {
                             if (data === null) {
                                 return '<p>-</p>';
                             } else {
-                                return data + ' pcs';
+                                return data + ' pax';
                             }
                         },
                     },
@@ -566,7 +566,7 @@ function detailOrderCustomer(id, schedule_date, menu_name, portion, price, quant
     document.getElementById('menu_name').innerHTML = menu_name;
     document.getElementById('portion').innerHTML = portion;
     document.getElementById('price').innerHTML = 'Rp' + formatRupiah(price);
-    document.getElementById('quantity').innerHTML = quantity + ' pcs';
+    document.getElementById('quantity').innerHTML = quantity + ' pax';
     document.getElementById('total_price').innerHTML = 'Rp' + formatRupiah(total_price);
     document.getElementById('note').innerHTML = note !== 'null' ? note : '';
     document.getElementById('updated_at').innerHTML = updated_at !== null ? moment(updated_at).format('dddd, D MMMM YYYY HH:mm:ss') : '';

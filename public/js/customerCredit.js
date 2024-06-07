@@ -18,12 +18,12 @@ customerCategory.addEventListener('change', function () {
                         <td>Rp${formatRupiah(item.credit)}</td>
                         <td>
                         ${item.category === 'customer_income' ?
-                            `<span class="badge rounded-pill text-success-emphasis bg-success-subtle border border-success-subtle">Top up</span>` :
+                            `<span class="badge rounded-pill text-success-emphasis bg-success-subtle border border-success-subtle">Pengisian Kredit</span>` :
                             item.category === 'customer_outcome' ?
                                 `<span class="badge rounded-pill text-danger-emphasis bg-danger-subtle border border-danger-subtle">Pembelian</span>` :
                                 item.category === 'customer_transaction_refund' ?
-                                    `<span class="badge rounded-pill text-warning-emphasis bg-warning-subtle border border-warning-subtle">Pengembalian dana</span>` :
-                                    `<span class="badge rounded-pill text-warning-emphasis bg-warning-subtle border border-warning-subtle">Pembatalan pembelian</span>`}
+                                    `<span class="badge rounded-pill text-warning-emphasis bg-warning-subtle border border-warning-subtle">Pengembalian kredit</span>` :
+                                    `<span class="badge rounded-pill text-warning-emphasis bg-warning-subtle border border-warning-subtle">Pembatalan Pembelian</span>`}
                         </td>
                         <td>${moment(item.created_at).format('dddd, D MMMM YYYY HH:mm:ss')}</td>
                         <td>
@@ -56,12 +56,12 @@ fetch(`/credits/${customerCategory.value}`)
                     <td>Rp${formatRupiah(item.credit)}</td>
                     <td>
                         ${item.category === 'customer_income' ?
-                        `<span class="badge rounded-pill text-success-emphasis bg-success-subtle border border-success-subtle">Top up</span>` :
+                        `<span class="badge rounded-pill text-success-emphasis bg-success-subtle border border-success-subtle">Pengisian Kredit</span>` :
                         item.category === 'customer_outcome' ?
                             `<span class="badge rounded-pill text-danger-emphasis bg-danger-subtle border border-danger-subtle">Pembelian</span>` :
                             item.category === 'customer_transaction_refund' ?
-                                `<span class="badge rounded-pill text-warning-emphasis bg-warning-subtle border border-warning-subtle">Pengembalian dana</span>` :
-                                `<span class="badge rounded-pill text-warning-emphasis bg-warning-subtle border border-warning-subtle">Pembatalan pembelian</span>`}
+                                `<span class="badge rounded-pill text-warning-emphasis bg-warning-subtle border border-warning-subtle">Pengembalian Kredit</span>` :
+                                `<span class="badge rounded-pill text-warning-emphasis bg-warning-subtle border border-warning-subtle">Pembatalan Pembelian</span>`}
                     </td>
                     <td>${moment(item.created_at).format('dddd, D MMMM YYYY HH:mm:ss')}</td>
                     <td>
