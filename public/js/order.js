@@ -26,6 +26,7 @@ $('#schedule_date').val(getCurrentDate());
 function fetchDataOrderVendorItem() {
     // Mengolah status transaksi pada judul file saat export (mengunduh laporan)
     const vendorStatusMapping = {
+        undefined: "Semua",
         customer_paid: 'Pesanan',
         vendor_packing: 'Dikemas',
         vendor_delivering: 'Dikirim',
@@ -130,6 +131,8 @@ function fetchDataOrderVendorItem() {
                                 return 'Pengajuan Komplain';
                             } else if (data === 'vendor_approved_complain') {
                                 return 'Komplain Disetujui';
+                            } else {
+                                return data;
                             }
                         },
                     },
@@ -386,6 +389,7 @@ function viewTestimony(id) {
 function fetchDataOrderCustomerItem() {
     // Mengolah status transaksi pada judul file saat export (mengunduh laporan)
     const customerStatusMapping = {
+        undefined: "Semua",
         customer_paid: "Lunas",
         customer_canceled: "Dibatalkan",
         vendor_packing: "Dikemas",
@@ -457,6 +461,8 @@ function fetchDataOrderCustomerItem() {
                                 return 'Komplain';
                             } else if (data === 'vendor_approved_complain') {
                                 return 'Dibatalkan';
+                            } else {
+                                return data;
                             }
                         },
                     },

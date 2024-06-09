@@ -65,6 +65,7 @@ class OrderController extends Controller
             ->join('transactions', 'transactions.id', '=', 'transactions_detail.transaction_id')
             ->join('menu', 'transactions_detail.menu_id', '=', 'menu.id')
             ->join('users', 'transactions.customer_id', '=', 'users.id')
+            ->where('transactions_detail.status', '!=', 'customer_canceled')
             ->with('testimonies');
 
         // Filter berdasarkan status
