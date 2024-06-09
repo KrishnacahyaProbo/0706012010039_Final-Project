@@ -29,13 +29,18 @@ class OrderController extends Controller
     public function requestOrder(Request $request)
     {
         // Mendapatkan data order untuk customer
-        $transaction = Transaction::where('customer_id', Auth::user()->id)
+        $transactionQuery = Transaction::where('customer_id', Auth::user()->id)
             ->join('transactions_detail', 'transactions.id', '=', 'transactions_detail.transaction_id')
             ->join('menu', 'transactions_detail.menu_id', '=', 'menu.id')
             ->join('users', 'transactions_detail.vendor_id', '=', 'users.id')
-            ->where('transactions_detail.status', '=', $request->status)
-            ->select('transactions.*', 'menu.*', 'users.name', 'transactions_detail.*', 'transactions_detail.id as detail_id', 'users.id as vendor_id')
-            ->get();
+            ->select('transactions.*', 'menu.*', 'users.name', 'transactions_detail.*', 'transactions_detail.id as detail_id', 'users.id as vendor_id');
+
+        // Filter berdasarkan status order
+        if ($request->has('status') && !empty($request->status)) {
+            $transactionQuery->where('transactions_detail.status', '=', $request->status);
+        }
+
+        $transaction = $transactionQuery->get();
 
         foreach ($transaction as $key => $value) {
             // Hanya bisa 1x testimoni per order item
@@ -56,17 +61,24 @@ class OrderController extends Controller
     public function incomingOrder(Request $request)
     {
         // Mendapatkan data order untuk vendor
-        $transaction = TransactionDetail::where('transactions_detail.vendor_id', Auth::user()->id)
+        $transactionQuery = TransactionDetail::where('transactions_detail.vendor_id', Auth::user()->id)
             ->join('transactions', 'transactions.id', '=', 'transactions_detail.transaction_id')
             ->join('menu', 'transactions_detail.menu_id', '=', 'menu.id')
             ->join('users', 'transactions.customer_id', '=', 'users.id')
-            ->where('transactions_detail.status', '=', $request->status)->with('testimonies');
+            ->with('testimonies');
+
+        // Filter berdasarkan status
+        if ($request->has('status') && !empty($request->status)) {
+            $transactionQuery->where('transactions_detail.status', '=', $request->status);
+        }
 
         // Filter berdasarkan tanggal pemesanan
-        if (isset($request->schedule_date)) $transaction->where('transactions_detail.schedule_date', $request->schedule_date);
+        if ($request->has('schedule_date')) {
+            $transactionQuery->whereDate('transactions_detail.schedule_date', $request->schedule_date);
+        }
 
         // Tampilkan data order
-        $transaction = $transaction->select('transactions.*', 'menu.*', 'users.name', 'transactions_detail.*', 'transactions_detail.id as detail_id', 'users.id as customer_id')->get();
+        $transaction = $transactionQuery->select('transactions.*', 'menu.*', 'users.name', 'transactions_detail.*', 'transactions_detail.id as detail_id', 'users.id as customer_id')->get();
 
         // Cek ketersediaan testimoni pada order
         foreach ($transaction as $key => $value) {

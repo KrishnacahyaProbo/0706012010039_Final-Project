@@ -25,7 +25,8 @@
                 </div>
                 <div>
                     <select class="form-select" aria-label="Status select" id="vendor_status">
-                        <option selected value="customer_paid">Pesanan</option>
+                        <option selected value="">Semua</option>
+                        <option value="customer_paid">Pesanan</option>
                         <option value="vendor_packing">Dikemas</option>
                         <option value="vendor_delivering">Dikirim</option>
                         <option value="customer_received">Diterima</option>
@@ -41,6 +42,7 @@
                 <table id="orderVendorTable" class="table-striped table-hover table-borderless table">
                     <thead>
                         <tr>
+                            <th>Status</th>
                             <th>Nama Menu</th>
                             <th>Ukuran Porsi</th>
                             <th>Kuantitas</th>
@@ -65,7 +67,8 @@
 
             <div class="d-flex ms-auto">
                 <select class="form-select" aria-label="Status select" id="customer_status">
-                    <option selected value="customer_paid">Lunas</option>
+                    <option selected value="">Semua</option>
+                    <option value="customer_paid">Lunas</option>
                     <option value="customer_canceled">Dibatalkan</option>
                     <option value="vendor_packing">Dikemas</option>
                     <option value="vendor_delivering">Dikirim</option>
@@ -79,6 +82,7 @@
                 <table id="orderCustomerTable" class="table-striped table-hover table-borderless table">
                     <thead>
                         <tr>
+                            <th>Status</th>
                             <th>Tanggal</th>
                             <th>Vendor</th>
                             <th>Nama Menu</th>

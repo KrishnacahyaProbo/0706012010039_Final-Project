@@ -70,7 +70,7 @@ function fetchDataOrderVendorItem() {
                                         <h3>${menu_name}</h3>
                                         <ul class="text-secondary fs-5 mb-0">`;
                 Object.keys(rekapitulasi_pesanan[menu_name]).forEach(portion => {
-                    item += `<li>${portion}: <strong>${rekapitulasi_pesanan[menu_name][portion]}</strong></li>`;
+                    item += `<li>${portion}: <strong>${rekapitulasi_pesanan[menu_name][portion]}</strong> pax</li>`;
                 });
                 item += `</ul>
                                     </div>
@@ -97,7 +97,7 @@ function fetchDataOrderVendorItem() {
                     buttons: [{
                         extend: 'pdf',
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4],
+                            columns: [1, 2, 3, 4, 5],
                         },
                         className: 'btn btn-primary d-flex ms-auto',
                         filename: 'Laporan Penjualan ' + vendorStatusText + ' ' + exportDateTime,
@@ -114,6 +114,25 @@ function fetchDataOrderVendorItem() {
                     },
                 },
                 columns: [
+                    {
+                        data: "status",
+                        name: "status",
+                        render: function (data, type, row) {
+                            if (data === 'customer_paid') {
+                                return 'Pesanan';
+                            } else if (data === 'vendor_packing') {
+                                return 'Dikemas';
+                            } else if (data === 'vendor_delivering') {
+                                return 'Dikirim';
+                            } else if (data === 'customer_received') {
+                                return 'Diterima';
+                            } else if (data === 'customer_complain') {
+                                return 'Pengajuan Komplain';
+                            } else if (data === 'vendor_approved_complain') {
+                                return 'Komplain Disetujui';
+                            }
+                        },
+                    },
                     {
                         data: "menu_name",
                         name: "menu_name",
@@ -404,7 +423,7 @@ function fetchDataOrderCustomerItem() {
                     buttons: [{
                         extend: 'pdf',
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6],
+                            columns: [1, 2, 3, 4, 5, 6, 7],
                         },
                         className: 'btn btn-primary d-flex ms-auto',
                         filename: 'Laporan Pembelian ' + customerStatusText + ' ' + exportDateTime,
@@ -420,6 +439,27 @@ function fetchDataOrderCustomerItem() {
                     },
                 },
                 columns: [
+                    {
+                        data: "status",
+                        name: "status",
+                        render: function (data, type, row) {
+                            if (data === 'customer_paid') {
+                                return 'Lunas';
+                            } else if (data === 'customer_canceled') {
+                                return 'Dibatalkan';
+                            } else if (data === 'vendor_packing') {
+                                return 'Dikemas';
+                            } else if (data === 'vendor_delivering') {
+                                return 'Dikirim';
+                            } else if (data === 'customer_received') {
+                                return 'Diterima';
+                            } else if (data === 'customer_complain') {
+                                return 'Komplain';
+                            } else if (data === 'vendor_approved_complain') {
+                                return 'Dibatalkan';
+                            }
+                        },
+                    },
                     {
                         data: "schedule_date",
                         name: "schedule_date",
