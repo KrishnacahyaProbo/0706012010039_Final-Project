@@ -41,24 +41,26 @@
                             <span>
                                 <pre class="mb-0">{{ $item->description ?? '-' }}</pre>
                             </span>
-                            <div>
-                                <a href="/assets/image/testimony_photo/{{ $item->testimony_photo }}" target="_blank"
-                                    rel="noopener noreferrer">
-                                    <img src="/assets/image/testimony_photo/{{ $item->testimony_photo }}" alt=""
-                                        class="rounded-1" width="196" loading="lazy">
-                                </a>
-                            </div>
+
+                            @if ($item->testimony_photo)
+                                <div>
+                                    <a href="/assets/image/testimony_photo/{{ $item->testimony_photo }}" target="_blank"
+                                        rel="noopener noreferrer">
+                                        <img src="/assets/image/testimony_photo/{{ $item->testimony_photo }}"
+                                            alt="" class="rounded-1" width="196" loading="lazy">
+                                    </a>
+                                </div>
+                            @endif
                         </div>
                     </div>
                     <div class="card-footer">
                         <small
-                            class="text-secondary">{{ $item->created_at ? date('l, j F Y H:i:s', strtotime($item->created_at)) : '-' }}
+                            class="text-secondary">{{ \Carbon\Carbon::parse($item->created_at)->locale('id_ID')->isoFormat('dddd, D MMMM YYYY HH:m:s') }}
                         </small>
                     </div>
                 </div>
             @endforeach
         @endif
-
         <ul class="pagination justify-content-center">
             {{ $testimony->links() }}
         </ul>

@@ -70,10 +70,13 @@
                     <div class="sticky-md-top">
                         <div class="d-grid gap-2">
                             <div class="card">
-                                <div class="card-header text-center">
-                                    <span>Klik tanggal <strong>H-{{ $vendor->UserSetting->confirmation_days }}</strong>
-                                        dari jadwal pemesanan</span>
-                                </div>
+                                @if (Auth::user()->hasRole('customer'))
+                                    <div class="card-header text-center">
+                                        <span>Klik tanggal
+                                            <strong>H-{{ $vendor->UserSetting->confirmation_days }}</strong>
+                                            dari jadwal pemesanan</span>
+                                    </div>
+                                @endif
                                 <div id="calendar_menu" class="card-body"></div>
                             </div>
 
@@ -84,9 +87,11 @@
                     </div>
                 </div>
 
-                <div class="w-100">
-                    <div class="w-100 d-grid gap-2" id="menuCart"></div>
-                </div>
+                @if (Auth::user()->hasRole('customer'))
+                    <div class="w-100">
+                        <div class="w-100 d-grid gap-2" id="menuCart"></div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
