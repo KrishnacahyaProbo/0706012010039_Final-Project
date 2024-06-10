@@ -57,6 +57,7 @@ function initialize() {
             day: "Day",
             list: "List",
         },
+        selectable: true,
         titleFormat: {
             year: "numeric",
             month: "short",

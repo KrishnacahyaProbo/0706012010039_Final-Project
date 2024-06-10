@@ -183,13 +183,21 @@ tr:last-child td:last-child {
     text-decoration: none !important;
 }
 
+.fc-day-today {
+    background-color: $gray-200 !important;
+    color: $black !important;
+}
+
+.fc-daygrid-day-top:hover {
+    cursor: pointer;
+}
+
 .fc-event {
     color: $black !important;
 }
 
-.fc-day-today {
-    background-color: $red-100 !important;
-    color: $black !important;
+.fc-highlight {
+    background: $red-100 !important;
 }
 
 .fc-list-day-cushion {

@@ -4,7 +4,7 @@
     </x-slot>
 
     <x-slot name="description">
-        {{ __('Perbarui informasi profil dan alamat email akun Anda.') }}
+        {{ __('Perbarui informasi profil dan alamat surel akun Anda.') }}
     </x-slot>
 
     <x-slot name="form">
@@ -57,7 +57,7 @@
 
             <!-- Email -->
             <div>
-                <x-label for="email" value="{{ __('Email') }}" />
+                <x-label for="email" value="{{ __('Surel') }}" />
                 <x-input id="email" type="email" wire:model="state.email" required autocomplete="username" />
                 <x-input-error for="email" class="mt-2" />
             </div>
