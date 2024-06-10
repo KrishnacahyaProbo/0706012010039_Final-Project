@@ -437,7 +437,7 @@ function destroy(menuId) {
                 fetchDataMenuItem();
             },
             error: function (xhr, status, error) {
-                console.error("Error deleting menu:", error);
+                console.error("Error deleting menu: ", error);
             },
         });
     }
@@ -525,6 +525,7 @@ function showDetail(id) {
                 $('#mdlForm').on('shown.bs.modal', function () {
                     var calendarEl = document.getElementById('calendar');
                     var calendar = new FullCalendar.Calendar(calendarEl, {
+                        locale: 'id',
                         themeSystem: 'bootstrap5',
                         headerToolbar: {
                             left: 'title',
@@ -534,11 +535,11 @@ function showDetail(id) {
                             center: 'dayGridMonth,dayGridWeek,dayGridDay,listWeek'
                         },
                         buttonText: {
-                            today: 'Today',
-                            month: 'Month',
-                            week: 'Week',
-                            day: 'Day',
-                            list: 'List'
+                            today: 'Hari Ini',
+                            month: 'Bulan',
+                            week: 'Minggu',
+                            day: 'Hari',
+                            list: 'Daftar'
                         },
                         titleFormat: {
                             year: 'numeric',
@@ -628,7 +629,7 @@ function showDetail(id) {
 
                         // Menangani event ketika diklik untuk menghapus jadwal penjualan
                         eventClick: function (info) {
-                            var confirmation = window.confirm('Yakin ingin hapus jadwal penjualan?');
+                            var confirmation = window.confirm('Yakin ingin hapus jadwal penjualan ' + moment(info.event.start).format('dddd, D MMMM YYYY') + '?');
                             if (confirmation) {
                                 var eventId = info.event.id; // Get event ID
                                 var csrfToken = $('meta[name="csrf-token"]').attr('content');

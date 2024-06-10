@@ -45,17 +45,18 @@ function initialize() {
 
     var calendarEl = document.getElementById("calendar_menu");
     var calendar = new FullCalendar.Calendar(calendarEl, {
+        locale: 'id',
         themeSystem: "bootstrap5",
         headerToolbar: {
             left: "title",
             right: "today prev,next",
         },
         buttonText: {
-            today: "Today",
-            month: "Month",
-            week: "Week",
-            day: "Day",
-            list: "List",
+            today: 'Hari Ini',
+            month: 'Bulan',
+            week: 'Minggu',
+            day: 'Hari',
+            list: 'Daftar'
         },
         selectable: true,
         titleFormat: {

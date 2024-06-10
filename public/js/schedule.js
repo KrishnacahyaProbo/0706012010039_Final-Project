@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function fetchSchedule() {
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
+            locale: 'id',
             themeSystem: 'bootstrap5',
             headerToolbar: {
                 left: 'title',
@@ -13,11 +14,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 center: 'dayGridMonth,dayGridWeek,dayGridDay,listWeek'
             },
             buttonText: {
-                today: 'Today',
-                month: 'Month',
-                week: 'Week',
-                day: 'Day',
-                list: 'List'
+                today: 'Hari Ini',
+                month: 'Bulan',
+                week: 'Minggu',
+                day: 'Hari',
+                list: 'Daftar'
             },
             titleFormat: {
                 year: 'numeric',
@@ -124,10 +125,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 labels: Object.keys(eventsPerMonth).length > 0 ? Object.keys(eventsPerMonth)
                     .sort((a, b) => new Date(a) - new Date(b))
                     .map(function (day) {
-                        return new Date(day).toLocaleString('en-us', { month: 'long', day: 'numeric', year: 'numeric' });
-                    }) : ['No data.'],
+                        return new Date(day).toLocaleString('id', { month: 'long', day: 'numeric', year: 'numeric' });
+                    }) : ['-'],
                 datasets: [{
-                    label: 'Jadwal Penjualan' + (Object.keys(eventsPerMonth).length > 0 ? '' : ' - No data.'),
+                    label: 'Jadwal Penjualan' + (Object.keys(eventsPerMonth).length > 0 ? '' : ' - -'),
                     data: Object.values(eventsPerMonth).map(function (events) {
                         return events.length;
                     }),
@@ -146,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     },
                     title: {
                         display: true,
-                        text: 'Jadwal Penjualan Per Hari' + (Object.keys(eventsPerMonth).length > 0 ? ' (' + new Date(selectedMonth).toLocaleString('en-us', { month: 'long', year: 'numeric' }) + ')' : '')
+                        text: 'Jadwal Penjualan Per Hari' + (Object.keys(eventsPerMonth).length > 0 ? ' (' + new Date(selectedMonth).toLocaleString('id', { month: 'long', year: 'numeric' }) + ')' : '')
                     },
                     noData: noData
                 }
