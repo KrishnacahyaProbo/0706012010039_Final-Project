@@ -120,17 +120,17 @@ function fetchDataOrderVendorItem() {
                         name: "status",
                         render: function (data, type, row) {
                             if (data === 'customer_paid') {
-                                return 'Pesanan';
+                                return '<span class="badge rounded-pill text-primary-emphasis bg-primary-subtle border border-primary-subtle">Pesanan</span>';
                             } else if (data === 'vendor_packing') {
-                                return 'Dikemas';
+                                return '<span class="badge rounded-pill text-primary-emphasis bg-primary-subtle border border-primary-subtle">Dikemas</span>';
                             } else if (data === 'vendor_delivering') {
-                                return 'Dikirim';
+                                return '<span class="badge rounded-pill text-primary-emphasis bg-primary-subtle border border-primary-subtle">Dikirim</span>';
                             } else if (data === 'customer_received') {
-                                return 'Diterima';
+                                return '<span class="badge rounded-pill text-success-emphasis bg-success-subtle border border-success-subtle">Diterima</span>';
                             } else if (data === 'customer_complain') {
-                                return 'Pengajuan Komplain';
+                                return '<span class="badge rounded-pill text-danger-emphasis bg-danger-subtle border border-danger-subtle">Pengajuan Komplain</span>';
                             } else if (data === 'vendor_approved_complain') {
-                                return 'Komplain Disetujui';
+                                return '<span class="badge rounded-pill text-info-emphasis bg-info-subtle border border-info-subtle">Komplain Disetujui</span>';
                             } else {
                                 return data;
                             }
@@ -448,19 +448,19 @@ function fetchDataOrderCustomerItem() {
                         name: "status",
                         render: function (data, type, row) {
                             if (data === 'customer_paid') {
-                                return 'Lunas';
+                                return '<span class="badge rounded-pill text-primary-emphasis bg-primary-subtle border border-primary-subtle">Lunas</span>';
                             } else if (data === 'customer_canceled') {
-                                return 'Dibatalkan';
+                                return '<span class="badge rounded-pill text-warning-emphasis bg-warning-subtle border border-warning-subtle">Dibatalkan</span>';
                             } else if (data === 'vendor_packing') {
-                                return 'Dikemas';
+                                return '<span class="badge rounded-pill text-primary-emphasis bg-primary-subtle border border-primary-subtle">Dikemas</span>';
                             } else if (data === 'vendor_delivering') {
-                                return 'Dikirim';
+                                return '<span class="badge rounded-pill text-primary-emphasis bg-primary-subtle border border-primary-subtle">Dikirim</span>';
                             } else if (data === 'customer_received') {
-                                return 'Diterima';
+                                return '<span class="badge rounded-pill text-success-emphasis bg-success-subtle border border-success-subtle">Diterima</span>';
                             } else if (data === 'customer_complain') {
-                                return 'Komplain';
+                                return '<span class="badge rounded-pill text-danger-emphasis bg-danger-subtle border border-danger-subtle">Pengajuan Komplain</span>';
                             } else if (data === 'vendor_approved_complain') {
-                                return 'Dibatalkan';
+                                return '<span class="badge rounded-pill text-info-emphasis bg-info-subtle border border-info-subtle">Komplain Disetujui</span>';
                             } else {
                                 return data;
                             }

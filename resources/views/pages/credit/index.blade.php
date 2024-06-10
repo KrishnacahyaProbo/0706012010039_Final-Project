@@ -22,7 +22,8 @@
             @if (!$balance || $balance->credit <= 0)
                 <x-button class="d-flex ms-auto" disabled>Cairkan Kredit</x-button>
             @else
-                <x-button class="d-flex ms-auto" data-bs-toggle="modal" data-bs-target="#cashOutForm">Cairkan Kredit</x-button>
+                <x-button class="d-flex ms-auto" data-bs-toggle="modal" data-bs-target="#cashOutForm">Cairkan
+                    Kredit</x-button>
             @endif
 
             @include('pages.credit.include.cashOutModal')
@@ -71,8 +72,8 @@
                     <thead>
                         <tr>
                             <th class="col-0 text-center">#</th>
-                            <th class="col-4">Nominal</th>
                             <th class="col-4">Kategori</th>
+                            <th class="col-4">Nominal</th>
                             <th class="col-4">Timestamp</th>
                         </tr>
                     </thead>
@@ -84,7 +85,8 @@
                 @section('page_title', 'Isi Ulang Kredit')
             </div>
 
-            <x-button class="d-flex ms-auto" data-bs-toggle="modal" data-bs-target="#topUpForm">Isi Ulang Kredit</x-button>
+            <x-button class="d-flex ms-auto" data-bs-toggle="modal" data-bs-target="#topUpForm">Isi Ulang
+                Kredit</x-button>
 
             @include('pages.credit.include.topUpModal')
 
@@ -133,10 +135,10 @@
                     <thead>
                         <tr>
                             <th class="col-0 text-center">#</th>
-                            <th class="col-4">Nominal</th>
                             <th class="col-3">Kategori</th>
+                            <th class="col-4">Nominal</th>
                             <th class="col-3">Timestamp</th>
-                            <th class="col-0">Bukti Top Up</th>
+                            <th class="col-0">Bukti Isi Ulang</th>
                         </tr>
                     </thead>
                     <tbody id="customer_category_value"></tbody>

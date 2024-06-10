@@ -24,10 +24,10 @@ vendorCategory.addEventListener('change', function () {
                     vendorCategoryValue.innerHTML += `
                     <tr>
                         <td class="text-center">${number}</td>
-                        <td>Rp${formatRupiah(item.credit)}</td>
                         <td>
                             ${item.category === 'vendor_outcome' ? '<span class="badge rounded-pill text-danger-emphasis bg-danger-subtle border border-danger-subtle">Pencairan Kredit</span>' : item.category === 'customer_transaction_canceled' ? '<span class="badge rounded-pill text-warning-emphasis bg-warning-subtle border border-warning-subtle">Pengembalian Kredit</span>' : '<span class="badge rounded-pill text-success-emphasis bg-success-subtle border border-success-subtle">Penjualan</span>'}
                         </td>
+                        <td>Rp${formatRupiah(item.credit)}</td>
                         <td>${moment(item.created_at).format('dddd, D MMMM YYYY HH:mm:ss')}</td>
                     </tr>`;
                     number++;
@@ -50,9 +50,9 @@ fetch(`/credits/${vendorCategory.value}`)
                 vendorCategoryValue.innerHTML += `
                 <tr>
                     <td class="text-center">${number}</td>
-                    <td>Rp${formatRupiah(item.credit)}</td>
                     <td> ${item.category === 'vendor_outcome' ? '<span class="badge rounded-pill text-danger-emphasis bg-danger-subtle border border-danger-subtle">Pencairan Kredit</span>' : item.category === 'customer_transaction_canceled' ? '<span class="badge rounded-pill text-warning-emphasis bg-warning-subtle border border-warning-subtle">Pengembalian Kredit</span>' : '<span class="badge rounded-pill text-success-emphasis bg-success-subtle border border-success-subtle">Penjualan</span>'}
                     </td>
+                    <td>Rp${formatRupiah(item.credit)}</td>
                     <td>${moment(item.created_at).format('dddd, D MMMM YYYY HH:mm:ss')}</td>
                 </tr>`;
                 number++;

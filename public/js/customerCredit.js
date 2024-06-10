@@ -15,7 +15,6 @@ customerCategory.addEventListener('change', function () {
                     customerCategoryValue.innerHTML += `
                     <tr>
                         <td class="text-center">${number}</td>
-                        <td>Rp${formatRupiah(item.credit)}</td>
                         <td>
                         ${item.category === 'customer_income' ?
                             `<span class="badge rounded-pill text-success-emphasis bg-success-subtle border border-success-subtle">Pengisian Kredit</span>` :
@@ -25,6 +24,7 @@ customerCategory.addEventListener('change', function () {
                                     `<span class="badge rounded-pill text-warning-emphasis bg-warning-subtle border border-warning-subtle">Pengembalian kredit</span>` :
                                     `<span class="badge rounded-pill text-warning-emphasis bg-warning-subtle border border-warning-subtle">Pembatalan Pembelian</span>`}
                         </td>
+                        <td>Rp${formatRupiah(item.credit)}</td>
                         <td>${moment(item.created_at).format('dddd, D MMMM YYYY HH:mm:ss')}</td>
                         <td>
                             ${item.category === 'customer_outcome' ||
@@ -53,7 +53,6 @@ fetch(`/credits/${customerCategory.value}`)
                 customerCategoryValue.innerHTML += `
                 <tr>
                     <td class="text-center">${number}</td>
-                    <td>Rp${formatRupiah(item.credit)}</td>
                     <td>
                         ${item.category === 'customer_income' ?
                         `<span class="badge rounded-pill text-success-emphasis bg-success-subtle border border-success-subtle">Pengisian Kredit</span>` :
@@ -63,6 +62,7 @@ fetch(`/credits/${customerCategory.value}`)
                                 `<span class="badge rounded-pill text-warning-emphasis bg-warning-subtle border border-warning-subtle">Pengembalian Kredit</span>` :
                                 `<span class="badge rounded-pill text-warning-emphasis bg-warning-subtle border border-warning-subtle">Pembatalan Pembelian</span>`}
                     </td>
+                    <td>Rp${formatRupiah(item.credit)}</td>
                     <td>${moment(item.created_at).format('dddd, D MMMM YYYY HH:mm:ss')}</td>
                     <td>
                         ${item.category === 'customer_outcome' ||

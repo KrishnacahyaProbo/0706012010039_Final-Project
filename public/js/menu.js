@@ -328,7 +328,6 @@ function addSchedule(menuId, menuName) {
     form.append(datetimePickerInput);
 
     $("#scheduleDateTimePicker").flatpickr({
-        "locale": "id",
         weekNumbers: true,
         dateFormat: "d-m-Y",
         mode: "multiple",
