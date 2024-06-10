@@ -1,4 +1,4 @@
-# Daily Catering Marketplace Web Application
+# Rumah Katering: Daily Catering Marketplace Web Application
 
 > IMT01309801-A Final Project (2023-2)
 
