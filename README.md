@@ -4,7 +4,7 @@
 
 Developed by **0706012010039 - Probo Krishnacahya**.
 
-Rancang Bangun Lokapasar Katering Harian Berbasis Web (Web-Based Daily Catering Marketplace Design).
+Rancang Bangun Lokapasar Katering Harian Berbasis Web (*Web-Based Daily Catering Marketplace Design*).
 
 **Use cases:**
 
