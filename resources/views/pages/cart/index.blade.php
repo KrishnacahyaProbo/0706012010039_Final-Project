@@ -59,7 +59,9 @@
                     @endphp
                     <div class="card" id="deleteCartItem{{ $item->id }}">
                         <div class="card-header">
-                            <strong>{{ $vendor['name'] }}</strong>
+                            <strong>
+                                <a href="/vendors/{{ $vendor['name'] }}">{{ $vendor['name'] }}</a>
+                            </strong>
                         </div>
                         <div class="card-body d-grid gap-3">
                             @foreach ($vendor['items'] as $item)

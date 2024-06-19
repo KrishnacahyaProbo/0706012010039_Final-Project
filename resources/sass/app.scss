@@ -277,6 +277,10 @@ tr:last-child td:last-child {
     background: linear-gradient(135deg, $black, transparent), url("/public/images/assets/home/vendor.jpg") center/cover no-repeat;
 }
 
+#home_panduan_penggunaan {
+    background: url("/public/images/assets/home/panduan_penggunaan.svg") center/cover no-repeat;
+}
+
 #profile_photo {
     max-height: 50px;
     max-width: 100%;

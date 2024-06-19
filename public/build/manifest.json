@@ -23,6 +23,10 @@
     "file": "assets/customer-BWPkoZ2Y.jpg",
     "src": "public/images/assets/home/customer.jpg"
   },
+  "public/images/assets/home/panduan_penggunaan.svg": {
+    "file": "assets/panduan_penggunaan-Bj97IPZa.svg",
+    "src": "public/images/assets/home/panduan_penggunaan.svg"
+  },
   "public/images/assets/home/vendor.jpg": {
     "file": "assets/vendor-BDl0NXS-.jpg",
     "src": "public/images/assets/home/vendor.jpg"
@@ -34,7 +38,7 @@
     "isEntry": true
   },
   "resources/sass/app.scss": {
-    "file": "assets/app-CWOqh8Kv.css",
+    "file": "assets/app-BvUwkLUw.css",
     "src": "resources/sass/app.scss",
     "isEntry": true
   }

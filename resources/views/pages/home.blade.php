@@ -113,19 +113,42 @@
             </div>
         @endforeach
 
-        <hr>
-
-        <div>
-            <figure class="text-center">
-                <i class="bi bi-house-door fs-1"></i>
-
-                <blockquote class="blockquote">
-                    <q>Tempatnya Para Penyedia dan Penikmat Katering Singgah</q>
-                </blockquote>
-
-                <figcaption class="blockquote-footer">Rumah Katering, 2024</figcaption>
-            </figure>
+        <div class="card rounded-4 border-0 shadow-sm" id="home_panduan_penggunaan">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md">
+                        <img src="{{ url('images/assets/home/manual_book.svg') }}" alt=""
+                            class="d-none d-md-block p-5">
+                    </div>
+                    <div class="col-md align-self-center">
+                        <h3 class="card-title">Panduan Penggunaan</h3>
+                        <p class="card-text"><strong>Rumah Katering</strong> merupakan aplikasi Marketplace berbasis web
+                            yang menghubungkan vendor (penjual) dengan pelanggan (pembeli) untuk pemesanan dan
+                            pembayaran Katering harian.
+                        </p>
+                        <a href="{{ url('/assets/pdf/Panduan Penggunaan Web Rumah Katering.pdf') }}" target="_blank"
+                            rel="noopener noreferrer">
+                            <x-button>Pelajari Lebih Lanjut</x-button>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
+
+    <hr class="my-5">
+
+    <div>
+        <figure class="text-center">
+            <i class="bi bi-house-door fs-1"></i>
+
+            <blockquote class="blockquote">
+                <q>Tempatnya Para Penyedia dan Penikmat Katering Singgah</q>
+            </blockquote>
+
+            <figcaption class="blockquote-footer">Rumah Katering, 2024</figcaption>
+        </figure>
+    </div>
     </div>
 
     @section('js')
