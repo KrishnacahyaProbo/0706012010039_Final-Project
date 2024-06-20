@@ -23,33 +23,43 @@
                     </div>
 
                     <div class="col-md-9">
-                        <h3 class="card-title">{{ $vendor->name }}</h3>
+                        <div class="row">
+                            <div class="col">
+                                <h3 class="card-title">{{ $vendor->name }}</h3>
 
-                        <div class="d-grid text-secondary gap-1">
-                            <div>
-                                <a href="/testimonies/{{ $vendor->id }}" class="d-inline-flex gap-2">
-                                    <i class="bi bi-star" title="Testimoni"></i>
-                                    <p class="card-text">{{ $vendor->rating ?? '-' }}/5,0</p>
-                                </a>
+                                <div class="d-grid text-secondary gap-1">
+                                    <div>
+                                        <a href="/testimonies/{{ $vendor->id }}" class="d-inline-flex gap-2">
+                                            <i class="bi bi-star" title="Testimoni"></i>
+                                            <p class="card-text">{{ $vendor->rating ?? '-' }}/5,0</p>
+                                        </a>
+                                    </div>
+
+                                    <div class="d-flex gap-2">
+                                        <i class="bi bi-geo-alt" title="Alamat - Jarak vendor terhadap Anda"></i>
+                                        <p class="card-text" id="distance-info"></p>
+                                    </div>
+
+                                    <div class="d-flex gap-2">
+                                        <i class="bi bi-truck" title="Ongkos Kirim"></i>
+                                        <p class="card-text">
+                                            Rp{{ number_format($vendor->Delivery->shipping_cost ?? '0', 0, ',', '.') }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <small class="card-text">
+                                    <pre class="mb-0">{{ $vendor->UserSetting->about_us ?? 'No description yet.' }}</pre>
+                                </small>
                             </div>
 
-                            <div class="d-flex gap-2">
-                                <i class="bi bi-geo-alt" title="Alamat - Jarak vendor terhadap Anda"></i>
-                                <p class="card-text" id="distance-info"></p>
-                            </div>
-
-                            <div class="d-flex gap-2">
-                                <i class="bi bi-truck" title="Ongkos Kirim"></i>
-                                <p class="card-text">
-                                    Rp{{ number_format($vendor->Delivery->shipping_cost ?? '0', 0, ',', '.') }}</p>
+                            <div class="col-auto">
+                                <i class="bi bi-share-fill text-primary" role="button" title="Bagikan Vendor"
+                                    onclick=webShare()></i>
                             </div>
                         </div>
-
-                        <hr>
-
-                        <small class="card-text">
-                            <pre class="mb-0">{{ $vendor->UserSetting->about_us ?? 'No description yet.' }}</pre>
-                        </small>
                     </div>
                 </div>
             </div>
@@ -97,6 +107,23 @@
     </div>
 
     <script>
+        // Copy Uniform Resource Locator to Clipboard
+        function copyToClipboard() {
+            navigator.clipboard.writeText(window.location.href);
+        }
+
+        // Web Share API
+        function webShare() {
+            if (navigator.canShare) {
+                navigator.share({
+                    url: window.location.href
+                });
+            } else {
+                copyToClipboard();
+                toastr.success('Tautan disalin.');
+            }
+        }
+
         var vendorData = <?php echo json_encode([
             'id' => $vendor->id,
             'latitude' => $vendor->latitude,

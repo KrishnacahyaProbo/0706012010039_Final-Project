@@ -210,7 +210,7 @@ function convertCustomerAddress(latitude, longitude) {
                     address += data.address.state + ", ";
                 }
                 if (data.address.postcode) {
-                    address += data.address.postcode + ".";
+                    address += data.address.postcode;
                 }
             }
 

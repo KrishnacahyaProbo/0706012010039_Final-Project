@@ -142,7 +142,7 @@ function getAddress(latitude, longitude) {
                 address += data.address.municipality ? `${data.address.municipality}, ` : "";
                 address += data.address.city ? `${data.address.city}, ` : "";
                 address += data.address.state ? `${data.address.state}, ` : "";
-                address += data.address.postcode ? `${data.address.postcode}.` : "";
+                address += data.address.postcode ? `${data.address.postcode}` : "";
             }
             document.getElementById("address").innerHTML = address;
             document.getElementById("address_text").innerHTML = address;
